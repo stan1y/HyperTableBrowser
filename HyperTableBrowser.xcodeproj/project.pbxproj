@@ -1,0 +1,809 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2F7446990DB6B7EA00F9684A /* HyperTableBrowser.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F7446970DB6B7EA00F9684A /* HyperTableBrowser.xib */; };
+		76081DA410E255B5005F668F /* ServersDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 76081DA310E255B5005F668F /* ServersDelegate.m */; };
+		76081DA710E255DB005F668F /* HyperTableBrowser_AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 76081DA610E255DB005F668F /* HyperTableBrowser_AppDelegate.m */; };
+		76081DAA10E255F6005F668F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 76081DA910E255F6005F668F /* main.m */; };
+		76081DAC10E25683005F668F /* HyperTableBrowser_DataModel.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 76081DAB10E25683005F668F /* HyperTableBrowser_DataModel.xcdatamodel */; };
+		76081DB010E256A9005F668F /* KnownServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 76081DAF10E256A9005F668F /* KnownServer.m */; };
+		761FDAC810D0D33F00D2EEFF /* ConnectionSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 761FDAC710D0D33F00D2EEFF /* ConnectionSheetController.m */; };
+		765E610B10D811BD00E4CA1D /* HqlController.h in Headers */ = {isa = PBXBuildFile; fileRef = 765E610910D811BD00E4CA1D /* HqlController.h */; };
+		765E611610D818F200E4CA1D /* HqlController.m in Sources */ = {isa = PBXBuildFile; fileRef = 765E610A10D811BD00E4CA1D /* HqlController.m */; };
+		766F24D810D7935100AB059D /* HyperThriftHql.h in Headers */ = {isa = PBXBuildFile; fileRef = 766F24D610D7935100AB059D /* HyperThriftHql.h */; };
+		766F24D910D7935100AB059D /* HyperThriftHql.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 766F24D710D7935100AB059D /* HyperThriftHql.cpp */; };
+		766F24E510D794F600AB059D /* Convert.h in Headers */ = {isa = PBXBuildFile; fileRef = 766F24E310D794F600AB059D /* Convert.h */; };
+		766F24E610D794F600AB059D /* Convert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 766F24E410D794F600AB059D /* Convert.cpp */; };
+		766F252310D7995700AB059D /* libHyperThriftWrapper.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 767A3CB310D5AA6500BAE46E /* libHyperThriftWrapper.dylib */; };
+		7677367610CE88C800DDDCC6 /* ThriftConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 7677367510CE88C800DDDCC6 /* ThriftConnection.m */; };
+		7677371710CE93D100DDDCC6 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7677371610CE93D100DDDCC6 /* CoreServices.framework */; };
+		767A072210CFD5D400B6739F /* ThriftConnectionInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 767A072110CFD5D400B6739F /* ThriftConnectionInfo.m */; };
+		767A3C5410D5A8A700BAE46E /* HyperTableBrowser.icns in Resources */ = {isa = PBXBuildFile; fileRef = 767A3C5310D5A8A700BAE46E /* HyperTableBrowser.icns */; };
+		767A3CB710D5AA9800BAE46E /* Client_constants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 767A3C7610D5A97500BAE46E /* Client_constants.cpp */; };
+		767A3CB810D5AA9800BAE46E /* Client_types.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 767A3C7810D5A97500BAE46E /* Client_types.cpp */; };
+		767A3CB910D5AA9800BAE46E /* ClientService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 767A3C7A10D5A97500BAE46E /* ClientService.cpp */; };
+		767A3CBA10D5AA9800BAE46E /* Hql_constants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 767A3C7D10D5A97500BAE46E /* Hql_constants.cpp */; };
+		767A3CBB10D5AA9800BAE46E /* Hql_types.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 767A3C7F10D5A97500BAE46E /* Hql_types.cpp */; };
+		767A3CBC10D5AA9800BAE46E /* HqlService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 767A3C8110D5A97600BAE46E /* HqlService.cpp */; };
+		767A3CBD10D5AA9800BAE46E /* HyperThriftWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 767A3C8310D5A97600BAE46E /* HyperThriftWrapper.cpp */; };
+		767A3CBE10D5AAA800BAE46E /* libthrift.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 76FBE49D10D38E4500006E56 /* libthrift.a */; };
+		767A3CBF10D5AABC00BAE46E /* HyperThriftWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 767A3C8410D5A97600BAE46E /* HyperThriftWrapper.h */; };
+		767A3CC710D5AAE800BAE46E /* libHyperThriftWrapper.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 767A3CB310D5AA6500BAE46E /* libHyperThriftWrapper.dylib */; };
+		7689234F10D8334B00B5E024 /* PageSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 7689234E10D8334B00B5E024 /* PageSource.m */; };
+		768C58EC10D8CC4200D5DB91 /* ObjectsPageSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 768C58EB10D8CC4200D5DB91 /* ObjectsPageSource.m */; };
+		768C5A3F10D8EE7100D5DB91 /* TestThriftGen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 767A3C8610D5A97600BAE46E /* TestThriftGen.cpp */; };
+		768C5A4B10D8EF0D00D5DB91 /* Client_constants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 767A3C7610D5A97500BAE46E /* Client_constants.cpp */; };
+		768C5A4C10D8EF0D00D5DB91 /* Client_types.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 767A3C7810D5A97500BAE46E /* Client_types.cpp */; };
+		768C5A4D10D8EF0D00D5DB91 /* ClientService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 767A3C7A10D5A97500BAE46E /* ClientService.cpp */; };
+		768C5A4E10D8EF0D00D5DB91 /* Hql_constants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 767A3C7D10D5A97500BAE46E /* Hql_constants.cpp */; };
+		768C5A4F10D8EF0D00D5DB91 /* Hql_types.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 767A3C7F10D5A97500BAE46E /* Hql_types.cpp */; };
+		768C5A5010D8EF0D00D5DB91 /* HqlService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 767A3C8110D5A97600BAE46E /* HqlService.cpp */; };
+		768C5A5410D8EF7300D5DB91 /* libHyperThriftWrapper.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 767A3CB310D5AA6500BAE46E /* libHyperThriftWrapper.dylib */; };
+		768C5A5510D8EF8300D5DB91 /* TestWrapper.c in Sources */ = {isa = PBXBuildFile; fileRef = 767A3C8710D5A97600BAE46E /* TestWrapper.c */; };
+		7695960210D3B23F00714729 /* libthrift.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 76FBE49D10D38E4500006E56 /* libthrift.a */; };
+		76B3C5C010DA328100078742 /* DataPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 76B3C5BE10DA328100078742 /* DataPage.h */; };
+		76B3C5C110DA328200078742 /* DataPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76B3C5BF10DA328100078742 /* DataPage.cpp */; };
+		76E4115810D9374900876468 /* HqlInterperter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76E4115610D9374900876468 /* HqlInterperter.xib */; };
+		76E4116010D939EF00876468 /* HqlInterpreter.m in Sources */ = {isa = PBXBuildFile; fileRef = 76E4115F10D939EF00876468 /* HqlInterpreter.m */; };
+		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
+		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		76E4702310D5CA7C00A5809D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 767A3CB210D5AA6500BAE46E;
+			remoteInfo = HyperThriftWrapper;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		7638B25910D12A6A006C127C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				766F252310D7995700AB059D /* libHyperThriftWrapper.dylib in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		2F7446980DB6B7EA00F9684A /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/HyperTableBrowser.xib; sourceTree = "<group>"; };
+		76081DA210E255B5005F668F /* ServersDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServersDelegate.h; path = Sources/Classes/ServersDelegate.h; sourceTree = "<group>"; };
+		76081DA310E255B5005F668F /* ServersDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServersDelegate.m; path = Sources/Classes/ServersDelegate.m; sourceTree = "<group>"; };
+		76081DA510E255DB005F668F /* HyperTableBrowser_AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HyperTableBrowser_AppDelegate.h; path = Sources/Classes/HyperTableBrowser_AppDelegate.h; sourceTree = "<group>"; };
+		76081DA610E255DB005F668F /* HyperTableBrowser_AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HyperTableBrowser_AppDelegate.m; path = Sources/Classes/HyperTableBrowser_AppDelegate.m; sourceTree = "<group>"; };
+		76081DA910E255F6005F668F /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Sources/main.m; sourceTree = "<group>"; };
+		76081DAB10E25683005F668F /* HyperTableBrowser_DataModel.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; name = HyperTableBrowser_DataModel.xcdatamodel; path = Sources/HyperTableBrowser_DataModel.xcdatamodel; sourceTree = "<group>"; };
+		76081DAE10E256A9005F668F /* KnownServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnownServer.h; path = Sources/Classes/KnownServer.h; sourceTree = "<group>"; };
+		76081DAF10E256A9005F668F /* KnownServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnownServer.m; path = Sources/Classes/KnownServer.m; sourceTree = "<group>"; };
+		76081DC310E257E9005F668F /* HyperTableBrowser_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyperTableBrowser_Prefix.pch; sourceTree = "<group>"; };
+		761FDAC610D0D33F00D2EEFF /* ConnectionSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConnectionSheetController.h; path = Sources/Classes/Controllers/ConnectionSheetController.h; sourceTree = "<group>"; };
+		761FDAC710D0D33F00D2EEFF /* ConnectionSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConnectionSheetController.m; path = Sources/Classes/Controllers/ConnectionSheetController.m; sourceTree = "<group>"; };
+		765E610910D811BD00E4CA1D /* HqlController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HqlController.h; path = Sources/Classes/Controllers/HqlController.h; sourceTree = "<group>"; };
+		765E610A10D811BD00E4CA1D /* HqlController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HqlController.m; path = Sources/Classes/Controllers/HqlController.m; sourceTree = "<group>"; };
+		766F24D610D7935100AB059D /* HyperThriftHql.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyperThriftHql.h; sourceTree = "<group>"; };
+		766F24D710D7935100AB059D /* HyperThriftHql.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HyperThriftHql.cpp; sourceTree = "<group>"; };
+		766F24E310D794F600AB059D /* Convert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Convert.h; sourceTree = "<group>"; };
+		766F24E410D794F600AB059D /* Convert.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Convert.cpp; sourceTree = "<group>"; };
+		7677367410CE88C800DDDCC6 /* ThriftConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ThriftConnection.h; path = Sources/Classes/ThriftConnection.h; sourceTree = "<group>"; };
+		7677367510CE88C800DDDCC6 /* ThriftConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ThriftConnection.m; path = Sources/Classes/ThriftConnection.m; sourceTree = "<group>"; };
+		7677371610CE93D100DDDCC6 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = /System/Library/Frameworks/CoreServices.framework; sourceTree = "<absolute>"; };
+		767A072010CFD5D300B6739F /* ThriftConnectionInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ThriftConnectionInfo.h; path = Sources/Classes/ThriftConnectionInfo.h; sourceTree = "<group>"; };
+		767A072110CFD5D400B6739F /* ThriftConnectionInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ThriftConnectionInfo.m; path = Sources/Classes/ThriftConnectionInfo.m; sourceTree = "<group>"; };
+		767A3C5310D5A8A700BAE46E /* HyperTableBrowser.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = HyperTableBrowser.icns; sourceTree = "<group>"; };
+		767A3C7510D5A97500BAE46E /* Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client.h; sourceTree = "<group>"; };
+		767A3C7610D5A97500BAE46E /* Client_constants.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Client_constants.cpp; sourceTree = "<group>"; };
+		767A3C7710D5A97500BAE46E /* Client_constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client_constants.h; sourceTree = "<group>"; };
+		767A3C7810D5A97500BAE46E /* Client_types.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Client_types.cpp; sourceTree = "<group>"; };
+		767A3C7910D5A97500BAE46E /* Client_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client_types.h; sourceTree = "<group>"; };
+		767A3C7A10D5A97500BAE46E /* ClientService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClientService.cpp; sourceTree = "<group>"; };
+		767A3C7B10D5A97500BAE46E /* ClientService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientService.h; sourceTree = "<group>"; };
+		767A3C7D10D5A97500BAE46E /* Hql_constants.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Hql_constants.cpp; sourceTree = "<group>"; };
+		767A3C7E10D5A97500BAE46E /* Hql_constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hql_constants.h; sourceTree = "<group>"; };
+		767A3C7F10D5A97500BAE46E /* Hql_types.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Hql_types.cpp; sourceTree = "<group>"; };
+		767A3C8010D5A97500BAE46E /* Hql_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hql_types.h; sourceTree = "<group>"; };
+		767A3C8110D5A97600BAE46E /* HqlService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HqlService.cpp; sourceTree = "<group>"; };
+		767A3C8210D5A97600BAE46E /* HqlService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HqlService.h; sourceTree = "<group>"; };
+		767A3C8310D5A97600BAE46E /* HyperThriftWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HyperThriftWrapper.cpp; sourceTree = "<group>"; };
+		767A3C8410D5A97600BAE46E /* HyperThriftWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyperThriftWrapper.h; sourceTree = "<group>"; };
+		767A3C8610D5A97600BAE46E /* TestThriftGen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestThriftGen.cpp; sourceTree = "<group>"; };
+		767A3C8710D5A97600BAE46E /* TestWrapper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = TestWrapper.c; sourceTree = "<group>"; };
+		767A3C8810D5A97600BAE46E /* ThriftHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThriftHelper.h; sourceTree = "<group>"; };
+		767A3CB310D5AA6500BAE46E /* libHyperThriftWrapper.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libHyperThriftWrapper.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		7689234D10D8334B00B5E024 /* PageSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PageSource.h; path = Sources/Classes/Controllers/PageSource.h; sourceTree = "<group>"; };
+		7689234E10D8334B00B5E024 /* PageSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PageSource.m; path = Sources/Classes/Controllers/PageSource.m; sourceTree = "<group>"; };
+		768C58EA10D8CC4200D5DB91 /* ObjectsPageSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ObjectsPageSource.h; path = Sources/Classes/Controllers/ObjectsPageSource.h; sourceTree = "<group>"; };
+		768C58EB10D8CC4200D5DB91 /* ObjectsPageSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ObjectsPageSource.m; path = Sources/Classes/Controllers/ObjectsPageSource.m; sourceTree = "<group>"; };
+		769595DB10D3B09D00714729 /* TestWrapper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TestWrapper; sourceTree = BUILT_PRODUCTS_DIR; };
+		769595FD10D3B21700714729 /* TestThriftGen */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TestThriftGen; sourceTree = BUILT_PRODUCTS_DIR; };
+		76B3C5BE10DA328100078742 /* DataPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataPage.h; sourceTree = "<group>"; };
+		76B3C5BF10DA328100078742 /* DataPage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataPage.cpp; sourceTree = "<group>"; };
+		76E4115710D9374900876468 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/HqlInterperter.xib; sourceTree = "<group>"; };
+		76E4115E10D939EF00876468 /* HqlInterpreter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HqlInterpreter.h; path = Sources/Classes/HqlInterpreter.h; sourceTree = "<group>"; };
+		76E4115F10D939EF00876468 /* HqlInterpreter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HqlInterpreter.m; path = Sources/Classes/HqlInterpreter.m; sourceTree = "<group>"; };
+		76FBE49D10D38E4500006E56 /* libthrift.a */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; name = libthrift.a; path = /opt/local/lib/libthrift.a; sourceTree = "<absolute>"; };
+		77C82804067257F0000B614F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		8D1107310486CEB800E47090 /* HyperTableBrowser-Info.plist */ = {isa = PBXFileReference; explicitFileType = text.plist.xml; fileEncoding = 4; path = "HyperTableBrowser-Info.plist"; sourceTree = "<group>"; };
+		8D1107320486CEB800E47090 /* HyperTableBrowser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HyperTableBrowser.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		767A3CB110D5AA6500BAE46E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				767A3CBE10D5AAA800BAE46E /* libthrift.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		769595D910D3B09D00714729 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				768C5A5410D8EF7300D5DB91 /* libHyperThriftWrapper.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		769595FB10D3B21700714729 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7695960210D3B23F00714729 /* libthrift.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8D11072E0486CEB800E47090 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				767A3CC710D5AAE800BAE46E /* libHyperThriftWrapper.dylib in Frameworks */,
+				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+				7677371710CE93D100DDDCC6 /* CoreServices.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		080E96DDFE201D6D7F000001 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				76081DA510E255DB005F668F /* HyperTableBrowser_AppDelegate.h */,
+				76081DA610E255DB005F668F /* HyperTableBrowser_AppDelegate.m */,
+				7677371F10CE94DB00DDDCC6 /* Controllers */,
+				7677367410CE88C800DDDCC6 /* ThriftConnection.h */,
+				7677367510CE88C800DDDCC6 /* ThriftConnection.m */,
+				767A072010CFD5D300B6739F /* ThriftConnectionInfo.h */,
+				767A072110CFD5D400B6739F /* ThriftConnectionInfo.m */,
+				76E4115E10D939EF00876468 /* HqlInterpreter.h */,
+				76E4115F10D939EF00876468 /* HqlInterpreter.m */,
+				76081DAE10E256A9005F668F /* KnownServer.h */,
+				76081DAF10E256A9005F668F /* KnownServer.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7677371610CE93D100DDDCC6 /* CoreServices.framework */,
+				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				77C82804067257F0000B614F /* CoreData.framework */,
+				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
+				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D1107320486CEB800E47090 /* HyperTableBrowser.app */,
+				769595DB10D3B09D00714729 /* TestWrapper */,
+				769595FD10D3B21700714729 /* TestThriftGen */,
+				767A3CB310D5AA6500BAE46E /* libHyperThriftWrapper.dylib */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* HyperTableBrowser */ = {
+			isa = PBXGroup;
+			children = (
+				767A3C7410D5A97500BAE46E /* HyperThriftWrapper */,
+				76FBE49D10D38E4500006E56 /* libthrift.a */,
+				7756732906782D8800D1FEB8 /* Models */,
+				080E96DDFE201D6D7F000001 /* Classes */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+			);
+			name = HyperTableBrowser;
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				76081DC310E257E9005F668F /* HyperTableBrowser_Prefix.pch */,
+				76081DA910E255F6005F668F /* main.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				767A3C5310D5A8A700BAE46E /* HyperTableBrowser.icns */,
+				76E4115610D9374900876468 /* HqlInterperter.xib */,
+				8D1107310486CEB800E47090 /* HyperTableBrowser-Info.plist */,
+				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
+				2F7446970DB6B7EA00F9684A /* HyperTableBrowser.xib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
+				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7677371F10CE94DB00DDDCC6 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				76081DA210E255B5005F668F /* ServersDelegate.h */,
+				76081DA310E255B5005F668F /* ServersDelegate.m */,
+				761FDAC610D0D33F00D2EEFF /* ConnectionSheetController.h */,
+				761FDAC710D0D33F00D2EEFF /* ConnectionSheetController.m */,
+				765E610910D811BD00E4CA1D /* HqlController.h */,
+				765E610A10D811BD00E4CA1D /* HqlController.m */,
+				7689234D10D8334B00B5E024 /* PageSource.h */,
+				7689234E10D8334B00B5E024 /* PageSource.m */,
+				768C58EA10D8CC4200D5DB91 /* ObjectsPageSource.h */,
+				768C58EB10D8CC4200D5DB91 /* ObjectsPageSource.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		767A3C7410D5A97500BAE46E /* HyperThriftWrapper */ = {
+			isa = PBXGroup;
+			children = (
+				767A3C7510D5A97500BAE46E /* Client.h */,
+				767A3C7610D5A97500BAE46E /* Client_constants.cpp */,
+				767A3C7710D5A97500BAE46E /* Client_constants.h */,
+				767A3C7810D5A97500BAE46E /* Client_types.cpp */,
+				767A3C7910D5A97500BAE46E /* Client_types.h */,
+				767A3C7A10D5A97500BAE46E /* ClientService.cpp */,
+				767A3C7B10D5A97500BAE46E /* ClientService.h */,
+				767A3C7D10D5A97500BAE46E /* Hql_constants.cpp */,
+				767A3C7E10D5A97500BAE46E /* Hql_constants.h */,
+				767A3C7F10D5A97500BAE46E /* Hql_types.cpp */,
+				767A3C8010D5A97500BAE46E /* Hql_types.h */,
+				767A3C8110D5A97600BAE46E /* HqlService.cpp */,
+				767A3C8210D5A97600BAE46E /* HqlService.h */,
+				767A3C8310D5A97600BAE46E /* HyperThriftWrapper.cpp */,
+				767A3C8410D5A97600BAE46E /* HyperThriftWrapper.h */,
+				767A3C8510D5A97600BAE46E /* Tests */,
+				767A3C8810D5A97600BAE46E /* ThriftHelper.h */,
+				766F24D610D7935100AB059D /* HyperThriftHql.h */,
+				766F24D710D7935100AB059D /* HyperThriftHql.cpp */,
+				766F24E310D794F600AB059D /* Convert.h */,
+				766F24E410D794F600AB059D /* Convert.cpp */,
+				76B3C5BE10DA328100078742 /* DataPage.h */,
+				76B3C5BF10DA328100078742 /* DataPage.cpp */,
+			);
+			name = HyperThriftWrapper;
+			path = Sources/HyperThriftWrapper;
+			sourceTree = "<group>";
+		};
+		767A3C8510D5A97600BAE46E /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				767A3C8610D5A97600BAE46E /* TestThriftGen.cpp */,
+				767A3C8710D5A97600BAE46E /* TestWrapper.c */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		7756732906782D8800D1FEB8 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				76081DAB10E25683005F668F /* HyperTableBrowser_DataModel.xcdatamodel */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		767A3CAF10D5AA6500BAE46E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				767A3CBF10D5AABC00BAE46E /* HyperThriftWrapper.h in Headers */,
+				766F24D810D7935100AB059D /* HyperThriftHql.h in Headers */,
+				766F24E510D794F600AB059D /* Convert.h in Headers */,
+				765E610B10D811BD00E4CA1D /* HqlController.h in Headers */,
+				76B3C5C010DA328100078742 /* DataPage.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		767A3CB210D5AA6500BAE46E /* HyperThriftWrapper */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 767A3CB610D5AA8400BAE46E /* Build configuration list for PBXNativeTarget "HyperThriftWrapper" */;
+			buildPhases = (
+				767A3CAF10D5AA6500BAE46E /* Headers */,
+				767A3CB010D5AA6500BAE46E /* Sources */,
+				767A3CB110D5AA6500BAE46E /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HyperThriftWrapper;
+			productName = HyperThriftWrapper;
+			productReference = 767A3CB310D5AA6500BAE46E /* libHyperThriftWrapper.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+		769595DA10D3B09D00714729 /* TestWrapper */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 769595DF10D3B0B200714729 /* Build configuration list for PBXNativeTarget "TestWrapper" */;
+			buildPhases = (
+				769595D810D3B09D00714729 /* Sources */,
+				769595D910D3B09D00714729 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TestWrapper;
+			productName = TestWrapper;
+			productReference = 769595DB10D3B09D00714729 /* TestWrapper */;
+			productType = "com.apple.product-type.tool";
+		};
+		769595FC10D3B21700714729 /* TestThriftGen */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7695960110D3B23500714729 /* Build configuration list for PBXNativeTarget "TestThriftGen" */;
+			buildPhases = (
+				769595FA10D3B21700714729 /* Sources */,
+				769595FB10D3B21700714729 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TestThriftGen;
+			productName = TestThriftGen;
+			productReference = 769595FD10D3B21700714729 /* TestThriftGen */;
+			productType = "com.apple.product-type.tool";
+		};
+		8D1107260486CEB800E47090 /* HyperTable Browser */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 26FC0A840875C7B200E6366F /* Build configuration list for PBXNativeTarget "HyperTable Browser" */;
+			buildPhases = (
+				8D1107290486CEB800E47090 /* Resources */,
+				8D11072C0486CEB800E47090 /* Sources */,
+				8D11072E0486CEB800E47090 /* Frameworks */,
+				7638B25910D12A6A006C127C /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				76E4702410D5CA7C00A5809D /* PBXTargetDependency */,
+			);
+			name = "HyperTable Browser";
+			productInstallPath = "$(HOME)/Applications";
+			productName = HyperTableBrowser;
+			productReference = 8D1107320486CEB800E47090 /* HyperTableBrowser.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = "AwesomeStanly Lab";
+			};
+			buildConfigurationList = 26FC0A880875C7B200E6366F /* Build configuration list for PBXProject "HyperTableBrowser" */;
+			compatibilityVersion = "Xcode 3.1";
+			hasScannedForEncodings = 1;
+			mainGroup = 29B97314FDCFA39411CA2CEA /* HyperTableBrowser */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D1107260486CEB800E47090 /* HyperTable Browser */,
+				769595DA10D3B09D00714729 /* TestWrapper */,
+				769595FC10D3B21700714729 /* TestThriftGen */,
+				767A3CB210D5AA6500BAE46E /* HyperThriftWrapper */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D1107290486CEB800E47090 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
+				2F7446990DB6B7EA00F9684A /* HyperTableBrowser.xib in Resources */,
+				767A3C5410D5A8A700BAE46E /* HyperTableBrowser.icns in Resources */,
+				76E4115810D9374900876468 /* HqlInterperter.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		767A3CB010D5AA6500BAE46E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				767A3CB710D5AA9800BAE46E /* Client_constants.cpp in Sources */,
+				767A3CB810D5AA9800BAE46E /* Client_types.cpp in Sources */,
+				767A3CB910D5AA9800BAE46E /* ClientService.cpp in Sources */,
+				766F24D910D7935100AB059D /* HyperThriftHql.cpp in Sources */,
+				767A3CBA10D5AA9800BAE46E /* Hql_constants.cpp in Sources */,
+				767A3CBB10D5AA9800BAE46E /* Hql_types.cpp in Sources */,
+				767A3CBC10D5AA9800BAE46E /* HqlService.cpp in Sources */,
+				767A3CBD10D5AA9800BAE46E /* HyperThriftWrapper.cpp in Sources */,
+				766F24E610D794F600AB059D /* Convert.cpp in Sources */,
+				76B3C5C110DA328200078742 /* DataPage.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		769595D810D3B09D00714729 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				768C5A5510D8EF8300D5DB91 /* TestWrapper.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		769595FA10D3B21700714729 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				768C5A4B10D8EF0D00D5DB91 /* Client_constants.cpp in Sources */,
+				768C5A4C10D8EF0D00D5DB91 /* Client_types.cpp in Sources */,
+				768C5A4D10D8EF0D00D5DB91 /* ClientService.cpp in Sources */,
+				768C5A4E10D8EF0D00D5DB91 /* Hql_constants.cpp in Sources */,
+				768C5A4F10D8EF0D00D5DB91 /* Hql_types.cpp in Sources */,
+				768C5A5010D8EF0D00D5DB91 /* HqlService.cpp in Sources */,
+				768C5A3F10D8EE7100D5DB91 /* TestThriftGen.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8D11072C0486CEB800E47090 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				765E611610D818F200E4CA1D /* HqlController.m in Sources */,
+				7677367610CE88C800DDDCC6 /* ThriftConnection.m in Sources */,
+				767A072210CFD5D400B6739F /* ThriftConnectionInfo.m in Sources */,
+				761FDAC810D0D33F00D2EEFF /* ConnectionSheetController.m in Sources */,
+				7689234F10D8334B00B5E024 /* PageSource.m in Sources */,
+				768C58EC10D8CC4200D5DB91 /* ObjectsPageSource.m in Sources */,
+				76E4116010D939EF00876468 /* HqlInterpreter.m in Sources */,
+				76081DA410E255B5005F668F /* ServersDelegate.m in Sources */,
+				76081DA710E255DB005F668F /* HyperTableBrowser_AppDelegate.m in Sources */,
+				76081DAA10E255F6005F668F /* main.m in Sources */,
+				76081DAC10E25683005F668F /* HyperTableBrowser_DataModel.xcdatamodel in Sources */,
+				76081DB010E256A9005F668F /* KnownServer.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		76E4702410D5CA7C00A5809D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 767A3CB210D5AA6500BAE46E /* HyperThriftWrapper */;
+			targetProxy = 76E4702310D5CA7C00A5809D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C165DFE840E0CC02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		2F7446970DB6B7EA00F9684A /* HyperTableBrowser.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2F7446980DB6B7EA00F9684A /* English */,
+			);
+			name = HyperTableBrowser.xib;
+			sourceTree = "<group>";
+		};
+		76E4115610D9374900876468 /* HqlInterperter.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				76E4115710D9374900876468 /* English */,
+			);
+			name = HqlInterperter.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		26FC0A850875C7B200E6366F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/CoreServices.framework/Versions/A/Frameworks\"",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = HyperTableBrowser_Prefix.pch;
+				INFOPLIST_FILE = "HyperTableBrowser-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../k7platform/k7platform/sdk/php/thrift_wrapper\"",
+					/opt/local/lib,
+				);
+				PRODUCT_NAME = HyperTableBrowser;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		26FC0A860875C7B200E6366F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/CoreServices.framework/Versions/A/Frameworks\"",
+				);
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = HyperTableBrowser_Prefix.pch;
+				INFOPLIST_FILE = "HyperTableBrowser-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../k7platform/k7platform/sdk/php/thrift_wrapper\"",
+					/opt/local/lib,
+				);
+				PRODUCT_NAME = HyperTableBrowser;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		26FC0A890875C7B200E6366F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CURRENT_PROJECT_VERSION = 001;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_GC = required;
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					/opt/local/include/,
+					/opt/hypertable/0.9.2.7/include,
+					/opt/local/include/thrift,
+				);
+				LIBRARY_SEARCH_PATHS = "";
+				ONLY_ACTIVE_ARCH = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.6;
+			};
+			name = Debug;
+		};
+		26FC0A8A0875C7B200E6366F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.6;
+			};
+			name = Release;
+		};
+		767A3CB410D5AA6600BAE46E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				EXECUTABLE_PREFIX = lib;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/local/lib,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = HyperThriftWrapper;
+			};
+			name = Debug;
+		};
+		767A3CB510D5AA6600BAE46E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/lib;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/local/lib,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = HyperThriftWrapper;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		769595DD10D3B09D00714729 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INSTALL_PATH = /usr/local/bin;
+				PREBINDING = NO;
+				PRODUCT_NAME = TestWrapper;
+			};
+			name = Debug;
+		};
+		769595DE10D3B09D00714729 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/bin;
+				PREBINDING = NO;
+				PRODUCT_NAME = TestWrapper;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		769595FF10D3B21700714729 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INSTALL_PATH = /usr/local/bin;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/local/lib,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = TestThriftGen;
+			};
+			name = Debug;
+		};
+		7695960010D3B21700714729 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/bin;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/local/lib,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = TestThriftGen;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		26FC0A840875C7B200E6366F /* Build configuration list for PBXNativeTarget "HyperTable Browser" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				26FC0A850875C7B200E6366F /* Debug */,
+				26FC0A860875C7B200E6366F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		26FC0A880875C7B200E6366F /* Build configuration list for PBXProject "HyperTableBrowser" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				26FC0A890875C7B200E6366F /* Debug */,
+				26FC0A8A0875C7B200E6366F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		767A3CB610D5AA8400BAE46E /* Build configuration list for PBXNativeTarget "HyperThriftWrapper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				767A3CB410D5AA6600BAE46E /* Debug */,
+				767A3CB510D5AA6600BAE46E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		769595DF10D3B0B200714729 /* Build configuration list for PBXNativeTarget "TestWrapper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				769595DD10D3B09D00714729 /* Debug */,
+				769595DE10D3B09D00714729 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7695960110D3B23500714729 /* Build configuration list for PBXNativeTarget "TestThriftGen" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				769595FF10D3B21700714729 /* Debug */,
+				7695960010D3B21700714729 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}
