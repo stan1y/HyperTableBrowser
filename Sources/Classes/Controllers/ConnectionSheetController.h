@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import <ThriftConnection.h>
 #import <ThriftConnectionInfo.h>
-#import <KnownServer.h>
+#import <CoreDataObjects.h>
 
 @interface ConnectionSheetController : NSObject {
 	
@@ -22,7 +22,11 @@
 	IBOutlet id statusField;
 	IBOutlet id addressField;
 	IBOutlet id portField;
+	
+	NSOutlineView * serversView;
 }
+
+@property (assign) IBOutlet NSOutlineView * serversView;
 
 - (IBAction)showConnectionSheet:(id)sender;
 - (IBAction)performConnect:(id)sender;

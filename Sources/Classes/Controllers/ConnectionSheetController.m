@@ -10,6 +10,8 @@
 
 @implementation ConnectionSheetController
 
+@synthesize serversView;
+
 - (IBAction)cancelConnect:(id)sender {
 	//initial sheet state
 	[indicator setHidden:YES];
@@ -55,6 +57,7 @@
 	//connect
 	dispatch_async(dispatch_get_global_queue(0, 0), ^{
 		id msg = [connection connectTo:serverInfo];
+		[serverInfo release];
 		dispatch_async(dispatch_get_main_queue(), ^{
 			if ([connection thriftClient] == nil) {
 				//failed
@@ -70,27 +73,47 @@
 				[[NSApp delegate] setMessage: [NSString stringWithFormat:@"Connected to %s.", 
 														 [hostname UTF8String]]];
 				
-				//close sheet
-				[connectionSheet orderOut:nil];
-				[NSApp endSheet:connectionSheet];
+				//add connection
+				[[[NSApp delegate] connectionsDict] setObject:connection forKey:hostname];
 				
 				//new server
-				NSArrayController * serversController = [[[NSApp delegate] serversDelegate] knownServersController];
-				KnownServer * newServer = [KnownServer knownServerWithDefaultContext];
+				Server * newServer = [Server serverWithDefaultContext];
 				[newServer setValue:hostname forKey:@"hostname"];
 				NSNumber * portNum = [NSNumber numberWithInt:port];
 				[newServer setValue:portNum forKey:@"port"];
+				[[[NSApp delegate] managedObjectContext] insertObject:newServer];
+				
+				//get tables
+				DataRow * row = row_new("Tables");
+				get_tables_list([connection thriftClient], row);
+				DataCellIterator * ci = cell_iter_new(row);
+				DataCell * cell = NULL;
+				do {
+					cell = cell_iter_next_cell(ci);
+					if (cell) {
+						Table * newTable = [Table tableWithDefaultContext];
+						[newTable setValue:[NSString stringWithCString:cell->cellValue 
+															  encoding:NSUTF8StringEncoding] 
+									forKey:@"name"];
+						[newTable setValue:newServer forKey:@"server"];
+						[[[NSApp delegate] managedObjectContext] insertObject:newTable];
+					}
+				} while (cell);
+				free(ci);
 				
 				//save
-				[[[NSApp delegate] managedObjectContext] insertObject:newServer];
 				NSError * error = nil;
 				[[[NSApp delegate] managedObjectContext] save:&error];
 				if (error) {
 					[[NSApp delegate] setMessage:@"Failed to add server to persistent store"];
 				}
 				
-				//add connection
-				[[[NSApp delegate] connectionsDict] setObject:connection forKey:hostname];
+				//close sheet
+				[connectionSheet orderOut:nil];
+				[NSApp endSheet:connectionSheet];
+				
+				//reload servers view
+				[serversView reloadItem:nil reloadChildren:YES];
 			}
 		});
 	});
