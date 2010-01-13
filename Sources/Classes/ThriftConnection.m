@@ -3,7 +3,7 @@
 //  HyperTableBrowser
 //
 //  Created by Stanislav Yudin on 12/8/09.
-//  Copyright 2009 __MyCompanyName__. All rights reserved.
+//  Copyright 2009 AwesomeStanly Lab. All rights reserved.
 //
 
 #import "ThriftConnection.h"

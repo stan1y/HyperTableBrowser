@@ -85,8 +85,9 @@
 	}
 	
 	if (page->rowsCount == 0) {
-		return "Nil.";
+		return @"Nil.";
 	}
+	NSString * columnId = [aTableColumn identifier];
 	DataCellIterator * cellIter = cell_iter_new(page_row_at_index(page, rowIndex));
 	DataCell * cell = NULL;
 	do {
@@ -101,7 +102,6 @@
 				cellColumn = cellFamily;
 			}
 
-			NSString * columnId = [aTableColumn identifier];
 			if (strcmp([cellColumn UTF8String], [columnId UTF8String]) == 0) {
 				free(cellIter);
 				return [NSString stringWithFormat:@"%s", cell->cellValue];
