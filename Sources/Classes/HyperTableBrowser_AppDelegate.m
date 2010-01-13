@@ -3,32 +3,28 @@
 //  HyperTableBrowser
 //
 //  Created by Stanislav Yudin on 12/8/09.
-//  Copyright __MyCompanyName__ 2009 . All rights reserved.
+//  Copyright AwesomeStanly Lab. 2009 . All rights reserved.
 //
 
 #import "HyperTableBrowser_AppDelegate.h"
 
 @implementation HyperTableBrowser_AppDelegate
 
-@synthesize window, connectionSheetController, statusMessageField, statusIndicator, 
-	serversDelegate,connectionsDict,showHqlInterperterMenuItem, showBrowserMenuItem;
+@synthesize window, connectMenuItem, connectionSheetController, statusMessageField, statusIndicator, 
+	serversDelegate,connectionsDict, showHqlInterperterMenuItem, showBrowserMenuItem;
 
 - (IBAction)showHideHqlInterperter:(id)sender
 {
 	//hide if visible
 	if ([[[hqlInst controller ]window] isVisible]) {
 		[[[hqlInst controller ]window] orderOut:nil];
-		[self openHqlInterpreter];
 		return;
 	}
 	
-	//if not visible, recreate setMessagecontroller
-	if (hqlInst) {
-		[hqlInst release];
-		hqlInst = nil;
+	if (!hqlInst) {
+		hqlInst = [[HqlInterpreter alloc] init];
 	}
 	
-	hqlInst = [[HqlInterpreter alloc] init];
 	if (![NSBundle loadNibNamed:@"HqlInterperter" owner:hqlInst]) {
 		[[NSApp delegate] setMessage:@"Error loading nib for Hql Interpreter!"];
 		return;
@@ -68,12 +64,7 @@
 	
 	//init connections
 	connectionsDict = [[NSMutableDictionary alloc] init];
-	
-	if ( ![self isConnected] ) {
-		[window setTitle:@"Objects Browser - Not Connected\n" ];
-		[self setMessage:@"Application is offline, performing connect."];
-		[connectionSheetController showConnectionSheet:self];
-	}
+	[window setTitle:@"Objects Browser - Not Connected\n" ];
 }
 
 - (void)setMessage:(NSString*)message 
@@ -99,6 +90,37 @@
 	id key = [serversDelegate selectedServer];
 	return [connectionsDict objectForKey:key];
 }
+
+- (ThriftConnection *)getConnectionForServer:(NSManagedObject*)server
+{
+	NSString * hostname = [server valueForKey:@"hostname"];
+	int port = [[server valueForKey:@"port"] intValue];
+	id con =  [connectionsDict objectForKey:hostname];
+	if (con) {
+		return con;
+	}
+	//there is no connection for known server
+	//reconnecting
+	//create or get server object
+	[self indicateBusy];
+	[self setMessage:[NSString stringWithFormat:@"Reconnecting to %s", [hostname UTF8String]]];
+	ThriftConnection * connection = [[ThriftConnection alloc] init];
+	ThriftConnectionInfo * serverInfo = [ThriftConnectionInfo infoWithAddress:hostname 
+																	  andPort:port];
+	[connection connectTo:serverInfo];
+	[self indicateDone];
+	if ([connection thriftClient]) {
+		[self setMessage:@"Successfuly reconnected."];
+		[connectionsDict setObject:connection forKey:hostname];
+		return connection;
+	}
+	else {
+		[self setMessage:@"Failed to reconnect, forget about that server."];		
+		[[[NSApp delegate] managedObjectContext] deleteObject:server];
+		return nil;
+	}
+}
+
 
 - (BOOL)isConnected {
 	for (NSString* key in connectionsDict) {

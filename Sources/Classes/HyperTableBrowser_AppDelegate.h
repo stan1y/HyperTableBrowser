@@ -3,7 +3,7 @@
 //  HyperTableBrowser
 //
 //  Created by Stanislav Yudin on 12/8/09.
-//  Copyright __MyCompanyName__ 2009 . All rights reserved.
+//  Copyright AwesomeStanly Lab. 2009 . All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
@@ -69,9 +69,15 @@
 //returns currently selected connected server in Servers outline
 - (ThriftConnection *)getCurrentConnection ;
 
+//returns connection to specified server
+- (ThriftConnection *)getConnectionForServer:(NSManagedObject*)server;
+
 //shows or hides HQL Iterpreter
 - (IBAction)showHideHqlInterperter:(id)sender;
 
 //shows or hides Objects browser
 - (IBAction)showHideObjectsBrowser:(id)sender;
+
+//create and display HQL iterpreter window
+- (void)openHqlInterpreter;
 @end
