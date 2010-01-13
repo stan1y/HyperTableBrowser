@@ -8,14 +8,13 @@
 
 #import <Cocoa/Cocoa.h>
 #import <ObjectsPageSource.h>
+#import <CoreDataObjects.h>
 
 @interface ServersDelegate : NSObject {
 	ObjectsPageSource * objectsPageSource;
-	NSArrayController * knownServersController;
 	NSString * selectedServer;
 }
 
-@property(assign) IBOutlet NSArrayController * knownServersController;
 @property(assign) IBOutlet ObjectsPageSource * objectsPageSource;
 @property(readonly) NSString * selectedServer;
 

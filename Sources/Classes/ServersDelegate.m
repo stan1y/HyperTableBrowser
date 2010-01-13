@@ -8,31 +8,29 @@
 
 #import "ServersDelegate.h"
 
-
 @implementation ServersDelegate
 
-@synthesize knownServersController, objectsPageSource;
-
--(BOOL)outlineView:(NSOutlineView *)ov 
-  isItemExpandable:(id)item 
-{
-    return YES;
-}
+@synthesize objectsPageSource;
 
 - (BOOL)outlineView:(NSOutlineView *)ov 
    shouldSelectItem:(id)item 
 {
-	if (true) {
-		[objectsPageSource showFirstPageFor:item fromConnection:nil];
+	if (item != nil) {
+		if ([item entity] == [Server entityDescription]){
+			//server node selected
+			selectedServer = item;
+			NSString * hostname = [item valueForKey:@"hostname"];
+			[[[NSApp delegate] window] setTitle:[NSString stringWithFormat:@"Objects Browser - %s", [hostname UTF8String]] ];
+		}
+		else {
+			ThriftConnection * serverConnection = [[NSApp delegate] getConnectionForServer:[item server]];
+			[objectsPageSource showFirstPageFor:[item valueForKey:@"name"] fromConnection:serverConnection];
+		}
+
+		//do selection
+		return YES;
 	}
-	else {
-		//server node selected
-		selectedServer = item;
-		//change title
-		[[[NSApp delegate] window] setTitle:[NSString stringWithFormat:@"Objects Browser - %s", [item UTF8String]] ];
-	}
-	//do selection
-	return YES;
+	return NO;
 }
 
 @end
