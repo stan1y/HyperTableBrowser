@@ -11,11 +11,6 @@
 #import <ThriftConnection.h>
 
 @interface ObjectsPageSource : PageSource {
-		
-	//label to display selected object info
-	NSTextField * selectedObjectRowKey;
-	NSTextField * selectedObjectCellsCount;
-	NSTextField * selectedObjectTotalCount;
 	
 	// table_name->DataRow with keys for rows
 	NSMutableDictionary * keysDict;
@@ -36,6 +31,10 @@
 	
 	//label to display page info
 	NSTextField * objectsPageField;
+	
+	//button to copy selected object key to paste
+	NSButton * copyObjectKeyButton;
+	NSTextField * selectedObjectKey;
 
 }
 
@@ -49,9 +48,8 @@
 
 @property (assign) IBOutlet NSTableView * objectsPageView;
 @property (assign) IBOutlet NSTextField * objectsPageField;
-@property (assign) IBOutlet NSTextField * selectedObjectRowKey;
-@property (assign) IBOutlet NSTextField * selectedObjectCellsCount;
-@property (assign) IBOutlet NSTextField * selectedObjectTotalCount;
+@property (assign) IBOutlet NSButton * copyObjectKeyButton;
+@property (assign) IBOutlet NSTextField * selectedObjectKey;
 
 - (void)showFirstPageFor:(NSString *)objectType
 	 fromConnection:(ThriftConnection *)connection;

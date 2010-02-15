@@ -11,27 +11,32 @@
 
 @implementation ObjectsPageSource
 
-@synthesize objectsPageField, objectsPageView,
-	lastDisplayedObjectType, lastUsedConnection, lastDisplayedPageNumber, pageSizeTextField,
-	selectedObjectRowKey, selectedObjectCellsCount, selectedObjectTotalCount;
+@synthesize objectsPageField, objectsPageView, \
+	lastDisplayedObjectType, lastUsedConnection, \
+	lastDisplayedPageNumber, pageSizeTextField, \
+	copyObjectKeyButton, selectedObjectKey;
 
 - (void)awakeFromNib {
 	//init pages container
     keysDict = [[NSMutableDictionary dictionary] retain];
 }
 
-- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(NSInteger)rowIndex {
-	if (!page) {
+- (BOOL)tableView:(NSTableView *)aTableView 
+  shouldSelectRow:(NSInteger)rowIndex {
+	if (!self.page) {
+		[selectedObjectKey setTitleWithMnemonic:@"Nothing selected"];
+		[copyObjectKeyButton setEnabled:NO];
 		return NO;
 	}
-	DataRow * row = page_row_at_index(page, rowIndex);
-	[selectedObjectRowKey setTitleWithMnemonic:[NSString stringWithFormat:@"%s", 
-												row->rowKey]];
-	[selectedObjectCellsCount setTitleWithMnemonic:[NSString stringWithFormat:@"Cells in object: %d", 
-													row->cellsCount]];
+	[copyObjectKeyButton setEnabled:YES];
 	
+	DataRow * row = page_row_at_index(self.page, rowIndex);
 	DataRow * keysRow = [keysDict objectForKey:[self lastDisplayedObjectType]];
-	[selectedObjectTotalCount setTitleWithMnemonic:[NSString stringWithFormat:@"Total objects: %d", keysRow->cellsCount]];
+	
+	//show row key
+	[selectedObjectKey setTitleWithMnemonic:[NSString stringWithFormat:@"Selected object key: %s",
+												 row->rowKey]];
+	
 	//do selection
 	return YES;
 }
