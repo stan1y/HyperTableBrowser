@@ -18,6 +18,9 @@
 	[connectButton setTitle:@"Connect"];
 	[statusField setHidden:YES];
 	
+	//reload servers view
+	[serversView reloadItem:nil reloadChildren:YES];
+	
 	//close sheet
 	[[NSApp delegate] setMessage:@"Connection canceled."];
 	[connectionSheet orderOut:nil];
