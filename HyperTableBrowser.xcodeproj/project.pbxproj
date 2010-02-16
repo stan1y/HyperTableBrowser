@@ -12,7 +12,6 @@
 		76081DA710E255DB005F668F /* HyperTableBrowser_AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 76081DA610E255DB005F668F /* HyperTableBrowser_AppDelegate.m */; };
 		76081DAA10E255F6005F668F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 76081DA910E255F6005F668F /* main.m */; };
 		76081DAC10E25683005F668F /* HyperTableBrowser_DataModel.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 76081DAB10E25683005F668F /* HyperTableBrowser_DataModel.xcdatamodel */; };
-		76081DB010E256A9005F668F /* CoreDataObjects.m in Sources */ = {isa = PBXBuildFile; fileRef = 76081DAF10E256A9005F668F /* CoreDataObjects.m */; };
 		761FDAC810D0D33F00D2EEFF /* ConnectionSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 761FDAC710D0D33F00D2EEFF /* ConnectionSheetController.m */; };
 		765E610B10D811BD00E4CA1D /* HqlController.h in Headers */ = {isa = PBXBuildFile; fileRef = 765E610910D811BD00E4CA1D /* HqlController.h */; };
 		765E611610D818F200E4CA1D /* HqlController.m in Sources */ = {isa = PBXBuildFile; fileRef = 765E610A10D811BD00E4CA1D /* HqlController.m */; };
@@ -49,6 +48,9 @@
 		7695960210D3B23F00714729 /* libthrift.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 76FBE49D10D38E4500006E56 /* libthrift.a */; };
 		76B3C5C010DA328100078742 /* DataPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 76B3C5BE10DA328100078742 /* DataPage.h */; };
 		76B3C5C110DA328200078742 /* DataPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76B3C5BF10DA328100078742 /* DataPage.cpp */; };
+		76DB3DDC112A7AEF00B2C2EB /* HyperTableServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DB3DDB112A7AEF00B2C2EB /* HyperTableServer.m */; };
+		76DB3DE0112A7C1F00B2C2EB /* HyperTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DB3DDF112A7C1F00B2C2EB /* HyperTable.m */; };
+		76DB3E4C112A83D900B2C2EB /* ServersManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DB3E4B112A83D900B2C2EB /* ServersManager.m */; };
 		76E4115810D9374900876468 /* HqlInterperter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76E4115610D9374900876468 /* HqlInterperter.xib */; };
 		76E4116010D939EF00876468 /* HqlInterpreter.m in Sources */ = {isa = PBXBuildFile; fileRef = 76E4115F10D939EF00876468 /* HqlInterpreter.m */; };
 		76EB165B10FDCC810047F75B /* ServersSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EB165A10FDCC810047F75B /* ServersSource.m */; };
@@ -91,8 +93,6 @@
 		76081DA610E255DB005F668F /* HyperTableBrowser_AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HyperTableBrowser_AppDelegate.m; path = Sources/Classes/HyperTableBrowser_AppDelegate.m; sourceTree = "<group>"; };
 		76081DA910E255F6005F668F /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Sources/main.m; sourceTree = "<group>"; };
 		76081DAB10E25683005F668F /* HyperTableBrowser_DataModel.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; name = HyperTableBrowser_DataModel.xcdatamodel; path = Sources/HyperTableBrowser_DataModel.xcdatamodel; sourceTree = "<group>"; };
-		76081DAE10E256A9005F668F /* CoreDataObjects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreDataObjects.h; path = Sources/Classes/CoreDataObjects.h; sourceTree = "<group>"; };
-		76081DAF10E256A9005F668F /* CoreDataObjects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CoreDataObjects.m; path = Sources/Classes/CoreDataObjects.m; sourceTree = "<group>"; };
 		76081DC310E257E9005F668F /* HyperTableBrowser_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyperTableBrowser_Prefix.pch; sourceTree = "<group>"; };
 		761FDAC610D0D33F00D2EEFF /* ConnectionSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConnectionSheetController.h; path = Sources/Classes/Controllers/ConnectionSheetController.h; sourceTree = "<group>"; };
 		761FDAC710D0D33F00D2EEFF /* ConnectionSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConnectionSheetController.m; path = Sources/Classes/Controllers/ConnectionSheetController.m; sourceTree = "<group>"; };
@@ -135,6 +135,12 @@
 		769595FD10D3B21700714729 /* TestThriftGen */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TestThriftGen; sourceTree = BUILT_PRODUCTS_DIR; };
 		76B3C5BE10DA328100078742 /* DataPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataPage.h; sourceTree = "<group>"; };
 		76B3C5BF10DA328100078742 /* DataPage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataPage.cpp; sourceTree = "<group>"; };
+		76DB3DDA112A7AEF00B2C2EB /* HyperTableServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HyperTableServer.h; path = Sources/Classes/HyperTableServer.h; sourceTree = "<group>"; };
+		76DB3DDB112A7AEF00B2C2EB /* HyperTableServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HyperTableServer.m; path = Sources/Classes/HyperTableServer.m; sourceTree = "<group>"; };
+		76DB3DDE112A7C1F00B2C2EB /* HyperTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HyperTable.h; path = Sources/Classes/HyperTable.h; sourceTree = "<group>"; };
+		76DB3DDF112A7C1F00B2C2EB /* HyperTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HyperTable.m; path = Sources/Classes/HyperTable.m; sourceTree = "<group>"; };
+		76DB3E4A112A83D900B2C2EB /* ServersManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServersManager.h; path = Sources/Classes/ServersManager.h; sourceTree = "<group>"; };
+		76DB3E4B112A83D900B2C2EB /* ServersManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServersManager.m; path = Sources/Classes/ServersManager.m; sourceTree = "<group>"; };
 		76E4115710D9374900876468 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/HqlInterperter.xib; sourceTree = "<group>"; };
 		76E4115E10D939EF00876468 /* HqlInterpreter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HqlInterpreter.h; path = Sources/Classes/HqlInterpreter.h; sourceTree = "<group>"; };
 		76E4115F10D939EF00876468 /* HqlInterpreter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HqlInterpreter.m; path = Sources/Classes/HqlInterpreter.m; sourceTree = "<group>"; };
@@ -187,6 +193,10 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				76DB3DDE112A7C1F00B2C2EB /* HyperTable.h */,
+				76DB3DDF112A7C1F00B2C2EB /* HyperTable.m */,
+				76DB3DDA112A7AEF00B2C2EB /* HyperTableServer.h */,
+				76DB3DDB112A7AEF00B2C2EB /* HyperTableServer.m */,
 				76081DA510E255DB005F668F /* HyperTableBrowser_AppDelegate.h */,
 				76081DA610E255DB005F668F /* HyperTableBrowser_AppDelegate.m */,
 				7677371F10CE94DB00DDDCC6 /* Controllers */,
@@ -196,8 +206,8 @@
 				767A072110CFD5D400B6739F /* ThriftConnectionInfo.m */,
 				76E4115E10D939EF00876468 /* HqlInterpreter.h */,
 				76E4115F10D939EF00876468 /* HqlInterpreter.m */,
-				76081DAE10E256A9005F668F /* CoreDataObjects.h */,
-				76081DAF10E256A9005F668F /* CoreDataObjects.m */,
+				76DB3E4A112A83D900B2C2EB /* ServersManager.h */,
+				76DB3E4B112A83D900B2C2EB /* ServersManager.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -523,8 +533,10 @@
 				76081DA710E255DB005F668F /* HyperTableBrowser_AppDelegate.m in Sources */,
 				76081DAA10E255F6005F668F /* main.m in Sources */,
 				76081DAC10E25683005F668F /* HyperTableBrowser_DataModel.xcdatamodel in Sources */,
-				76081DB010E256A9005F668F /* CoreDataObjects.m in Sources */,
 				76EB165B10FDCC810047F75B /* ServersSource.m in Sources */,
+				76DB3DDC112A7AEF00B2C2EB /* HyperTableServer.m in Sources */,
+				76DB3DE0112A7C1F00B2C2EB /* HyperTable.m in Sources */,
+				76DB3E4C112A83D900B2C2EB /* ServersManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
