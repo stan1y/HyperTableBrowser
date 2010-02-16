@@ -52,6 +52,7 @@ int get_tables_list(HTHRIFT hThrift, DataRow * row)
 			return T_OK;
 		}
 		else {
+			printf("get_tables_list: error: tables list can't be empty. METADATA missing.");
 			return T_ERR_NODATA;
 		}
 
@@ -93,13 +94,7 @@ int get_keys(HTHRIFT hThrift, DataRow * keys, const char * objectTypeId)
 			
 		} while (cells.size() > 0);
 		client->close_scanner(scaner);
-		
-		if (keys->cellsCount > 0 ) {
-			return T_OK;
-		}
-		else {
-			return T_ERR_NODATA;
-		}
+		return T_OK;
 	}
 	catch (TTransportException & ex) {
 		if (strstr(ex.what(), "EAGAIN")) {

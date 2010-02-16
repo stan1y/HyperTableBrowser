@@ -23,5 +23,8 @@
 
 - (NSString *)connectTo:(ThriftConnectionInfo*)info;
 
+- (BOOL)isConnected;
+
 + (NSString *)errorFromCode:(int)code;
+
 @end

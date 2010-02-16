@@ -75,18 +75,8 @@ int hql_query(HTHRIFT_HQL hThrift, DataPage * page, const char * query)
 					cells_row.push_back(r.cells[index]);
 				}
 			}
-			
-			if (page->rowsCount > 0) {
-				return T_OK;
-			}else {
-				printf("failed to convert? cells.size() > 0!\n");
-				return T_ERR_NODATA;
-			}
 		}
-		else {
-			return T_ERR_NODATA;
-		}
-
+		return T_OK;
 	}
 	catch (TTransportException & ex) {
 		if (strstr(ex.what(), "EAGAIN")) {

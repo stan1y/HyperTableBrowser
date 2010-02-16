@@ -9,6 +9,8 @@
 #import <Cocoa/Cocoa.h>
 #import <PageSource.h>
 #import <ThriftConnection.h>
+#import <HyperTable.h>
+#import <HyperTableServer.h>
 #include <HyperThriftHql.h>
 
 @interface HqlController : NSObject {
@@ -18,7 +20,6 @@
 	NSProgressIndicator * indicator;
 	NSTextField * statusField;
 	
-	NSArray * serversArray;
 	NSPopUpButton * serverSelector;
 	
 	//source for hql page
@@ -45,7 +46,7 @@
 //get connection selected by user in drop down 
 - (id)getSelectedConnection;
 //show status message on the bottom
-- (void)displayStatusMessage:(NSString*)message;
+- (void)setMessage:(NSString*)message;
 //start operation indicator
 - (void)indicateBusy;
 //stop operation indicator

@@ -15,28 +15,22 @@
 		   ofItem:(id)item
 {
 	if (item) {
+		NSLog(@"Displaying table %d of server %s", index, [[item valueForKey:@"hostname"] UTF8String]);
 		//displaying tables
-		NSSet * items = [item valueForKey:@"tables"];
+		NSSet * tables = [item valueForKey:@"tables"];
 		int i = 0;
-		for (id obj in items) {
-			if (i == index) return obj;
+		for (id table in tables) {
+			if (i == index ) {
+				return table;
+			}
 			i++;
 		}
+		NSLog(@"Error: Failed to find table with index %d", index);
 		return nil;
 	}
 	else {
 		//displaying servers
-		NSFetchRequest * r = [[NSFetchRequest alloc] init];
-		[r setEntity:[Server entityDescription]];
-		NSError * err = nil;
-		NSArray * srvList = [[[NSApp delegate] managedObjectContext] executeFetchRequest:r error:&err];
-		[r release];
-		if (err) {
-			[[NSApp delegate] setMessage:@"Failed servers from objects context"];
-			[err release];
-			return nil;
-		}
-		return [srvList objectAtIndex:index];
+		return [ [[[NSApp delegate] serversManager] getServers] objectAtIndex:index];
 	}
 }
 
@@ -44,7 +38,7 @@
    isItemExpandable:(id)item
 {
 	//server class is expandable
-	if ([item entity] == [Server entityDescription])
+	if ([item entity] == [HyperTableServer entityDescription])
 		return YES;
 	
 	return NO;
@@ -55,21 +49,62 @@
 {
 	if (item) {
 		//return number of tables in server item
-		return [[item valueForKey:@"tables"] count];
+		int tablesCount = 0;
+		@try {
+			tablesCount = [[item valueForKey:@"tables"] count];
+		}
+		@catch(NSException * ex) {
+			NSLog(@"Failed to query tables from datastore");
+		}
+		
+		
+		if (tablesCount <= 0) {
+			NSLog(@"Updating tables list");
+			
+			//get tables
+			DataRow * row = row_new("Tables");
+			id connection = [ [[NSApp delegate] serversManager] getConnectionForServer:item];
+			if (!connection || ![connection isConnected]) {
+				NSLog(@"Error: Connection is NOT READY for tables list update");
+				[[[NSApp delegate] serversManager] reconnectServer:item];
+				return 0;
+			}
+			
+			//read tables
+			get_tables_list([connection thriftClient], row);
+			DataCellIterator * ci = cell_iter_new(row);
+			DataCell * cell = NULL;
+			do {
+				cell = cell_iter_next_cell(ci);
+				if (cell) {
+					HyperTable * newTable = [HyperTable tableWithDefaultContext];
+					[newTable setValue:[NSString stringWithCString:cell->cellValue 
+														  encoding:NSUTF8StringEncoding] 
+								forKey:@"name"];
+					[newTable setValue:item forKey:@"server"];
+					[[[NSApp delegate] managedObjectContext] insertObject:newTable];
+				}
+			} while (cell);
+			free(ci);
+			
+			NSLog(@"Saving tables list");
+			NSError * error = nil;
+			[[[NSApp delegate] managedObjectContext] save:&error];
+			if (error) {
+				[[NSApp delegate] setMessage:@"Failed to save tables to persistent store"];
+				return 0;
+			}
+			//get number of added tables
+			tablesCount = [[item valueForKey:@"tables"] count];
+		}
+		
+		NSLog(@"%d tables found on server %s", tablesCount, [[item valueForKey:@"hostname"] UTF8String]);
+		return tablesCount;
 	}
+	int serversCount = [ [ [[NSApp delegate] serversManager] getServers] count];
+	NSLog(@"Servers in datastore %d", serversCount);
 	//return number of servers
-	NSFetchRequest * r = [[NSFetchRequest alloc] init];
-	[r setEntity:[Server entityDescription]];
-	NSError * err = nil;
-	NSInteger itemsCount = [[[NSApp delegate] managedObjectContext] countForFetchRequest:r error:&err];
-	[r release];
-	if (err) {
-		[[NSApp delegate] setMessage:@"Failed to get number of servers from objects context"];
-		[err release];
-		return 0;
-	}
-	NSLog(@"Known servers %d", itemsCount);
-	return itemsCount;
+	return serversCount;
 }
 
 - (id)outlineView:(NSOutlineView *)outlineView
@@ -78,9 +113,9 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
 {
 	if (item) {
 		//return hostname of server or name of table
-		if ([item entity] == [Server entityDescription])
+		if ([item entity] == [HyperTableServer entityDescription])
 			return [item valueForKey:@"hostname"];
-		else if ([item entity] == [Table entityDescription])
+		else if ([item entity] == [HyperTable entityDescription])
 			return [item valueForKey:@"name"];
 		else
 			return @"Unknown";

@@ -10,23 +10,29 @@
 
 @implementation ServersDelegate
 
-@synthesize objectsPageSource;
+@synthesize objectsPageSource, selectedServer, connectionController;
 
 - (BOOL)outlineView:(NSOutlineView *)ov 
    shouldSelectItem:(id)item 
 {
 	if (item != nil) {
-		if ([item entity] == [Server entityDescription]){
+		NSLog(item);
+		if ([item entity] == [HyperTableServer entityDescription]){
 			//server node selected
 			selectedServer = item;
 			NSString * hostname = [item valueForKey:@"hostname"];
 			[[[NSApp delegate] window] setTitle:[NSString stringWithFormat:@"Objects Browser - %s", [hostname UTF8String]] ];
 		}
 		else {
-			ThriftConnection * serverConnection = [[NSApp delegate] getConnectionForServer:[item server]];
-			[objectsPageSource showFirstPageFor:[item valueForKey:@"name"] fromConnection:serverConnection];
+			ThriftConnection * connection = [[[NSApp delegate] serversManager] getConnectionForServer:[item server]];
+			if (connection) {
+				NSLog(@"Displaying first page");
+				[objectsPageSource showFirstPageFor:[item valueForKey:@"name"] fromConnection:connection];
+			} else {
+				[[[NSApp delegate] serversManager] reconnectServer:[item server]];
+				return NO;
+			}
 		}
-
 		//do selection
 		return YES;
 	}

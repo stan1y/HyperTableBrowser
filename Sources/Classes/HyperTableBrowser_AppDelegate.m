@@ -11,7 +11,7 @@
 @implementation HyperTableBrowser_AppDelegate
 
 @synthesize window, connectMenuItem, connectionSheetController, statusMessageField, statusIndicator, 
-	serversDelegate,connectionsDict, showHqlInterperterMenuItem, showBrowserMenuItem;
+	serversDelegate, showHqlInterperterMenuItem, showBrowserMenuItem, serversManager;
 
 - (IBAction)showHideHqlInterperter:(id)sender
 {
@@ -63,8 +63,7 @@
 	[self setMessage:@"Application started."];
 	
 	//init connections
-	connectionsDict = [[NSMutableDictionary alloc] init];
-	[window setTitle:@"Objects Browser - Not Connected\n" ];
+	[window setTitle:@"Not connected" ];
 }
 
 - (void)setMessage:(NSString*)message 
@@ -83,52 +82,6 @@
 {
 	[statusIndicator stopAnimation:self];
 	[statusIndicator setHidden:YES];
-}
-
-- (ThriftConnection *)getCurrentConnection 
-{
-	id key = [serversDelegate selectedServer];
-	return [connectionsDict objectForKey:key];
-}
-
-- (ThriftConnection *)getConnectionForServer:(NSManagedObject*)server
-{
-	NSString * hostname = [server valueForKey:@"hostname"];
-	int port = [[server valueForKey:@"port"] intValue];
-	id con =  [connectionsDict objectForKey:hostname];
-	if (con) {
-		return con;
-	}
-	//there is no connection for known server
-	//reconnecting
-	//create or get server object
-	[self indicateBusy];
-	[self setMessage:[NSString stringWithFormat:@"Reconnecting to %s", [hostname UTF8String]]];
-	ThriftConnection * connection = [[ThriftConnection alloc] init];
-	ThriftConnectionInfo * serverInfo = [ThriftConnectionInfo infoWithAddress:hostname 
-																	  andPort:port];
-	[connection connectTo:serverInfo];
-	[self indicateDone];
-	if ([connection thriftClient]) {
-		[self setMessage:@"Successfuly reconnected."];
-		[connectionsDict setObject:connection forKey:hostname];
-		return connection;
-	}
-	else {
-		[self setMessage:@"Failed to reconnect, forget about that server."];		
-		[[[NSApp delegate] managedObjectContext] deleteObject:server];
-		return nil;
-	}
-}
-
-
-- (BOOL)isConnected {
-	for (NSString* key in connectionsDict) {
-		if ([[connectionsDict objectForKey:key] thriftClient]) {
-			return YES;
-		}
-	}
-	return NO;
 }
 
 /**

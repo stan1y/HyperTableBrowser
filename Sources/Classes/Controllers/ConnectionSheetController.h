@@ -9,7 +9,8 @@
 #import <Cocoa/Cocoa.h>
 #import <ThriftConnection.h>
 #import <ThriftConnectionInfo.h>
-#import <CoreDataObjects.h>
+#import <HyperTableServer.h>
+#import <HyperTable.h>
 
 @interface ConnectionSheetController : NSObject {
 	
@@ -28,8 +29,14 @@
 
 @property (assign) IBOutlet NSOutlineView * serversView;
 
-- (IBAction)showConnectionSheet:(id)sender;
+- (IBAction)showSheet:(id)sender;
+
+- (IBAction)showSheet:(id)sender 
+			   toHost:(NSString *)host 
+			  andPort:(int)port;
+
 - (IBAction)performConnect:(id)sender;
+
 - (IBAction)cancelConnect:(id)sender;
 
 @end

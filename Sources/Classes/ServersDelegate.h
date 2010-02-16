@@ -8,14 +8,18 @@
 
 #import <Cocoa/Cocoa.h>
 #import <ObjectsPageSource.h>
-#import <CoreDataObjects.h>
+#import <HyperTable.h>
+#import <HyperTableServer.h>
+#import <ConnectionSheetController.h>
 
 @interface ServersDelegate : NSObject {
 	ObjectsPageSource * objectsPageSource;
 	NSString * selectedServer;
+	ConnectionSheetController * connectionController;
 }
 
 @property(assign) IBOutlet ObjectsPageSource * objectsPageSource;
+@property(assign) IBOutlet ConnectionSheetController * connectionController;
 @property(readonly) NSString * selectedServer;
 
 @end

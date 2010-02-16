@@ -11,7 +11,7 @@
 #import <ConnectionSheetController.h>
 #import <HqlInterpreter.h>
 #import <ServersDelegate.h>
-
+#import <ServersManager.h>
 
 @interface HyperTableBrowser_AppDelegate : NSObject 
 {
@@ -31,7 +31,7 @@
 	ConnectionSheetController * connectionSheetController;
 	
 	ServersDelegate * serversDelegate;
-	NSMutableDictionary * connectionsDict;
+	ServersManager * serversManager;
 	
 	//interpreter inst
 	HqlInterpreter * hqlInst;
@@ -40,7 +40,6 @@
 @property (nonatomic, retain) IBOutlet NSWindow *window;
 
 @property (assign) IBOutlet ConnectionSheetController * connectionSheetController;
-@property (assign) NSMutableDictionary * connectionsDict;
 @property (assign) IBOutlet ServersDelegate * serversDelegate;
 
 @property (assign) IBOutlet NSTextField *statusMessageField;
@@ -54,6 +53,8 @@
 @property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
 
+@property (assign) IBOutlet ServersManager * serversManager;
+
 //show status message on the bottom
 - (void)setMessage:(NSString*)message;
 
@@ -62,15 +63,6 @@
 
 //stop operation indicator
 - (void)indicateDone;
-
-//Returns YES is app is connected
-- (BOOL)isConnected;
-
-//returns currently selected connected server in Servers outline
-- (ThriftConnection *)getCurrentConnection ;
-
-//returns connection to specified server
-- (ThriftConnection *)getConnectionForServer:(NSManagedObject*)server;
 
 //shows or hides HQL Iterpreter
 - (IBAction)showHideHqlInterperter:(id)sender;

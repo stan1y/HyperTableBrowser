@@ -22,7 +22,7 @@
 			return @"Connection failed. Check Thrift broker is running.";
 			break;
 		case T_ERR_NODATA:
-			return @"No data returned from query.";
+			return @"No data returned from query, where is was expected too.";
 			break;
 		case T_ERR_TIMEOUT:
 			return @"Operation timeout. Check HyperTable is running correctly.";
@@ -33,6 +33,10 @@
 			return @"Executed successfuly.";
 			break;
 	}
+}
+
+- (BOOL)isConnected {
+	return ( (thriftClient != nil) && (hqlClient != nil) );
 }
 
 - (NSString *)connectTo:(ThriftConnectionInfo *)info {

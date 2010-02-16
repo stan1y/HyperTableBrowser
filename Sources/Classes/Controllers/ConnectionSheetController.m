@@ -27,7 +27,18 @@
 	[NSApp endSheet:connectionSheet];
 }
 
-- (IBAction)showConnectionSheet:(id)sender {
+- (IBAction)showSheet:(id)sender 
+			   toHost:(NSString *)host 
+			  andPort:(int)port
+{
+	
+	[addressField setStringValue:host];
+	[portField setIntValue:port];
+	
+	[self showSheet:self];
+}
+
+- (IBAction)showSheet:(id)sender {
 	//initial sheet state
 	[indicator setHidden:YES];
 	[statusField setHidden:YES];
@@ -76,35 +87,25 @@
 				[[NSApp delegate] setMessage: [NSString stringWithFormat:@"Connected to %s.", 
 														 [hostname UTF8String]]];
 				
-				//add connection
-				[[[NSApp delegate] connectionsDict] setObject:connection forKey:hostname];
-				
-				//new server
-				Server * newServer = [Server serverWithDefaultContext];
-				[newServer setValue:hostname forKey:@"hostname"];
+				//new server or existing?
+				HyperTableServer * connectedServer = [[[NSApp delegate] serversManager] getServer:hostname];
+			
+				if (connectedServer == nil) {
+					NSLog(@"Adding new server %s", [hostname UTF8String]);
+					connectedServer = [HyperTableServer serverWithDefaultContext];
+					[[[NSApp delegate] managedObjectContext] insertObject:connectedServer];
+				}
+				//update settings
+				[connectedServer setValue:hostname forKey:@"hostname"];
 				NSNumber * portNum = [NSNumber numberWithInt:port];
-				[newServer setValue:portNum forKey:@"port"];
-				[[[NSApp delegate] managedObjectContext] insertObject:newServer];
+				[connectedServer setValue:portNum forKey:@"port"];
+				[[[NSApp delegate] managedObjectContext] insertObject:connectedServer];
 				
-				//get tables
-				DataRow * row = row_new("Tables");
-				get_tables_list([connection thriftClient], row);
-				DataCellIterator * ci = cell_iter_new(row);
-				DataCell * cell = NULL;
-				do {
-					cell = cell_iter_next_cell(ci);
-					if (cell) {
-						Table * newTable = [Table tableWithDefaultContext];
-						[newTable setValue:[NSString stringWithCString:cell->cellValue 
-															  encoding:NSUTF8StringEncoding] 
-									forKey:@"name"];
-						[newTable setValue:newServer forKey:@"server"];
-						[[[NSApp delegate] managedObjectContext] insertObject:newTable];
-					}
-				} while (cell);
-				free(ci);
+				//set connection
+				[[[NSApp delegate] serversManager] setConnection:connection forServer:connectedServer];
 				
 				//save
+				NSLog(@"Saving server");
 				NSError * error = nil;
 				[[[NSApp delegate] managedObjectContext] save:&error];
 				if (error) {

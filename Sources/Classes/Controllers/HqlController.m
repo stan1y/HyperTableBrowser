@@ -10,8 +10,8 @@
 
 
 @implementation HqlController
-
-@synthesize window, goButton, hqlQueryField, pageSource, pageView;
+@synthesize window, goButton, hqlQueryField, pageSource, \
+	pageView, serverSelector, indicator, statusField;
 
 - (IBAction)done:(id)sender {
 	//clear
@@ -26,6 +26,7 @@
 }
 
 - (void)setMessage:(NSString*)message {
+	NSLog(@"HQL: %s", [message UTF8String]);
 	[statusField setTitleWithMnemonic:message];
 }
 
@@ -49,25 +50,21 @@
 		return;
 	}
 	
-	if ( ![[NSApp delegate] isConnected]) {
-		[self indicateDone];
-		[self setMessage:@"Application is offline."];
-		return;
-	}
-
 	id con = [self getSelectedConnection];
 	[self runQuery:[hqlQueryField stringValue] withConnection:con];
 }
 
 - (IBAction)updateConnections:(id)sender
 {
+	[self setMessage:@"Updating connections for HQL"];
 	//populate selector
+	id serversArray = [[[NSApp delegate] serversManager] getServers];
 	[serverSelector removeAllItems];
-	for (NSString * key in [[NSApp delegate] connectionsDict])
-		[serverSelector addItemWithTitle:key];
-
-	//set controlls
-	if ([[[NSApp delegate] connectionsDict] count] <= 0) {
+	for (id server in serversArray)
+		[serverSelector addItemWithTitle:[server valueForKey:@"hostname"]];
+	
+	if ([serversArray count] <= 0) {
+		[self setMessage:@"No servers available. Please connect somewhere."];
 		[serverSelector setEnabled:NO];
 		[goButton setEnabled:NO];
 	}
@@ -75,34 +72,20 @@
 		[serverSelector setEnabled:YES];
 		[goButton setEnabled:YES];
 	}
-
 }
 
 - (id)getSelectedConnection {
-	if (![[NSApp delegate] connectionsDict] || [[[NSApp delegate] connectionsDict] count] < 0) {
+	NSLog(@"Get selected connection");
+	if (![[serverSelector itemArray] count] < 0) {
 		[self setMessage:@"There are no connected server. You need to establish connection before executing HQL."];
 		return nil;
 	}
-	for (NSString * key in [[NSApp delegate] connectionsDict])
-	{
-		if (key == [[serverSelector selectedItem] title]) {
-			id connection = [[[NSApp delegate] connectionsDict] objectForKey:key];
-			if ( ![connection thriftClient] ) 
-			{
-				[self setMessage:@"Selected server is not connected. Refresh the list of servers."];
-				return nil;
-			}
-			
-			return connection;
-		}
-	}
 	
-	[self setMessage:@"Selected server not found. Refresh the list of servers."];
-	return nil;
+	return [ [[NSApp delegate] serversManager] getConnection:[[serverSelector selectedItem] title] ];
 }
 
 - (void)runQuery:(NSString *) query withConnection:(id)connection {
-	NSLog(@"runQuery: %s\n", [query UTF8String]);
+	NSLog(@"Executing HQL: %s\n", [query UTF8String]);
 	//run query
 	dispatch_async(dispatch_get_global_queue(0, 0), ^{
 		DataPage * page = page_new();
