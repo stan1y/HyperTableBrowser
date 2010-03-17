@@ -16,7 +16,6 @@
    shouldSelectItem:(id)item 
 {
 	if (item != nil) {
-		NSLog(item);
 		if ([item entity] == [HyperTableServer entityDescription]){
 			//server node selected
 			selectedServer = item;
