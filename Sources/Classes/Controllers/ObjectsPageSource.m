@@ -114,6 +114,13 @@
 			[nextPageButton setEnabled:YES];
 		}
 		
+		if (startIndex == stopIndex) {
+			//no data in table
+			[[NSApp delegate] setMessage:@"Table is empty"];
+			[[NSApp delegate] indicateDone];
+			return;
+		}
+		
 		[[NSApp delegate]setMessage:[NSString stringWithFormat:@"Requesting page %d-%d from %s to %s.\n", 
 											   startIndex,
 											   stopIndex,
