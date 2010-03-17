@@ -32,7 +32,10 @@
 }
 
 - (void)reloadDataForView:(NSTableView *)tableView {
+	NSLog(@"PageSource: reloading data for view");
+	
 	if (!page) {
+		NSLog(@"PageSource: no page set for reload");
 		return;
 	}
 	//remove columns from table view
@@ -72,71 +75,80 @@
 		
 	} while (cell);
 	free(i);
-	
+	NSLog(@"PageSource: reloading table view");
 	//reload data
 	[tableView reloadData];
 }
 
 - (int)numberOfRowsInTableView:(NSTableView *)aTableView  {
 	if (page) {
+		NSLog(@"%d rows in table", page->rowsCount);
 		return page->rowsCount;
 	}
+	NSLog(@"No rows in null page");
 	return 0;
 }
 
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
-	if (!page) {
-		return nil;
-	}
-	
-	if (page->rowsCount == 0) {
-		return nil;
-	}
-	NSString * columnId = [aTableColumn identifier];
-	NSLog(@"Looking for cell with label \"%s\"", [columnId UTF8String]);
-	DataCellIterator * cellIter = cell_iter_new(page_row_at_index(page, rowIndex));
-	DataCell * cell = NULL;
-	do {
-		NSLog(@"Iterating over %d cells", page_row_at_index(page, rowIndex)->cellsCount);
-		
-		cell = cell_iter_next_cell(cellIter);
-		if (cell) {
-			//get cell family
-			NSString * cellFamily;
-			if (cell->cellColumnFamilySize > 0 ) {
-				cellFamily = [NSString stringWithFormat:@"%s", cell->cellColumnFamily];
-			} else {
-				NSLog(@"(iter) -> Warnning! Cell column family size is zero, value is \"%s\"", [cell->cellColumnFamily UTF8String]);
-				NSLog(@"(iter) -> Defaulting to empty");
-				cellFamily = @"";
-			}
-			//get cell column
-			NSString * cellColumn;
-			if (cell->cellColumnQualifierSize > 0) {
-				cellColumn = [cellFamily stringByAppendingFormat:@":%s", cell->cellColumnQualifier];
-			}
-			else {
-				NSLog(@"Warnning! Cell column value size is zero, value is \"%s\"", [cell->cellColumnFamily UTF8String]);
-				NSLog(@"Defaulting to \"%s\"", [cellFamily UTF8String]);
-				cellColumn = cellFamily;
-			}
-
-			if (strcmp([cellColumn UTF8String], [columnId UTF8String]) == 0) {
-				free(cellIter);
-				if (cell->cellValueSize > 0) {
-					return [NSString stringWithFormat:@"%s", cell->cellValue];
-				} else {
-					NSLog(@"Warnning! Cell value size is zero");
-					return @"";
-				}
-				 
-			}
+	@try {
+		if (!page) {
+			return nil;
 		}
 		
-	} while (cell);
-	free(cellIter);
-	NSLog(@"No value found for \"%s\"", [columnId UTF8String]);
-	return @"<#Error#>";
+		if (page->rowsCount == 0) {
+			return nil;
+		}
+		NSString * columnId = [aTableColumn identifier];
+		NSLog(@"Looking for cell with label \"%s\"", [columnId UTF8String]);
+		DataCellIterator * cellIter = cell_iter_new(page_row_at_index(page, rowIndex));
+		DataCell * cell = NULL;
+		do {
+			NSLog(@"Iterating over %d cells", page_row_at_index(page, rowIndex)->cellsCount);
+			
+			cell = cell_iter_next_cell(cellIter);
+			if (cell) {
+				//get cell family
+				NSString * cellFamily;
+				if (cell->cellColumnFamilySize > 0 ) {
+					cellFamily = [NSString stringWithFormat:@"%s", cell->cellColumnFamily];
+				} else {
+					NSLog(@"(iter) -> Warnning! Cell column family size is zero, value is \"%s\"", [cell->cellColumnFamily UTF8String]);
+					NSLog(@"(iter) -> Defaulting to empty");
+					cellFamily = @"";
+				}
+				//get cell column
+				NSString * cellColumn;
+				if (cell->cellColumnQualifierSize > 0) {
+					cellColumn = [cellFamily stringByAppendingFormat:@":%s", cell->cellColumnQualifier];
+				}
+				else {
+					NSLog(@"Warnning! Cell column value size is zero, value is \"%s\"", [cell->cellColumnFamily UTF8String]);
+					NSLog(@"Defaulting to \"%s\"", [cellFamily UTF8String]);
+					cellColumn = cellFamily;
+				}
+
+				if (strcmp([cellColumn UTF8String], [columnId UTF8String]) == 0) {
+					free(cellIter);
+					if (cell->cellValueSize > 0) {
+						return [NSString stringWithFormat:@"%s", cell->cellValue];
+					} else {
+						NSLog(@"Warnning! Cell value size is zero");
+						return @"";
+					}
+					 
+				}
+			}
+			
+		} while (cell);
+		free(cellIter);
+		NSLog(@"No value found for \"%s\"", [columnId UTF8String]);
+		return @"<#Error#>";
+	}
+	@catch(NSException * ex) {
+		NSLog(@"Failed to get data for cell at row %d, column %s", rowIndex, 
+			  [[aTableColumn identifier] UTF8String]);
+		return 0;
+	}
 }
 
 - (void)tableView:(NSTableView *)aTableView 
