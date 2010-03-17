@@ -12,6 +12,7 @@
 @implementation ServersManager
 
 - (void)reconnectServer:(HyperTableServer *)server {
+	NSLog(@"Servers Manager : reconnectServer");
 	//remove tables from datestore
 	NSSet * tables = [server valueForKey:@"tables"];
 	for (id table in tables) {
@@ -32,18 +33,21 @@
 }
 
 - (NSArray *)getServers {
+	NSLog(@"Servers Manager : getServers");
 	NSFetchRequest * r = [[NSFetchRequest alloc] init];
 	[r setEntity:[HyperTableServer entityDescription]];
 	NSError * err = nil;
 	NSArray * serversArray = [[[NSApp delegate] managedObjectContext] executeFetchRequest:r error:&err];
-	[r release];
 	if (err) {
 		NSString * msg = @"getServers: Failed to get servers from datastore";
 		NSLog(@"Error: %s", [msg UTF8String]);
 		[err release];
+		[r release];
 		return nil;
 	}
 	[err release];
+	[r release];
+	NSLog(@"Servers Manager : executeFetchRequest returned %d items", [serversArray count]);
 	return serversArray;
 }
 
@@ -72,6 +76,7 @@
 - (void)setConnection:(ThriftConnection *)connection 
 			forServer:(HyperTableServer*)server
 {
+	NSLog(@"Servers Manager : setConnection");
 	if (!connectionsCache) {
 		NSLog(@"Initializing connections cache");
 		connectionsCache = [[NSMutableDictionary alloc] init];
