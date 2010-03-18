@@ -31,7 +31,6 @@
 			   toHost:(NSString *)host 
 			  andPort:(int)port
 {
-	
 	[addressField setStringValue:host];
 	[portField setIntValue:port];
 	
@@ -45,11 +44,17 @@
 	[connectButton setEnabled:YES];
 	[connectButton setTitle:@"Connect"];
 	
+	NSLog(@"Displaying connection dialog to %s:%d", 
+		  [[addressField stringValue] UTF8String],
+		  [portField intValue]);
+	
     [NSApp beginSheet:connectionSheet modalForWindow:[[NSApp delegate] window]
         modalDelegate:self didEndSelector:nil contextInfo:nil];
 }
 
 - (IBAction)performConnect:(id)sender {
+	NSLog(@"Performing connection...");
+	
 	//update controls
 	[connectButton setEnabled:NO];
 	[indicator setHidden:NO];
@@ -63,7 +68,6 @@
 	
 	//show progress and message
 	
-	
 	//create or get server object
 	ThriftConnection * connection = [[ThriftConnection alloc] init];
 	ThriftConnectionInfo * serverInfo = [ThriftConnectionInfo infoWithAddress:hostname andPort:port];
@@ -74,6 +78,8 @@
 		[serverInfo release];
 		dispatch_async(dispatch_get_main_queue(), ^{
 			if ([connection thriftClient] == nil) {
+				NSLog(@"Connection failed!");
+				
 				//failed
 				[statusField setTextColor:[NSColor redColor]];
 				[statusField setStringValue:msg];
@@ -83,18 +89,33 @@
 				[connectButton setTitle:@"Retry"];
 			}
 			else {
+				NSLog(@"Connection successful!");
+				
 				[[[NSApp delegate] window] setTitle:[NSString stringWithFormat:@"Objects Browser - %s", [hostname UTF8String]] ];
 				[[NSApp delegate] setMessage: [NSString stringWithFormat:@"Connected to %s.", 
 														 [hostname UTF8String]]];
 				
 				//new server or existing?
 				HyperTableServer * connectedServer = [[[NSApp delegate] serversManager] getServer:hostname];
-			
-				if (connectedServer == nil) {
-					NSLog(@"Adding new server %s", [hostname UTF8String]);
-					connectedServer = [HyperTableServer serverWithDefaultContext];
-					[[[NSApp delegate] managedObjectContext] insertObject:connectedServer];
+				
+				if (connectedServer != nil) {
+					NSLog(@"Updating connection to server %s", [hostname UTF8String]);
+					//remove server from datestore
+					[[[NSApp delegate] managedObjectContext] deleteObject:connectedServer];
+					//save 
+					NSError * error = nil;
+					[[[NSApp delegate] managedObjectContext] save:&error];
+					if (error) {
+						[[NSApp delegate] setMessage:@"Failed to remove server from persistent store"];
+					}
 				}
+				else {
+					NSLog(@"Adding new server %s", [hostname UTF8String]);
+				}
+				
+				connectedServer = [HyperTableServer serverWithDefaultContext];
+				[[[NSApp delegate] managedObjectContext] insertObject:connectedServer];
+				
 				//update settings
 				[connectedServer setValue:hostname forKey:@"hostname"];
 				NSNumber * portNum = [NSNumber numberWithInt:port];
@@ -115,6 +136,9 @@
 				//close sheet
 				[connectionSheet orderOut:nil];
 				[NSApp endSheet:connectionSheet];
+				
+				//read tables
+				[connection refreshTables];
 				
 				//reload servers view
 				[serversView reloadItem:nil reloadChildren:YES];

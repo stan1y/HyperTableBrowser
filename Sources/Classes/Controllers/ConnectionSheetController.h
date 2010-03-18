@@ -10,7 +10,6 @@
 #import <ThriftConnection.h>
 #import <ThriftConnectionInfo.h>
 #import <HyperTableServer.h>
-#import <HyperTable.h>
 
 @interface ConnectionSheetController : NSObject {
 	
