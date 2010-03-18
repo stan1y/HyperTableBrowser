@@ -13,6 +13,19 @@
 
 @synthesize connInfo, thriftClient, hqlClient;
 
+- (NSMutableArray *)tables 
+{ 
+	return tables;
+}
+
+-(void) setTables:(NSMutableArray *)newTables
+{
+	if (newTables) {
+		[tables release];
+		tables = newTables;
+	}
+}
+
 + (NSString *)errorFromCode:(int)code {
 	switch (code) {
 		case T_ERR_CLIENT:
@@ -60,6 +73,34 @@
 	}
 
 	return [ThriftConnection errorFromCode:rc];
+}
+
+- (void)refreshTables
+{
+	NSLog(@"Requesting tables");
+	//read tables
+	DataRow * row = row_new("tables");
+	get_tables_list([self thriftClient], row);
+	DataCellIterator * ci = cell_iter_new(row);
+	if (self.tables) {
+		[tables release];
+	}
+	NSMutableArray * tbl = [NSMutableArray arrayWithCapacity:row->cellsCount];
+	DataCell * cell = NULL;
+	int index = 0;
+	do {
+		cell = cell_iter_next_cell(ci);
+		if (cell) {
+			NSLog(@"Found table %s", cell->cellValue);
+			[tbl insertObject:[NSString stringWithCString:cell->cellValue 
+												 encoding:NSUTF8StringEncoding] 
+					  atIndex:index];
+			index++;
+		}
+	} while (cell);
+	free(ci);
+	
+	[self setTables:tbl];
 }
 
 @end

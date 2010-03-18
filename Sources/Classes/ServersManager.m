@@ -13,18 +13,6 @@
 
 - (void)reconnectServer:(HyperTableServer *)server {
 	NSLog(@"Servers Manager : reconnectServer");
-	//remove tables from datestore
-	NSSet * tables = [server valueForKey:@"tables"];
-	for (id table in tables) {
-		NSLog(@"Removing table %s", [[table valueForKey:@"name"] UTF8String]);
-		[[[NSApp delegate] managedObjectContext] deleteObject:table];
-	}
-	//save removed items
-	NSError * error = nil;
-	[[[NSApp delegate] managedObjectContext] save:&error];
-	if (error) {
-		[[NSApp delegate] setMessage:@"Failed to remove tables from persistent store"];
-	}
 	
 	//show connection dialog
 	[[[NSApp delegate] connectionSheetController] showSheet:self 
@@ -54,12 +42,13 @@
 - (HyperTableServer *)getServer:(NSString *)hostname {
 	NSLog(@"Looking for server %s", [hostname UTF8String]);
 	for (id srv in [self getServers]) {
-		if ([srv valueForKey:@"hostname"] == hostname) {
+		NSLog(@"Checking %s", [[srv valueForKey:@"hostname"] UTF8String]);
+		if (strcmp([[srv valueForKey:@"hostname"] UTF8String],  [hostname UTF8String]) == 0) {
 			NSLog(@"Found.");
 			return srv;
 		}
 	}
-	NSLog(@"Not found.");
+	NSLog(@"Server not found.");
 	return nil;
 }
 

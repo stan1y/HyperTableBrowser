@@ -15,8 +15,10 @@
 	ThriftConnectionInfo * connInfo;
 	HTHRIFT thriftClient;
 	HTHRIFT_HQL hqlClient;
+	NSMutableArray * tables;
 }
 
+@property (assign)NSMutableArray * tables;
 @property (assign)ThriftConnectionInfo * connInfo;
 @property (assign)HTHRIFT thriftClient;
 @property (assign)HTHRIFT_HQL hqlClient;
@@ -27,4 +29,5 @@
 
 + (NSString *)errorFromCode:(int)code;
 
+- (void) refreshTables;
 @end

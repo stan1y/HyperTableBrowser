@@ -16,19 +16,21 @@
    shouldSelectItem:(id)item 
 {
 	if (item != nil) {
-		if ([item entity] == [HyperTableServer entityDescription]){
+		if ([item class] == [NSManagedObject class]){
+			NSLog(@"Server %s selected ", [[item valueForKey:@"hostname"] UTF8String]);
 			//server node selected
 			selectedServer = item;
 			NSString * hostname = [item valueForKey:@"hostname"];
 			[[[NSApp delegate] window] setTitle:[NSString stringWithFormat:@"Objects Browser - %s", [hostname UTF8String]] ];
 		}
 		else {
-			ThriftConnection * connection = [[[NSApp delegate] serversManager] getConnectionForServer:[item server]];
+			id serverItem = [ov parentForItem:item];
+			ThriftConnection * connection = [[[NSApp delegate] serversManager] getConnection:[serverItem valueForKey:@"hostname"]];
 			if (connection) {
-				NSLog(@"Displaying first page");
-				[objectsPageSource showFirstPageFor:[item valueForKey:@"name"] fromConnection:connection];
+				NSLog(@"Displaying first page of table %s", [item UTF8String]);
+				[objectsPageSource showFirstPageFor:item fromConnection:connection];
 			} else {
-				[[[NSApp delegate] serversManager] reconnectServer:[item server]];
+				NSLog(@"No connection to display data for table %s", [item UTF8String]);
 				return NO;
 			}
 		}

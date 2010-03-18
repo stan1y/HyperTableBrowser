@@ -9,7 +9,6 @@
 #import <Cocoa/Cocoa.h>
 #import <ThriftConnection.h>
 #import <ThriftConnectionInfo.h>
-#import <HyperTable.h>
 #import <HyperTableServer.h>
 
 @interface ServersManager : NSObject {
