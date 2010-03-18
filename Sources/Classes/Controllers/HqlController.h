@@ -9,7 +9,6 @@
 #import <Cocoa/Cocoa.h>
 #import <PageSource.h>
 #import <ThriftConnection.h>
-#import <HyperTable.h>
 #import <HyperTableServer.h>
 #include <HyperThriftHql.h>
 

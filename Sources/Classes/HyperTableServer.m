@@ -12,6 +12,7 @@
 
 @synthesize connection;
 
+
 + (HyperTableServer *)serverWithDefaultContext
 {
 	return [NSEntityDescription insertNewObjectForEntityForName:@"HyperTableServer" inManagedObjectContext:[[NSApp delegate] managedObjectContext] ];

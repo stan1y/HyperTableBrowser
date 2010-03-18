@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <ThriftConnection.h>
+#import <ThriftConnectionInfo.h>
 #import <Foundation/Foundation.h>
 
 @interface HyperTableServer : NSManagedObject {
@@ -15,7 +16,8 @@
 }
 
 @property (assign) ThriftConnection * connection;
-			   
+
 + (HyperTableServer *)serverWithDefaultContext;
 + (NSEntityDescription *) entityDescription;
+
 @end
