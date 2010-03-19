@@ -46,6 +46,7 @@ int hql_query(HTHRIFT_HQL hThrift, DataPage * page, const char * query)
 		int rowIndex = 0;
 		if (r.cells.size() > 0) {
 			std::string current_row_key = r.cells[0].row_key;
+			int64_t current_row_revision = r.cells[0].revision;
 			std::vector<Cell> cells_row;
 			int index = 0;
 			//append first cell
@@ -62,7 +63,8 @@ int hql_query(HTHRIFT_HQL hThrift, DataPage * page, const char * query)
 					break;
 				}
 				//next row reached
-				if (r.cells[index].row_key != current_row_key) {
+				if (r.cells[index].row_key != current_row_key || 
+					r.cells[index].revision != current_row_revision) {
 					convert_row(page, cells_row);
 					current_row_key = r.cells[index].row_key;
 					rowIndex++;
@@ -90,7 +92,7 @@ int hql_query(HTHRIFT_HQL hThrift, DataPage * page, const char * query)
 		}
 	}
 	catch (ClientException & cl) {
-		printf("hql_query: client exception: %s\n", cl.what());
+		printf("hql_query: client exception: %s. %s\n", cl.what(), cl.message.c_str());
 		return T_ERR_CLIENT;
 	}
 }
