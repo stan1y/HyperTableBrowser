@@ -32,18 +32,20 @@
 }
 
 - (void)reloadDataForView:(NSTableView *)tableView {
-	NSLog(@"PageSource: reloading data for view");
 	
 	if (!page) {
 		NSLog(@"PageSource: no page set for reload");
 		return;
 	}
+	
 	//remove columns from table view
 	int count = [[tableView tableColumns] count];
 	for (int i=0; i<count; i++) {
 		[tableView removeTableColumn:[[tableView tableColumns] objectAtIndex:0]];
 	}
 	
+	NSLog(@"PageSource: reloading data for page with %d rows", page->rowsCount);
+	NSLog(@"PageSource: first row has %d cells, creating columns", page->rowsHead->cellsCount);
 	//add new columns
 	DataCellIterator * i = cell_iter_new(page->rowsHead);
 	DataCell * cell;
@@ -64,7 +66,7 @@
 			else {
 				cellColumn = cellFamily;
 			}
-			NSLog(@"Reloading data for %s:%s", [cellFamily UTF8String], [cellColumn UTF8String]);
+			NSLog(@"Adding column %s", [cellColumn UTF8String]);
 			
 			NSTableColumn * column = [[NSTableColumn alloc] initWithIdentifier:cellColumn];
 			[column setMinWidth:100];
@@ -75,7 +77,7 @@
 		
 	} while (cell);
 	free(i);
-	NSLog(@"PageSource: reloading table view");
+	NSLog(@"PageSource: reloading data in view");
 	//reload data
 	[tableView reloadData];
 }
@@ -99,12 +101,9 @@
 			return nil;
 		}
 		NSString * columnId = [aTableColumn identifier];
-		NSLog(@"Looking for cell with label \"%s\"", [columnId UTF8String]);
 		DataCellIterator * cellIter = cell_iter_new(page_row_at_index(page, rowIndex));
 		DataCell * cell = NULL;
 		do {
-			NSLog(@"Iterating over %d cells", page_row_at_index(page, rowIndex)->cellsCount);
-			
 			cell = cell_iter_next_cell(cellIter);
 			if (cell) {
 				//get cell family
@@ -132,7 +131,6 @@
 					if (cell->cellValueSize > 0) {
 						return [NSString stringWithFormat:@"%s", cell->cellValue];
 					} else {
-						NSLog(@"Warnning! Cell value size is zero");
 						return @"";
 					}
 					 
