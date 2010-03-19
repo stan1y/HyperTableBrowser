@@ -69,8 +69,15 @@
 			//refresh keys if none
 			[self refreshKeysFor:objectType fromConnection:connection];
 			keys = [keysDict objectForKey:objectType];
-			if (!keys || keys->cellsCount <= 0) {
+			if (!keys) {
 				//ok, we've tried and failed
+				[[NSApp delegate] setMessage:@"Failed to get keys"];
+				[[NSApp delegate] indicateDone];
+				return;
+			}
+			if (keys->cellsCount <= 0 ) {
+				//no data in table
+				[[NSApp delegate] setMessage:@"Table is empty"];
 				[[NSApp delegate] indicateDone];
 				return;
 			}
@@ -112,13 +119,6 @@
 		}
 		else {
 			[nextPageButton setEnabled:YES];
-		}
-		
-		if (startIndex == stopIndex) {
-			//no data in table
-			[[NSApp delegate] setMessage:@"Table is empty"];
-			[[NSApp delegate] indicateDone];
-			return;
 		}
 		
 		[[NSApp delegate]setMessage:[NSString stringWithFormat:@"Requesting page %d-%d from %s to %s.\n", 
