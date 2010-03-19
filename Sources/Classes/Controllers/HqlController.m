@@ -51,6 +51,11 @@
 	}
 	
 	id con = [self getSelectedConnection];
+	if (!con) {
+		[self indicateDone];
+		[self setMessage:@"Failed to get connection!"];
+		return;
+	}
 	[self runQuery:[hqlQueryField stringValue] withConnection:con];
 }
 
@@ -90,7 +95,6 @@
 	dispatch_async(dispatch_get_global_queue(0, 0), ^{
 		DataPage * page = page_new();
 		int rc = hql_query([connection hqlClient], page, [query UTF8String]);
-		[self indicateDone];
 		
 		dispatch_async(dispatch_get_main_queue(), ^{
 			[self indicateDone];
@@ -102,7 +106,7 @@
 													 [[ThriftConnection errorFromCode:rc] UTF8String]]];
 			}
 			else {
-				[pageSource setPage:page];
+				[pageSource setPage:page withTitle:@"HQL"];
 				[pageSource reloadDataForView:pageView];
 				[self setMessage:[NSString stringWithFormat:
 													 @"Query returned %d object(s).",
