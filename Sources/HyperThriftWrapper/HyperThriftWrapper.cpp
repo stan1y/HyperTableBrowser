@@ -149,7 +149,6 @@ int get_page(HTHRIFT hThrift, DataPage * page, const char * objectTypeId,
 		int index = 0;
 		std::vector<Cell> cells;
 		do {
-			
 			cells.clear();
 			client->next_row(cells, scaner);
 			//convert row to wrapped types
@@ -158,24 +157,24 @@ int get_page(HTHRIFT hThrift, DataPage * page, const char * objectTypeId,
 				index++;
 			}
 			
-		} while (cells.size() > 0);		
+		} while (cells.size() > 0);
 		client->close_scanner(scaner);
 
 		return T_OK;
 	}
 	catch (TTransportException & ex) {
 		if (strstr(ex.what(), "EAGAIN")) {
-			printf("get_objects: timeout: %s\n", ex.what());
+			printf("get_page: timeout: %s\n", ex.what());
 			return T_ERR_TIMEOUT;
 			
 		}
 		else {
-			printf("get_objects: exception: %s\n", ex.what());
+			printf("get_page: exception: %s\n", ex.what());
 			return T_ERR_TRANSPORT;
 		}
 	}
 	catch (ClientException & ex) {
-		printf("get_objects: client exception: %s\n", ex.what());
+		printf("get_page: client exception: %s\n", ex.what());
 		return T_ERR_CLIENT;
 	}
 }
