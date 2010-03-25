@@ -59,10 +59,10 @@
 - (void)setMessage:(NSString*)message;
 
 //start operation indicator
-- (void)indicateBusy;
+- (void) indicateBusy;
 
 //stop operation indicator
-- (void)indicateDone;
+- (void) indicateDone;
 
 //shows or hides HQL Iterpreter
 - (IBAction)showHideHqlInterperter:(id)sender;

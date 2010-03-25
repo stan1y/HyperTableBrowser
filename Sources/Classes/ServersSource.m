@@ -69,7 +69,7 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
 {
 	if ([item class] == [NSManagedObject class])
 		return [item valueForKey:@"hostname"];
-	else 
+	else
 		return item;
 }
 
