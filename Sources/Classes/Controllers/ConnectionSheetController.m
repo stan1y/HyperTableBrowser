@@ -100,38 +100,32 @@
 				
 				if (connectedServer != nil) {
 					NSLog(@"Updating connection to server %s", [hostname UTF8String]);
-					//remove server from datestore
-					[[[NSApp delegate] managedObjectContext] deleteObject:connectedServer];
-					//save 
-					NSError * error = nil;
-					[[[NSApp delegate] managedObjectContext] save:&error];
-					if (error) {
-						[[NSApp delegate] setMessage:@"Failed to remove server from persistent store"];
-					}
 				}
 				else {
 					NSLog(@"Adding new server %s", [hostname UTF8String]);
+					connectedServer = [HyperTableServer serverWithDefaultContext];
+					[[[NSApp delegate] managedObjectContext] insertObject:connectedServer];
+					
+					//save
+					NSError * error = nil;
+					[[[NSApp delegate] managedObjectContext] save:&error];
+					if (error) {
+						[[NSApp delegate] setMessage:@"Failed to add server to persistent store"];
+					}
 				}
-				
-				connectedServer = [HyperTableServer serverWithDefaultContext];
-				[[[NSApp delegate] managedObjectContext] insertObject:connectedServer];
-				
+								
 				//update settings
 				[connectedServer setValue:hostname forKey:@"hostname"];
 				NSNumber * portNum = [NSNumber numberWithInt:port];
 				[connectedServer setValue:portNum forKey:@"port"];
 				[[[NSApp delegate] managedObjectContext] insertObject:connectedServer];
 				
+				
+				
 				//set connection
 				[[[NSApp delegate] serversManager] setConnection:connection forServer:connectedServer];
 				
-				//save
-				NSLog(@"Saving server");
-				NSError * error = nil;
-				[[[NSApp delegate] managedObjectContext] save:&error];
-				if (error) {
-					[[NSApp delegate] setMessage:@"Failed to add server to persistent store"];
-				}
+				
 				
 				//close sheet
 				[connectionSheet orderOut:nil];
