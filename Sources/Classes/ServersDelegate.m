@@ -25,6 +25,7 @@
 		}
 		else {
 			id serverItem = [ov parentForItem:item];
+			selectedServer = serverItem;
 			ThriftConnection * connection = [[[NSApp delegate] serversManager] getConnection:[serverItem valueForKey:@"hostname"]];
 			if (connection) {
 				NSLog(@"Displaying first page of table %s", [item UTF8String]);
