@@ -18,13 +18,13 @@
 - (NSArray *)getServers;
 
 - (HyperTableServer *)getServer:(NSString *)hostname;
-- (void)reconnectServer:(HyperTableServer *)server;
+- (void)reconnectServer:(NSManagedObject *)server;
 
 - (ThriftConnection *)getConnection:(NSString *)hostname;
-- (ThriftConnection *)getConnectionForServer:(HyperTableServer *)server;
+- (ThriftConnection *)getConnectionForServer:(NSManagedObject *)server;
 
 - (void)setConnection:(ThriftConnection *)connection 
-			forServer:(HyperTableServer*)server;
+			forServer:(NSManagedObject*)server;
 
 
 @end

@@ -11,7 +11,7 @@
 
 @implementation ServersManager
 
-- (void)reconnectServer:(HyperTableServer *)server {
+- (void)reconnectServer:(NSManagedObject *)server {
 	NSLog(@"Servers Manager : reconnectServer");
 	
 	//show connection dialog
@@ -24,6 +24,7 @@
 	NSLog(@"Servers Manager : getServers");
 	NSFetchRequest * r = [[NSFetchRequest alloc] init];
 	[r setEntity:[HyperTableServer entityDescription]];
+	[r setIncludesPendingChanges:YES];
 	NSError * err = nil;
 	NSArray * serversArray = [[[NSApp delegate] managedObjectContext] executeFetchRequest:r error:&err];
 	if (err) {
@@ -58,12 +59,12 @@
 	}
 	return [connectionsCache objectForKey:hostname];
 }
-- (ThriftConnection *)getConnectionForServer:(HyperTableServer *)server {
+- (ThriftConnection *)getConnectionForServer:(NSManagedObject *)server {
 	return [self getConnection:[server valueForKey:@"hostname"]];
 }
 
 - (void)setConnection:(ThriftConnection *)connection 
-			forServer:(HyperTableServer*)server
+			forServer:(NSManagedObject*)server
 {
 	NSLog(@"Servers Manager : setConnection");
 	if (!connectionsCache) {
