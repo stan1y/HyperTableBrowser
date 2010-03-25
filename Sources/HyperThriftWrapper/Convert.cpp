@@ -22,7 +22,6 @@ void convert_row(DataPage * page, std::vector<Cell> cells)
 	//add revision cell
 	char str_revision[255];
 	snprintf(str_revision, 255, "%d\0", cells[0].revision);
-	printf("Converting row with %d revision\n", cells[0].revision);
 	DataCell * cell = cell_new(NULL, NULL);
 	cell_set(cell, "app", "revision", str_revision);
 	row_append(row, cell);
