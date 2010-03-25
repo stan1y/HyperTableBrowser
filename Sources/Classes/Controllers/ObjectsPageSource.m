@@ -14,7 +14,8 @@
 @synthesize objectsPageField, objectsPageView, \
 	lastDisplayedObjectType, lastUsedConnection, \
 	lastDisplayedPageNumber, pageSizeTextField, \
-	copyObjectKeyButton, selectedObjectKey;
+	copyObjectKeyButton, selectedObjectKey, refreshButton, \
+	nextPageButton, prevPageButton;
 
 - (void)awakeFromNib {
 	//init pages container
@@ -23,7 +24,7 @@
 
 - (BOOL)tableView:(NSTableView *)aTableView 
   shouldSelectRow:(NSInteger)rowIndex {
-	if (!self.page) {
+	if (!page) {
 		[selectedObjectKey setTitleWithMnemonic:@"Nothing selected"];
 		[copyObjectKeyButton setEnabled:NO];
 		return NO;
@@ -59,119 +60,110 @@
 	[self setLastDisplayedPageNumber:number];
 	[self setLastDisplayedObjectType:objectType];
 	[self setLastUsedConnection:connection];
-	
-	//start page reading
-	dispatch_async(dispatch_get_global_queue(0, 0), ^{
-		
-		//get keys
-		DataRow * keys = [keysDict objectForKey:objectType];
+
+	//get keys
+	DataRow * keys = (DataRow *)[keysDict objectForKey:objectType];
+	if (!keys) {
+		//refresh keys if none
+		[self refreshKeysFor:objectType fromConnection:connection];
+		keys = (DataRow *)[keysDict objectForKey:objectType];
 		if (!keys) {
-			//refresh keys if none
-			[self refreshKeysFor:objectType fromConnection:connection];
-			keys = [keysDict objectForKey:objectType];
-			if (!keys) {
-				//ok, we've tried and failed
-				[[NSApp delegate] setMessage:@"Failed to get keys"];
-				[[NSApp delegate] indicateDone];
-				return;
-			}
-			if (keys->cellsCount <= 0 ) {
-				//no data in table
-				[[NSApp delegate] setMessage:@"Table is empty"];
-				[[NSApp delegate] indicateDone];
-				return;
-			}
-		}
-		
-		//calculate start key index.
-		int startIndex = 0;
-		if (number > 1) {
-			startIndex = (number - 1) * size;
-		}
-				
-		//calculate stop key index
-		int stopIndex = startIndex + size - 1;
-		if (stopIndex > keys->cellsCount-1) {
-			stopIndex = keys->cellsCount-1;
-		}
-		
-		//set start key
-		DataCell * startCell = row_cell_at_index(keys, startIndex);
-		char * startRow = (char*)malloc(sizeof(char) * startCell->cellValueSize + 1);
-		strncpy(startRow, startCell->cellValue, startCell->cellValueSize + 1);
-		
-		
-		//set stop key
-		DataCell * stopCell = row_cell_at_index(keys, stopIndex);
-		char * stopRow = (char*)malloc(sizeof(char) * stopCell->cellValueSize + 1);
-		strncpy(stopRow, stopCell->cellValue, stopCell->cellValueSize + 1);
-		
-		//unlock controls for page switching
-		if (number > 1) {
-			[prevPageButton setEnabled:YES];
-		}
-		else {
-			[prevPageButton setEnabled:NO];
-		}
-		
-		if (stopIndex == keys->cellsCount-1) {
-			[nextPageButton setEnabled:NO];
-		}
-		else {
-			[nextPageButton setEnabled:YES];
-		}
-		
-		[[NSApp delegate]setMessage:[NSString stringWithFormat:@"Requesting page %d-%d from %s to %s.\n", 
-											   startIndex,
-											   stopIndex,
-											   startRow,
-											   stopRow]];
-		
-		//get objects page from thrift
-		DataPage * receivedPage = page_new();
-		int rc = get_page([connection thriftClient], receivedPage, [objectType UTF8String], startRow, stopRow);
-		
-		//free args
-		free(stopRow);
-		free(startRow);
-		
-		dispatch_async(dispatch_get_main_queue(), ^{
-			if (rc == T_OK) {
-				//display message
-				[[NSApp delegate]setMessage:[NSString stringWithFormat:@"Received %d objects.\n", receivedPage->rowsCount]];
-				
-				//update page info
-				NSString * pageInfo = [NSString stringWithFormat:@"Page %d with %d (of %d requested) object(s) %s",
-									   number,
-									   receivedPage->rowsCount,
-									   size,
-									   [[self lastDisplayedObjectType] UTF8String]];
-				[objectsPageField setTitleWithMnemonic:pageInfo];
-				
-				//display received page with PageSource:setPage/reloadDataForView
-				[self setPage:receivedPage withTitle:objectType];
-				[self reloadDataForView:objectsPageView];
-				//allow refresh
-				[refreshButton setEnabled:YES];
-			}
-			else {
-				//disabled controls
-				[refreshButton setEnabled:NO];
-				[nextPageButton setEnabled:NO];
-				[prevPageButton setEnabled:NO];
-				[objectsPageField setTitleWithMnemonic:@"There was an error fetching data page"];
-				[[NSApp delegate] setMessage:[ThriftConnection errorFromCode:rc]];
-			}
+			//ok, we've tried and failed
+			[[NSApp delegate] setMessage:@"Failed to get keys"];
 			[[NSApp delegate] indicateDone];
-		});
-	});
+			return;
+		}
+		if (keys->cellsCount <= 0 ) {
+			//no data in table
+			[[NSApp delegate] setMessage:@"Table is empty"];
+			[[NSApp delegate] indicateDone];
+			return;
+		}
+	}
+	
+	//calculate start key index.
+	int startIndex = 0;
+	if (number > 1) {
+		startIndex = (number - 1) * size;
+	}
+	
+	//calculate stop key index
+	int stopIndex = startIndex + size - 1;
+	if (stopIndex > keys->cellsCount-1) {
+		stopIndex = keys->cellsCount-1;
+	}
+	
+	//set start key
+	DataCell * startCell = row_cell_at_index(keys, startIndex);
+	char * startRow = (char*)malloc(sizeof(char) * startCell->cellValueSize + 1);
+	strncpy(startRow, startCell->cellValue, startCell->cellValueSize + 1);
+	
+	
+	//set stop key
+	DataCell * stopCell = row_cell_at_index(keys, stopIndex);
+	char * stopRow = (char*)malloc(sizeof(char) * stopCell->cellValueSize + 1);
+	strncpy(stopRow, stopCell->cellValue, stopCell->cellValueSize + 1);
+	
+	//unlock controls for page switching
+	if (number > 1) {
+		[prevPageButton setEnabled:YES];
+	}
+	else {
+		[prevPageButton setEnabled:NO];
+	}
+	
+	if (stopIndex == keys->cellsCount-1) {
+		[nextPageButton setEnabled:NO];
+	}
+	else {
+		[nextPageButton setEnabled:YES];
+	}
+	
+	[[NSApp delegate]setMessage:[NSString stringWithFormat:@"Requesting page %d-%d from %s to %s.\n", 
+								 startIndex,
+								 stopIndex,
+								 startRow,
+								 stopRow]];
+	
+	DataPage * receivedPage = page_new();
+	int rc = get_page([connection thriftClient], receivedPage, [objectType UTF8String], startRow, stopRow);
+	[[NSApp delegate] indicateDone];
+	
+	NSLog(@"Page code is %d", rc);
+	if (rc == T_OK) {
+		//display message
+		[[NSApp delegate]setMessage:[NSString stringWithFormat:@"Received %d objects.\n", receivedPage->rowsCount]];
+		
+		//update page info
+		NSString * pageInfo = [NSString stringWithFormat:@"Page %d with %d (of %d requested) object(s) %s",
+							   number,
+							   receivedPage->rowsCount,
+							   size,
+							   [[self lastDisplayedObjectType] UTF8String]];
+		[objectsPageField setTitleWithMnemonic:pageInfo];
+		
+		//display received page with PageSource:setPage/reloadDataForView
+		[self setPage:receivedPage withTitle:objectType];
+		[self reloadDataForView:objectsPageView];
+		//allow refresh
+		[refreshButton setEnabled:YES];
+	}
+	else {
+		[[NSApp delegate] setMessage:[ThriftConnection errorFromCode:rc]];
+		//disabled controls
+		[refreshButton setEnabled:NO];
+		[nextPageButton setEnabled:NO];
+		[prevPageButton setEnabled:NO];
+	}
+	free(stopRow);
+	free(startRow);
 }
 
 - (void)refreshKeysFor:(NSString *)objectType
 		fromConnection:(ThriftConnection *)conenction;
 {
 	//remove old keys of present
-	DataRow * oldKeys = [keysDict objectForKey:objectType];
+	DataRow * oldKeys = (DataRow *)[keysDict objectForKey:objectType];
 	if (oldKeys) {
 		row_clear(oldKeys);
 		free(oldKeys);

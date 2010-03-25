@@ -154,6 +154,8 @@
    forTableColumn:(NSTableColumn *)aTableColumn 
 			  row:(NSInteger)rowIndex 
 {
+	NSLog(@"Modifing cell at index %d, column %s", rowIndex, [[aTableColumn identifier] UTF8String]);
+	
 	//modify cell
 	if (page == nil) {
 		return;
@@ -173,9 +175,9 @@
 			else {
 				cellColumn = cellFamily;
 			}
+			NSLog(@"Checking cell %s", [cellColumn UTF8String]);
 			
-			NSString * columnId = [aTableColumn identifier];
-			if (strcmp([cellColumn UTF8String], [columnId UTF8String]) == 0) {
+			if (strcmp([cellColumn UTF8String], [[aTableColumn identifier] UTF8String]) == 0) {
 				break;
 			}
 		}
@@ -184,6 +186,8 @@
 	free(cellIter);
 	
 	if (cell) {
+		NSLog(@"Setting value: %s", [newValue UTF8String]);
+		
 		//set value
 		if ([newValue length] > cell->cellValueSize) {
 			realloc(cell->cellValue, sizeof(char) * ([newValue length] + 1));
@@ -191,9 +195,14 @@
 		}
 		strncpy(cell->cellValue, [newValue UTF8String], ([newValue length] + 1));
 		
-		id srv = [[NSApp delegate] getCurrentServer];
+		id srv = [[[NSApp delegate] serversDelegate] selectedServer];
+		id connection = [[[NSApp delegate] serversManager] getConnection:[srv valueForKey:@"hostname"]];
+		if (!connection) {
+			NSLog(@"No connection for server with title %s", [[srv title] UTF8String]);
+			return;
+		}
 		dispatch_async(dispatch_get_global_queue(0, 0), ^{
-			int rc = set_row([[srv objectForKey:@"connection"] thriftClient], row, [pageTitle UTF8String]);
+			int rc = set_row([connection thriftClient], row, [pageTitle UTF8String]);
 			dispatch_async(dispatch_get_main_queue(), ^{
 				[[NSApp delegate] indicateDone];
 				if (rc != T_OK) {
@@ -207,15 +216,18 @@
 			});
 		});
 	}
+	else {
+		NSLog(@"Cell not found!");
+	}
+
 }
 
-- (void)tableView:(NSTableView *)aTableView sortDescriptorsDidChange:(NSArray *)oldDescriptors {
-}
-
-- (NSDragOperation)tableView:(NSTableView *)aTableView validateDrop:(id < NSDraggingInfo >)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)operation {
-}
-
-- (BOOL)tableView:(NSTableView *)aTableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard *)pboard {
+- (void)editColumn:(NSInteger)columnIndex 
+			   row:(NSInteger)rowIndex 
+		 withEvent:(NSEvent *)theEvent 
+			select:(BOOL)flag
+{
+	NSLog(@"Edit cell at %d:%d", columnIndex, rowIndex);
 }
 
 
