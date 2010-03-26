@@ -51,7 +51,6 @@
 		76DB3DDC112A7AEF00B2C2EB /* HyperTableServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DB3DDB112A7AEF00B2C2EB /* HyperTableServer.m */; };
 		76DB3E4C112A83D900B2C2EB /* ServersManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DB3E4B112A83D900B2C2EB /* ServersManager.m */; };
 		76E4115810D9374900876468 /* HqlInterperter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76E4115610D9374900876468 /* HqlInterperter.xib */; };
-		76E4116010D939EF00876468 /* HqlInterpreter.m in Sources */ = {isa = PBXBuildFile; fileRef = 76E4115F10D939EF00876468 /* HqlInterpreter.m */; };
 		76EB165B10FDCC810047F75B /* ServersSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EB165A10FDCC810047F75B /* ServersSource.m */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -139,8 +138,6 @@
 		76DB3E4A112A83D900B2C2EB /* ServersManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServersManager.h; path = Sources/Classes/ServersManager.h; sourceTree = "<group>"; };
 		76DB3E4B112A83D900B2C2EB /* ServersManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServersManager.m; path = Sources/Classes/ServersManager.m; sourceTree = "<group>"; };
 		76E4115710D9374900876468 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/HqlInterperter.xib; sourceTree = "<group>"; };
-		76E4115E10D939EF00876468 /* HqlInterpreter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HqlInterpreter.h; path = Sources/Classes/HqlInterpreter.h; sourceTree = "<group>"; };
-		76E4115F10D939EF00876468 /* HqlInterpreter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HqlInterpreter.m; path = Sources/Classes/HqlInterpreter.m; sourceTree = "<group>"; };
 		76EB165910FDCC800047F75B /* ServersSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServersSource.h; path = Sources/Classes/ServersSource.h; sourceTree = "<group>"; };
 		76EB165A10FDCC810047F75B /* ServersSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServersSource.m; path = Sources/Classes/ServersSource.m; sourceTree = "<group>"; };
 		76FBE49D10D38E4500006E56 /* libthrift.a */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; name = libthrift.a; path = /opt/local/lib/libthrift.a; sourceTree = "<absolute>"; };
@@ -199,8 +196,6 @@
 				7677367510CE88C800DDDCC6 /* ThriftConnection.m */,
 				767A072010CFD5D300B6739F /* ThriftConnectionInfo.h */,
 				767A072110CFD5D400B6739F /* ThriftConnectionInfo.m */,
-				76E4115E10D939EF00876468 /* HqlInterpreter.h */,
-				76E4115F10D939EF00876468 /* HqlInterpreter.m */,
 				76DB3E4A112A83D900B2C2EB /* ServersManager.h */,
 				76DB3E4B112A83D900B2C2EB /* ServersManager.m */,
 			);
@@ -523,7 +518,6 @@
 				761FDAC810D0D33F00D2EEFF /* ConnectionSheetController.m in Sources */,
 				7689234F10D8334B00B5E024 /* PageSource.m in Sources */,
 				768C58EC10D8CC4200D5DB91 /* ObjectsPageSource.m in Sources */,
-				76E4116010D939EF00876468 /* HqlInterpreter.m in Sources */,
 				76081DA410E255B5005F668F /* ServersDelegate.m in Sources */,
 				76081DA710E255DB005F668F /* HyperTableBrowser_AppDelegate.m in Sources */,
 				76081DAA10E255F6005F668F /* main.m in Sources */,
