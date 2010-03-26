@@ -14,7 +14,7 @@
 
 @interface HqlController : NSObject {
 	NSWindow *window;
-	NSTextField * hqlQueryField;
+	NSTextView * hqlQuery;
 	NSButton * goButton;
 	NSProgressIndicator * indicator;
 	NSTextField * statusField;
@@ -29,7 +29,7 @@
 }
 
 @property (nonatomic, retain) IBOutlet NSWindow *window;
-@property (assign) IBOutlet NSTextField * hqlQueryField;
+@property (assign) IBOutlet NSTextView * hqlQuery;
 @property (assign) IBOutlet NSButton * goButton;
 @property (assign) IBOutlet NSPopUpButton * serverSelector;
 @property (assign) IBOutlet PageSource * pageSource;

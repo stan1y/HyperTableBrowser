@@ -10,14 +10,20 @@
 
 
 @implementation HqlController
-@synthesize window, goButton, hqlQueryField, pageSource, \
+@synthesize window, goButton, hqlQuery, pageSource, \
 	pageView, serverSelector, indicator, statusField;
+
+- (BOOL)shouldChangeTextInRange:(NSRange)affectedCharRange 
+			  replacementString:(NSString *)replacementString
+{
+	NSLog(@"%s", [replacementString UTF8String]);
+	return YES;
+}
 
 - (IBAction)done:(id)sender {
 	//clear
 	[pageSource setPage:nil];
 	[pageSource reloadDataForView:pageView];
-	[hqlQueryField setStringValue:@""];
 	
 	[[[NSApp delegate] showHqlInterperterMenuItem] setTitle:@"Show HQL Browser"];
 	
@@ -44,7 +50,9 @@
 	[self indicateBusy];
 	[self setMessage:@"Executing HQL..."];
 	
-	if ([[hqlQueryField stringValue] length] <= 0) {
+	NSString * hqlQueryText = [[hqlQuery textStorage] string];
+	
+	if ([hqlQueryText length] <= 0) {
 		[self indicateDone];
 		[self setMessage:@"Empty query!"];
 		return;
@@ -52,11 +60,11 @@
 	
 	id con = [self getSelectedConnection];
 	if (!con) {
+		[self setMessage:@"You are not connected to selected server."];
 		[self indicateDone];
-		[self setMessage:@"Failed to get connection!"];
 		return;
 	}
-	[self runQuery:[hqlQueryField stringValue] withConnection:con];
+	[self runQuery:hqlQueryText withConnection:con];
 }
 
 - (IBAction)updateConnections:(id)sender
@@ -76,13 +84,14 @@
 	else {
 		[serverSelector setEnabled:YES];
 		[goButton setEnabled:YES];
+		[self setMessage:[NSString stringWithFormat:@"%d Servers available", [serversArray count]] ];
 	}
 }
 
 - (id)getSelectedConnection {
 	NSLog(@"Get selected connection");
 	if (![[serverSelector itemArray] count] < 0) {
-		[self setMessage:@"There are no connected server. You need to establish connection before executing HQL."];
+		[self setMessage:@"There are no connected servers. You need to establish connection before executing HQL."];
 		return nil;
 	}
 	

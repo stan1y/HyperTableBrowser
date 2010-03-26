@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import <ThriftConnection.h>
 #import <ConnectionSheetController.h>
-#import <HqlInterpreter.h>
+#import <HqlController.h>
 #import <ServersDelegate.h>
 #import <ServersManager.h>
 
@@ -33,10 +33,10 @@
 	ServersDelegate * serversDelegate;
 	ServersManager * serversManager;
 	
-	//interpreter inst
-	HqlInterpreter * hqlInst;
+	HqlController * hqlController;
 }
 
+@property (assign) IBOutlet HqlController * hqlController;
 @property (nonatomic, retain) IBOutlet NSWindow *window;
 
 @property (assign) IBOutlet ConnectionSheetController * connectionSheetController;
@@ -70,6 +70,4 @@
 //shows or hides Objects browser
 - (IBAction)showHideObjectsBrowser:(id)sender;
 
-//create and display HQL iterpreter window
-- (void)openHqlInterpreter;
 @end
