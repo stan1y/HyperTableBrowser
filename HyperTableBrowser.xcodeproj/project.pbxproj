@@ -46,6 +46,7 @@
 		768C5A5410D8EF7300D5DB91 /* libHyperThriftWrapper.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 767A3CB310D5AA6500BAE46E /* libHyperThriftWrapper.dylib */; };
 		768C5A5510D8EF8300D5DB91 /* TestWrapper.c in Sources */ = {isa = PBXBuildFile; fileRef = 767A3C8710D5A97600BAE46E /* TestWrapper.c */; };
 		7695960210D3B23F00714729 /* libthrift.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 76FBE49D10D38E4500006E56 /* libthrift.a */; };
+		76B02666115CFA9E003854D2 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 76B02665115CFA9E003854D2 /* Credits.rtf */; };
 		76B3C5C010DA328100078742 /* DataPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 76B3C5BE10DA328100078742 /* DataPage.h */; };
 		76B3C5C110DA328200078742 /* DataPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76B3C5BF10DA328100078742 /* DataPage.cpp */; };
 		76DB3DDC112A7AEF00B2C2EB /* HyperTableServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DB3DDB112A7AEF00B2C2EB /* HyperTableServer.m */; };
@@ -131,6 +132,7 @@
 		768C58EB10D8CC4200D5DB91 /* ObjectsPageSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ObjectsPageSource.m; path = Sources/Classes/Controllers/ObjectsPageSource.m; sourceTree = "<group>"; };
 		769595DB10D3B09D00714729 /* TestWrapper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TestWrapper; sourceTree = BUILT_PRODUCTS_DIR; };
 		769595FD10D3B21700714729 /* TestThriftGen */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TestThriftGen; sourceTree = BUILT_PRODUCTS_DIR; };
+		76B02665115CFA9E003854D2 /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		76B3C5BE10DA328100078742 /* DataPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataPage.h; sourceTree = "<group>"; };
 		76B3C5BF10DA328100078742 /* DataPage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataPage.cpp; sourceTree = "<group>"; };
 		76DB3DDA112A7AEF00B2C2EB /* HyperTableServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HyperTableServer.h; path = Sources/Classes/HyperTableServer.h; sourceTree = "<group>"; };
@@ -264,6 +266,7 @@
 				8D1107310486CEB800E47090 /* HyperTableBrowser-Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				2F7446970DB6B7EA00F9684A /* HyperTableBrowser.xib */,
+				76B02665115CFA9E003854D2 /* Credits.rtf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -463,6 +466,7 @@
 				2F7446990DB6B7EA00F9684A /* HyperTableBrowser.xib in Resources */,
 				767A3C5410D5A8A700BAE46E /* HyperTableBrowser.icns in Resources */,
 				76E4115810D9374900876468 /* HqlInterperter.xib in Resources */,
+				76B02666115CFA9E003854D2 /* Credits.rtf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
