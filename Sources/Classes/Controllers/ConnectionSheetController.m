@@ -18,8 +18,24 @@
 	[connectButton setTitle:@"Connect"];
 	[statusField setHidden:YES];
 	
-	//reload servers view
-	[serversView reloadItem:nil reloadChildren:YES];
+	//remove server from view if it
+	//was an attempt to reconnect
+	NSString * hostname = [addressField stringValue];
+	id srv = [[[NSApp delegate] serversManager] getServer:hostname ];
+	if (srv) {
+		NSLog(@"Removing server %s from view. Reconnect was canceled.", [hostname UTF8String]);
+		
+		NSError * error = nil;
+		[[[NSApp delegate] managedObjectContext] deleteObject:srv];
+		[[[NSApp delegate] managedObjectContext] save:&error];
+		if (error) {
+			[[NSApp delegate] setMessage:@"Failed to remove server from persistent store"];
+		}
+		
+		//reload servers view
+		[serversView reloadItem:nil reloadChildren:YES];
+	}
+
 	
 	//close sheet
 	[[NSApp delegate] setMessage:@"Connection canceled."];
@@ -118,9 +134,6 @@
 				[connectedServer setValue:hostname forKey:@"hostname"];
 				NSNumber * portNum = [NSNumber numberWithInt:port];
 				[connectedServer setValue:portNum forKey:@"port"];
-				[[[NSApp delegate] managedObjectContext] insertObject:connectedServer];
-				
-				
 				
 				//set connection
 				[[[NSApp delegate] serversManager] setConnection:connection forServer:connectedServer];
