@@ -11,7 +11,8 @@
 
 @implementation ThriftConnectionInfo
 
-@synthesize address, port;
+@synthesize address;
+@synthesize port;
 
 + (id)infoWithAddress:(NSString*)address 
 			  andPort:(int)port

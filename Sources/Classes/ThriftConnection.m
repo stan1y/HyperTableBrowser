@@ -11,7 +11,9 @@
 
 @implementation ThriftConnection
 
-@synthesize connInfo, thriftClient, hqlClient;
+@synthesize connInfo;
+@synthesize thriftClient;
+@synthesize hqlClient;
 
 - (NSMutableArray *)tables 
 { 

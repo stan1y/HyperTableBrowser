@@ -11,11 +11,17 @@
 
 @implementation ObjectsPageSource
 
-@synthesize objectsPageField, objectsPageView, \
-	lastDisplayedObjectType, lastUsedConnection, \
-	lastDisplayedPageNumber, pageSizeTextField, \
-	copyObjectKeyButton, selectedObjectKey, refreshButton, \
-	nextPageButton, prevPageButton;
+@synthesize objectsPageField;
+@synthesize objectsPageView;
+@synthesize	lastDisplayedObjectType;
+@synthesize lastUsedConnection;
+@synthesize lastDisplayedPageNumber;
+@synthesize pageSizeTextField;
+@synthesize	copyObjectKeyButton;
+@synthesize selectedObjectKey;
+@synthesize refreshButton;
+@synthesize	nextPageButton;
+@synthesize prevPageButton;
 
 - (void)awakeFromNib {
 	//init pages container
@@ -32,7 +38,6 @@
 	[copyObjectKeyButton setEnabled:YES];
 	
 	DataRow * row = page_row_at_index(self.page, rowIndex);
-	DataRow * keysRow = [keysDict objectForKey:[self lastDisplayedObjectType]];
 	
 	//show row key
 	[selectedObjectKey setTitleWithMnemonic:[NSString stringWithFormat:@"Selected object key: %s",

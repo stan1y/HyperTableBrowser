@@ -12,7 +12,7 @@
 
 @interface ObjectsPageSource : PageSource {
 	
-	// table_name->DataRow with keys for rows
+	// table_name:DataRow with keys for rows
 	NSMutableDictionary * keysDict;
 	
 	//view used to display source
