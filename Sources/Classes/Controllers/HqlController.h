@@ -7,13 +7,13 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#
 #import <PageSource.h>
 #import <ThriftConnection.h>
 #import <HyperTableServer.h>
 #include <HyperThriftHql.h>
 
-@interface HqlController : NSObject {
-	NSWindow *window;
+@interface HqlController : NSWindowController {
 	NSTextView * hqlQuery;
 	NSButton * goButton;
 	NSProgressIndicator * indicator;
@@ -28,7 +28,6 @@
 	NSTableView * pageView;
 }
 
-@property (nonatomic, retain) IBOutlet NSWindow *window;
 @property (assign) IBOutlet NSTextView * hqlQuery;
 @property (assign) IBOutlet NSButton * goButton;
 @property (assign) IBOutlet NSPopUpButton * serverSelector;

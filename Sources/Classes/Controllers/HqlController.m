@@ -10,8 +10,19 @@
 
 
 @implementation HqlController
-@synthesize window, goButton, hqlQuery, pageSource, \
-	pageView, serverSelector, indicator, statusField;
+
+@synthesize goButton;
+@synthesize hqlQuery;
+@synthesize pageSource;
+@synthesize	pageView;
+@synthesize serverSelector;
+@synthesize indicator;
+@synthesize statusField;
+
+- (void)dealloc {
+    [[self window] release];
+    [super dealloc];
+}
 
 - (BOOL)shouldChangeTextInRange:(NSRange)affectedCharRange 
 			  replacementString:(NSString *)replacementString
