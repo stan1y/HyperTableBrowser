@@ -10,20 +10,21 @@
 
 @implementation HyperTableBrowser_AppDelegate
 
-@synthesize window, connectMenuItem, connectionSheetController, statusMessageField, statusIndicator, 
-	serversDelegate, showHqlInterperterMenuItem, showBrowserMenuItem, serversManager, hqlController;
+@synthesize window, connectMenuItem, connectionSheetController, statusMessageField, statusIndicator, \
+	serversDelegate, showHqlInterperterMenuItem, showBrowserMenuItem, serversManager, \
+	toolBarController, hqlController;
 
 - (IBAction)showHideHqlInterperter:(id)sender
 {
 	if ([[hqlController window] isVisible]) {
+		[hqlController close];
 		[showHqlInterperterMenuItem setTitle:@"Show HQL Iterpreter"];
-		[[hqlController window] orderOut:nil];
 		return;
 	}
 	else {
 		[hqlController updateConnections:self];
 		[showHqlInterperterMenuItem setTitle:@"Hide HQL Iterpreter"];
-        [[hqlController window] makeKeyAndOrderFront:self];
+        [hqlController showWindow:sender];
 	}
 }
 
@@ -40,20 +41,17 @@
 }
 
 - (void)applicationDidFinishLaunching:(NSApplication *)application 
-{
-	[statusMessageField setHidden:NO];
+{	
+	//set initial status
 	[self setMessage:@"Application started."];
-	
-	//init connections
 	[window setTitle:@"Not connected" ];
+	[statusMessageField setHidden:NO];
 	
-	if (![NSBundle loadNibNamed:@"HqlInterperter" owner:self]) {
+	HqlController * hqlCntrl = [[HqlController alloc] initWithWindowNibName:@"HqlInterperter"];
+	if (!hqlCntrl) {
 		[[NSApp delegate] setMessage:@"Error loading nib for Hql Interpreter!"];
 	}
-	else {
-		[[hqlController window] orderOut:nil];
-	}
-
+	[self setHqlController:hqlCntrl];
 }
 
 - (void)setMessage:(NSString*)message 

@@ -10,6 +10,7 @@
 #import <ThriftConnection.h>
 #import <ConnectionSheetController.h>
 #import <HqlController.h>
+#import <ToolBarController.h>
 #import <ServersDelegate.h>
 #import <ServersManager.h>
 
@@ -34,9 +35,10 @@
 	ServersManager * serversManager;
 	
 	HqlController * hqlController;
+	ToolBarController * toolBarController;
 }
 
-@property (assign) IBOutlet HqlController * hqlController;
+@property (nonatomic, retain) IBOutlet ToolBarController * toolBarController;
 @property (nonatomic, retain) IBOutlet NSWindow *window;
 
 @property (assign) IBOutlet ConnectionSheetController * connectionSheetController;
@@ -54,6 +56,7 @@
 @property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
 
 @property (assign) IBOutlet ServersManager * serversManager;
+@property (assign) HqlController * hqlController;
 
 //show status message on the bottom
 - (void)setMessage:(NSString*)message;
