@@ -14,6 +14,12 @@
 	serversDelegate, showHqlInterperterMenuItem, showBrowserMenuItem, serversManager, \
 	toolBarController, hqlController;
 
+- (void)windowWillClose:(NSNotification *)notification
+{
+	NSLog(@"Objects browser was closed\n");
+	[showBrowserMenuItem setTitle:@"Show Objects Browser"];
+}
+
 - (IBAction)showHideHqlInterperter:(id)sender
 {
 	if ([[hqlController window] isVisible]) {
@@ -28,7 +34,7 @@
 	}
 }
 
--(IBAction)showHideObjectsBrowser:(id)sender 
+-(IBAction)showHideObjectsBrowser:(id)sender
 {
 	if ([[self window] isVisible]) {
 		[showBrowserMenuItem setTitle:@"Show Objects Browser"];
@@ -51,7 +57,7 @@
 	if (!hqlCntrl) {
 		[[NSApp delegate] setMessage:@"Error loading nib for Hql Interpreter!"];
 	}
-	[self setHqlController:hqlCntrl];
+	hqlController = hqlCntrl;
 }
 
 - (void)setMessage:(NSString*)message 

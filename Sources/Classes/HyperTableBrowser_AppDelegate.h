@@ -73,4 +73,7 @@
 //shows or hides Objects browser
 - (IBAction)showHideObjectsBrowser:(id)sender;
 
+//called when objects browser windows is about to close
+- (void)windowWillClose:(NSNotification *)notification;
+
 @end
