@@ -24,6 +24,12 @@
     [super dealloc];
 }
 
+- (void)windowWillClose:(NSNotification *)notification
+{
+	NSLog(@"HQL browser was closed\n");
+	[[[NSApp delegate] showHqlInterperterMenuItem] setTitle:@"Show HQL Browser"];
+}
+
 - (BOOL)shouldChangeTextInRange:(NSRange)affectedCharRange 
 			  replacementString:(NSString *)replacementString
 {

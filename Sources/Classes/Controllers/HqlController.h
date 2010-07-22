@@ -49,5 +49,6 @@
 - (void)indicateBusy;
 //stop operation indicator
 - (void)indicateDone;
-
+//called when hql windows is about to close
+- (void)windowWillClose:(NSNotification *)notification;
 @end
