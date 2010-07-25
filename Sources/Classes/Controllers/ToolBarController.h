@@ -12,13 +12,23 @@
 @interface ToolBarController : NSObject {
 	NSToolbarItem * newTableBtn;
 	NSToolbarItem * dropTableBtn;
+	
+	NSToolbar * toolBar;
+	
+	BOOL allowNewTable;
+	BOOL allowDropTable;
 }
 
 @property (nonatomic, retain) IBOutlet NSToolbarItem * newTableBtn;
 @property (nonatomic, retain) IBOutlet NSToolbarItem * dropTableBtn;
 
+@property (nonatomic, retain) IBOutlet NSToolbar * toolBar;
+
+@property (assign) BOOL allowNewTable;
+@property (assign) BOOL allowDropTable;
+
 - (IBAction)newTable:(id)sender;
 - (IBAction)dropTable:(id)sender;
 - (IBAction)showPreferences:(id)sender;
-
+- (BOOL)validateToolbarItem:(NSToolbarItem *)toolbarItem;
 @end

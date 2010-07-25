@@ -12,11 +12,28 @@
 @synthesize newTableBtn;
 @synthesize dropTableBtn;
 
+@synthesize toolBar;
+
+@synthesize allowNewTable;
+@synthesize allowDropTable;
+
+- (BOOL)validateToolbarItem:(NSToolbarItem *)toolbarItem
+{
+    if ([toolbarItem isEqual:newTableBtn]) {
+		return allowNewTable;
+    } else if ( [toolbarItem isEqual:dropTableBtn]) {
+		return allowDropTable;
+    }
+	else {
+		return YES;
+	}
+}
+
 - (void)awakeFromNib
 {
-	//intialize buttons
-	[newTableBtn setEnabled:NO];
-	[dropTableBtn setEnabled:NO];
+	//disallow buttons
+	allowNewTable = NO;
+	allowDropTable = NO;
 	
 	//prepare preferences window
 	GeneralPreferencesController * general = [[GeneralPreferencesController alloc] initWithNibName:@"PreferencesGeneral" bundle:nil];

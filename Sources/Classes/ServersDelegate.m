@@ -16,16 +16,17 @@
 
 - (BOOL)outlineView:(NSOutlineView *)ov 
    shouldSelectItem:(id)item 
-{
+{	
+	ToolBarController * toolbar = [[NSApp delegate] toolBarController];
 	if (item != nil) {
 		if ([item class] == [NSManagedObject class]){
-			NSLog(@"Server %s selected ", [[item valueForKey:@"hostname"] UTF8String]);
+			NSLog(@"Server \"%s\" selected\n", [[item valueForKey:@"hostname"] UTF8String]);
 
 			//server node selected
 			selectedServer = item;
 			//allow new table
-			[[[[NSApp delegate] toolBarController] newTableBtn] setEnabled:YES];
-			[[[[NSApp delegate] toolBarController] dropTableBtn] setEnabled:NO];
+			toolbar.allowNewTable = YES;
+			toolbar.allowDropTable = NO;
 			
 			NSString * hostname = [item valueForKey:@"hostname"];
 			[[[NSApp delegate] window] setTitle:[NSString stringWithFormat:@"Objects Browser - %s", [hostname UTF8String]] ];
@@ -36,24 +37,26 @@
 			ThriftConnection * connection = [[[NSApp delegate] serversManager] getConnection:[serverItem valueForKey:@"hostname"]];
 			if (connection) {
 				//table selected, so allow buttons in toolbar
-				[[[[NSApp delegate] toolBarController] newTableBtn] setEnabled:YES];
-				[[[[NSApp delegate] toolBarController] dropTableBtn] setEnabled:YES];
+				toolbar.allowNewTable = YES;
+				toolbar.allowDropTable = YES;
 				
-				NSLog(@"Displaying first page of table %s", [item UTF8String]);
+				NSLog(@"Displaying first page of table %s\n", [item UTF8String]);
 				[objectsPageSource showFirstPageFor:item fromConnection:connection];
 			} else {
-				NSLog(@"No connection to display data for table %s", [item UTF8String]);
+				NSLog(@"No connection to display data for table %s\n", [item UTF8String]);
 				return NO;
 			}
 		}
 		//do selection
 		return YES;
 	}
-	//diable toolbar
-	[[[[NSApp delegate] toolBarController] newTableBtn] setEnabled:NO];
-	[[[[NSApp delegate] toolBarController] dropTableBtn] setEnabled:NO];
-	
-	return NO;
+	else {
+		NSLog(@"Disabling toolbar buttons\n");
+		//diable toolbar
+		toolbar.allowNewTable = NO;
+		toolbar.allowDropTable = NO;
+		return NO;
+	}
 }
 
 @end

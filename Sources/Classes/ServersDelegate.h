@@ -10,6 +10,7 @@
 #import <ObjectsPageSource.h>
 #import <HyperTableServer.h>
 #import <ConnectionSheetController.h>
+#import <ToolBarController.h>
 
 @interface ServersDelegate : NSObject {
 	ObjectsPageSource * objectsPageSource;
