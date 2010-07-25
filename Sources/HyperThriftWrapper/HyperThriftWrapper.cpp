@@ -336,3 +336,59 @@ int set_row(HTHRIFT hThrift, DataRow * row, const char * objectTypeId)
 	}
 }
 
+int new_table(HTHRIFT hThrift, const char * name, const char * schema)
+{
+	try {
+		Client *client = (Client*)hThrift;
+		std::string tableName = std::string(name);
+		std::string tableSchema = std::string(schema);
+		//create table
+		client->create_table(tableName, tableSchema);
+				
+		return T_OK;
+	}
+	catch (TTransportException & ex) {
+		if (strstr(ex.what(), "EAGAIN")) {
+			printf("new_table: timeout: %s\n", ex.what());
+			return T_ERR_TIMEOUT;
+			
+		}
+		else {
+			printf("new_table: exception: %s\n", ex.what());
+			return T_ERR_TRANSPORT;
+		}
+	}
+	catch (ClientException & ex) {
+		printf("new_table: client exception: %s\n", ex.message.c_str());
+		return T_ERR_CLIENT;
+	}
+}
+
+//drops table by name
+int drop_table(HTHRIFT hThrift, const char * name)
+{
+	try {
+		Client *client = (Client*)hThrift;
+		std::string tableName = std::string(name);
+		//create table
+		client->drop_table(tableName, true);
+		
+		return T_OK;
+	}
+	catch (TTransportException & ex) {
+		if (strstr(ex.what(), "EAGAIN")) {
+			printf("drop_table: timeout: %s\n", ex.what());
+			return T_ERR_TIMEOUT;
+			
+		}
+		else {
+			printf("drop_table: exception: %s\n", ex.what());
+			return T_ERR_TRANSPORT;
+		}
+	}
+	catch (ClientException & ex) {
+		printf("drop_table: client exception: %s\n", ex.message.c_str());
+		return T_ERR_CLIENT;
+	}
+}
+

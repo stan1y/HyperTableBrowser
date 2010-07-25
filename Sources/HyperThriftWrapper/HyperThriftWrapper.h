@@ -58,7 +58,12 @@ extern "C" {
 	
 	//writes cells from row
 	int set_row(HTHRIFT hThrift, DataRow * row, const char * objectTypeId);
+	
+	//creates new table with specified name and schema
+	int new_table(HTHRIFT hThrift, const char * name, const char * schema);
 
+	//drops table by name
+	int drop_table(HTHRIFT hThrift, const char * name);
 	
 #ifdef __cplusplus
 }
