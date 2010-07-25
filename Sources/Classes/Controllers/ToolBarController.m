@@ -20,9 +20,11 @@
 - (BOOL)validateToolbarItem:(NSToolbarItem *)toolbarItem
 {
     if ([toolbarItem isEqual:newTableBtn]) {
+		NSLog(@"New table allowed: %d\n", allowNewTable);
 		return allowNewTable;
     } else if ( [toolbarItem isEqual:dropTableBtn]) {
 		return allowDropTable;
+		NSLog(@"Drop table allowed: %d\n", allowDropTable);
     }
 	else {
 		return YES;
@@ -31,10 +33,7 @@
 
 - (void)awakeFromNib
 {
-	//disallow buttons
-	allowNewTable = NO;
-	allowDropTable = NO;
-	
+	NSLog(@"Initializing ToolBar buttons\n");
 	//prepare preferences window
 	GeneralPreferencesController * general = [[GeneralPreferencesController alloc] initWithNibName:@"PreferencesGeneral" bundle:nil];
 	[[MBPreferencesController sharedController] setModules:[NSArray arrayWithObjects:general, nil]];

@@ -137,18 +137,19 @@
 				
 				//set connection
 				[[[NSApp delegate] serversManager] setConnection:connection forServer:connectedServer];
-				
-				
-				
-				//close sheet
-				[connectionSheet orderOut:nil];
-				[NSApp endSheet:connectionSheet];
-				
 				//read tables
 				[connection refreshTables];
 				
 				//reload servers view
 				[serversView reloadItem:nil reloadChildren:YES];
+				ToolBarController * toolbar = [[NSApp delegate] toolBarController];
+				toolbar.allowNewTable = YES;
+				
+				//close sheet
+				[connectionSheet orderOut:nil];
+				[NSApp endSheet:connectionSheet];
+				
+				
 			}
 		});
 	});

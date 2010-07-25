@@ -20,21 +20,32 @@
 	ToolBarController * toolbar = [[NSApp delegate] toolBarController];
 	if (item != nil) {
 		if ([item class] == [NSManagedObject class]){
-			NSLog(@"Server \"%s\" selected\n", [[item valueForKey:@"hostname"] UTF8String]);
-
 			//server node selected
 			selectedServer = item;
+			ThriftConnection * connection = [[[NSApp delegate] serversManager] getConnection:[selectedServer valueForKey:@"hostname"]];
 			//allow new table
-			toolbar.allowNewTable = YES;
-			toolbar.allowDropTable = NO;
+			if (connection) {
+				NSLog(@"Server \"%s\" is ready\n", [[item valueForKey:@"hostname"] UTF8String]);
+				
+				toolbar.allowNewTable = YES;
+				toolbar.allowDropTable = NO;
+				
+				NSString * hostname = [item valueForKey:@"hostname"];
+				[[[NSApp delegate] window] setTitle:[NSString stringWithFormat:@"Objects Browser - %s", [hostname UTF8String]] ];
+			}
+			else {
+				NSLog(@"Server \"%s\" is NOT connected!\n", [[item valueForKey:@"hostname"] UTF8String]);
+				
+				toolbar.allowNewTable = NO;
+				toolbar.allowDropTable = NO;
+			}
+
 			
-			NSString * hostname = [item valueForKey:@"hostname"];
-			[[[NSApp delegate] window] setTitle:[NSString stringWithFormat:@"Objects Browser - %s", [hostname UTF8String]] ];
 		}
 		else {
 			id serverItem = [ov parentForItem:item];
 			selectedServer = serverItem;
-			ThriftConnection * connection = [[[NSApp delegate] serversManager] getConnection:[serverItem valueForKey:@"hostname"]];
+			ThriftConnection * connection = [[[NSApp delegate] serversManager] getConnection:[selectedServer valueForKey:@"hostname"]];
 			if (connection) {
 				//table selected, so allow buttons in toolbar
 				toolbar.allowNewTable = YES;
