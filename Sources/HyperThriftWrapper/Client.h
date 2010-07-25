@@ -1,6 +1,6 @@
 /** -*- C++ -*-
  * Copyright (C) 2008  Luke Lu (Zvents, Inc.)
- * Copyright (C) 2009  Stanislav Yudin (K7 Computing Ltd)
+ * Copyright (C) 2009  Stanislav Yudin (AwesomeStanlyLabs Ltd)
  * This file is part of Hypertable.
  *
  * Hypertable is free software; you can redistribute it and/or
@@ -21,6 +21,7 @@
 #define HYPERTABLE_THRIFT_CLIENT_H
 
 // Note: do NOT add any hypertable dependencies in this file
+#include <TApplicationException.h>
 #include <protocol/TBinaryProtocol.h>
 #include <transport/TSocket.h>
 #include <transport/TTransportUtils.h>
