@@ -6,6 +6,7 @@
 #ifndef ClientService_H
 #define ClientService_H
 
+#include <TApplicationException.h>
 #include <TProcessor.h>
 #include "Client_types.h"
 

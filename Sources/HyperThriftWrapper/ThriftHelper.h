@@ -21,7 +21,7 @@
 #define HYPERTABLE_THRIFTHELPER_H
 
 #include <iosfwd>
-#include "gen-cpp/HqlService.h"
+#include "HqlService.h"
 
 namespace Hypertable { namespace ThriftGen {
 
