@@ -19,15 +19,9 @@
 @synthesize indicator;
 @synthesize statusField;
 
-- (void)dealloc {
-    [[self window] release];
-    [super dealloc];
-}
-
 - (void)windowWillClose:(NSNotification *)notification
 {
-	NSLog(@"HQL browser was closed\n");
-	[[[NSApp delegate] showHqlInterperterMenuItem] setTitle:@"Show HQL Browser"];
+	NSLog(@"HQL Interpreter was closed\n");
 }
 
 - (BOOL)shouldChangeTextInRange:(NSRange)affectedCharRange 
@@ -42,14 +36,12 @@
 	[pageSource setPage:nil];
 	[pageSource reloadDataForView:pageView];
 	
-	[[[NSApp delegate] showHqlInterperterMenuItem] setTitle:@"Show HQL Browser"];
-	
 	if([[self window] isVisible] )
-        [[self window] orderOut:nil];
+        [[self window] orderOut:sender];
 }
 
 - (void)setMessage:(NSString*)message {
-	NSLog(@"HQL: %s", [message UTF8String]);
+	NSLog(@"HQL: %s\n", [message UTF8String]);
 	[statusField setTitleWithMnemonic:message];
 }
 
@@ -86,7 +78,9 @@
 
 - (IBAction)updateConnections:(id)sender
 {
-	[self setMessage:@"Updating connections for HQL"];
+	[self setMessage:@"Updating connections..."];
+	[self indicateBusy];
+	
 	//populate selector
 	id serversArray = [[[NSApp delegate] serversManager] getServers];
 	[serverSelector removeAllItems];
@@ -94,15 +88,16 @@
 		[serverSelector addItemWithTitle:[server valueForKey:@"hostname"]];
 	
 	if ([serversArray count] <= 0) {
-		[self setMessage:@"No servers available. Please connect somewhere."];
+		[self setMessage:@"No servers available. Please connect to at least one server."];
 		[serverSelector setEnabled:NO];
 		[goButton setEnabled:NO];
 	}
 	else {
 		[serverSelector setEnabled:YES];
 		[goButton setEnabled:YES];
-		[self setMessage:[NSString stringWithFormat:@"%d Servers available", [serversArray count]] ];
+		[self setMessage:[NSString stringWithFormat:@"%d server(s) available", [serversArray count]] ];
 	}
+	[self indicateDone];
 }
 
 - (id)getSelectedConnection {

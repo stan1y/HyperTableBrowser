@@ -31,7 +31,7 @@
 				toolbar.allowDropTable = NO;
 				
 				NSString * hostname = [item valueForKey:@"hostname"];
-				[[[NSApp delegate] window] setTitle:[NSString stringWithFormat:@"Objects Browser - %s", [hostname UTF8String]] ];
+				[[[NSApp delegate] window] setTitle:[NSString stringWithFormat:@"HyperTable Browser @ %s", [hostname UTF8String]] ];
 			}
 			else {
 				NSLog(@"Server \"%s\" is NOT connected!\n", [[item valueForKey:@"hostname"] UTF8String]);

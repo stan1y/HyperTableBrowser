@@ -10,8 +10,6 @@
 
 @implementation ConnectionSheetController
 
-@synthesize serversView;
-
 - (IBAction)cancelConnect:(id)sender {
 	//initial sheet state
 	[indicator setHidden:YES];
@@ -33,7 +31,7 @@
 		}
 		
 		//reload servers view
-		[serversView reloadItem:nil reloadChildren:YES];
+		[[[NSApp delegate] serversView] reloadItem:nil reloadChildren:YES];
 	}
 
 	
@@ -107,7 +105,7 @@
 			else {
 				NSLog(@"Connection successful!");
 				
-				[[[NSApp delegate] window] setTitle:[NSString stringWithFormat:@"Objects Browser - %s", [hostname UTF8String]] ];
+				[[[NSApp delegate] window] setTitle:[NSString stringWithFormat:@"HyperTable Browser @ %s", [hostname UTF8String]] ];
 				[[NSApp delegate] setMessage: [NSString stringWithFormat:@"Connected to %s.", 
 														 [hostname UTF8String]]];
 				
@@ -119,15 +117,18 @@
 				}
 				else {
 					NSLog(@"Adding new server %s", [hostname UTF8String]);
+					
+					//add new server
 					connectedServer = [HyperTableServer serverWithDefaultContext];
 					[[[NSApp delegate] managedObjectContext] insertObject:connectedServer];
+					[[NSApp delegate] saveAction:self];
 					
-					//save
-					NSError * error = nil;
-					[[[NSApp delegate] managedObjectContext] save:&error];
-					if (error) {
-						[[NSApp delegate] setMessage:@"Failed to add server to persistent store"];
-					}
+					
+					//NSError * error = nil;
+					//[[[NSApp delegate] managedObjectContext] save:&error];
+					//if (error) {
+					//	[[NSApp delegate] setMessage:@"Failed to add server to persistent store"];
+					//}
 				}
 								
 				//update settings
@@ -141,7 +142,7 @@
 				[connection refreshTables];
 				
 				//reload servers view
-				[serversView reloadItem:nil reloadChildren:YES];
+				[[[NSApp delegate] serversView] reloadItem:nil reloadChildren:YES];
 				ToolBarController * toolbar = [[NSApp delegate] toolBarController];
 				toolbar.allowNewTable = YES;
 				

@@ -12,7 +12,7 @@
 @implementation ServersManager
 
 - (void)reconnectServer:(NSManagedObject *)server {
-	NSLog(@"Servers Manager : reconnectServer");
+	NSLog(@"Reconnecting server \"%s\"\n", [[server valueForKey:@"hostname"] UTF8String]);
 	
 	//show connection dialog
 	[[[NSApp delegate] connectionSheetController] showSheet:self 
@@ -21,7 +21,7 @@
 }
 
 - (NSArray *)getServers {
-	NSLog(@"Servers Manager : getServers");
+	NSLog(@"Reading saved servers\n");
 	NSFetchRequest * r = [[NSFetchRequest alloc] init];
 	[r setEntity:[HyperTableServer entityDescription]];
 	[r setIncludesPendingChanges:YES];
@@ -36,12 +36,12 @@
 	}
 	[err release];
 	[r release];
-	NSLog(@"Servers Manager : executeFetchRequest returned %d items", [serversArray count]);
+	NSLog(@"There are %d servers stored.\n", [serversArray count]);
 	return serversArray;
 }
 
 - (HyperTableServer *)getServer:(NSString *)hostname {
-	NSLog(@"Looking for server %s", [hostname UTF8String]);
+	NSLog(@"Looking for server \"%s\"", [hostname UTF8String]);
 	for (id srv in [self getServers]) {
 		NSLog(@"Checking %s", [[srv valueForKey:@"hostname"] UTF8String]);
 		if (strcmp([[srv valueForKey:@"hostname"] UTF8String],  [hostname UTF8String]) == 0) {
@@ -66,14 +66,13 @@
 - (void)setConnection:(ThriftConnection *)connection 
 			forServer:(NSManagedObject*)server
 {
-	NSLog(@"Servers Manager : setConnection");
 	if (!connectionsCache) {
 		NSLog(@"Initializing connections cache");
 		connectionsCache = [[NSMutableDictionary alloc] init];
 	}
 	id hostname = [server valueForKey:@"hostname"];
 	[connectionsCache setObject:connection forKey:hostname];
-	NSLog(@"Set connection %s:%d for server: %s", [connection.connInfo.address UTF8String], 
+	NSLog(@"Updaing cache with connection \"%s:%d\" for server \"%s\"", [connection.connInfo.address UTF8String], 
 		  connection.connInfo.port, 
 		  [[server valueForKey:@"hostname"] UTF8String]);
 }

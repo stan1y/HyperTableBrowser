@@ -93,6 +93,9 @@
 	do {
 		cell = cell_iter_next_cell(ci);
 		if (cell) {
+			if (strcmp(cell->cellValue, "METADATA") == 0)
+				continue;
+			
 			NSLog(@"Found table %s", cell->cellValue);
 			[tbl insertObject:[NSString stringWithCString:cell->cellValue 
 												 encoding:NSUTF8StringEncoding] 

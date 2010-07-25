@@ -26,5 +26,4 @@
 - (void)setConnection:(ThriftConnection *)connection 
 			forServer:(NSManagedObject*)server;
 
-
 @end

@@ -127,13 +127,16 @@
 				}
 
 				if (strcmp([cellColumn UTF8String], [columnId UTF8String]) == 0) {
-					free(cellIter);
+					NSString * cellValue;
 					if (cell->cellValueSize > 0) {
-						return [NSString stringWithFormat:@"%s", cell->cellValue];
+						cellValue = [NSString stringWithCString:cell->cellValue encoding:NSUTF16StringEncoding];
 					} else {
-						return @"";
+						cellValue =  @"";
 					}
-					 
+					
+					NSLog(@"cell value:%s\n", cellValue);
+					free(cellIter);
+					return cellValue;
 				}
 			}
 			

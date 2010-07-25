@@ -65,8 +65,10 @@
 	[self setLastDisplayedPageNumber:number];
 	[self setLastDisplayedObjectType:objectType];
 	[self setLastUsedConnection:connection];
+	DataPage * receivedPage = page_new();
 	
-	dispatch_async(dispatch_get_global_queue(0, 0), ^{
+	//dispatch_async(dispatch_get_global_queue(0, 0), ^{
+	
 		//async operations
 		
 		//get keys
@@ -133,10 +135,9 @@
 									 startRow,
 									 stopRow]];
 		
-		DataPage * receivedPage = page_new();
 		int rc = get_page([connection thriftClient], receivedPage, [objectType UTF8String], startRow, stopRow);
 		
-		dispatch_async(dispatch_get_main_queue(), ^{
+		//dispatch_async(dispatch_get_main_queue(), ^{
 			
 			//sync operations with UI
 			
@@ -169,8 +170,8 @@
 			}
 			free(stopRow);
 			free(startRow);
-		});
-	});	
+		//});
+	//});	
 }
 
 - (void)refreshKeysFor:(NSString *)objectType

@@ -23,11 +23,7 @@
 	IBOutlet id statusField;
 	IBOutlet id addressField;
 	IBOutlet id portField;
-	
-	NSOutlineView * serversView;
 }
-
-@property (assign) IBOutlet NSOutlineView * serversView;
 
 - (IBAction)showSheet:(id)sender;
 
