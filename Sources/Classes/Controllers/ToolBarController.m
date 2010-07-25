@@ -19,12 +19,11 @@
 
 - (BOOL)validateToolbarItem:(NSToolbarItem *)toolbarItem
 {
+	NSLog(@"validating toolbar item \"%s\"\n", [[toolbarItem label] UTF8String]);
     if ([toolbarItem isEqual:newTableBtn]) {
-		NSLog(@"New table allowed: %d\n", allowNewTable);
 		return allowNewTable;
     } else if ( [toolbarItem isEqual:dropTableBtn]) {
 		return allowDropTable;
-		NSLog(@"Drop table allowed: %d\n", allowDropTable);
     }
 	else {
 		return YES;
@@ -40,17 +39,48 @@
 	[general release];
 }
 
+- (IBAction)showHideNewTable:(id)sender
+{
+	if ([[[NSApp delegate] newTablePnl] isVisible]) {
+		[[[NSApp delegate] newTablePnl] orderOut:sender];
+	}
+	else {
+		[[[NSApp delegate] newTableController] updateConnections:sender];
+		[[[NSApp delegate] newTablePnl] orderFront:sender];
+	}
+}
+
 - (IBAction)newTable:(id)sender
 {
+	if ([[[NSApp delegate] newTablePnl] isVisible]) {
+		[[[NSApp delegate] newTablePnl] orderOut:sender];
+	}
+	else {
+		[[[NSApp delegate] newTableController] updateConnections:sender];
+		[[[NSApp delegate] newTablePnl] orderFront:sender];
+	}
 }
+
 
 - (IBAction)dropTable:(id)sender
 {
+	NSLog(@"Going to drop table\n");
 }
 
 - (IBAction)showPreferences:(id)sender
 {	
 	[[MBPreferencesController sharedController] showWindow:sender];
+}
+
+- (IBAction)showHideHQL:(id)sender
+{	
+	if ([[[NSApp delegate] hqlInterpreterPnl] isVisible]) {
+		[[[NSApp delegate] hqlInterpreterPnl] orderOut:sender];
+	}
+	else {
+		[[[NSApp delegate] hqlController] updateConnections:sender];
+		[[[NSApp delegate] hqlInterpreterPnl] orderFront:sender];
+	}	
 }
 
 @end

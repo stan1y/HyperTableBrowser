@@ -29,6 +29,9 @@
 
 - (IBAction)newTable:(id)sender;
 - (IBAction)dropTable:(id)sender;
+
 - (IBAction)showPreferences:(id)sender;
+- (IBAction)showHideHQL:(id)sender;
+
 - (BOOL)validateToolbarItem:(NSToolbarItem *)toolbarItem;
 @end
