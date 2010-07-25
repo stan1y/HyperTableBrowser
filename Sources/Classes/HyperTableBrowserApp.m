@@ -6,42 +6,46 @@
 //  Copyright AwesomeStanly Lab. 2009 . All rights reserved.
 //
 
-#import "HyperTableBrowser_AppDelegate.h"
+#import "HyperTableBrowserApp.h"
 
-@implementation HyperTableBrowser_AppDelegate
+@implementation HyperTableBrowserApp
 
-@synthesize window, connectMenuItem, connectionSheetController, statusMessageField, statusIndicator, \
-	serversDelegate, showHqlInterperterMenuItem, showBrowserMenuItem, serversManager, \
-	toolBarController, hqlController;
+@synthesize window;
+
+@synthesize statusMessageField;
+@synthesize statusIndicator;
+
+@synthesize serversView;
+@synthesize connectionSheetController;
+
+@synthesize connectMenuItem;
+@synthesize showBrowserMenuItem;
+
+@synthesize serversDelegate;
+@synthesize serversManager;
+
+@synthesize hqlInterpreterPnl;
+@synthesize newTablePnl;
+
+@synthesize toolBarController;
+@synthesize newTableController;
+@synthesize hqlController;
+//@synthesize generalPrefsController;
 
 - (void)windowWillClose:(NSNotification *)notification
 {
-	NSLog(@"Objects browser was closed\n");
-	[showBrowserMenuItem setTitle:@"Show Objects Browser"];
-}
-
-- (IBAction)showHideHqlInterperter:(id)sender
-{
-	if ([[hqlController window] isVisible]) {
-		[hqlController close];
-		[showHqlInterperterMenuItem setTitle:@"Show HQL Iterpreter"];
-		return;
-	}
-	else {
-		[hqlController updateConnections:self];
-		[showHqlInterperterMenuItem setTitle:@"Hide HQL Iterpreter"];
-        [hqlController showWindow:sender];
-	}
+	NSLog(@"Closing browser window\n");
+	[self saveAction:self];
 }
 
 -(IBAction)showHideObjectsBrowser:(id)sender
 {
 	if ([[self window] isVisible]) {
-		[showBrowserMenuItem setTitle:@"Show Objects Browser"];
+		[showBrowserMenuItem setTitle:@"Show Browser window"];
 		[[self window] orderOut:nil];
 	}
 	else {
-		[showBrowserMenuItem setTitle:@"Hide Objects Browser"];
+		[showBrowserMenuItem setTitle:@"Hide Browser window"];
 		[[self window] makeKeyAndOrderFront:self];
 	}
 }
@@ -50,19 +54,13 @@
 {	
 	//set initial status
 	[self setMessage:@"Application started."];
-	[window setTitle:@"Not connected" ];
+	[window setTitle:@"HyperTable Browser is not connected" ];
 	[statusMessageField setHidden:NO];
-	
-	HqlController * hqlCntrl = [[HqlController alloc] initWithWindowNibName:@"HqlInterperter"];
-	if (!hqlCntrl) {
-		[[NSApp delegate] setMessage:@"Error loading nib for Hql Interpreter!"];
-	}
-	hqlController = hqlCntrl;
 }
 
 - (void)setMessage:(NSString*)message 
 {
-	NSLog(@"%s", [message UTF8String]);
+	NSLog(@"Browser: %s\n", [message UTF8String]);
 	[statusMessageField setTitleWithMnemonic:message];
 }
 
@@ -136,7 +134,7 @@
 		}
     }
     
-    NSURL *url = [NSURL fileURLWithPath: [applicationSupportDirectory stringByAppendingPathComponent: @"storedata"]];
+    NSURL *url = [NSURL fileURLWithPath: [applicationSupportDirectory stringByAppendingPathComponent: @"HyperTableBrowser.xml"]];
     persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: mom];
     if (![persistentStoreCoordinator addPersistentStoreWithType:NSXMLStoreType 
                                                 configuration:nil 

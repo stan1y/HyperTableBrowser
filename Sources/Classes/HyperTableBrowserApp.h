@@ -1,5 +1,5 @@
 //
-//  HyperTableBrowser_AppDelegate.h
+//  HyperTableBrowserApp.h
 //  HyperTableBrowser
 //
 //  Created by Stanislav Yudin on 12/8/09.
@@ -11,16 +11,21 @@
 #import <ConnectionSheetController.h>
 #import <HqlController.h>
 #import <ToolBarController.h>
+#import <NewTableController.h>
 #import <ServersDelegate.h>
 #import <ServersManager.h>
 
-@interface HyperTableBrowser_AppDelegate : NSObject 
+@interface HyperTableBrowserApp : NSObject 
 {
     NSWindow *window;
 	
+	NSPanel * hqlInterpreterPnl;
+	NSPanel * newTablePnl;
+	
 	NSMenuItem * connectMenuItem;
-	NSMenuItem * showHqlInterperterMenuItem;
 	NSMenuItem * showBrowserMenuItem;
+	
+	NSOutlineView * serversView;
 	
 	NSTextField *statusMessageField;
 	NSProgressIndicator *statusIndicator;
@@ -34,21 +39,28 @@
 	ServersDelegate * serversDelegate;
 	ServersManager * serversManager;
 	
-	HqlController * hqlController;
 	ToolBarController * toolBarController;
+	HqlController * hqlController;
+	NewTableController * newTableController;
+	//GeneralPreferencesController * generalPrefsController;
 }
-
+//@property (nonatomic, retain) IBOutlet GeneralPreferencesController * generalPrefsController;
+@property (nonatomic, retain) IBOutlet HqlController * hqlController;
+@property (nonatomic, retain) IBOutlet NewTableController * newTableController;
 @property (nonatomic, retain) IBOutlet ToolBarController * toolBarController;
 @property (nonatomic, retain) IBOutlet NSWindow *window;
+@property (nonatomic, retain) IBOutlet NSPanel * hqlInterpreterPnl;
+@property (nonatomic, retain) IBOutlet NSPanel * newTablePnl;
+
+@property (assign) IBOutlet NSOutlineView * serversView;
 
 @property (assign) IBOutlet ConnectionSheetController * connectionSheetController;
 @property (assign) IBOutlet ServersDelegate * serversDelegate;
 
 @property (assign) IBOutlet NSTextField *statusMessageField;
 @property (assign) IBOutlet NSProgressIndicator *statusIndicator;
-@property (assign) IBOutlet NSMenuItem * connectMenuItem;
 
-@property (assign) IBOutlet NSMenuItem * showHqlInterperterMenuItem;
+@property (assign) IBOutlet NSMenuItem * connectMenuItem;
 @property (assign) IBOutlet NSMenuItem * showBrowserMenuItem;
 
 @property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
@@ -56,7 +68,6 @@
 @property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
 
 @property (assign) IBOutlet ServersManager * serversManager;
-@property (assign) HqlController * hqlController;
 
 //show status message on the bottom
 - (void)setMessage:(NSString*)message;
@@ -67,13 +78,13 @@
 //stop operation indicator
 - (void) indicateDone;
 
-//shows or hides HQL Iterpreter
-- (IBAction)showHideHqlInterperter:(id)sender;
-
 //shows or hides Objects browser
 - (IBAction)showHideObjectsBrowser:(id)sender;
 
 //called when objects browser windows is about to close
 - (void)windowWillClose:(NSNotification *)notification;
+
+//save store action
+- (IBAction) saveAction:(id)sender;
 
 @end
