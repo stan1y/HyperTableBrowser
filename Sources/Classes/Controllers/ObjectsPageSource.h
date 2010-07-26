@@ -16,7 +16,7 @@
 	NSTableView * objectsPageView;
 	
 	//last used args for showPageFor
-	NSString * lastDisplayedObjectType;
+	NSString * lastDisplayedTableName;
 	ThriftConnection * lastUsedConnection;
 	int lastDisplayedPageNumber;
 	
@@ -31,11 +31,11 @@
 	
 	//button to copy selected object key to paste
 	NSButton * copyObjectKeyButton;
-	NSTextField * selectedObjectKey;
+	NSTextField * selectedRowKey;
 
 }
 
-@property (assign) NSString * lastDisplayedObjectType;
+@property (assign) NSString * lastDisplayedTableName;
 @property (assign) ThriftConnection * lastUsedConnection;
 @property (readwrite) int lastDisplayedPageNumber;
 @property (assign) IBOutlet NSButton * refreshButton;
@@ -46,7 +46,7 @@
 @property (assign) IBOutlet NSTableView * objectsPageView;
 @property (assign) IBOutlet NSTextField * objectsPageField;
 @property (assign) IBOutlet NSButton * copyObjectKeyButton;
-@property (assign) IBOutlet NSTextField * selectedObjectKey;
+@property (assign) IBOutlet NSTextField * selectedRowKey;
 
 - (void)showFirstPageFor:(NSString *)tableName
 		  fromConnection:(ThriftConnection *)connection;

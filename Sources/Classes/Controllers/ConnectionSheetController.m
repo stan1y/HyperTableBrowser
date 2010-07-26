@@ -141,13 +141,15 @@
 				//toolbar.allowNewTable = YES;
 			}];
 			
-			NSLog(@"Starting tables fetching operation...\n");
-			[fetchTablesOp start];
+			//start fetching tables
+			[[[NSApp delegate] operations] addOperation: fetchTablesOp];
+			[fetchTablesOp release];
 		}
 	} ];
 	
-	NSLog(@"Starting connection operation...\n");
-	[connectOp start];
+	//add operation to queue
+	[[[NSApp delegate] operations] addOperation: connectOp];
+	[connectOp release];
 }
 
 /* ComboBox auto-complete */

@@ -40,24 +40,16 @@
 
 - (IBAction)showHideNewTable:(id)sender
 {
-	if ([[[NSApp delegate] newTablePnl] isVisible]) {
-		[[[NSApp delegate] newTablePnl] orderOut:sender];
+	id pnl = [[NSApp delegate] newTablePnl];
+	if ([pnl isVisible]) {
+		[pnl orderOut:sender];
 	}
 	else {
-		[[[NSApp delegate] newTableController] updateConnections:sender];
-		[[[NSApp delegate] newTablePnl] orderFront:sender];
+		id cntl = [[NSApp delegate] newTableController];
+		[cntl updateConnections:sender];
+		[pnl orderFront:sender];
 	}
-}
-
-- (IBAction)newTable:(id)sender
-{
-	if ([[[NSApp delegate] newTablePnl] isVisible]) {
-		[[[NSApp delegate] newTablePnl] orderOut:sender];
-	}
-	else {
-		[[[NSApp delegate] newTableController] updateConnections:sender];
-		[[[NSApp delegate] newTablePnl] orderFront:sender];
-	}
+	[pnl release];
 }
 
 
@@ -73,13 +65,16 @@
 
 - (IBAction)showHideHQL:(id)sender
 {	
-	if ([[[NSApp delegate] hqlInterpreterPnl] isVisible]) {
+	id pnl = [[NSApp delegate] hqlInterpreterPnl];
+	if ([pnl isVisible]) {
 		[[[NSApp delegate] hqlInterpreterPnl] orderOut:sender];
 	}
 	else {
-		[[[NSApp delegate] hqlController] updateConnections:sender];
+		id cntrl = [[NSApp delegate] hqlController];
+		[cntrl updateConnections:sender];
 		[[[NSApp delegate] hqlInterpreterPnl] orderFront:sender];
-	}	
+	}
+	[pnl release];
 }
 
 @end

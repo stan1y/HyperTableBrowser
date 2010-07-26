@@ -17,7 +17,7 @@
 + (id)infoWithAddress:(NSString*)address 
 			  andPort:(int)port
 {
-	ThriftConnectionInfo * ci = [[ThriftConnectionInfo alloc] init];
+	ThriftConnectionInfo * ci = [[ThriftConnectionInfo alloc] autorelease];
 	[ci setAddress:address];
 	[ci setPort:port];
 	return ci;

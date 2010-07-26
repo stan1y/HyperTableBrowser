@@ -13,12 +13,12 @@
 
 @synthesize objectsPageField;
 @synthesize objectsPageView;
-@synthesize	lastDisplayedObjectType;
+@synthesize	lastDisplayedTableName;
 @synthesize lastUsedConnection;
 @synthesize lastDisplayedPageNumber;
 @synthesize pageSizeTextField;
 @synthesize	copyObjectKeyButton;
-@synthesize selectedObjectKey;
+@synthesize selectedRowKey;
 @synthesize refreshButton;
 @synthesize	nextPageButton;
 @synthesize prevPageButton;
@@ -26,7 +26,7 @@
 - (BOOL)tableView:(NSTableView *)aTableView 
   shouldSelectRow:(NSInteger)rowIndex {
 	if (!page) {
-		[selectedObjectKey setTitleWithMnemonic:@"Nothing selected"];
+		[selectedRowKey setTitleWithMnemonic:@"Nothing selected"];
 		[copyObjectKeyButton setEnabled:NO];
 		return NO;
 	}
@@ -35,17 +35,17 @@
 	DataRow * row = page_row_at_index(self.page, rowIndex);
 	
 	//show row key
-	[selectedObjectKey setTitleWithMnemonic:[NSString stringWithFormat:@"Selected object key: %s",
+	[selectedRowKey setTitleWithMnemonic:[NSString stringWithFormat:@"Selected table key: %s",
 												 row->rowKey]];
 	
 	//do selection
 	return YES;
 }
 
-- (void)showFirstPageFor:(NSString *)objectType
+- (void)showFirstPageFor:(NSString *)tableName
 		  fromConnection:(ThriftConnection *)connection
 {
-	[self showPageFor:objectType 
+	[self showPageFor:tableName 
 	   fromConnection:connection
 	   withPageNumber:1 
 		  andPageSize:[pageSizeTextField intValue]];
@@ -55,13 +55,11 @@
 		   fromConnection:(ThriftConnection *)connection
 		   withPageNumber:(int)number andPageSize:(int)size
 {
-	[[NSApp delegate] setMessage:[NSString stringWithFormat:@"Reading objects from %s.", [tableName UTF8String]]];
-	[[NSApp delegate] indicateBusy];
-	
+	NSLog(@"Preparing to fetch page\n");
 	//save received values
 	[pageSizeTextField setIntValue:size];
 	[self setLastDisplayedPageNumber:number];
-	[self setLastDisplayedObjectType:tableName];
+	[self setLastDisplayedTableName:tableName];
 	[self setLastUsedConnection:connection];
 	
 	FetchPageOperation * fpageOp = [FetchPageOperation fetchPageFromConnection:connection
@@ -96,7 +94,7 @@
 								   number,
 								   receivedPage->rowsCount,
 								   size,
-								   [[self lastDisplayedObjectType] UTF8String]];
+								   [[self lastDisplayedTableName] UTF8String]];
 			[objectsPageField setTitleWithMnemonic:pageInfo];
 			
 			//display received page with PageSource:setPage/reloadDataForView
@@ -115,13 +113,18 @@
 		
 	} ];
 	
-	NSLog(@"Starting page fetching operation...\n");
-	[fpageOp start];
+	//start async operation
+	[[NSApp delegate] indicateBusy];
+	[[NSApp delegate] setMessage:[NSString stringWithFormat:@"Fetching page from table \"%s\"\n", 
+								  [tableName UTF8String] ]];
+
+	[[[NSApp delegate] operations] addOperation: fpageOp];
+	[fpageOp release];
 }
 
 - (IBAction)nextPage:(id)sender
 {
-	[self showPageFor:[self lastDisplayedObjectType]
+	[self showPageFor:[self lastDisplayedTableName]
 	   fromConnection:[self lastUsedConnection]
 	   withPageNumber:[self lastDisplayedPageNumber] + 1
 		  andPageSize:[pageSizeTextField intValue]];
@@ -129,7 +132,7 @@
 
 - (IBAction)prevPage:(id)sender
 {
-	[self showPageFor:[self lastDisplayedObjectType]
+	[self showPageFor:[self lastDisplayedTableName]
 	   fromConnection:[self lastUsedConnection]
 	   withPageNumber:[self lastDisplayedPageNumber] - 1
 		  andPageSize:[pageSizeTextField intValue]];
@@ -137,7 +140,7 @@
 
 - (IBAction)refresh:(id)sender
 {
-	[self showPageFor:[self lastDisplayedObjectType]
+	[self showPageFor:[self lastDisplayedTableName]
 	   fromConnection:[self lastUsedConnection]
 	   withPageNumber:[self lastDisplayedPageNumber]
 		  andPageSize:[pageSizeTextField intValue]];

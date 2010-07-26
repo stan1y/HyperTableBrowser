@@ -18,7 +18,7 @@
 {
 	FetchTablesOperation * ftOp = [[FetchTablesOperation alloc] init];
 	[ftOp setConnection:conn];
-	return ftOp;
+	return [ftOp autorelease];
 }
 
 - (void)main
@@ -54,7 +54,9 @@
 		}
 	} while (cell);
 	free(ci);
+	free(row);
 	[connection setTables:tables];
+	[tables release];
 }
 
 @end

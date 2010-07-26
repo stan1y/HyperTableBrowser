@@ -30,12 +30,21 @@
 	[fpOp setPageIndex:pageIndex];
 	[fpOp setPageSize:pageSize];
 	[fpOp setConnection:conn];
-	return fpOp;
+	return [fpOp autorelease];
+}
+
+- (void) dealloc
+{
+	if (page) {
+		page_clear(page);
+		free(page);
+		page = nil;
+	}
 }
 
 - (void) main
 {
-	NSLog(@"Fetching keys for table \"%s\"\n", [[self tableName] UTF8String]);
+	NSLog(@"Fetching keys...\n");
 	[self setTotalRows:0];
 
 	DataRow * keys = row_new([tableName UTF8String]);
@@ -81,12 +90,14 @@
 	strncpy(stopRow, stopCell->cellValue, stopCell->cellValueSize + 1);
 	NSLog(@"End row key: %s\n", stopRow);
 	
-	if ( !page )
-		page = page_new();
-	else
+	if (page){
 		page_clear(page);
-
-
+		free(page);
+		page = nil;
+	}
+	page = page_new();
+	NSLog(@"Fetching page from %s to %s.\n", startRow, stopRow);
+	
 	rc = get_page([connection thriftClient], page, [tableName UTF8String], startRow, stopRow);
 	[self setErrorCode:rc];
 	if ( rc != T_OK) {

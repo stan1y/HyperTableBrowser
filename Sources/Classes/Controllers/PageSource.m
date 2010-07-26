@@ -73,6 +73,7 @@
 			[column setMaxWidth:300];
 			[[column headerCell] setStringValue:cellColumn];
 			[tableView addTableColumn:column];
+			[column release];
 		}
 		
 	} while (cell);
@@ -100,6 +101,13 @@
 		if (page->rowsCount == 0) {
 			return nil;
 		}
+		
+		if (rowIndex >= page->rowsCount) {
+			NSLog(@"Row at index %d was requested while there are %d rows.\n",
+				  rowIndex, page->rowsCount);
+			return nil;
+		}
+		
 		NSString * columnId = [aTableColumn identifier];
 		DataCellIterator * cellIter = cell_iter_new(page_row_at_index(page, rowIndex));
 		DataCell * cell = NULL;

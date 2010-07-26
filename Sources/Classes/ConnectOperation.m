@@ -18,15 +18,16 @@
 {
 	ConnectOperation * operation = [[ConnectOperation alloc] init];
 	[operation setConnectionInfo:info];
-	return operation;
+	return [operation autorelease];
 }
 
 - (void)main
 {
-	if ( !connection ) {
-		connection = [[ThriftConnection alloc] init];
+	if (connection) {
+		[connection release];
 	}
-
+	connection = [[ThriftConnection alloc] init];
+	
 	NSLog(@"Opening connection thread to %s: port:%d\n", 
 		  [[connectionInfo address] UTF8String], 
 		  [connectionInfo port]);
