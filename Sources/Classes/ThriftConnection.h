@@ -18,16 +18,12 @@
 	NSMutableArray * tables;
 }
 
-@property (assign)NSMutableArray * tables;
-@property (assign)ThriftConnectionInfo * connInfo;
-@property (assign)HTHRIFT thriftClient;
-@property (assign)HTHRIFT_HQL hqlClient;
-
-- (NSString *)connectTo:(ThriftConnectionInfo*)info;
+@property (assign) NSMutableArray * tables;
+@property (assign) ThriftConnectionInfo * connInfo;
+@property (assign) HTHRIFT thriftClient;
+@property (assign) HTHRIFT_HQL hqlClient;
 
 - (BOOL)isConnected;
-
 + (NSString *)errorFromCode:(int)code;
 
-- (void) refreshTables;
 @end
