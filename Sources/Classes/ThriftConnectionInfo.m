@@ -6,7 +6,7 @@
 //  Copyright 2009 AwesomeStanly Lab. All rights reserved.
 //
 
-#import "ThriftConnectionInfo.h"
+#import <ThriftConnectionInfo.h>
 
 
 @implementation ThriftConnectionInfo
