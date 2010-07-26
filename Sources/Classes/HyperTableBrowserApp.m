@@ -40,6 +40,49 @@
     return self;
 }
 
+- (id) getSettingsByName:(NSString *)name
+{
+	NSLog(@"Getting gettings with name %s", [name UTF8String]);
+	NSFetchRequest * request = [[NSFetchRequest alloc] init];
+	
+	NSEntityDescription * entity = [NSEntityDescription entityForName:name
+											   inManagedObjectContext:[self managedObjectContext] ];
+	
+	[request setEntity:entity];
+	[request setIncludesPendingChanges:YES];
+	NSError * err = nil;
+	NSArray * result = [[self managedObjectContext] executeFetchRequest:request 
+																					error:&err];
+	if (err) {
+		NSString * msg = @"getServers: Failed to get servers from datastore";
+		[self setMessage:[NSString stringWithFormat:@"Error: %s", [msg UTF8String]]];
+		[[NSApplication sharedApplication] presentError:err];
+		[err release];
+		return nil;
+	}
+	[entity release];
+	[request release];
+	
+	if ( [result count] <= 0 ) {
+		//create new default settings
+		id defaults = [NSEntityDescription insertNewObjectForEntityForName:name
+									  inManagedObjectContext:[self managedObjectContext] ];
+		[self setMessage:[NSString stringWithFormat:@"Loading defaults for %s", 
+						  [name UTF8String]]];
+		return defaults;
+	}
+	else if ([result count] > 1) {
+		NSString * msg = [NSString stringWithFormat:@"%d results were found for name \"%s\".", 
+						  [result count],
+						  [name UTF8String]];
+		[self setMessage:msg];
+		[result release];
+		return nil;
+	}
+	return [result objectAtIndex:0];
+}
+
+
 - (BOOL)windowShouldClose:(id)sender
 {
 	NSLog(@"Checking running threads...\n");

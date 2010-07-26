@@ -89,4 +89,6 @@
 //save store action
 - (IBAction) saveAction:(id)sender;
 
+- (id)getSettingsByName:(NSString *)name;
+
 @end
