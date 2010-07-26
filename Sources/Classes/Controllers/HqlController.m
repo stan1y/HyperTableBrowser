@@ -56,13 +56,8 @@
 }
 
 - (IBAction)go:(id)sender {	
-	[self indicateBusy];
-	[self setMessage:@"Executing HQL..."];
-	
 	NSString * hqlQueryText = [[hqlQuery textStorage] string];
-	
 	if ([hqlQueryText length] <= 0) {
-		[self indicateDone];
 		[self setMessage:@"Empty query!"];
 		return;
 	}
@@ -70,9 +65,9 @@
 	id con = [self getSelectedConnection];
 	if (!con) {
 		[self setMessage:@"You are not connected to selected server."];
-		[self indicateDone];
 		return;
 	}
+	
 	[self runQuery:hqlQueryText withConnection:con];
 }
 
@@ -110,31 +105,29 @@
 	return [ [[NSApp delegate] serversManager] getConnection:[[serverSelector selectedItem] title] ];
 }
 
-- (void)runQuery:(NSString *) query withConnection:(id)connection {
-	NSLog(@"Executing HQL: %s\n", [query UTF8String]);
-	//run query
-	dispatch_async(dispatch_get_global_queue(0, 0), ^{
-		DataPage * page = page_new();
-		int rc = hql_query([connection hqlClient], page, [query UTF8String]);
-		
-		dispatch_async(dispatch_get_main_queue(), ^{
-			[self indicateDone];
-			if (rc != T_OK) {
-				page_clear(page);
-				free(page);
-				[self setMessage:[NSString stringWithFormat:
-													 @"Query failed: %s",
-													 [[ThriftConnection errorFromCode:rc] UTF8String]]];
-			}
-			else {
-				[pageSource setPage:page withTitle:@"HQL"];
-				[pageSource reloadDataForView:pageView];
-				[self setMessage:[NSString stringWithFormat:
-													 @"Query returned %d object(s).",
-													 page->rowsCount]];
-			}
-		});
-	});
+- (void)runQuery:(NSString *)query withConnection:(id)connection 
+{
+	HqlQueryOperation * hqlOp = [HqlQueryOperation queryHql:query withConnection:connection];
+	[hqlOp setCompletionBlock:^ {
+		[self indicateDone];
+		if (hqlOp.errorCode != T_OK) {
+			[self setMessage:[NSString stringWithFormat:
+							  @"Query failed: %s",
+							  [[ThriftConnection errorFromCode:hqlOp.errorCode] UTF8String]]];
+		}
+		else {
+			[pageSource setPage:hqlOp.page withTitle:@"HQL"];
+			[pageSource reloadDataForView:pageView];
+			[self setMessage:[NSString stringWithFormat:
+							  @"Query returned %d row(s).",
+							  hqlOp.page->rowsCount]];
+		}
+	}];
+	
+	[self indicateBusy];
+	[self setMessage:@"Executing query..."];
+	[[[NSApp delegate] operations] addOperation: hqlOp];
+	[hqlOp release];
 }
 
 

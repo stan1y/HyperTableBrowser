@@ -11,7 +11,7 @@
 #import <PageSource.h>
 #import <ThriftConnection.h>
 #import <HyperTableServer.h>
-#include <HyperThriftHql.h>
+#import <HqlQueryOperation.h>
 
 @interface HqlController : NSWindowController {
 	NSTextView * hqlQuery;
