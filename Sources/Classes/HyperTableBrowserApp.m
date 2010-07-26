@@ -11,6 +11,7 @@
 @implementation HyperTableBrowserApp
 
 @synthesize window;
+@synthesize operations;
 
 @synthesize statusMessageField;
 @synthesize statusIndicator;
@@ -32,9 +33,34 @@
 @synthesize hqlController;
 //@synthesize generalPrefsController;
 
+- (id)init
+{
+    [super init];
+    operations = [[NSOperationQueue alloc] init];
+    return self;
+}
+
+- (BOOL)windowShouldClose:(id)sender
+{
+	NSLog(@"Checking running threads...\n");
+	
+    NSInteger numOperationsRunning = [[operations operations] count];
+    if (numOperationsRunning > 0)
+    {
+		id msg = [NSString stringWithFormat:@"There are %d background operations in progress.", numOperationsRunning];
+        NSAlert *alert = [NSAlert alertWithMessageText: msg 
+										 defaultButton: @"OK"
+									   alternateButton: nil
+										   otherButton: nil
+							 informativeTextWithFormat: @"Please click the \"Stop\" button before closing."];
+        [alert beginSheetModalForWindow: [self window] modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];
+    }
+    return (numOperationsRunning == 0);
+}
+
 - (void)windowWillClose:(NSNotification *)notification
 {
-	NSLog(@"Closing browser window\n");
+	NSLog(@"Saving persisten store...\n");
 	[self saveAction:self];
 }
 
@@ -267,6 +293,7 @@
     [managedObjectContext release];
     [persistentStoreCoordinator release];
     [managedObjectModel release];
+	[operations release];
 	
     [super dealloc];
 }
