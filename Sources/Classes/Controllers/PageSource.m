@@ -21,6 +21,7 @@
 		page_clear(page);
 		free(page);
 	}
+	
 	page = newPage;
 }
 
@@ -150,7 +151,7 @@
 		} while (cell);
 		free(cellIter);
 		NSLog(@"No value found for \"%s\"", [columnId UTF8String]);
-		return @"<#Error#>";
+		return @"Error";
 	}
 	@catch(NSException * ex) {
 		NSLog(@"Failed to get data for cell at row %d, column %s", rowIndex, 
