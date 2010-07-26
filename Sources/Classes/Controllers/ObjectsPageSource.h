@@ -9,12 +9,9 @@
 #import <Cocoa/Cocoa.h>
 #import <PageSource.h>
 #import <ThriftConnection.h>
+#import <FetchPageOperation.h>
 
 @interface ObjectsPageSource : PageSource {
-	
-	// table_name:DataRow with keys for rows
-	NSMutableDictionary * keysDict;
-	
 	//view used to display source
 	NSTableView * objectsPageView;
 	
@@ -51,18 +48,12 @@
 @property (assign) IBOutlet NSButton * copyObjectKeyButton;
 @property (assign) IBOutlet NSTextField * selectedObjectKey;
 
-- (void)showFirstPageFor:(NSString *)objectType
-	 fromConnection:(ThriftConnection *)connection;
-
-- (void)showPageFor:(NSString *)objectType 
+- (void)showFirstPageFor:(NSString *)tableName
+		  fromConnection:(ThriftConnection *)connection;
+- (void)showPageFor:(NSString *)tableName 
 		   fromConnection:(ThriftConnection *)connection
-		   withPageNumber:(int)number andPageSize:(int)size;
-
-- (void)refreshKeysFor:(NSString *)objectType
-		fromConnection:(ThriftConnection *)conenction;
-
-- (DataRow *)requestKeysFor:(NSString *)objectType
-		 fromConnection:(ThriftConnection *)conenction;
+		   withPageNumber:(int)number
+		andPageSize:(int)size;
 
 - (IBAction)nextPage:(id)sender;
 - (IBAction)prevPage:(id)sender;
