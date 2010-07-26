@@ -85,7 +85,7 @@
 	id serversArray = [[[NSApp delegate] serversManager] getServers];
 	[serverSelector removeAllItems];
 	for (id server in serversArray)
-		[serverSelector addItemWithTitle:[server valueForKey:@"hostname"]];
+		[serverSelector addItemWithTitle:[server valueForKey:@"ipAddress"]];
 	
 	if ([serversArray count] <= 0) {
 		[self setMessage:@"No servers available. Please connect to at least one server."];

@@ -17,10 +17,10 @@
 
 - (NSArray *)getServers;
 
-- (HyperTableServer *)getServer:(NSString *)hostname;
+- (HyperTableServer *)getServer:(NSString *)ipAddress;
 - (void)reconnectServer:(NSManagedObject *)server;
 
-- (ThriftConnection *)getConnection:(NSString *)hostname;
+- (ThriftConnection *)getConnection:(NSString *)ipAddress;
 - (ThriftConnection *)getConnectionForServer:(NSManagedObject *)server;
 
 - (void)setConnection:(ThriftConnection *)connection 

@@ -19,7 +19,6 @@
 
 - (BOOL)validateToolbarItem:(NSToolbarItem *)toolbarItem
 {
-	NSLog(@"validating toolbar item \"%s\"\n", [[toolbarItem label] UTF8String]);
     if ([toolbarItem isEqual:newTableBtn]) {
 		return allowNewTable;
     } else if ( [toolbarItem isEqual:dropTableBtn]) {

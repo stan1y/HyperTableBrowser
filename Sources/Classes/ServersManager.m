@@ -12,11 +12,11 @@
 @implementation ServersManager
 
 - (void)reconnectServer:(NSManagedObject *)server {
-	NSLog(@"Reconnecting server \"%s\"\n", [[server valueForKey:@"hostname"] UTF8String]);
+	NSLog(@"Reconnecting server \"%s\"\n", [[server valueForKey:@"ipAddress"] UTF8String]);
 	
 	//show connection dialog
 	[[[NSApp delegate] connectionSheetController] showSheet:self 
-							 toHost:[server valueForKey:@"hostname"] 
+							 toHost:[server valueForKey:@"ipAddress"] 
 							andPort:38080];
 }
 
@@ -40,11 +40,11 @@
 	return serversArray;
 }
 
-- (HyperTableServer *)getServer:(NSString *)hostname {
-	NSLog(@"Looking for server \"%s\"", [hostname UTF8String]);
+- (HyperTableServer *)getServer:(NSString *)ipAddress {
+	NSLog(@"Looking for server \"%s\"", [ipAddress UTF8String]);
 	for (id srv in [self getServers]) {
-		NSLog(@"Checking %s", [[srv valueForKey:@"hostname"] UTF8String]);
-		if (strcmp([[srv valueForKey:@"hostname"] UTF8String],  [hostname UTF8String]) == 0) {
+		NSLog(@"Checking %s", [[srv valueForKey:@"ipAddress"] UTF8String]);
+		if (strcmp([[srv valueForKey:@"ipAddress"] UTF8String],  [ipAddress UTF8String]) == 0) {
 			NSLog(@"Found.");
 			return srv;
 		}
@@ -53,14 +53,14 @@
 	return nil;
 }
 
-- (ThriftConnection *)getConnection:(NSString *)hostname {
+- (ThriftConnection *)getConnection:(NSString *)ipAddress {
 	if (!connectionsCache) {
 		return nil;
 	}
-	return [connectionsCache objectForKey:hostname];
+	return [connectionsCache objectForKey:ipAddress];
 }
 - (ThriftConnection *)getConnectionForServer:(NSManagedObject *)server {
-	return [self getConnection:[server valueForKey:@"hostname"]];
+	return [self getConnection:[server valueForKey:@"ipAddress"]];
 }
 
 - (void)setConnection:(ThriftConnection *)connection 
@@ -70,11 +70,11 @@
 		NSLog(@"Initializing connections cache");
 		connectionsCache = [[NSMutableDictionary alloc] init];
 	}
-	id hostname = [server valueForKey:@"hostname"];
-	[connectionsCache setObject:connection forKey:hostname];
+	id ipAddress = [server valueForKey:@"ipAddress"];
+	[connectionsCache setObject:connection forKey:ipAddress];
 	NSLog(@"Updaing cache with connection \"%s:%d\" for server \"%s\"", [connection.connInfo.address UTF8String], 
 		  connection.connInfo.port, 
-		  [[server valueForKey:@"hostname"] UTF8String]);
+		  [[server valueForKey:@"ipAddress"] UTF8String]);
 }
 
 @end

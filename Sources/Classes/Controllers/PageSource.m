@@ -129,12 +129,11 @@
 				if (strcmp([cellColumn UTF8String], [columnId UTF8String]) == 0) {
 					NSString * cellValue;
 					if (cell->cellValueSize > 0) {
-						cellValue = [NSString stringWithCString:cell->cellValue encoding:NSUTF16StringEncoding];
+						cellValue = [NSString stringWithFormat:@"%s",cell->cellValue];
 					} else {
 						cellValue =  @"";
 					}
 					
-					NSLog(@"cell value:%s\n", cellValue);
 					free(cellIter);
 					return cellValue;
 				}
@@ -199,7 +198,7 @@
 		strncpy(cell->cellValue, [newValue UTF8String], ([newValue length] + 1));
 		
 		id srv = [[[NSApp delegate] serversDelegate] selectedServer];
-		id connection = [[[NSApp delegate] serversManager] getConnection:[srv valueForKey:@"hostname"]];
+		id connection = [[[NSApp delegate] serversManager] getConnection:[srv valueForKey:@"ipAddress"]];
 		if (!connection) {
 			NSLog(@"No connection for server with title %s", [[srv title] UTF8String]);
 			return;

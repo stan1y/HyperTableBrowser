@@ -54,7 +54,7 @@ class TSocket : public TTransport {
    * Constructs a new socket. Note that this does NOT actually connect the
    * socket.
    *
-   * @param host An IP address or hostname to connect to
+   * @param host An IP address or ipAddress to connect to
    * @param port The port to connect on
    */
   TSocket(std::string host, int port);
@@ -206,7 +206,7 @@ class TSocket : public TTransport {
   /** Host to connect to */
   std::string host_;
 
-  /** Peer hostname */
+  /** Peer ipAddress */
   std::string peerHost_;
 
   /** Peer address */

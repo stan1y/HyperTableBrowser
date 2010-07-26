@@ -16,7 +16,7 @@
 {
 	if (item) {
 		//table at index
-		id tables = [[[[NSApp delegate] serversManager] getConnection:[item valueForKey:@"hostname"] ] tables];
+		id tables = [[[[NSApp delegate] serversManager] getConnection:[item valueForKey:@"ipAddress"] ] tables];
 		return [tables objectAtIndex:index];
 	}
 	else {
@@ -44,14 +44,14 @@
 {
 	if (item) {
 		NSLog(@"UI asking for server tables count");
-		id connection = [[[NSApp delegate] serversManager] getConnection:[item valueForKey:@"hostname"] ];
+		id connection = [[[NSApp delegate] serversManager] getConnection:[item valueForKey:@"ipAddress"] ];
 		if (!connection) {
-			NSLog(@"Failed to get connection for %s", [[item valueForKey:@"hostname"] UTF8String]);
+			NSLog(@"Failed to get connection for %s", [[item valueForKey:@"ipAddress"] UTF8String]);
 			[[[NSApp delegate] serversManager] reconnectServer:item];
 			return 0;
 		}
 		int tablesCount = [[connection tables] count];
-		NSLog(@"%d tables found on server %s", tablesCount, [[item valueForKey:@"hostname"] UTF8String]);
+		NSLog(@"%d tables found on server %s", tablesCount, [[item valueForKey:@"ipAddress"] UTF8String]);
 		return tablesCount;
 	}
 	else {
@@ -68,7 +68,7 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
 		   byItem:(id)item
 {
 	if ([item class] == [NSManagedObject class])
-		return [item valueForKey:@"hostname"];
+		return [item valueForKey:@"ipAddress"];
 	else
 		return item;
 }
