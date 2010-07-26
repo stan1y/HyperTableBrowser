@@ -11,6 +11,21 @@
 		76081DA710E255DB005F668F /* HyperTableBrowserApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 76081DA610E255DB005F668F /* HyperTableBrowserApp.m */; };
 		76081DAA10E255F6005F668F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 76081DA910E255F6005F668F /* main.m */; };
 		76081DAC10E25683005F668F /* HyperTableBrowser_DataModel.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 76081DAB10E25683005F668F /* HyperTableBrowser_DataModel.xcdatamodel */; };
+		761515E011FD851400485438 /* Client_constants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 761515D211FD851400485438 /* Client_constants.cpp */; };
+		761515E111FD851400485438 /* Client_constants.h in Headers */ = {isa = PBXBuildFile; fileRef = 761515D311FD851400485438 /* Client_constants.h */; };
+		761515E211FD851400485438 /* Client_types.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 761515D411FD851400485438 /* Client_types.cpp */; };
+		761515E311FD851400485438 /* Client_types.h in Headers */ = {isa = PBXBuildFile; fileRef = 761515D511FD851400485438 /* Client_types.h */; };
+		761515E411FD851400485438 /* ClientService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 761515D611FD851400485438 /* ClientService.cpp */; };
+		761515E511FD851400485438 /* ClientService.h in Headers */ = {isa = PBXBuildFile; fileRef = 761515D711FD851400485438 /* ClientService.h */; };
+		761515E711FD851400485438 /* Hql_constants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 761515D911FD851400485438 /* Hql_constants.cpp */; };
+		761515E811FD851400485438 /* Hql_constants.h in Headers */ = {isa = PBXBuildFile; fileRef = 761515DA11FD851400485438 /* Hql_constants.h */; };
+		761515E911FD851400485438 /* Hql_types.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 761515DB11FD851400485438 /* Hql_types.cpp */; };
+		761515EA11FD851400485438 /* Hql_types.h in Headers */ = {isa = PBXBuildFile; fileRef = 761515DC11FD851400485438 /* Hql_types.h */; };
+		761515EB11FD851400485438 /* HqlService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 761515DD11FD851400485438 /* HqlService.cpp */; };
+		761515EC11FD851400485438 /* HqlService.h in Headers */ = {isa = PBXBuildFile; fileRef = 761515DE11FD851400485438 /* HqlService.h */; };
+		7615168411FD8FED00485438 /* ConnectOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7615165111FD8C4800485438 /* ConnectOperation.m */; };
+		761516E211FD96C100485438 /* FetchPageOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 761516DD11FD96A100485438 /* FetchPageOperation.m */; };
+		7615175811FDA23F00485438 /* FetchTablesOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7615175711FDA23F00485438 /* FetchTablesOperation.m */; };
 		761FDAC810D0D33F00D2EEFF /* ConnectionSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 761FDAC710D0D33F00D2EEFF /* ConnectionSheetController.m */; };
 		765E610B10D811BD00E4CA1D /* HqlController.h in Headers */ = {isa = PBXBuildFile; fileRef = 765E610910D811BD00E4CA1D /* HqlController.h */; };
 		765E611610D818F200E4CA1D /* HqlController.m in Sources */ = {isa = PBXBuildFile; fileRef = 765E610A10D811BD00E4CA1D /* HqlController.m */; };
@@ -26,23 +41,11 @@
 		7677371710CE93D100DDDCC6 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7677371610CE93D100DDDCC6 /* CoreServices.framework */; };
 		767A072210CFD5D400B6739F /* ThriftConnectionInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 767A072110CFD5D400B6739F /* ThriftConnectionInfo.m */; };
 		767A3C5410D5A8A700BAE46E /* HyperTableBrowser.icns in Resources */ = {isa = PBXBuildFile; fileRef = 767A3C5310D5A8A700BAE46E /* HyperTableBrowser.icns */; };
-		767A3CB710D5AA9800BAE46E /* Client_constants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 767A3C7610D5A97500BAE46E /* Client_constants.cpp */; };
-		767A3CB810D5AA9800BAE46E /* Client_types.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 767A3C7810D5A97500BAE46E /* Client_types.cpp */; };
-		767A3CB910D5AA9800BAE46E /* ClientService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 767A3C7A10D5A97500BAE46E /* ClientService.cpp */; };
-		767A3CBA10D5AA9800BAE46E /* Hql_constants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 767A3C7D10D5A97500BAE46E /* Hql_constants.cpp */; };
-		767A3CBB10D5AA9800BAE46E /* Hql_types.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 767A3C7F10D5A97500BAE46E /* Hql_types.cpp */; };
-		767A3CBC10D5AA9800BAE46E /* HqlService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 767A3C8110D5A97600BAE46E /* HqlService.cpp */; };
 		767A3CBD10D5AA9800BAE46E /* HyperThriftWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 767A3C8310D5A97600BAE46E /* HyperThriftWrapper.cpp */; };
 		767A3CBF10D5AABC00BAE46E /* HyperThriftWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 767A3C8410D5A97600BAE46E /* HyperThriftWrapper.h */; };
 		7689234F10D8334B00B5E024 /* PageSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 7689234E10D8334B00B5E024 /* PageSource.m */; };
 		768C58EC10D8CC4200D5DB91 /* ObjectsPageSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 768C58EB10D8CC4200D5DB91 /* ObjectsPageSource.m */; };
 		768C5A3F10D8EE7100D5DB91 /* TestThriftGen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 767A3C8610D5A97600BAE46E /* TestThriftGen.cpp */; };
-		768C5A4B10D8EF0D00D5DB91 /* Client_constants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 767A3C7610D5A97500BAE46E /* Client_constants.cpp */; };
-		768C5A4C10D8EF0D00D5DB91 /* Client_types.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 767A3C7810D5A97500BAE46E /* Client_types.cpp */; };
-		768C5A4D10D8EF0D00D5DB91 /* ClientService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 767A3C7A10D5A97500BAE46E /* ClientService.cpp */; };
-		768C5A4E10D8EF0D00D5DB91 /* Hql_constants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 767A3C7D10D5A97500BAE46E /* Hql_constants.cpp */; };
-		768C5A4F10D8EF0D00D5DB91 /* Hql_types.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 767A3C7F10D5A97500BAE46E /* Hql_types.cpp */; };
-		768C5A5010D8EF0D00D5DB91 /* HqlService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 767A3C8110D5A97600BAE46E /* HqlService.cpp */; };
 		768C5A5410D8EF7300D5DB91 /* libHyperThriftWrapper.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 767A3CB310D5AA6500BAE46E /* libHyperThriftWrapper.dylib */; };
 		768C5A5510D8EF8300D5DB91 /* TestWrapper.c in Sources */ = {isa = PBXBuildFile; fileRef = 767A3C8710D5A97600BAE46E /* TestWrapper.c */; };
 		76B02666115CFA9E003854D2 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 76B02665115CFA9E003854D2 /* Credits.rtf */; };
@@ -53,7 +56,6 @@
 		76DB3E4C112A83D900B2C2EB /* ServersManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DB3E4B112A83D900B2C2EB /* ServersManager.m */; };
 		76DC6A3C11FCC24C00E14519 /* HyperTableBrowser.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76DC6A3A11FCC24C00E14519 /* HyperTableBrowser.xib */; };
 		76EB165B10FDCC810047F75B /* ServersSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EB165A10FDCC810047F75B /* ServersSource.m */; };
-		76F814B811FB8159001B79C6 /* ClientService.h in Headers */ = {isa = PBXBuildFile; fileRef = 767A3C7B10D5A97500BAE46E /* ClientService.h */; };
 		76F8150111FB84B0001B79C6 /* libHyperThriftWrapper.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 767A3CB310D5AA6500BAE46E /* libHyperThriftWrapper.dylib */; };
 		76F815B311FB88BB001B79C6 /* Exception.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F8155E11FB88BB001B79C6 /* Exception.h */; };
 		76F815B411FB88BB001B79C6 /* FunctionRunner.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F8155F11FB88BB001B79C6 /* FunctionRunner.h */; };
@@ -178,6 +180,24 @@
 		76081DA910E255F6005F668F /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Sources/main.m; sourceTree = "<group>"; };
 		76081DAB10E25683005F668F /* HyperTableBrowser_DataModel.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; name = HyperTableBrowser_DataModel.xcdatamodel; path = Sources/HyperTableBrowser_DataModel.xcdatamodel; sourceTree = "<group>"; };
 		76081DC310E257E9005F668F /* HyperTableBrowser_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyperTableBrowser_Prefix.pch; sourceTree = "<group>"; };
+		761515D211FD851400485438 /* Client_constants.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Client_constants.cpp; sourceTree = "<group>"; };
+		761515D311FD851400485438 /* Client_constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client_constants.h; sourceTree = "<group>"; };
+		761515D411FD851400485438 /* Client_types.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Client_types.cpp; sourceTree = "<group>"; };
+		761515D511FD851400485438 /* Client_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client_types.h; sourceTree = "<group>"; };
+		761515D611FD851400485438 /* ClientService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClientService.cpp; sourceTree = "<group>"; };
+		761515D711FD851400485438 /* ClientService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientService.h; sourceTree = "<group>"; };
+		761515D911FD851400485438 /* Hql_constants.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Hql_constants.cpp; sourceTree = "<group>"; };
+		761515DA11FD851400485438 /* Hql_constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hql_constants.h; sourceTree = "<group>"; };
+		761515DB11FD851400485438 /* Hql_types.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Hql_types.cpp; sourceTree = "<group>"; };
+		761515DC11FD851400485438 /* Hql_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hql_types.h; sourceTree = "<group>"; };
+		761515DD11FD851400485438 /* HqlService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HqlService.cpp; sourceTree = "<group>"; };
+		761515DE11FD851400485438 /* HqlService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HqlService.h; sourceTree = "<group>"; };
+		7615165011FD8C4800485438 /* ConnectOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConnectOperation.h; path = Sources/Classes/ConnectOperation.h; sourceTree = "<group>"; };
+		7615165111FD8C4800485438 /* ConnectOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConnectOperation.m; path = Sources/Classes/ConnectOperation.m; sourceTree = "<group>"; };
+		761516DC11FD96A100485438 /* FetchPageOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FetchPageOperation.h; path = Sources/Classes/FetchPageOperation.h; sourceTree = "<group>"; };
+		761516DD11FD96A100485438 /* FetchPageOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FetchPageOperation.m; path = Sources/Classes/FetchPageOperation.m; sourceTree = "<group>"; };
+		7615175611FDA23F00485438 /* FetchTablesOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FetchTablesOperation.h; path = Sources/Classes/FetchTablesOperation.h; sourceTree = "<group>"; };
+		7615175711FDA23F00485438 /* FetchTablesOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FetchTablesOperation.m; path = Sources/Classes/FetchTablesOperation.m; sourceTree = "<group>"; };
 		761FDAC610D0D33F00D2EEFF /* ConnectionSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConnectionSheetController.h; path = Sources/Classes/Controllers/ConnectionSheetController.h; sourceTree = "<group>"; };
 		761FDAC710D0D33F00D2EEFF /* ConnectionSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConnectionSheetController.m; path = Sources/Classes/Controllers/ConnectionSheetController.m; sourceTree = "<group>"; };
 		765E610910D811BD00E4CA1D /* HqlController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HqlController.h; path = Sources/Classes/Controllers/HqlController.h; sourceTree = "<group>"; };
@@ -198,18 +218,6 @@
 		767A072110CFD5D400B6739F /* ThriftConnectionInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ThriftConnectionInfo.m; path = Sources/Classes/ThriftConnectionInfo.m; sourceTree = "<group>"; };
 		767A3C5310D5A8A700BAE46E /* HyperTableBrowser.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = HyperTableBrowser.icns; sourceTree = "<group>"; };
 		767A3C7510D5A97500BAE46E /* Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client.h; sourceTree = "<group>"; };
-		767A3C7610D5A97500BAE46E /* Client_constants.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Client_constants.cpp; sourceTree = "<group>"; };
-		767A3C7710D5A97500BAE46E /* Client_constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client_constants.h; sourceTree = "<group>"; };
-		767A3C7810D5A97500BAE46E /* Client_types.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Client_types.cpp; sourceTree = "<group>"; };
-		767A3C7910D5A97500BAE46E /* Client_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client_types.h; sourceTree = "<group>"; };
-		767A3C7A10D5A97500BAE46E /* ClientService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClientService.cpp; sourceTree = "<group>"; };
-		767A3C7B10D5A97500BAE46E /* ClientService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientService.h; sourceTree = "<group>"; };
-		767A3C7D10D5A97500BAE46E /* Hql_constants.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Hql_constants.cpp; sourceTree = "<group>"; };
-		767A3C7E10D5A97500BAE46E /* Hql_constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hql_constants.h; sourceTree = "<group>"; };
-		767A3C7F10D5A97500BAE46E /* Hql_types.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Hql_types.cpp; sourceTree = "<group>"; };
-		767A3C8010D5A97500BAE46E /* Hql_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hql_types.h; sourceTree = "<group>"; };
-		767A3C8110D5A97600BAE46E /* HqlService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HqlService.cpp; sourceTree = "<group>"; };
-		767A3C8210D5A97600BAE46E /* HqlService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HqlService.h; sourceTree = "<group>"; };
 		767A3C8310D5A97600BAE46E /* HyperThriftWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HyperThriftWrapper.cpp; sourceTree = "<group>"; };
 		767A3C8410D5A97600BAE46E /* HyperThriftWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyperThriftWrapper.h; sourceTree = "<group>"; };
 		767A3C8610D5A97600BAE46E /* TestThriftGen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestThriftGen.cpp; sourceTree = "<group>"; };
@@ -379,6 +387,12 @@
 				76DB3E4B112A83D900B2C2EB /* ServersManager.m */,
 				76F8182D11FC66C2001B79C6 /* TableSchema.h */,
 				76F8182E11FC66C2001B79C6 /* TableSchema.m */,
+				7615165011FD8C4800485438 /* ConnectOperation.h */,
+				7615165111FD8C4800485438 /* ConnectOperation.m */,
+				761516DC11FD96A100485438 /* FetchPageOperation.h */,
+				761516DD11FD96A100485438 /* FetchPageOperation.m */,
+				7615175611FDA23F00485438 /* FetchTablesOperation.h */,
+				7615175711FDA23F00485438 /* FetchTablesOperation.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -461,6 +475,25 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		761515D111FD851400485438 /* gen-cpp */ = {
+			isa = PBXGroup;
+			children = (
+				761515D211FD851400485438 /* Client_constants.cpp */,
+				761515D311FD851400485438 /* Client_constants.h */,
+				761515D411FD851400485438 /* Client_types.cpp */,
+				761515D511FD851400485438 /* Client_types.h */,
+				761515D611FD851400485438 /* ClientService.cpp */,
+				761515D711FD851400485438 /* ClientService.h */,
+				761515D911FD851400485438 /* Hql_constants.cpp */,
+				761515DA11FD851400485438 /* Hql_constants.h */,
+				761515DB11FD851400485438 /* Hql_types.cpp */,
+				761515DC11FD851400485438 /* Hql_types.h */,
+				761515DD11FD851400485438 /* HqlService.cpp */,
+				761515DE11FD851400485438 /* HqlService.h */,
+			);
+			path = "gen-cpp";
+			sourceTree = "<group>";
+		};
 		7677371F10CE94DB00DDDCC6 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -489,19 +522,8 @@
 		767A3C7410D5A97500BAE46E /* HyperThriftWrapper */ = {
 			isa = PBXGroup;
 			children = (
+				761515D111FD851400485438 /* gen-cpp */,
 				767A3C7510D5A97500BAE46E /* Client.h */,
-				767A3C7610D5A97500BAE46E /* Client_constants.cpp */,
-				767A3C7710D5A97500BAE46E /* Client_constants.h */,
-				767A3C7810D5A97500BAE46E /* Client_types.cpp */,
-				767A3C7910D5A97500BAE46E /* Client_types.h */,
-				767A3C7A10D5A97500BAE46E /* ClientService.cpp */,
-				767A3C7B10D5A97500BAE46E /* ClientService.h */,
-				767A3C7D10D5A97500BAE46E /* Hql_constants.cpp */,
-				767A3C7E10D5A97500BAE46E /* Hql_constants.h */,
-				767A3C7F10D5A97500BAE46E /* Hql_types.cpp */,
-				767A3C8010D5A97500BAE46E /* Hql_types.h */,
-				767A3C8110D5A97600BAE46E /* HqlService.cpp */,
-				767A3C8210D5A97600BAE46E /* HqlService.h */,
 				767A3C8310D5A97600BAE46E /* HyperThriftWrapper.cpp */,
 				767A3C8410D5A97600BAE46E /* HyperThriftWrapper.h */,
 				767A3C8510D5A97600BAE46E /* Tests */,
@@ -662,10 +684,15 @@
 			files = (
 				767A3CBF10D5AABC00BAE46E /* HyperThriftWrapper.h in Headers */,
 				766F24D810D7935100AB059D /* HyperThriftHql.h in Headers */,
-				76F814B811FB8159001B79C6 /* ClientService.h in Headers */,
 				766F24E510D794F600AB059D /* Convert.h in Headers */,
 				765E610B10D811BD00E4CA1D /* HqlController.h in Headers */,
 				76B3C5C010DA328100078742 /* DataPage.h in Headers */,
+				761515E111FD851400485438 /* Client_constants.h in Headers */,
+				761515E311FD851400485438 /* Client_types.h in Headers */,
+				761515E511FD851400485438 /* ClientService.h in Headers */,
+				761515E811FD851400485438 /* Hql_constants.h in Headers */,
+				761515EA11FD851400485438 /* Hql_types.h in Headers */,
+				761515EC11FD851400485438 /* HqlService.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -854,16 +881,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				767A3CB710D5AA9800BAE46E /* Client_constants.cpp in Sources */,
-				767A3CB810D5AA9800BAE46E /* Client_types.cpp in Sources */,
-				767A3CB910D5AA9800BAE46E /* ClientService.cpp in Sources */,
 				766F24D910D7935100AB059D /* HyperThriftHql.cpp in Sources */,
-				767A3CBA10D5AA9800BAE46E /* Hql_constants.cpp in Sources */,
-				767A3CBB10D5AA9800BAE46E /* Hql_types.cpp in Sources */,
-				767A3CBC10D5AA9800BAE46E /* HqlService.cpp in Sources */,
 				767A3CBD10D5AA9800BAE46E /* HyperThriftWrapper.cpp in Sources */,
 				766F24E610D794F600AB059D /* Convert.cpp in Sources */,
 				76B3C5C110DA328200078742 /* DataPage.cpp in Sources */,
+				761515E011FD851400485438 /* Client_constants.cpp in Sources */,
+				761515E211FD851400485438 /* Client_types.cpp in Sources */,
+				761515E411FD851400485438 /* ClientService.cpp in Sources */,
+				761515E711FD851400485438 /* Hql_constants.cpp in Sources */,
+				761515E911FD851400485438 /* Hql_types.cpp in Sources */,
+				761515EB11FD851400485438 /* HqlService.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -879,12 +906,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				768C5A4B10D8EF0D00D5DB91 /* Client_constants.cpp in Sources */,
-				768C5A4C10D8EF0D00D5DB91 /* Client_types.cpp in Sources */,
-				768C5A4D10D8EF0D00D5DB91 /* ClientService.cpp in Sources */,
-				768C5A4E10D8EF0D00D5DB91 /* Hql_constants.cpp in Sources */,
-				768C5A4F10D8EF0D00D5DB91 /* Hql_types.cpp in Sources */,
-				768C5A5010D8EF0D00D5DB91 /* HqlService.cpp in Sources */,
 				768C5A3F10D8EE7100D5DB91 /* TestThriftGen.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -927,6 +948,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7615168411FD8FED00485438 /* ConnectOperation.m in Sources */,
 				765E611610D818F200E4CA1D /* HqlController.m in Sources */,
 				7677367610CE88C800DDDCC6 /* ThriftConnection.m in Sources */,
 				767A072210CFD5D400B6739F /* ThriftConnectionInfo.m in Sources */,
@@ -944,7 +966,9 @@
 				766A3E7A1162268C00176B42 /* MBPreferencesController.m in Sources */,
 				766A3E7D1162269C00176B42 /* GeneralPreferencesController.m in Sources */,
 				76F8182F11FC66C2001B79C6 /* TableSchema.m in Sources */,
+				761516E211FD96C100485438 /* FetchPageOperation.m in Sources */,
 				76F8185811FC6F38001B79C6 /* NewTableController.m in Sources */,
+				7615175811FDA23F00485438 /* FetchTablesOperation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
