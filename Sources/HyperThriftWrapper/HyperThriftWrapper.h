@@ -20,6 +20,7 @@ typedef void* HTHRIFT;
 #define T_ERR_TRANSPORT -2
 #define T_ERR_CLIENT -3
 #define T_ERR_TIMEOUT -4
+#define T_ERR_APPLICATION -5
 
 #ifdef __cplusplus
 extern "C" {

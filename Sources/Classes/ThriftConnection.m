@@ -42,6 +42,10 @@
 		case T_ERR_TIMEOUT:
 			return @"Operation timeout. Check HyperTable is running correctly.";
 			break;
+		case T_ERR_APPLICATION:
+			return @"System error occured. Either your HyperTable server \
+			is incompatible with this client application or it had experienced problem service the request";
+			break;
 
 		case T_OK:
 		default:

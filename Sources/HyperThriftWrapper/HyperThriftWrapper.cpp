@@ -65,6 +65,10 @@ int get_tables_list(HTHRIFT hThrift, DataRow * row)
 		printf("get_tables_list: client exception: %s\n", ex.what());
 		return T_ERR_CLIENT;
 	}
+	catch (TApplicationException & aexp) {
+		printf("get_tables_list: application exception: %s\n", aexp.what());
+		return T_ERR_APPLICATION;
+	}
 }
 
 int get_keys(HTHRIFT hThrift, DataRow * keys, const char * objectTypeId)
@@ -113,7 +117,10 @@ int get_keys(HTHRIFT hThrift, DataRow * keys, const char * objectTypeId)
 		printf("get_keys: client exception: %s\n", ex.what());
 		return T_ERR_CLIENT;
 	}
-	
+	catch (TApplicationException & aexp) {
+		printf("get_keys: application exception: %s\n", aexp.what());
+		return T_ERR_APPLICATION;
+	}
 }
 
 int get_page(HTHRIFT hThrift, DataPage * page, const char * objectTypeId,
@@ -179,6 +186,10 @@ int get_page(HTHRIFT hThrift, DataPage * page, const char * objectTypeId,
 		printf("get_page: client exception: %s\n", ex.what());
 		return T_ERR_CLIENT;
 	}
+	catch (TApplicationException & aexp) {
+		printf("get_page: application exception: %s\n", aexp.what());
+		return T_ERR_APPLICATION;
+	}
 }
 
 //returns row with specified key
@@ -205,18 +216,22 @@ int get_row(HTHRIFT hThrift, DataRow * row, const char * objectTypeId,
 	}
 	catch (TTransportException & ex) {
 		if (strstr(ex.what(), "EAGAIN")) {
-			printf("get_objects: timeout: %s\n", ex.what());
+			printf("get_row: timeout: %s\n", ex.what());
 			return T_ERR_TIMEOUT;
 			
 		}
 		else {
-			printf("get_objects: exception: %s\n", ex.what());
+			printf("get_row: exception: %s\n", ex.what());
 			return T_ERR_TRANSPORT;
 		}
 	}
 	catch (ClientException & ex) {
-		printf("get_objects: client exception: %s\n", ex.what());
+		printf("get_row: client exception: %s\n", ex.what());
 		return T_ERR_CLIENT;
+	}
+	catch (TApplicationException & aexp) {
+		printf("get_row: application exception: %s\n", aexp.what());
+		return T_ERR_APPLICATION;
 	}
 }
 
@@ -281,6 +296,10 @@ int set_page(HTHRIFT hThrift, DataPage * page, const char * objectTypeId)
 		printf("set_page: client exception: %s\n", ex.what());
 		return T_ERR_CLIENT;
 	}
+	catch (TApplicationException & aexp) {
+		printf("set_page: application exception: %s\n", aexp.what());
+		return T_ERR_APPLICATION;
+	}
 }
 
 //writes cells from row
@@ -338,6 +357,10 @@ int set_row(HTHRIFT hThrift, DataRow * row, const char * objectTypeId)
 		printf("set_row: client exception: %s\n", ex.message.c_str());
 		return T_ERR_CLIENT;
 	}
+	catch (TApplicationException & aexp) {
+		printf("set_row: application exception: %s\n", aexp.what());
+		return T_ERR_APPLICATION;
+	}
 }
 
 int new_table(HTHRIFT hThrift, const char * name, const char * schema)
@@ -366,6 +389,10 @@ int new_table(HTHRIFT hThrift, const char * name, const char * schema)
 		printf("new_table: client exception: %s\n", ex.message.c_str());
 		return T_ERR_CLIENT;
 	}
+	catch (TApplicationException & aexp) {
+		printf("new_table: application exception: %s\n", aexp.what());
+		return T_ERR_APPLICATION;
+	}
 }
 
 //drops table by name
@@ -393,6 +420,10 @@ int drop_table(HTHRIFT hThrift, const char * name)
 	catch (ClientException & ex) {
 		printf("drop_table: client exception: %s\n", ex.message.c_str());
 		return T_ERR_CLIENT;
+	}
+	catch (TApplicationException & aexp) {
+		printf("new_table: application exception: %s\n", aexp.what());
+		return T_ERR_APPLICATION;
 	}
 }
 

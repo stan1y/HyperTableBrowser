@@ -18,14 +18,6 @@ void convert_row(DataPage * page, std::vector<Cell> cells)
 	}
 	
 	DataRow * row = row_new(cells[0].key.row.c_str());
-	
-	//add revision cell
-	char str_revision[255];
-	snprintf(str_revision, 255, "%d\0", cells[0].key.revision);
-	DataCell * cell = cell_new(NULL, NULL);
-	cell_set(cell, "app", "revision", str_revision);
-	row_append(row, cell);
-	
 	std::vector<Hypertable::ThriftGen::Cell>::iterator it = cells.begin();
 	int index = 1;
 	for (; it != cells.end(); it++) {
