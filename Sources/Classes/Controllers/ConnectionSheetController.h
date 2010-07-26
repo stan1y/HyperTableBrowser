@@ -11,6 +11,8 @@
 #import <ThriftConnectionInfo.h>
 #import <HyperTableServer.h>
 #import <ToolBarController.h>
+#import <ConnectOperation.h>
+#import <FetchTablesOperation.h>
 
 @interface ConnectionSheetController : NSObject {
 	

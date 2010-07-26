@@ -18,10 +18,10 @@
 	
 	//remove server from view if it
 	//was an attempt to reconnect
-	NSString * hostname = [addressField stringValue];
-	id srv = [[[NSApp delegate] serversManager] getServer:hostname ];
+	NSString * address = [addressField stringValue];
+	id srv = [[[NSApp delegate] serversManager] getServer:address ];
 	if (srv) {
-		NSLog(@"Removing server %s from view. Reconnect was canceled.", [hostname UTF8String]);
+		NSLog(@"Removing server %s from view. Reconnect was canceled.", [address UTF8String]);
 		
 		NSError * error = nil;
 		[[[NSApp delegate] managedObjectContext] deleteObject:srv];
@@ -67,7 +67,7 @@
 }
 
 - (IBAction)performConnect:(id)sender {
-	NSLog(@"Performing connection...");
+	NSLog(@"Connection sheet: Performing connection...\n");
 	
 	//update controls
 	[connectButton setEnabled:NO];
@@ -77,83 +77,77 @@
 	[statusField setStringValue:@"Connecting..."];
 	
 	//trying to connect
-	NSString * hostname = [addressField stringValue];
+	NSString * address = [addressField stringValue];
 	int port = [portField intValue];
 	
-	//show progress and message
-	
-	//create or get server object
-	ThriftConnection * connection = [[ThriftConnection alloc] init];
-	ThriftConnectionInfo * serverInfo = [ThriftConnectionInfo infoWithAddress:hostname andPort:port];
+	ThriftConnectionInfo * serverInfo = [ThriftConnectionInfo infoWithAddress:address andPort:port];
+	ConnectOperation * connectOp = [ConnectOperation connectWithInfo:serverInfo];
 
-	//connect
-	dispatch_async(dispatch_get_global_queue(0, 0), ^{
-		id msg = [connection connectTo:serverInfo];
-		[serverInfo release];
-		dispatch_async(dispatch_get_main_queue(), ^{
-			if ([connection thriftClient] == nil) {
-				NSLog(@"Connection failed!");
-				
-				//failed
-				[statusField setTextColor:[NSColor redColor]];
-				[statusField setStringValue:msg];
-				
-				[indicator stopAnimation:self];
-				[connectButton setEnabled:YES];
-				[connectButton setTitle:@"Retry"];
-			}
-			else {
-				NSLog(@"Connection successful!");
-				
-				[[[NSApp delegate] window] setTitle:[NSString stringWithFormat:@"HyperTable Browser @ %s", [hostname UTF8String]] ];
-				[[NSApp delegate] setMessage: [NSString stringWithFormat:@"Connected to %s.", 
-														 [hostname UTF8String]]];
-				
-				//new server or existing?
-				HyperTableServer * connectedServer = [[[NSApp delegate] serversManager] getServer:hostname];
-				
-				if (connectedServer != nil) {
-					NSLog(@"Updating connection to server %s", [hostname UTF8String]);
-				}
-				else {
-					NSLog(@"Adding new server %s", [hostname UTF8String]);
-					
-					//add new server
-					connectedServer = [HyperTableServer serverWithDefaultContext];
-					[[[NSApp delegate] managedObjectContext] insertObject:connectedServer];
-					[[NSApp delegate] saveAction:self];
-					
-					
-					//NSError * error = nil;
-					//[[[NSApp delegate] managedObjectContext] save:&error];
-					//if (error) {
-					//	[[NSApp delegate] setMessage:@"Failed to add server to persistent store"];
-					//}
-				}
-								
+	[connectOp setCompletionBlock: ^ {
+		
+		NSLog(@"Connection sheet: operation completed.\n");
+		if ( ![[connectOp connection] isConnected] ) {
+			NSLog(@"Connect: Connection failed!\n");
+			
+			//failed
+			[statusField setTextColor:[NSColor redColor]];
+			[statusField setStringValue:[ThriftConnection errorFromCode:[connectOp errorCode]]];
+			
+			[indicator stopAnimation:self];
+			[connectButton setEnabled:YES];
+			[connectButton setTitle:@"Retry"];
+		}
+		else {
+			NSLog(@"Connect: Connection successful!");
+			
+			[[[NSApp delegate] window] setTitle:[NSString stringWithFormat:@"HyperTable Browser @ %s", [address UTF8String]] ];
+			[[NSApp delegate] setMessage: [NSString stringWithFormat:@"Connected to %s.", 
+										   [address UTF8String]]];
+			
+			//new server or existing?
+			HyperTableServer * connectedServer = [[[NSApp delegate] serversManager] getServer:address];
+			
+			if (connectedServer != nil) {
+				NSLog(@"Connect: Updating connection to server %s", [address UTF8String]);
 				//update settings
-				[connectedServer setValue:hostname forKey:@"hostname"];
+				[connectedServer setValue:address forKey:@"ipAddress"];
 				NSNumber * portNum = [NSNumber numberWithInt:port];
 				[connectedServer setValue:portNum forKey:@"port"];
-				
-				//set connection
-				[[[NSApp delegate] serversManager] setConnection:connection forServer:connectedServer];
-				//read tables
-				[connection refreshTables];
-				
-				//reload servers view
-				[[[NSApp delegate] serversView] reloadItem:nil reloadChildren:YES];
-				ToolBarController * toolbar = [[NSApp delegate] toolBarController];
-				toolbar.allowNewTable = YES;
-				
-				//close sheet
-				[connectionSheet orderOut:nil];
-				[NSApp endSheet:connectionSheet];
-				
-				
 			}
-		});
-	});
+			else {
+				NSLog(@"Connect: Adding new server %s", [address UTF8String]);
+				
+				//add new server
+				connectedServer = [HyperTableServer serverWithDefaultContext];
+				[connectedServer setValue:address forKey:@"ipAddress"];
+				NSNumber * portNum = [NSNumber numberWithInt:port];
+				[connectedServer setValue:portNum forKey:@"port"];
+				[[[NSApp delegate] managedObjectContext] insertObject:connectedServer];
+				[[NSApp delegate] saveAction:self];
+			}
+			//set connection
+			[[[NSApp delegate] serversManager] setConnection:[connectOp connection] forServer:connectedServer];
+			
+			//close sheet
+			[connectionSheet orderOut:nil];
+			[NSApp endSheet:connectionSheet];
+			
+			//fetch tables for new connection
+			FetchTablesOperation * fetchTablesOp = [FetchTablesOperation fetchTablesFromConnection:[connectOp connection]];
+			[fetchTablesOp setCompletionBlock: ^ {
+				NSLog(@"Updaing servers & tables tree...\n");
+				[[[NSApp delegate] serversView] reloadItem:nil reloadChildren:YES];
+				//ToolBarController * toolbar = [[NSApp delegate] toolBarController];
+				//toolbar.allowNewTable = YES;
+			}];
+			
+			NSLog(@"Starting tables fetching operation...\n");
+			[fetchTablesOp start];
+		}
+	} ];
+	
+	NSLog(@"Starting connection operation...\n");
+	[connectOp start];
 }
 
 /* ComboBox auto-complete */
