@@ -45,8 +45,8 @@ int hql_query(HTHRIFT_HQL hThrift, DataPage * page, const char * query)
 		client->hql_query(r, std::string(query));
 		int rowIndex = 0;
 		if (r.cells.size() > 0) {
-			std::string current_row_key = r.cells[0].row_key;
-			int64_t current_row_revision = r.cells[0].revision;
+			std::string current_row_key = r.cells[0].key.row;
+			int64_t current_row_revision = r.cells[0].key.revision;
 			std::vector<Cell> cells_row;
 			int index = 0;
 			//append first cell
@@ -63,10 +63,10 @@ int hql_query(HTHRIFT_HQL hThrift, DataPage * page, const char * query)
 					break;
 				}
 				//next row reached
-				if (r.cells[index].row_key != current_row_key || 
-					r.cells[index].revision != current_row_revision) {
+				if (r.cells[index].key.row != current_row_key || 
+					r.cells[index].key.revision != current_row_revision) {
 					convert_row(page, cells_row);
-					current_row_key = r.cells[index].row_key;
+					current_row_key = r.cells[index].key.row;
 					rowIndex++;
 					cells_row.clear();
 					//append as first cell of new row

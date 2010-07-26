@@ -47,6 +47,11 @@ class ClientServiceHandler : virtual public ClientServiceIf {
     printf("next_cells_as_arrays\n");
   }
 
+  void next_cells_serialized(CellsSerialized& _return, const Scanner scanner) {
+    // Your implementation goes here
+    printf("next_cells_serialized\n");
+  }
+
   void next_row(std::vector<Cell> & _return, const Scanner scanner) {
     // Your implementation goes here
     printf("next_row\n");
@@ -57,6 +62,11 @@ class ClientServiceHandler : virtual public ClientServiceIf {
     printf("next_row_as_arrays\n");
   }
 
+  void next_row_serialized(CellsSerialized& _return, const Scanner scanner) {
+    // Your implementation goes here
+    printf("next_row_serialized\n");
+  }
+
   void get_row(std::vector<Cell> & _return, const std::string& name, const std::string& row) {
     // Your implementation goes here
     printf("get_row\n");
@@ -65,6 +75,11 @@ class ClientServiceHandler : virtual public ClientServiceIf {
   void get_row_as_arrays(std::vector<CellAsArray> & _return, const std::string& name, const std::string& row) {
     // Your implementation goes here
     printf("get_row_as_arrays\n");
+  }
+
+  void get_row_serialized(CellsSerialized& _return, const std::string& name, const std::string& row) {
+    // Your implementation goes here
+    printf("get_row_serialized\n");
   }
 
   void get_cell(Value& _return, const std::string& name, const std::string& row, const std::string& column) {
@@ -80,6 +95,16 @@ class ClientServiceHandler : virtual public ClientServiceIf {
   void get_cells_as_arrays(std::vector<CellAsArray> & _return, const std::string& name, const ScanSpec& scan_spec) {
     // Your implementation goes here
     printf("get_cells_as_arrays\n");
+  }
+
+  void get_cells_serialized(CellsSerialized& _return, const std::string& name, const ScanSpec& scan_spec) {
+    // Your implementation goes here
+    printf("get_cells_serialized\n");
+  }
+
+  void refresh_shared_mutator(const std::string& tablename, const MutateSpec& mutate_spec) {
+    // Your implementation goes here
+    printf("refresh_shared_mutator\n");
   }
 
   void put_cells(const std::string& tablename, const MutateSpec& mutate_spec, const std::vector<Cell> & cells) {
@@ -132,9 +157,19 @@ class ClientServiceHandler : virtual public ClientServiceIf {
     printf("set_cells_as_arrays\n");
   }
 
+  void set_cells_serialized(const Mutator mutator, const CellsSerialized& cells, const bool flush) {
+    // Your implementation goes here
+    printf("set_cells_serialized\n");
+  }
+
   void flush_mutator(const Mutator mutator) {
     // Your implementation goes here
     printf("flush_mutator\n");
+  }
+
+  bool exists_table(const std::string& name) {
+    // Your implementation goes here
+    printf("exists_table\n");
   }
 
   int32_t get_table_id(const std::string& name) {
@@ -142,7 +177,12 @@ class ClientServiceHandler : virtual public ClientServiceIf {
     printf("get_table_id\n");
   }
 
-  void get_schema(std::string& _return, const std::string& name) {
+  void get_schema_str(std::string& _return, const std::string& name) {
+    // Your implementation goes here
+    printf("get_schema_str\n");
+  }
+
+  void get_schema(Schema& _return, const std::string& name) {
     // Your implementation goes here
     printf("get_schema\n");
   }
@@ -150,6 +190,11 @@ class ClientServiceHandler : virtual public ClientServiceIf {
   void get_tables(std::vector<std::string> & _return) {
     // Your implementation goes here
     printf("get_tables\n");
+  }
+
+  void get_table_splits(std::vector<TableSplit> & _return, const std::string& name) {
+    // Your implementation goes here
+    printf("get_table_splits\n");
   }
 
   void drop_table(const std::string& name, const bool if_exists) {

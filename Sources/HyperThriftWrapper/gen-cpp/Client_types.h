@@ -7,6 +7,7 @@
 #define Client_TYPES_H
 
 #include <Thrift.h>
+#include <TApplicationException.h>
 #include <protocol/TProtocol.h>
 #include <transport/TTransport.h>
 
@@ -33,6 +34,8 @@ typedef int64_t Mutator;
 typedef std::string Value;
 
 typedef std::vector<std::string>  CellAsArray;
+
+typedef std::string CellsSerialized;
 
 class RowInterval {
  public:
@@ -241,6 +244,65 @@ class ScanSpec {
 
 };
 
+class Key {
+ public:
+
+  static const char* ascii_fingerprint; // = "052C5786CACCF64BCAAB76EA122375F2";
+  static const uint8_t binary_fingerprint[16]; // = {0x05,0x2C,0x57,0x86,0xCA,0xCC,0xF6,0x4B,0xCA,0xAB,0x76,0xEA,0x12,0x23,0x75,0xF2};
+
+  Key() : row(""), column_family(""), column_qualifier(""), timestamp(0), revision(0), flag(255) {
+  }
+
+  virtual ~Key() throw() {}
+
+  std::string row;
+  std::string column_family;
+  std::string column_qualifier;
+  int64_t timestamp;
+  int64_t revision;
+  int16_t flag;
+
+  struct __isset {
+    __isset() : row(false), column_family(false), column_qualifier(false), timestamp(false), revision(false), flag(false) {}
+    bool row;
+    bool column_family;
+    bool column_qualifier;
+    bool timestamp;
+    bool revision;
+    bool flag;
+  } __isset;
+
+  bool operator == (const Key & rhs) const
+  {
+    if (!(row == rhs.row))
+      return false;
+    if (!(column_family == rhs.column_family))
+      return false;
+    if (!(column_qualifier == rhs.column_qualifier))
+      return false;
+    if (__isset.timestamp != rhs.__isset.timestamp)
+      return false;
+    else if (__isset.timestamp && !(timestamp == rhs.timestamp))
+      return false;
+    if (__isset.revision != rhs.__isset.revision)
+      return false;
+    else if (__isset.revision && !(revision == rhs.revision))
+      return false;
+    if (!(flag == rhs.flag))
+      return false;
+    return true;
+  }
+  bool operator != (const Key &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Key & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
 class MutateSpec {
  public:
 
@@ -280,62 +342,30 @@ class MutateSpec {
 class Cell {
  public:
 
-  static const char* ascii_fingerprint; // = "7D0933CA0766D7C3EAFC61FC083091CE";
-  static const uint8_t binary_fingerprint[16]; // = {0x7D,0x09,0x33,0xCA,0x07,0x66,0xD7,0xC3,0xEA,0xFC,0x61,0xFC,0x08,0x30,0x91,0xCE};
+  static const char* ascii_fingerprint; // = "E89C732825E6CBAB4D286303434183C3";
+  static const uint8_t binary_fingerprint[16]; // = {0xE8,0x9C,0x73,0x28,0x25,0xE6,0xCB,0xAB,0x4D,0x28,0x63,0x03,0x43,0x41,0x83,0xC3};
 
-  Cell() : row_key(""), column_family(""), column_qualifier(""), value(""), timestamp(0), revision(0), flag(255) {
+  Cell() : value("") {
   }
 
   virtual ~Cell() throw() {}
 
-  std::string row_key;
-  std::string column_family;
-  std::string column_qualifier;
+  Key key;
   Value value;
-  int64_t timestamp;
-  int64_t revision;
-  int16_t flag;
 
   struct __isset {
-    __isset() : row_key(false), column_family(false), column_qualifier(false), value(false), timestamp(false), revision(false), flag(false) {}
-    bool row_key;
-    bool column_family;
-    bool column_qualifier;
+    __isset() : key(false), value(false) {}
+    bool key;
     bool value;
-    bool timestamp;
-    bool revision;
-    bool flag;
   } __isset;
 
   bool operator == (const Cell & rhs) const
   {
-    if (__isset.row_key != rhs.__isset.row_key)
-      return false;
-    else if (__isset.row_key && !(row_key == rhs.row_key))
-      return false;
-    if (__isset.column_family != rhs.__isset.column_family)
-      return false;
-    else if (__isset.column_family && !(column_family == rhs.column_family))
-      return false;
-    if (__isset.column_qualifier != rhs.__isset.column_qualifier)
-      return false;
-    else if (__isset.column_qualifier && !(column_qualifier == rhs.column_qualifier))
+    if (!(key == rhs.key))
       return false;
     if (__isset.value != rhs.__isset.value)
       return false;
     else if (__isset.value && !(value == rhs.value))
-      return false;
-    if (__isset.timestamp != rhs.__isset.timestamp)
-      return false;
-    else if (__isset.timestamp && !(timestamp == rhs.timestamp))
-      return false;
-    if (__isset.revision != rhs.__isset.revision)
-      return false;
-    else if (__isset.revision && !(revision == rhs.revision))
-      return false;
-    if (__isset.flag != rhs.__isset.flag)
-      return false;
-    else if (__isset.flag && !(flag == rhs.flag))
       return false;
     return true;
   }
@@ -344,6 +374,232 @@ class Cell {
   }
 
   bool operator < (const Cell & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+class TableSplit {
+ public:
+
+  static const char* ascii_fingerprint; // = "7F96769A10DED7E9839D38968220F75A";
+  static const uint8_t binary_fingerprint[16]; // = {0x7F,0x96,0x76,0x9A,0x10,0xDE,0xD7,0xE9,0x83,0x9D,0x38,0x96,0x82,0x20,0xF7,0x5A};
+
+  TableSplit() : start_row(""), end_row(""), location(""), ip_address("") {
+  }
+
+  virtual ~TableSplit() throw() {}
+
+  std::string start_row;
+  std::string end_row;
+  std::string location;
+  std::string ip_address;
+
+  struct __isset {
+    __isset() : start_row(false), end_row(false), location(false), ip_address(false) {}
+    bool start_row;
+    bool end_row;
+    bool location;
+    bool ip_address;
+  } __isset;
+
+  bool operator == (const TableSplit & rhs) const
+  {
+    if (__isset.start_row != rhs.__isset.start_row)
+      return false;
+    else if (__isset.start_row && !(start_row == rhs.start_row))
+      return false;
+    if (__isset.end_row != rhs.__isset.end_row)
+      return false;
+    else if (__isset.end_row && !(end_row == rhs.end_row))
+      return false;
+    if (__isset.location != rhs.__isset.location)
+      return false;
+    else if (__isset.location && !(location == rhs.location))
+      return false;
+    if (__isset.ip_address != rhs.__isset.ip_address)
+      return false;
+    else if (__isset.ip_address && !(ip_address == rhs.ip_address))
+      return false;
+    return true;
+  }
+  bool operator != (const TableSplit &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const TableSplit & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+class ColumnFamily {
+ public:
+
+  static const char* ascii_fingerprint; // = "0EDE17B70FBE0133B4243A5167158E5C";
+  static const uint8_t binary_fingerprint[16]; // = {0x0E,0xDE,0x17,0xB7,0x0F,0xBE,0x01,0x33,0xB4,0x24,0x3A,0x51,0x67,0x15,0x8E,0x5C};
+
+  ColumnFamily() : name(""), ag(""), max_versions(0), ttl("") {
+  }
+
+  virtual ~ColumnFamily() throw() {}
+
+  std::string name;
+  std::string ag;
+  int32_t max_versions;
+  std::string ttl;
+
+  struct __isset {
+    __isset() : name(false), ag(false), max_versions(false), ttl(false) {}
+    bool name;
+    bool ag;
+    bool max_versions;
+    bool ttl;
+  } __isset;
+
+  bool operator == (const ColumnFamily & rhs) const
+  {
+    if (__isset.name != rhs.__isset.name)
+      return false;
+    else if (__isset.name && !(name == rhs.name))
+      return false;
+    if (__isset.ag != rhs.__isset.ag)
+      return false;
+    else if (__isset.ag && !(ag == rhs.ag))
+      return false;
+    if (__isset.max_versions != rhs.__isset.max_versions)
+      return false;
+    else if (__isset.max_versions && !(max_versions == rhs.max_versions))
+      return false;
+    if (__isset.ttl != rhs.__isset.ttl)
+      return false;
+    else if (__isset.ttl && !(ttl == rhs.ttl))
+      return false;
+    return true;
+  }
+  bool operator != (const ColumnFamily &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ColumnFamily & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+class AccessGroup {
+ public:
+
+  static const char* ascii_fingerprint; // = "17108017AF8680A78499DB15024EC92B";
+  static const uint8_t binary_fingerprint[16]; // = {0x17,0x10,0x80,0x17,0xAF,0x86,0x80,0xA7,0x84,0x99,0xDB,0x15,0x02,0x4E,0xC9,0x2B};
+
+  AccessGroup() : name(""), in_memory(0), replication(0), blocksize(0), compressor(""), bloom_filter("") {
+  }
+
+  virtual ~AccessGroup() throw() {}
+
+  std::string name;
+  bool in_memory;
+  int16_t replication;
+  int32_t blocksize;
+  std::string compressor;
+  std::string bloom_filter;
+  std::vector<ColumnFamily>  columns;
+
+  struct __isset {
+    __isset() : name(false), in_memory(false), replication(false), blocksize(false), compressor(false), bloom_filter(false), columns(false) {}
+    bool name;
+    bool in_memory;
+    bool replication;
+    bool blocksize;
+    bool compressor;
+    bool bloom_filter;
+    bool columns;
+  } __isset;
+
+  bool operator == (const AccessGroup & rhs) const
+  {
+    if (__isset.name != rhs.__isset.name)
+      return false;
+    else if (__isset.name && !(name == rhs.name))
+      return false;
+    if (__isset.in_memory != rhs.__isset.in_memory)
+      return false;
+    else if (__isset.in_memory && !(in_memory == rhs.in_memory))
+      return false;
+    if (__isset.replication != rhs.__isset.replication)
+      return false;
+    else if (__isset.replication && !(replication == rhs.replication))
+      return false;
+    if (__isset.blocksize != rhs.__isset.blocksize)
+      return false;
+    else if (__isset.blocksize && !(blocksize == rhs.blocksize))
+      return false;
+    if (__isset.compressor != rhs.__isset.compressor)
+      return false;
+    else if (__isset.compressor && !(compressor == rhs.compressor))
+      return false;
+    if (__isset.bloom_filter != rhs.__isset.bloom_filter)
+      return false;
+    else if (__isset.bloom_filter && !(bloom_filter == rhs.bloom_filter))
+      return false;
+    if (__isset.columns != rhs.__isset.columns)
+      return false;
+    else if (__isset.columns && !(columns == rhs.columns))
+      return false;
+    return true;
+  }
+  bool operator != (const AccessGroup &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AccessGroup & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+class Schema {
+ public:
+
+  static const char* ascii_fingerprint; // = "69B5DA4C91BFF355857D905B1B5A3A03";
+  static const uint8_t binary_fingerprint[16]; // = {0x69,0xB5,0xDA,0x4C,0x91,0xBF,0xF3,0x55,0x85,0x7D,0x90,0x5B,0x1B,0x5A,0x3A,0x03};
+
+  Schema() {
+  }
+
+  virtual ~Schema() throw() {}
+
+  std::map<std::string, AccessGroup>  access_groups;
+  std::map<std::string, ColumnFamily>  column_families;
+
+  struct __isset {
+    __isset() : access_groups(false), column_families(false) {}
+    bool access_groups;
+    bool column_families;
+  } __isset;
+
+  bool operator == (const Schema & rhs) const
+  {
+    if (__isset.access_groups != rhs.__isset.access_groups)
+      return false;
+    else if (__isset.access_groups && !(access_groups == rhs.access_groups))
+      return false;
+    if (__isset.column_families != rhs.__isset.column_families)
+      return false;
+    else if (__isset.column_families && !(column_families == rhs.column_families))
+      return false;
+    return true;
+  }
+  bool operator != (const Schema &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Schema & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;

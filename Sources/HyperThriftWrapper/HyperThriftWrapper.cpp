@@ -76,6 +76,8 @@ int get_keys(HTHRIFT hThrift, DataRow * keys, const char * objectTypeId)
 		//set empty columns and mark specified
 		spec.keys_only = true;
 		spec.__isset.keys_only = true;
+		spec.revs = 1;
+		spec.__isset.revs = true;
 		
 		Scanner scaner = client->open_scanner(std::string(objectTypeId), spec, false);
 		
@@ -88,7 +90,7 @@ int get_keys(HTHRIFT hThrift, DataRow * keys, const char * objectTypeId)
 			//convert row to wrapped types
 			if ( cells.size() > 0 ) {
 				DataCell * newKey = cell_new(NULL, NULL);
-				cell_set(newKey, "", "", cells[0].row_key.c_str());
+				cell_set(newKey, "", "", cells[0].key.row.c_str());
 				row_append(keys, newKey);
 			}
 			
@@ -192,8 +194,8 @@ int get_row(HTHRIFT hThrift, DataRow * row, const char * objectTypeId,
 		if (cells.size() > 0) {
 			for (int i=0; i<cells.size(); i++) {
 				DataCell * dcell = cell_new(NULL, NULL);
-				cell_set(dcell, cells[i].column_family.c_str(), 
-						 cells[i].column_qualifier.c_str(),
+				cell_set(dcell, cells[i].key.column_family.c_str(), 
+						 cells[i].key.column_qualifier.c_str(),
 						 cells[i].value.c_str());
 				row_append(row, dcell);
 			}
@@ -243,15 +245,15 @@ int set_page(HTHRIFT hThrift, DataPage * page, const char * objectTypeId)
 					if (cell) {
 						Cell c;
 						//set values
-						c.column_family = std::string(cell->cellColumnFamily);
-						c.column_qualifier = std::string(cell->cellColumnQualifier);
 						c.value = std::string(cell->cellValue);
-						c.row_key = std::string(row->rowKey);
+						c.key.column_family = std::string(cell->cellColumnFamily);
+						c.key.column_qualifier = std::string(cell->cellColumnQualifier);
+						c.key.row = std::string(row->rowKey);
 						//set flags
-						c.__isset.column_family = true;
-						c.__isset.column_qualifier = true;
 						c.__isset.value = true;
-						c.__isset.row_key = true;					
+						c.key.__isset.column_family = true;
+						c.key.__isset.column_qualifier = true;
+						c.key.__isset.row = true;					
 					}
 				} while (cell);
 				free(ci);
@@ -299,15 +301,17 @@ int set_row(HTHRIFT hThrift, DataRow * row, const char * objectTypeId)
 			if (cell) {
 				Cell c;
 				//set values
-				c.column_family = std::string(cell->cellColumnFamily);
-				c.column_qualifier = std::string(cell->cellColumnQualifier);
 				c.value = std::string(cell->cellValue);
-				c.row_key = std::string(row->rowKey);
+				c.key.column_family = std::string(cell->cellColumnFamily);
+				c.key.column_qualifier = std::string(cell->cellColumnQualifier);
+				c.key.row = std::string(row->rowKey);
 				//set flags
-				c.__isset.column_family = true;
-				c.__isset.column_qualifier = true;
 				c.__isset.value = true;
-				c.__isset.row_key = true;
+				c.key.__isset.column_family = true;
+				c.key.__isset.column_qualifier = true;
+				c.key.__isset.row = true;
+				
+				
 				
 				cells.push_back(c);
 			}

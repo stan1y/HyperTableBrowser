@@ -17,11 +17,11 @@ void convert_row(DataPage * page, std::vector<Cell> cells)
 		return;
 	}
 	
-	DataRow * row = row_new(cells[0].row_key.c_str());
+	DataRow * row = row_new(cells[0].key.row.c_str());
 	
 	//add revision cell
 	char str_revision[255];
-	snprintf(str_revision, 255, "%d\0", cells[0].revision);
+	snprintf(str_revision, 255, "%d\0", cells[0].key.revision);
 	DataCell * cell = cell_new(NULL, NULL);
 	cell_set(cell, "app", "revision", str_revision);
 	row_append(row, cell);
@@ -30,8 +30,8 @@ void convert_row(DataPage * page, std::vector<Cell> cells)
 	int index = 1;
 	for (; it != cells.end(); it++) {
 		DataCell * cell = cell_new(NULL, NULL);
-		cell_set(cell, it->column_family.c_str(),
-				 it->column_qualifier.c_str(),
+		cell_set(cell, it->key.column_family.c_str(),
+				 it->key.column_qualifier.c_str(),
 				 it->value.c_str());
 		row_append(row, cell);
 		index++;

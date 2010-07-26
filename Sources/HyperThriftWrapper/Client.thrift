@@ -165,6 +165,41 @@ enum CellFlag {
   INSERT = 255
 }
 
+/**
+ * Defines a cell key
+ *
+ * <dl>
+ *   <dt>row</dt>
+ *   <dd>Specifies the row key. Note, it cannot contain null characters.
+ *   If a row key is not specified in a return cell, it's assumed to
+ *   be the same as the previous cell</dd>
+ *
+ *   <dt>column_family</dt>
+ *   <dd>Specifies the column family</dd>
+ *
+ *   <dt>column_qualifier</dt>
+ *   <dd>Specifies the column qualifier. A column family must be specified.</dd>
+ *
+ *   <dt>timestamp</dt>
+ *   <dd>Nanoseconds since epoch for the cell<dd>
+ *
+ *   <dt>revision</dt>
+ *   <dd>A 64-bit revision number for the cell</dd>
+ *
+ *   <dt>flag</dt>
+ *   <dd>A 16-bit integer indicating the state of the cell</dd>
+ * </dl>
+ */
+struct Key {
+  1: string row
+  2: string column_family
+  3: string column_qualifier
+  4: optional i64 timestamp
+  5: optional i64 revision
+  6: i16 flag = INSERT
+}
+
+
 /** Mutator creation flags
  *
  * NO_LOG_SYNC: Do not sync the commit log
@@ -198,38 +233,16 @@ struct MutateSpec {
  * Defines a table cell
  *
  * <dl>
- *   <dt>row_key</dt>
- *   <dd>Specifies the row key. Note, it cannot contain null characters.
- *   If a row key is not specified in a return cell, it's assumed to
- *   be the same as the previous cell</dd>
- *
- *   <dt>column_family</dt>
- *   <dd>Specifies the column family</dd>
- *
- *   <dt>column_qualifier</dt>
- *   <dd>Specifies the column qualifier. A column family must be specified.</dd>
+ *   <dt>key</dt>
+ *   <dd>Specifies the cell key</dd>
  *
  *   <dt>value</dt>
  *   <dd>Value of a cell. Currently a sequence of uninterpreted bytes.</dd>
- *
- *   <dt>timestamp</dt>
- *   <dd>Nanoseconds since epoch for the cell<dd>
- *
- *   <dt>revision</dt>
- *   <dd>A 64-bit revision number for the cell</dd>
- *
- *   <dt>flag</dt>
- *   <dd>A 16-bit integer indicating the state of the cell</dd>
  * </dl>
  */
 struct Cell {
-  1: optional string row_key
-  2: optional string column_family
-  3: optional string column_qualifier
-  4: optional Value value
-  5: optional i64 timestamp
-  6: optional i64 revision
-  7: optional i16 flag = INSERT
+  1: Key key
+  2: optional Value value
 }
 
 /**
@@ -244,6 +257,125 @@ struct Cell {
  * Note, revision and cell flag are not returned for the array interface.
  */
 typedef list<string> CellAsArray
+
+/**
+ * Binary buffer holding serialized sequence of cells
+ */
+typedef binary CellsSerialized
+
+/**
+ * Defines a table split
+ *
+ * <dl>
+ *   <dt>start_row</dt>
+ *   <dd>Starting row of the split.</dd>
+ *
+ *   <dt>end_row</dt>
+ *   <dd>Ending row of the split.</dd>
+ *
+ *   <dt>location</dt>
+ *   <dd>Location (proxy name) of the split.</dd>
+ *
+ *   <dt>ip_address</dt>
+ *   <dd>The IP address of the split.</dd>
+ * </dl>
+ */
+struct TableSplit {
+  1: optional string start_row
+  2: optional string end_row
+  3: optional string location
+  4: optional string ip_address
+}
+
+/**  
+ * Describes a ColumnFamily 
+ * <dl>
+ *   <dt>name</dt>
+ *   <dd>Name of the column family</dd>
+ *
+ *   <dt>ag</dt>
+ *   <dd>Name of the access group for this CF</dd>
+ *
+ *   <dt>max_versions</dt>
+ *   <dd>Max versions of the same cell to be stored</dd> 
+ *
+ *   <dt>ttl</dt>
+ *   <dd>Time to live for cells in the CF (ie delete cells older than this time)</dd> 
+ * </dl>
+ */
+struct ColumnFamily {
+  1: optional string name 
+  2: optional string ag 
+  3: optional i32 max_versions 
+  4: optional string ttl 
+}
+
+/**  
+ * Describes an AccessGroup 
+ * <dl>
+ *   <dt>name</dt>
+ *   <dd>Name of the access group</dd>
+ *
+ *   <dt>in_memory</dt>
+ *   <dd>Is this access group in memory</dd>
+ *
+ *   <dt>replication</dt>
+ *   <dd>Replication factor for this AG</dd> 
+ *
+ *   <dt>blocksize</dt>
+ *   <dd>Specifies blocksize for this AG</dd> 
+ *
+ *   <dt>compressor</dt>
+ *   <dd>Specifies compressor for this AG</dd>
+ *
+ *   <dt>bloom_filter</dt>
+ *   <dd>Specifies bloom filter type</dd>
+ *
+ *   <dt>columns</dt>
+ *   <dd>Specifies list of column families in this AG</dd> 
+ * </dl>
+ */
+struct AccessGroup {
+  1: optional string name 
+  2: optional bool in_memory 
+  3: optional i16 replication 
+  4: optional i32 blocksize
+  5: optional string compressor 
+  6: optional string bloom_filter 
+  7: optional list<ColumnFamily> columns 
+}
+
+/**  
+ * Describes a schema
+ * <dl>
+ *   <dt>name</dt>
+ *   <dd>Name of the access group</dd>
+ *
+ *   <dt>in_memory</dt>
+ *   <dd>Is this access group in memory</dd>
+ *
+ *   <dt>replication</dt>
+ *   <dd>Replication factor for this AG</dd> 
+ *
+ *   <dt>blocksize</dt>
+ *   <dd>Specifies blocksize for this AG</dd> 
+ *
+ *   <dt>compressor</dt>
+ *   <dd>Specifies compressor for this AG</dd>
+ *
+ *   <dt>bloom_filter</dt>
+ *   <dd>Specifies bloom filter type</dd>
+ *
+ *   <dt>columns</dt>
+ *   <dd>Specifies list of column families in this AG</dd> 
+ * </dl>
+ */
+struct Schema {
+  1: optional map<string, AccessGroup> access_groups
+  2: optional map<string, ColumnFamily> column_families
+}
+
+
 
 /**
  * Exception for thrift clients.
@@ -309,6 +441,12 @@ service ClientService {
       throws (1:ClientException e),
 
   /**
+   * Alternative interface returning buffer of serialized cells
+   */
+  CellsSerialized next_cells_serialized(1:Scanner scanner)
+      throws (1:ClientException e),
+
+  /**
    * Iterate over rows of a scanner
    *
    * @param scanner - scanner id
@@ -322,11 +460,12 @@ service ClientService {
       throws (1:ClientException e),
 
   /**
-   * Iterate by row for a given scanner
+   * Alternate interface returning a buffer of serialized cells for iterating by row 
+   * for a given scanner
    *
    * @param scanner - scanner id
-  list<Cell> next_row(1:Scanner scanner) throws (1:ClientException e),
    */
+  CellsSerialized next_row_serialized(1:Scanner scanner) throws (1:ClientException e),
 
   /**
    * Get a row (convenience method for random access a row)
@@ -344,6 +483,13 @@ service ClientService {
    */
   list<CellAsArray> get_row_as_arrays(1:string name, 2:string row)
       throws (1:ClientException e),
+
+  /**
+   * Alternative interface returning buffer of serialized cells
+   */
+  CellsSerialized get_row_serialized(1:string name, 2:string row)
+      throws (1:ClientException e),
+
 
   /**
    * Get a cell (convenience method for random access a cell)
@@ -377,7 +523,26 @@ service ClientService {
    */
   list<CellAsArray> get_cells_as_arrays(1:string name, 2:ScanSpec scan_spec)
       throws (1:ClientException e),
-  
+
+  /**
+   * Alternative interface returning buffer of serialized cells
+   */
+  CellsSerialized get_cells_serialized(1:string name, 2:ScanSpec scan_spec)
+      throws (1:ClientException e),
+
+
+  /**
+   * Create a shared mutator with specified MutateSpec.
+   * Delete and recreate it if the mutator exists.
+   *
+   * @param tablename - table name
+   *
+   * @param mutate_spec - mutator specification
+   *
+   */
+  void refresh_shared_mutator(1:string tablename, 2:MutateSpec mutate_spec) 
+      throws (1:ClientException e),
+
   /**
    * Open a shared periodic mutator which causes cells to be written asyncronously. 
    * Users beware: calling this method merely writes
@@ -475,9 +640,24 @@ service ClientService {
       throws (1:ClientException e),
 
   /**
+   * Alternative interface using buffer of serialized cells
+   */
+  void set_cells_serialized(1:Mutator mutator, 2:CellsSerialized cells, 3:bool flush = 0)
+      throws (1:ClientException e),
+
+  /**
    * Flush mutator buffers
    */
   void flush_mutator(1:Mutator mutator) throws (1:ClientException e),
+  
+  /**
+   * Check if the table exists 
+   *
+   * @param name - table name
+   *
+   * @return true if table exists, false ow
+   */
+  bool exists_table(1:string name) throws (1:ClientException e),
 
   /**
    * Get the id of a table
@@ -489,13 +669,22 @@ service ClientService {
   i32 get_table_id(1:string name) throws (1:ClientException e),
 
   /**
-   * Get the schema of a table (that can be used with creat_table)
+   * Get the schema of a table as a string (that can be used with create_table)
    *
    * @param name - table name
    *
    * @return schema string (in xml)
    */
-  string get_schema(1:string name) throws (1:ClientException e),
+  string get_schema_str(1:string name) throws (1:ClientException e),
+  
+  /**
+   * Get the schema of a table as a string (that can be used with create_table)
+   *
+   * @param name - table name
+   *
+   * @return schema object describing a table 
+   */
+  Schema get_schema(1:string name) throws (1:ClientException e),
 
   /**
    * Get a list of table names in the cluster
@@ -503,6 +692,15 @@ service ClientService {
    * @return a list of table names
    */
   list<string> get_tables() throws (1:ClientException e),
+
+  /**
+   * Get a list of table splits
+   *
+   * @param name - table name
+   *
+   * @return a list of table names
+   */
+  list<TableSplit> get_table_splits(1:string name) throws (1:ClientException e),
 
   /**
    * Drop a table
