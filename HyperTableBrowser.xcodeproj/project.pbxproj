@@ -26,6 +26,7 @@
 		7615168411FD8FED00485438 /* ConnectOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7615165111FD8C4800485438 /* ConnectOperation.m */; };
 		761516E211FD96C100485438 /* FetchPageOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 761516DD11FD96A100485438 /* FetchPageOperation.m */; };
 		7615175811FDA23F00485438 /* FetchTablesOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7615175711FDA23F00485438 /* FetchTablesOperation.m */; };
+		761518DE11FDBF5E00485438 /* HqlQueryOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 761518DD11FDBF5E00485438 /* HqlQueryOperation.m */; };
 		761FDAC810D0D33F00D2EEFF /* ConnectionSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 761FDAC710D0D33F00D2EEFF /* ConnectionSheetController.m */; };
 		765E610B10D811BD00E4CA1D /* HqlController.h in Headers */ = {isa = PBXBuildFile; fileRef = 765E610910D811BD00E4CA1D /* HqlController.h */; };
 		765E611610D818F200E4CA1D /* HqlController.m in Sources */ = {isa = PBXBuildFile; fileRef = 765E610A10D811BD00E4CA1D /* HqlController.m */; };
@@ -198,6 +199,8 @@
 		761516DD11FD96A100485438 /* FetchPageOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FetchPageOperation.m; path = Sources/Classes/FetchPageOperation.m; sourceTree = "<group>"; };
 		7615175611FDA23F00485438 /* FetchTablesOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FetchTablesOperation.h; path = Sources/Classes/FetchTablesOperation.h; sourceTree = "<group>"; };
 		7615175711FDA23F00485438 /* FetchTablesOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FetchTablesOperation.m; path = Sources/Classes/FetchTablesOperation.m; sourceTree = "<group>"; };
+		761518DC11FDBF5E00485438 /* HqlQueryOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HqlQueryOperation.h; path = Sources/Classes/HqlQueryOperation.h; sourceTree = "<group>"; };
+		761518DD11FDBF5E00485438 /* HqlQueryOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HqlQueryOperation.m; path = Sources/Classes/HqlQueryOperation.m; sourceTree = "<group>"; };
 		761FDAC610D0D33F00D2EEFF /* ConnectionSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConnectionSheetController.h; path = Sources/Classes/Controllers/ConnectionSheetController.h; sourceTree = "<group>"; };
 		761FDAC710D0D33F00D2EEFF /* ConnectionSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConnectionSheetController.m; path = Sources/Classes/Controllers/ConnectionSheetController.m; sourceTree = "<group>"; };
 		765E610910D811BD00E4CA1D /* HqlController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HqlController.h; path = Sources/Classes/Controllers/HqlController.h; sourceTree = "<group>"; };
@@ -393,6 +396,8 @@
 				761516DD11FD96A100485438 /* FetchPageOperation.m */,
 				7615175611FDA23F00485438 /* FetchTablesOperation.h */,
 				7615175711FDA23F00485438 /* FetchTablesOperation.m */,
+				761518DC11FDBF5E00485438 /* HqlQueryOperation.h */,
+				761518DD11FDBF5E00485438 /* HqlQueryOperation.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -969,6 +974,7 @@
 				761516E211FD96C100485438 /* FetchPageOperation.m in Sources */,
 				76F8185811FC6F38001B79C6 /* NewTableController.m in Sources */,
 				7615175811FDA23F00485438 /* FetchTablesOperation.m in Sources */,
+				761518DE11FDBF5E00485438 /* HqlQueryOperation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
