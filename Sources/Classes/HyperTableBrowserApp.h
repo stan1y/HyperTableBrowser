@@ -17,7 +17,8 @@
 
 @interface HyperTableBrowserApp : NSObject 
 {
-    NSWindow *window;
+    NSWindow * window;
+	NSOperationQueue * operations;
 	
 	NSPanel * hqlInterpreterPnl;
 	NSPanel * newTablePnl;
@@ -45,9 +46,9 @@
 	//GeneralPreferencesController * generalPrefsController;
 }
 //@property (nonatomic, retain) IBOutlet GeneralPreferencesController * generalPrefsController;
-@property (nonatomic, retain) IBOutlet HqlController * hqlController;
-@property (nonatomic, retain) IBOutlet NewTableController * newTableController;
-@property (nonatomic, retain) IBOutlet ToolBarController * toolBarController;
+@property (nonatomic) IBOutlet HqlController * hqlController;
+@property (nonatomic) IBOutlet NewTableController * newTableController;
+@property (nonatomic) IBOutlet ToolBarController * toolBarController;
 @property (nonatomic, retain) IBOutlet NSWindow *window;
 @property (nonatomic, retain) IBOutlet NSPanel * hqlInterpreterPnl;
 @property (nonatomic, retain) IBOutlet NSPanel * newTablePnl;
@@ -63,6 +64,7 @@
 @property (assign) IBOutlet NSMenuItem * connectMenuItem;
 @property (assign) IBOutlet NSMenuItem * showBrowserMenuItem;
 
+@property (nonatomic, retain, readonly) NSOperationQueue * operations;
 @property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
