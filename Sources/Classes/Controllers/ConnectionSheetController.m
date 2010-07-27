@@ -142,7 +142,7 @@
 				[[[NSApp delegate] toolBarController] setAllowNewTable:1];
 				[[[[NSApp delegate] toolBarController] toolBar] validateVisibleItems];
 			}];
-			
+			NSLog(@"Refreshing tables...\n");
 			//start fetching tables
 			[[[NSApp delegate] operations] addOperation: fetchTablesOp];
 			[fetchTablesOp release];

@@ -23,8 +23,6 @@
 
 - (void)main
 {
-	NSLog(@"Requesting tables");
-	
 	DataRow * row = row_new("tables");
 	int rc = get_tables_list([connection thriftClient], row);
 	[self setErrorCode:rc];
