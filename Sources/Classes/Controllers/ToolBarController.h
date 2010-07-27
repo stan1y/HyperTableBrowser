@@ -15,8 +15,8 @@
 	
 	NSToolbar * toolBar;
 	
-	BOOL allowNewTable;
-	BOOL allowDropTable;
+	int allowNewTable;
+	int allowDropTable;
 }
 
 @property (nonatomic, retain) IBOutlet NSToolbarItem * newTableBtn;
@@ -24,8 +24,8 @@
 
 @property (nonatomic, retain) IBOutlet NSToolbar * toolBar;
 
-@property (assign) BOOL allowNewTable;
-@property (assign) BOOL allowDropTable;
+@property (assign) int allowNewTable;
+@property (assign) int allowDropTable;
 
 - (IBAction)newTable:(id)sender;
 - (IBAction)dropTable:(id)sender;
@@ -33,5 +33,4 @@
 - (IBAction)showPreferences:(id)sender;
 - (IBAction)showHideHQL:(id)sender;
 
-- (BOOL)validateToolbarItem:(NSToolbarItem *)toolbarItem;
 @end

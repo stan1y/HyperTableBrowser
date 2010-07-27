@@ -20,13 +20,14 @@
 - (BOOL)validateToolbarItem:(NSToolbarItem *)toolbarItem
 {
     if ([toolbarItem isEqual:newTableBtn]) {
+		NSLog(@"allowNewTable: %d\n", allowNewTable);
 		return allowNewTable;
     } else if ( [toolbarItem isEqual:dropTableBtn]) {
+		NSLog(@"allowDropTable: %d\n", allowDropTable);
 		return allowDropTable;
     }
-	else {
-		return YES;
-	}
+	
+	return YES;
 }
 
 - (void)awakeFromNib
@@ -38,7 +39,8 @@
 	[general release];
 }
 
-- (IBAction)showHideNewTable:(id)sender
+
+- (IBAction)newTable:(id)sender
 {
 	id pnl = [[NSApp delegate] newTablePnl];
 	if ([pnl isVisible]) {
@@ -51,7 +53,6 @@
 	}
 	[pnl release];
 }
-
 
 - (IBAction)dropTable:(id)sender
 {
