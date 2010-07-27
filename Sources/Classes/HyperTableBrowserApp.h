@@ -46,9 +46,9 @@
 	//GeneralPreferencesController * generalPrefsController;
 }
 //@property (nonatomic, retain) IBOutlet GeneralPreferencesController * generalPrefsController;
-@property (nonatomic) IBOutlet HqlController * hqlController;
-@property (nonatomic) IBOutlet NewTableController * newTableController;
-@property (nonatomic) IBOutlet ToolBarController * toolBarController;
+@property (nonatomic, assign) IBOutlet HqlController * hqlController;
+@property (nonatomic, assign) IBOutlet NewTableController * newTableController;
+@property (nonatomic, assign) IBOutlet ToolBarController * toolBarController;
 @property (nonatomic, retain) IBOutlet NSWindow *window;
 @property (nonatomic, retain) IBOutlet NSPanel * hqlInterpreterPnl;
 @property (nonatomic, retain) IBOutlet NSPanel * newTablePnl;
