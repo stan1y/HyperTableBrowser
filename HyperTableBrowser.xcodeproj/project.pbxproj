@@ -58,6 +58,7 @@
 		76DB3E4C112A83D900B2C2EB /* ServersManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DB3E4B112A83D900B2C2EB /* ServersManager.m */; };
 		76DC6A3C11FCC24C00E14519 /* HyperTableBrowser.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76DC6A3A11FCC24C00E14519 /* HyperTableBrowser.xib */; };
 		76EB165B10FDCC810047F75B /* ServersSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EB165A10FDCC810047F75B /* ServersSource.m */; };
+		76EDF0D811FF40FA00D5A6B5 /* SetRowOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EDF0D711FF40FA00D5A6B5 /* SetRowOperation.m */; };
 		76F8150111FB84B0001B79C6 /* libHyperThriftWrapper.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 767A3CB310D5AA6500BAE46E /* libHyperThriftWrapper.dylib */; };
 		76F815B311FB88BB001B79C6 /* Exception.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F8155E11FB88BB001B79C6 /* Exception.h */; };
 		76F815B411FB88BB001B79C6 /* FunctionRunner.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F8155F11FB88BB001B79C6 /* FunctionRunner.h */; };
@@ -247,6 +248,8 @@
 		76DC6A3B11FCC24C00E14519 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/HyperTableBrowser.xib; sourceTree = "<group>"; };
 		76EB165910FDCC800047F75B /* ServersSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServersSource.h; path = Sources/Classes/ServersSource.h; sourceTree = "<group>"; };
 		76EB165A10FDCC810047F75B /* ServersSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServersSource.m; path = Sources/Classes/ServersSource.m; sourceTree = "<group>"; };
+		76EDF0D611FF40FA00D5A6B5 /* SetRowOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SetRowOperation.h; path = Sources/Classes/SetRowOperation.h; sourceTree = "<group>"; };
+		76EDF0D711FF40FA00D5A6B5 /* SetRowOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SetRowOperation.m; path = Sources/Classes/SetRowOperation.m; sourceTree = "<group>"; };
 		76F8155911FB88A0001B79C6 /* libThriftLib.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libThriftLib.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		76F8155E11FB88BB001B79C6 /* Exception.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Exception.h; sourceTree = "<group>"; };
 		76F8155F11FB88BB001B79C6 /* FunctionRunner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FunctionRunner.h; sourceTree = "<group>"; };
@@ -377,6 +380,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				76EDF0D411FF40D800D5A6B5 /* Operations */,
 				7677367410CE88C800DDDCC6 /* ThriftConnection.h */,
 				7677367510CE88C800DDDCC6 /* ThriftConnection.m */,
 				767A072010CFD5D300B6739F /* ThriftConnectionInfo.h */,
@@ -392,14 +396,6 @@
 				76DB3E4B112A83D900B2C2EB /* ServersManager.m */,
 				76F8182D11FC66C2001B79C6 /* TableSchema.h */,
 				76F8182E11FC66C2001B79C6 /* TableSchema.m */,
-				7615165011FD8C4800485438 /* ConnectOperation.h */,
-				7615165111FD8C4800485438 /* ConnectOperation.m */,
-				761516DC11FD96A100485438 /* FetchPageOperation.h */,
-				761516DD11FD96A100485438 /* FetchPageOperation.m */,
-				7615175611FDA23F00485438 /* FetchTablesOperation.h */,
-				7615175711FDA23F00485438 /* FetchTablesOperation.m */,
-				761518DC11FDBF5E00485438 /* HqlQueryOperation.h */,
-				761518DD11FDBF5E00485438 /* HqlQueryOperation.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -553,6 +549,23 @@
 				767A3C8710D5A97600BAE46E /* TestWrapper.c */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		76EDF0D411FF40D800D5A6B5 /* Operations */ = {
+			isa = PBXGroup;
+			children = (
+				7615165011FD8C4800485438 /* ConnectOperation.h */,
+				7615165111FD8C4800485438 /* ConnectOperation.m */,
+				761516DC11FD96A100485438 /* FetchPageOperation.h */,
+				761516DD11FD96A100485438 /* FetchPageOperation.m */,
+				7615175611FDA23F00485438 /* FetchTablesOperation.h */,
+				7615175711FDA23F00485438 /* FetchTablesOperation.m */,
+				761518DC11FDBF5E00485438 /* HqlQueryOperation.h */,
+				761518DD11FDBF5E00485438 /* HqlQueryOperation.m */,
+				76EDF0D611FF40FA00D5A6B5 /* SetRowOperation.h */,
+				76EDF0D711FF40FA00D5A6B5 /* SetRowOperation.m */,
+			);
+			name = Operations;
 			sourceTree = "<group>";
 		};
 		76F8155C11FB88BB001B79C6 /* ThriftLib */ = {
@@ -977,6 +990,7 @@
 				76F8185811FC6F38001B79C6 /* NewTableController.m in Sources */,
 				7615175811FDA23F00485438 /* FetchTablesOperation.m in Sources */,
 				761518DE11FDBF5E00485438 /* HqlQueryOperation.m in Sources */,
+				76EDF0D811FF40FA00D5A6B5 /* SetRowOperation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
