@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import <ThriftConnection.h>
 #import <TableSchema.h>
+#import <FetchTablesOperation.h>
 
 @interface NewTableController : NSWindowController {
 

@@ -83,7 +83,17 @@
 	[self setMessage:[NSString stringWithFormat:@"New table %s was successfully created",
 					  [tableName UTF8String]]];
 	//refresh tables on connection
-	[connection refreshTables];
+	FetchTablesOperation * fetchTablesOp = [FetchTablesOperation fetchTablesFromConnection:connection];
+	[fetchTablesOp setCompletionBlock: ^ {
+		NSLog(@"Refreshing tables on \"%s\"\n", [[[connection connInfo] address] UTF8String] );
+		
+		[[[NSApp delegate] serversView] reloadItem:nil reloadChildren:YES];
+		[[[NSApp delegate] serversView] deselectAll:self];
+	}];
+	
+	//start fetching tables
+	[[[NSApp delegate] operations] addOperation: fetchTablesOp];
+	[fetchTablesOp release];
 }
 
 - (IBAction)updateConnections:(id)sender
