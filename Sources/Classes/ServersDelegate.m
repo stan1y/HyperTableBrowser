@@ -27,8 +27,9 @@
 			if (connection) {
 				NSLog(@"Server \"%s\" is ready\n", [[item valueForKey:@"ipAddress"] UTF8String]);
 				
-				toolbar.allowNewTable = YES;
-				toolbar.allowDropTable = NO;
+				toolbar.allowNewTable = 1;
+				toolbar.allowDropTable = 0;
+				[[toolbar toolBar] validateVisibleItems];
 				
 				NSString * ipAddress = [item valueForKey:@"ipAddress"];
 				[[[NSApp delegate] window] setTitle:[NSString stringWithFormat:@"HyperTable Browser @ %s", [ipAddress UTF8String]] ];
@@ -36,8 +37,9 @@
 			else {
 				NSLog(@"Server \"%s\" is NOT connected!\n", [[item valueForKey:@"ipAddress"] UTF8String]);
 				
-				toolbar.allowNewTable = NO;
-				toolbar.allowDropTable = NO;
+				toolbar.allowNewTable = 0;
+				toolbar.allowDropTable = 0;
+				[[toolbar toolBar] validateVisibleItems];
 			}
 
 			
@@ -48,8 +50,9 @@
 			ThriftConnection * connection = [[[NSApp delegate] serversManager] getConnection:[selectedServer valueForKey:@"ipAddress"]];
 			if (connection) {
 				//table selected, so allow buttons in toolbar
-				toolbar.allowNewTable = YES;
-				toolbar.allowDropTable = YES;
+				toolbar.allowNewTable = 1;
+				toolbar.allowDropTable = 1;
+				[[toolbar toolBar] validateVisibleItems];
 				
 				NSLog(@"Displaying first page of table %s\n", [item UTF8String]);
 				[objectsPageSource showFirstPageFor:item fromConnection:connection];
