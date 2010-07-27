@@ -85,23 +85,31 @@
 				[nextPageButton setEnabled:YES];
 			}
 			
-			//display message
+			//display received page
 			DataPage * receivedPage = [fpageOp page];
-			[[NSApp delegate]setMessage:[NSString stringWithFormat:@"Received %d rows.\n", receivedPage->rowsCount]];
-			
-			//update page info
-			NSString * pageInfo = [NSString stringWithFormat:@"Page %d with %d (of %d requested) row(s) %s",
-								   number,
-								   receivedPage->rowsCount,
-								   size,
-								   [[self lastDisplayedTableName] UTF8String]];
-			[objectsPageField setTitleWithMnemonic:pageInfo];
-			
-			//display received page with PageSource:setPage/reloadDataForView
-			[self setPage:receivedPage withTitle:tableName];
-			[self reloadDataForView:objectsPageView];
-			//allow refresh
-			[refreshButton setEnabled:YES];
+			if (receivedPage) {
+				[[NSApp delegate]setMessage:[NSString stringWithFormat:@"Received %d rows.\n", receivedPage->rowsCount]];
+				
+				//update page info
+				NSString * pageInfo = [NSString stringWithFormat:@"Page %d with %d (of %d requested) row(s) %s",
+									   number,
+									   receivedPage->rowsCount,
+									   size,
+									   [[self lastDisplayedTableName] UTF8String]];
+				[objectsPageField setTitleWithMnemonic:pageInfo];
+				
+				//display received page with PageSource:setPage/reloadDataForView
+				[self setPage:receivedPage withTitle:tableName];
+				[self reloadDataForView:objectsPageView];
+				//allow refresh
+				[refreshButton setEnabled:YES];
+			}
+			else {
+				[[NSApp delegate]setMessage:[NSString stringWithFormat:
+											 @"No rows were found in table \"%s\".\n",
+											 [[fpageOp tableName] UTF8String] ]];
+			}
+
 		}
 		else {
 			[[NSApp delegate] setMessage:[ThriftConnection errorFromCode:fpageOp.errorCode]];
