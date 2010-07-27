@@ -33,6 +33,7 @@
 		  [connectionInfo port]);
 	HTHRIFT th;
 	int rc = create_thrift_client(&th, [[connectionInfo address] UTF8String], [connectionInfo port]);
+	[self setErrorCode:rc];
 	if (rc != T_OK) {
 		NSLog(@"connectTo: error: create_thrift_client returned %d", rc);
 	}
