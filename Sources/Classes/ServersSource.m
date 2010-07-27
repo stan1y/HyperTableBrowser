@@ -43,7 +43,6 @@
   numberOfChildrenOfItem:(id)item
 {
 	if (item) {
-		NSLog(@"UI asking for server tables count");
 		id connection = [[[NSApp delegate] serversManager] getConnection:[item valueForKey:@"ipAddress"] ];
 		if (!connection) {
 			NSLog(@"Failed to get connection for %s", [[item valueForKey:@"ipAddress"] UTF8String]);
@@ -55,9 +54,8 @@
 		return tablesCount;
 	}
 	else {
-		NSLog(@"UI asking for servers count");
 		int serversCount = [[[[NSApp delegate] serversManager] getServers] count];
-		NSLog(@"%d servers are known", serversCount);
+		NSLog(@"%d servers in view", serversCount);
 		return serversCount;
 	}
 

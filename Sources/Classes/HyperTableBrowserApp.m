@@ -42,7 +42,7 @@
 
 - (id) getSettingsByName:(NSString *)name
 {
-	NSLog(@"Getting gettings with name %s", [name UTF8String]);
+	NSLog(@"Getting settings with name %s", [name UTF8String]);
 	NSFetchRequest * request = [[NSFetchRequest alloc] init];
 	
 	NSEntityDescription * entity = [NSEntityDescription entityForName:name
@@ -125,6 +125,8 @@
 	[self setMessage:@"Application started."];
 	[window setTitle:@"HyperTable Browser is not connected" ];
 	[statusMessageField setHidden:NO];
+	//[[self serversView] setAllowsEmptySelection:YES];
+	//NSLog(@"allowsEmptySelection: %d\n", [[self serversView] allowsEmptySelection]);
 }
 
 - (void)setMessage:(NSString*)message 
