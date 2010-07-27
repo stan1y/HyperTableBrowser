@@ -138,7 +138,7 @@
 				if (strcmp([cellColumn UTF8String], [columnId UTF8String]) == 0) {
 					NSString * cellValue;
 					if (cell->cellValueSize > 0) {
-						cellValue = [NSString stringWithFormat:@"%s",cell->cellValue];
+						cellValue = [NSString stringWithUTF8String:cell->cellValue];
 					} else {
 						cellValue =  @"";
 					}
@@ -171,75 +171,37 @@
 	if (page == nil) {
 		return;
 	}
-	
-	DataRow * row = page_row_at_index(page, rowIndex);
-	DataCellIterator * cellIter = cell_iter_new(row);
-	DataCell * cell = NULL;
-	do {
-		cell = cell_iter_next_cell(cellIter);
-		if (cell) {
-			NSString * cellFamily = [NSString stringWithFormat:@"%s", cell->cellColumnFamily];
-			NSString * cellColumn;
-			if (cell->cellColumnQualifierSize > 0) {
-				cellColumn = [cellFamily stringByAppendingFormat:@":%s", cell->cellColumnQualifier];
-			}
-			else {
-				cellColumn = cellFamily;
-			}
-			NSLog(@"Checking cell %s", [cellColumn UTF8String]);
-			
-			if (strcmp([cellColumn UTF8String], [[aTableColumn identifier] UTF8String]) == 0) {
-				break;
-			}
-		}
-		
-	} while (cell);
-	free(cellIter);
-	
-	if (cell) {
-		NSLog(@"Setting value: %s", [newValue UTF8String]);
-		
-		//set value
-		if ([newValue length] > cell->cellValueSize) {
-			realloc(cell->cellValue, sizeof(char) * ([newValue length] + 1));
-			cell->cellValueSize = [newValue length];
-		}
-		strncpy(cell->cellValue, [newValue UTF8String], ([newValue length] + 1));
-		
-		id srv = [[[NSApp delegate] serversDelegate] selectedServer];
-		id connection = [[[NSApp delegate] serversManager] getConnection:[srv valueForKey:@"ipAddress"]];
-		if (!connection) {
-			NSLog(@"No connection for server with title %s", [[srv title] UTF8String]);
-			return;
-		}
-		dispatch_async(dispatch_get_global_queue(0, 0), ^{
-			int rc = set_row([connection thriftClient], row, [pageTitle UTF8String]);
-			dispatch_async(dispatch_get_main_queue(), ^{
-				[[NSApp delegate] indicateDone];
-				if (rc != T_OK) {
-					[[NSApp delegate] setMessage:[@"Failed to write cells:" stringByAppendingString:
-															[ThriftConnection errorFromCode:rc]] ];
-					[self setPage:nil];
-				}
-				else {
-					[[NSApp delegate] setMessage:@"Row updated"];
-				}
-			});
-		});
+
+	id srv = [[[NSApp delegate] serversDelegate] selectedServer];
+	id connection = [[[NSApp delegate] serversManager] getConnection:[srv valueForKey:@"ipAddress"]];
+	if (!connection) {
+		NSLog(@"No connection for server with title %s", [[srv title] UTF8String]);
+		return;
 	}
-	else {
-		NSLog(@"Cell not found!");
-	}
-
+	
+	SetRowOperation * setRowOp = [SetRowOperation setCellValue:newValue
+													fromPage:page 
+													 inTable:pageTitle 
+													   atRow:rowIndex 
+												   andColumn:[aTableColumn identifier] 
+											  withConnection:connection];
+	[setRowOp setCompletionBlock:^ {
+		[[NSApp delegate] indicateDone];
+		if (setRowOp.errorCode != T_OK) {
+			[[NSApp delegate] setMessage:[ThriftConnection errorFromCode:setRowOp.errorCode]];
+		}
+		else {
+			[[NSApp delegate] setMessage:@"Row updated successfully."];
+		}
+		
+		[self reloadDataForView:aTableView];
+	}];
+	
+	[[NSApp delegate] setMessage:@"Setting row value..."];
+	[[NSApp delegate] indicateBusy];
+	[[[NSApp delegate] operations] addOperation: setRowOp];
+	[setRowOp release];
+	
 }
-
-- (void)editColumn:(NSInteger)columnIndex 
-			   row:(NSInteger)rowIndex 
-		 withEvent:(NSEvent *)theEvent 
-			select:(BOOL)flag
-{
-	NSLog(@"Edit cell at %d:%d", columnIndex, rowIndex);
-}
-
 
 @end

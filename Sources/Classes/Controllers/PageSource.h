@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <ThriftConnection.h>
-#include <HyperThriftWrapper.h>
+#import <SetRowOperation.h>
 
 @interface PageSource : NSObject {
 	DataPage * page;
