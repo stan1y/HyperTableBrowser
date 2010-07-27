@@ -34,19 +34,27 @@
 			  [[ThriftConnection errorFromCode:rc] UTF8String]);
 		return;
 	}
+	
 	//success
 	NSLog(@"Received %d tables\n", row->cellsCount);
 	NSMutableArray * tables = [NSMutableArray arrayWithCapacity:row->cellsCount];
 	DataCellIterator * ci = cell_iter_new(row);
 	DataCell * cell = NULL;
+	//filter out METADATA if specified
+	id generalPrefs = [[NSApp delegate] getSettingsByName:@"GeneralPrefs"];
+	if (!generalPrefs) {
+		[[NSApp delegate] setMessage:@"There is no settings found!"];
+		return;
+	}
+	int skipMetadata = [[generalPrefs valueForKey:@"skipMetadata"] intValue];
 	int index = 0;
 	do {
 		cell = cell_iter_next_cell(ci);
 		if (cell) {
-			
-			if (strcmp(cell->cellValue, "METADATA") == 0)
+			if (skipMetadata && strcmp(cell->cellValue, "METADATA") == 0) {
+				NSLog(@"Skipping METADATA table.\n");
 				continue;
-			
+			}
 			[tables insertObject:[NSString stringWithCString:cell->cellValue 
 												 encoding:NSUTF8StringEncoding] 
 					  atIndex:index];
@@ -55,6 +63,7 @@
 	} while (cell);
 	free(ci);
 	free(row);
+	[[NSApp delegate] setMessage:[NSString stringWithFormat:@"%d tables found.", [tables count]]];
 	[connection setTables:tables];
 	[tables release];
 }
