@@ -105,8 +105,7 @@
 										   [address UTF8String]]];
 			
 			//new server or existing?
-			HyperTableServer * connectedServer = [[[NSApp delegate] serversManager] getServer:address];
-			
+			id connectedServer = [[[NSApp delegate] serversManager] getServer:address];
 			if (connectedServer != nil) {
 				NSLog(@"Connect: Updating connection to server %s", [address UTF8String]);
 				//update settings
@@ -137,8 +136,11 @@
 			[fetchTablesOp setCompletionBlock: ^ {
 				NSLog(@"Updaing servers & tables tree...\n");
 				[[[NSApp delegate] serversView] reloadItem:nil reloadChildren:YES];
-				//ToolBarController * toolbar = [[NSApp delegate] toolBarController];
-				//toolbar.allowNewTable = YES;
+				int serverIndex = [[[NSApp delegate] serversView] rowForItem:connectedServer];
+				[[[NSApp delegate] serversView] selectRowIndexes:[NSIndexSet indexSetWithIndex:serverIndex]
+											byExtendingSelection:NO];
+				[[[NSApp delegate] toolBarController] setAllowNewTable:1];
+				[[[[NSApp delegate] toolBarController] toolBar] validateVisibleItems];
 			}];
 			
 			//start fetching tables
