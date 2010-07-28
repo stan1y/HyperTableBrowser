@@ -18,14 +18,17 @@
    shouldSelectItem:(id)item 
 {	
 	ToolBarController * toolbar = [[NSApp delegate] toolBarController];
+	BOOL doSelection = NO;
+	
 	if (item != nil) {
 		if ([item class] == [NSManagedObject class]){
+			NSLog(@"Server \"%s\" was selected\n", [[item valueForKey:@"ipAddress"] UTF8String]);
 			//server node selected
 			selectedServer = item;
 			ThriftConnection * connection = [[[NSApp delegate] serversManager] getConnection:[selectedServer valueForKey:@"ipAddress"]];
 			//allow new table
 			if (connection) {
-				NSLog(@"Server \"%s\" is ready\n", [[item valueForKey:@"ipAddress"] UTF8String]);
+				NSLog(@"Connection to server is ready.\n");
 				
 				toolbar.allowNewTable = 1;
 				toolbar.allowDropTable = 0;
@@ -33,6 +36,8 @@
 				
 				NSString * ipAddress = [item valueForKey:@"ipAddress"];
 				[[[NSApp delegate] window] setTitle:[NSString stringWithFormat:@"HyperTable Browser @ %s", [ipAddress UTF8String]] ];
+				
+				doSelection = YES;
 			}
 			else {
 				NSLog(@"Server \"%s\" is NOT connected!\n", [[item valueForKey:@"ipAddress"] UTF8String]);
@@ -40,14 +45,17 @@
 				toolbar.allowNewTable = 0;
 				toolbar.allowDropTable = 0;
 				[[toolbar toolBar] validateVisibleItems];
+				
+				doSelection = NO;
 			}
-
-			
 		}
 		else {
 			id serverItem = [ov parentForItem:item];
 			selectedServer = serverItem;
-			ThriftConnection * connection = [[[NSApp delegate] serversManager] getConnection:[selectedServer valueForKey:@"ipAddress"]];
+			NSString * serverAddress = [selectedServer valueForKey:@"ipAddress"];
+			NSLog(@"Table \"%s\" from server \"%s\" was selected.\n", [item UTF8String],
+				  [serverAddress UTF8String]);
+			ThriftConnection * connection = [[[NSApp delegate] serversManager] getConnection:serverAddress];
 			if (connection) {
 				//table selected, so allow buttons in toolbar
 				toolbar.allowNewTable = 1;
@@ -56,21 +64,24 @@
 				
 				NSLog(@"Displaying first page of table %s\n", [item UTF8String]);
 				[objectsPageSource showFirstPageFor:item fromConnection:connection];
+				doSelection = YES;
 			} else {
 				NSLog(@"No connection to display data for table %s\n", [item UTF8String]);
-				return NO;
+				doSelection = NO;
 			}
 		}
-		//do selection
-		return YES;
 	}
 	else {
 		NSLog(@"Disabling toolbar buttons\n");
 		//diable toolbar
 		toolbar.allowNewTable = NO;
 		toolbar.allowDropTable = NO;
-		return NO;
+		doSelection = NO;
 	}
+	
+	NSLog(@"Should select item: %d\n", doSelection);
+	[toolbar release];
+	return doSelection;
 }
 
 @end
