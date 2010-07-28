@@ -20,10 +20,8 @@
 - (BOOL)validateToolbarItem:(NSToolbarItem *)toolbarItem
 {
     if ([toolbarItem isEqual:newTableBtn]) {
-		NSLog(@"allowNewTable: %d\n", allowNewTable);
 		return allowNewTable;
     } else if ( [toolbarItem isEqual:dropTableBtn]) {
-		NSLog(@"allowDropTable: %d\n", allowDropTable);
 		return allowDropTable;
     }
 	

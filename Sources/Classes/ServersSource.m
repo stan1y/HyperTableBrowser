@@ -20,7 +20,7 @@
 		return [tables objectAtIndex:index];
 	}
 	else {
-		//displaying servers
+		//displaying server at index
 		id servers = [[[NSApp delegate] serversManager] getServers];
 		id srv = [servers objectAtIndex:index];
 		return srv;

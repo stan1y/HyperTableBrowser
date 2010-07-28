@@ -125,7 +125,6 @@
 	[self setMessage:@"Application started."];
 	[window setTitle:@"HyperTable Browser is not connected" ];
 	[statusMessageField setHidden:NO];
-	//[[self serversView] setAllowsEmptySelection:YES];
 	//NSLog(@"allowsEmptySelection: %d\n", [[self serversView] allowsEmptySelection]);
 }
 
