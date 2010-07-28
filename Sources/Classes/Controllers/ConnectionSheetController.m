@@ -21,20 +21,10 @@
 	NSString * address = [addressField stringValue];
 	id srv = [[[NSApp delegate] serversManager] getServer:address ];
 	if (srv) {
-		NSLog(@"Removing server %s from view. Reconnect was canceled.", [address UTF8String]);
-		
-		NSError * error = nil;
-		[[[NSApp delegate] managedObjectContext] deleteObject:srv];
-		[[[NSApp delegate] managedObjectContext] save:&error];
-		if (error) {
-			[[NSApp delegate] setMessage:@"Failed to remove server from persistent store"];
-		}
-		
-		//reload servers view
-		[[[NSApp delegate] serversView] reloadItem:nil reloadChildren:YES];
+		NSLog(@"Colapsing server %s. Reconnect was canceled.", [address UTF8String]);
+		[[[NSApp delegate] serversView] collapseItem:srv];
 	}
 
-	
 	//close sheet
 	[[NSApp delegate] setMessage:@"Connection canceled."];
 	[connectionSheet orderOut:nil];
