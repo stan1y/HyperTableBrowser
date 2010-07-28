@@ -46,23 +46,23 @@
 	//GeneralPreferencesController * generalPrefsController;
 }
 //@property (nonatomic, retain) IBOutlet GeneralPreferencesController * generalPrefsController;
-@property (nonatomic, assign) IBOutlet HqlController * hqlController;
-@property (nonatomic, assign) IBOutlet NewTableController * newTableController;
-@property (nonatomic, assign) IBOutlet ToolBarController * toolBarController;
+@property (nonatomic, retain) IBOutlet HqlController * hqlController;
+@property (nonatomic, retain) IBOutlet NewTableController * newTableController;
+@property (nonatomic, retain) IBOutlet ToolBarController * toolBarController;
 @property (nonatomic, retain) IBOutlet NSWindow *window;
 @property (nonatomic, retain) IBOutlet NSPanel * hqlInterpreterPnl;
 @property (nonatomic, retain) IBOutlet NSPanel * newTablePnl;
 
-@property (assign) IBOutlet NSOutlineView * serversView;
+@property (nonatomic, retain) IBOutlet NSOutlineView * serversView;
 
-@property (assign) IBOutlet ConnectionSheetController * connectionSheetController;
-@property (assign) IBOutlet ServersDelegate * serversDelegate;
+@property (nonatomic, retain) IBOutlet ConnectionSheetController * connectionSheetController;
+@property (nonatomic, retain) IBOutlet ServersDelegate * serversDelegate;
 
-@property (assign) IBOutlet NSTextField *statusMessageField;
-@property (assign) IBOutlet NSProgressIndicator *statusIndicator;
+@property (nonatomic, retain) IBOutlet NSTextField *statusMessageField;
+@property (nonatomic, retain) IBOutlet NSProgressIndicator *statusIndicator;
 
-@property (assign) IBOutlet NSMenuItem * connectMenuItem;
-@property (assign) IBOutlet NSMenuItem * showBrowserMenuItem;
+@property (nonatomic, retain) IBOutlet NSMenuItem * connectMenuItem;
+@property (nonatomic, retain) IBOutlet NSMenuItem * showBrowserMenuItem;
 
 @property (nonatomic, retain, readonly) NSOperationQueue * operations;
 @property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
