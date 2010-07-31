@@ -20,6 +20,24 @@
 	return tables;
 }
 
+-(void) dealloc
+{
+	NSLog([NSString stringWithFormat:@"Deallocating connection to %s:%d",
+		   [[connInfo address] UTF8String],
+		   [connInfo port]]);
+	[tables release];
+	[connInfo release];
+	if (thriftClient) {
+		free(thriftClient);
+		thriftClient = nil;
+	}
+	
+	if (hqlClient) {
+		free(hqlClient);
+		hqlClient = nil;
+	}
+}
+
 -(void) setTables:(NSMutableArray *)newTables
 {
 	if (newTables) {

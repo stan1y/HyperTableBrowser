@@ -51,16 +51,14 @@
 	[request setEntity:entity];
 	[request setIncludesPendingChanges:YES];
 	NSError * err = nil;
-	NSArray * result = [[self managedObjectContext] executeFetchRequest:request 
-																					error:&err];
+	NSArray * result = [[self managedObjectContext] executeFetchRequest:request error:&err];
 	if (err) {
-		NSString * msg = @"getServers: Failed to get servers from datastore";
+		NSString * msg = @"Failed to get servers from datastore";
 		[self setMessage:[NSString stringWithFormat:@"Error: %s", [msg UTF8String]]];
 		[[NSApplication sharedApplication] presentError:err];
 		[err release];
 		return nil;
 	}
-	[entity release];
 	[request release];
 	
 	if ( [result count] <= 0 ) {
@@ -76,10 +74,11 @@
 						  [result count],
 						  [name UTF8String]];
 		[self setMessage:msg];
-		[result release];
 		return nil;
 	}
-	return [result objectAtIndex:0];
+	[result retain];
+	id settings = [result objectAtIndex:0];
+	return settings;
 }
 
 
@@ -98,6 +97,7 @@
 							 informativeTextWithFormat: @"Please click the \"Stop\" button before closing."];
         [alert beginSheetModalForWindow: [self window] modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];
     }
+
     return (numOperationsRunning == 0);
 }
 
@@ -331,13 +331,34 @@
     Implementation of dealloc, to release the retained variables.
  */
  
-- (void)dealloc {
-
+- (void)dealloc 
+{
+	NSLog(@"Deallocating app instance...");
     [window release];
+	[hqlController release];
+	[newTableController release];
+	[toolBarController release];
+	
+	[hqlInterpreterPnl release];
+	[newTablePnl release];
+	
+	[serversView release];
+	[serversDelegate release];
+	
+	[statusMessageField release];
+	[statusIndicator release];
+	
+	[connectMenuItem release];
+	[showBrowserMenuItem release];
+	
+	[connectionSheetController release];
+	
     [managedObjectContext release];
     [persistentStoreCoordinator release];
     [managedObjectModel release];
+	
 	[operations release];
+	[serversManager release];
 	
     [super dealloc];
 }

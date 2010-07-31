@@ -14,10 +14,15 @@
 @synthesize address;
 @synthesize port;
 
+-(void) dealloc
+{
+	[address release];
+}
+
 + (id)infoWithAddress:(NSString*)address 
 			  andPort:(int)port
 {
-	ThriftConnectionInfo * ci = [[ThriftConnectionInfo alloc] autorelease];
+	ThriftConnectionInfo * ci = [[ThriftConnectionInfo alloc] init];
 	[ci setAddress:address];
 	[ci setPort:port];
 	return ci;

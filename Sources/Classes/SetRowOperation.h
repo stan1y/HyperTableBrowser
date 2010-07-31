@@ -22,11 +22,11 @@
 	int errorCode;
 }
 
-@property (assign) NSString * tableName;
-@property (assign) NSString * cellValue;
-@property (assign) NSString * columnName;
+@property (nonatomic, retain) NSString * tableName;
+@property (nonatomic, retain) NSString * cellValue;
+@property (nonatomic, retain) NSString * columnName;
+@property (nonatomic, retain) ThriftConnection * connection;
 @property (assign) int rowIndex;
-@property (assign) ThriftConnection * connection;
 @property (assign) int errorCode;
 @property (assign) DataRow * row;
 @property (assign) DataPage * page;

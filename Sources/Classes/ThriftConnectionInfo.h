@@ -13,7 +13,7 @@
 	int port;
 }
 
-@property(assign) NSString * address;
+@property(nonatomic, retain) NSString * address;
 @property(assign) int port;
 
 + (id)infoWithAddress:(NSString*)address andPort:(int)port;

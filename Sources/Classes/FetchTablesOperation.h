@@ -14,7 +14,7 @@
 	int errorCode;
 }
 
-@property (assign) ThriftConnection * connection;
+@property (retain) ThriftConnection * connection;
 @property (assign) int errorCode;
 
 + fetchTablesFromConnection:(ThriftConnection *)conn;

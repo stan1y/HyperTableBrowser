@@ -16,8 +16,8 @@
 	int errorCode;
 }
 
-@property (assign) ThriftConnectionInfo * connectionInfo;
-@property (readonly) ThriftConnection * connection;
+@property (nonatomic, retain) ThriftConnectionInfo * connectionInfo;
+@property (nonatomic, retain, readonly) ThriftConnection * connection;
 @property (assign) int errorCode;
 
 + connectWithInfo:(ThriftConnectionInfo *)info;

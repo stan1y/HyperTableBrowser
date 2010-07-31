@@ -18,8 +18,8 @@
 	NSMutableArray * tables;
 }
 
-@property (assign) NSMutableArray * tables;
-@property (assign) ThriftConnectionInfo * connInfo;
+@property (retain) NSMutableArray * tables;
+@property (retain) ThriftConnectionInfo * connInfo;
 @property (assign) HTHRIFT thriftClient;
 @property (assign) HTHRIFT_HQL hqlClient;
 

@@ -13,6 +13,17 @@
 
 @synthesize pageTitle;
 
+- (void)dealloc
+{
+	[pageTitle release];
+	if (page) {
+		page_clear(page);
+		free(page);
+		page = nil;
+	}
+	[super dealloc];
+}
+
 - (DataPage *)page { return page; }
 
 - (void)setPage:(DataPage *)newPage {
@@ -34,10 +45,10 @@
 
 - (void)reloadDataForView:(NSTableView *)tableView {
 	
-	if (!page) {
-		NSLog(@"PageSource: no page set for reload");
-		return;
-	}
+	//if (!page) {
+	//	NSLog(@"PageSource: no page set for reload");
+	//	return;
+	//}
 	
 	//remove columns from table view
 	int count = [[tableView tableColumns] count];
@@ -151,7 +162,7 @@
 		} while (cell);
 		free(cellIter);
 		NSLog(@"No value found for \"%s\"", [columnId UTF8String]);
-		return @"Error";
+		return @"";
 	}
 	@catch(NSException * ex) {
 		NSLog(@"Failed to get data for cell at row %d, column %s", rowIndex, 

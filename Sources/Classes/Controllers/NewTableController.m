@@ -125,6 +125,7 @@
 		[self setMessage:[NSString stringWithFormat:@"%d server(s) available", [serversArray count]] ];
 	}
 	[self indicateDone];
+	[serversArray release];
 }
 
 - (id)getSelectedConnection 

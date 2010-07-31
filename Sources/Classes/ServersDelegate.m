@@ -80,7 +80,6 @@
 	}
 	
 	NSLog(@"Should select item: %d\n", doSelection);
-	[toolbar release];
 	return doSelection;
 }
 

@@ -15,8 +15,8 @@
 	NSString * pageTitle;
 };
 
-@property (readwrite) DataPage * page;
-@property (assign) NSString * pageTitle;
+@property (assign) DataPage * page;
+@property (nonatomic, retain) NSString * pageTitle;
 
 - (void)reloadDataForView:(NSTableView*)tableView;
 - (void)setPage:(DataPage*)page withTitle:(NSString*)title;

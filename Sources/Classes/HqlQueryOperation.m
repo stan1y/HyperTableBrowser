@@ -20,7 +20,19 @@
 	HqlQueryOperation * hqlOp = [[HqlQueryOperation alloc] init];
 	[hqlOp setConnection:con];
 	[hqlOp setQuery:query];
-	return [hqlOp autorelease];
+	return hqlOp;
+}
+
+- (void) dealloc
+{
+	[connection release];
+	[query release];
+	if (page) {
+		page_clear(page);
+		free(page);
+		page = nil;
+	}
+	[super dealloc];
 }
 
 - (void)main

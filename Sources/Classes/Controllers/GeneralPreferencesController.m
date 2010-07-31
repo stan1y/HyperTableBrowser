@@ -59,10 +59,9 @@
 			NSLog(@"showTablesCount: %d\n", [state intValue]);
 			[settings setValue:state forKey:@"showTablesCount"];
 		}
-		
+		[settings release];
 		NSLog(@"Saving settings to store...\n");
 		[[NSApp delegate] saveAction:sender];
-		[settings release];
 	}
 }
 @end

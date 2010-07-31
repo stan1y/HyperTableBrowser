@@ -16,9 +16,17 @@
 
 + connectWithInfo:(ThriftConnectionInfo *)info
 {
-	ConnectOperation * operation = [[ConnectOperation alloc] init];
-	[operation setConnectionInfo:info];
-	return [operation autorelease];
+	ConnectOperation * conOp = [[ConnectOperation alloc] init];
+	[conOp setConnectionInfo:info];
+	return conOp;
+}
+
+- (void)dealloc 
+{
+	[connectionInfo release];
+	[connection release];
+	
+	[super dealloc];
 }
 
 - (void)main

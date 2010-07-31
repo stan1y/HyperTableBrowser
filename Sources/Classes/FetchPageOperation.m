@@ -30,16 +30,20 @@
 	[fpOp setPageIndex:pageIndex];
 	[fpOp setPageSize:pageSize];
 	[fpOp setConnection:conn];
-	return [fpOp autorelease];
+	return fpOp;
 }
 
 - (void) dealloc
 {
+	[connection release];
+	[tableName release];
 	if (page) {
 		page_clear(page);
 		free(page);
 		page = nil;
 	}
+	
+	[super dealloc];
 }
 
 - (void) main
@@ -99,19 +103,20 @@
 	NSLog(@"Fetching page from %s to %s.\n", startRow, stopRow);
 	
 	rc = get_page([connection thriftClient], page, [tableName UTF8String], startRow, stopRow);
+	
 	[self setErrorCode:rc];
 	if ( rc != T_OK) {
-		[self setErrorCode:rc];
 		NSLog(@"Failed to fetch page content with code %d, %s\n", rc,
 			  [[ThriftConnection errorFromCode:rc] UTF8String]);
-		free(keys);
-		return;
 	}
-	
+	else {
+		NSLog(@"Successfully received page with %d row(s) of %d requested.\n",
+			  page->rowsCount, pageSize);
+	}
+	row_clear(keys);
 	free(keys);
-	NSLog(@"Successfully received page with %d row(s) of %d requested.\n",
-		  page->rowsCount,
-		  pageSize);
+	free(startRow);
+	free(stopRow);
 }
 
 @end

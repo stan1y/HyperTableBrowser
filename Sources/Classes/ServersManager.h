@@ -10,10 +10,13 @@
 #import <ThriftConnection.h>
 #import <ThriftConnectionInfo.h>
 #import <HyperTableServer.h>
+#import <FetchTablesOperation.h>
+#import <ConnectOperation.h>
 
 @interface ServersManager : NSObject {
 	NSMutableDictionary * connectionsCache;
 }
+
 
 - (NSArray *)getServers;
 

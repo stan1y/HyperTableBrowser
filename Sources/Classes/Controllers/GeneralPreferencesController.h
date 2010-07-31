@@ -15,9 +15,9 @@
 	NSButton * showTablesCount;
 }
 
-@property (assign) IBOutlet NSButton * autoReconnectServer;
-@property (assign) IBOutlet NSButton * skipMetadata;
-@property (assign) IBOutlet NSButton * showTablesCount;
+@property (nonatomic, retain) IBOutlet NSButton * autoReconnectServer;
+@property (nonatomic, retain) IBOutlet NSButton * skipMetadata;
+@property (nonatomic, retain) IBOutlet NSButton * showTablesCount;
 
 - (IBAction)switchCheckBox:(id)sender;
 - (NSString *)identifier;

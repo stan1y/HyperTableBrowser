@@ -23,16 +23,16 @@
 	int stopIndex;
 }
 
-@property (assign) ThriftConnection * connection;
+@property (nonatomic, retain) ThriftConnection * connection;
 @property (assign) int totalRows;
 @property (assign) int errorCode;
 @property (assign) int pageIndex;
 @property (assign) int pageSize;
-@property (assign) NSString * tableName;
+@property (nonatomic, retain) NSString * tableName;
 @property (assign) int startIndex;
 @property (assign) int stopIndex;
 
-@property (readonly) DataPage * page;
+@property (assign, readonly) DataPage * page;
 
 + fetchPageFromConnection:(ThriftConnection *)conn
 				 withName:(NSString *)tableName 

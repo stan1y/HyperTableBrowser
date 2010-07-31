@@ -18,7 +18,13 @@
 {
 	FetchTablesOperation * ftOp = [[FetchTablesOperation alloc] init];
 	[ftOp setConnection:conn];
-	return [ftOp autorelease];
+	return ftOp;
+}
+
+- (void) dealloc
+{
+	[connection release];
+	[super dealloc];
 }
 
 - (void)main
@@ -45,6 +51,7 @@
 		return;
 	}
 	int skipMetadata = [[generalPrefs valueForKey:@"skipMetadata"] intValue];
+	[generalPrefs release];
 	int index = 0;
 	do {
 		cell = cell_iter_next_cell(ci);
@@ -60,10 +67,11 @@
 		}
 	} while (cell);
 	free(ci);
+	row_clear(row);
 	free(row);
 	[[NSApp delegate] setMessage:[NSString stringWithFormat:@"%d tables found.", [tables count]]];
+	[tables retain];
 	[connection setTables:tables];
-	[tables release];
 }
 
 @end

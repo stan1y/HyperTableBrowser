@@ -17,11 +17,11 @@
 	int errorCode;
 }
 
-@property (assign) ThriftConnection * connection;
+@property (nonatomic, retain) ThriftConnection * connection;
 @property (assign) int errorCode;
-@property (assign) NSString * query;
+@property (nonatomic, retain) NSString * query;
 
-@property (readonly) DataPage * page;
+@property (assign, readonly) DataPage * page;
 
 + queryHql:(NSString *)query withConnection:(ThriftConnection *)con;
 - (void)main;

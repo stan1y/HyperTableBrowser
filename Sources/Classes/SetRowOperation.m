@@ -26,7 +26,7 @@
 	[op setConnection:con];
 	[op setTableName:tableName];
 	[op setRow:row];
-	return [op autorelease];
+	return op;
 }
 
 + setCellValue:(NSString *)newValue
@@ -43,7 +43,29 @@ withConnection:(ThriftConnection *)con;
 	[op setColumnName:columnName];
 	[op setCellValue:newValue];
 	[op setPage:page];
-	return [op autorelease];
+	return op;
+}
+
+- (void) dealloc
+{
+	[connection release];
+	[tableName release];
+	[cellValue release];
+	[columnName release];
+	
+	if (page) {
+		page_clear(page);
+		free(page);
+		page = nil;
+	}
+	 
+	 if (row) {
+		 row_clear(row);
+		 free(row);
+		 row = nil;
+	 }
+	
+	[super dealloc];
 }
 
 - (void)main

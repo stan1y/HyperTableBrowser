@@ -69,7 +69,7 @@
 @property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
 
-@property (assign) IBOutlet ServersManager * serversManager;
+@property (retain) IBOutlet ServersManager * serversManager;
 
 //show status message on the bottom
 - (void)setMessage:(NSString*)message;

@@ -28,13 +28,13 @@
 	NSTableView * pageView;
 }
 
-@property (assign) IBOutlet NSTextView * hqlQuery;
-@property (assign) IBOutlet NSButton * goButton;
-@property (assign) IBOutlet NSPopUpButton * serverSelector;
-@property (assign) IBOutlet PageSource * pageSource;
-@property (assign) IBOutlet NSTableView * pageView;
-@property (assign) IBOutlet NSProgressIndicator * indicator;
-@property (assign) IBOutlet NSTextField * statusField;
+@property (nonatomic, retain) IBOutlet NSTextView * hqlQuery;
+@property (nonatomic, retain) IBOutlet NSButton * goButton;
+@property (nonatomic, retain) IBOutlet NSPopUpButton * serverSelector;
+@property (nonatomic, retain) IBOutlet PageSource * pageSource;
+@property (nonatomic, retain) IBOutlet NSTableView * pageView;
+@property (nonatomic, retain) IBOutlet NSProgressIndicator * indicator;
+@property (nonatomic, retain) IBOutlet NSTextField * statusField;
 
 - (IBAction)go:(id)sender;
 - (IBAction)done:(id)sender;

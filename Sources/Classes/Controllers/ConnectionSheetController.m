@@ -24,7 +24,7 @@
 		NSLog(@"Colapsing server %s. Reconnect was canceled.", [address UTF8String]);
 		[[[NSApp delegate] serversView] collapseItem:srv];
 	}
-
+	[srv release];
 	//close sheet
 	[[NSApp delegate] setMessage:@"Connection canceled."];
 	[connectionSheet orderOut:nil];
@@ -136,6 +136,7 @@
 			//start fetching tables
 			[[[NSApp delegate] operations] addOperation: fetchTablesOp];
 			[fetchTablesOp release];
+			[connectedServer release];
 		}
 	} ];
 	
