@@ -19,6 +19,17 @@
 @synthesize indicator;
 @synthesize statusField;
 
+- (void)dealloc
+{
+	[hqlQuery release];
+	[goButton release];
+	[indicator release];
+	[statusField release];
+	[serverSelector release];
+	[pageSource release];
+	[pageView release];
+}
+
 - (void)windowWillClose:(NSNotification *)notification
 {
 	NSLog(@"HQL Interpreter was closed\n");
@@ -32,10 +43,6 @@
 }
 
 - (IBAction)done:(id)sender {
-	//clear
-	[pageSource setPage:nil];
-	[pageSource reloadDataForView:pageView];
-	
 	if([[self window] isVisible] )
         [[self window] orderOut:sender];
 }
@@ -93,6 +100,7 @@
 		[self setMessage:[NSString stringWithFormat:@"%d server(s) available", [serversArray count]] ];
 	}
 	[self indicateDone];
+	[serversArray release];
 }
 
 - (id)getSelectedConnection {
@@ -116,11 +124,17 @@
 							  [[ThriftConnection errorFromCode:hqlOp.errorCode] UTF8String]]];
 		}
 		else {
-			[pageSource setPage:hqlOp.page withTitle:@"HQL"];
-			[pageSource reloadDataForView:pageView];
-			[self setMessage:[NSString stringWithFormat:
-							  @"Query returned %d row(s).",
-							  hqlOp.page->rowsCount]];
+			DataPage * thePage = [hqlOp page];
+			if ( !thePage || thePage->rowsCount == 0) {
+				[self setMessage:@"Query successfull but no data was returned."];
+			}
+			else {
+				[pageSource setPage:thePage withTitle:@"HQL"];
+				[pageSource reloadDataForView:pageView];
+				[self setMessage:[NSString stringWithFormat:
+								  @"Query returned %d row(s).",
+								  hqlOp.page->rowsCount]];
+			}
 		}
 	}];
 	
