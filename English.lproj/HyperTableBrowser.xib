@@ -13,6 +13,7 @@
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<integer value="21"/>
+			<integer value="1191"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1991,7 +1992,7 @@
 				<nil key="NSViewClass"/>
 				<string key="NSWindowContentMaxSize">{1.79769e+308, 1.79769e+308}</string>
 				<object class="NSView" key="NSWindowView" id="167496892">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -2339,6 +2340,7 @@
 						</object>
 					</object>
 					<string key="NSFrameSize">{610, 446}</string>
+					<reference key="NSSuperview"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1280, 778}}</string>
 				<string key="NSMaxSize">{1.79769e+308, 1.79769e+308}</string>
@@ -3069,35 +3071,6 @@
 					<int key="connectionID">1246</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: selection.name</string>
-						<reference key="source" ref="218074405"/>
-						<reference key="destination" ref="733548112"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="218074405"/>
-							<reference key="NSDestination" ref="733548112"/>
-							<string key="NSLabel">value: selection.name</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">selection.name</string>
-							<object class="NSDictionary" key="NSOptions">
-								<bool key="EncodedWithXMLCoder">YES</bool>
-								<object class="NSArray" key="dict.sortedKeys">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<string>NSContinuouslyUpdatesValue</string>
-									<string>NSValidatesImmediately</string>
-								</object>
-								<object class="NSMutableArray" key="dict.values">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<boolean value="YES"/>
-									<boolean value="YES"/>
-								</object>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">1248</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">add:</string>
 						<reference key="source" ref="733548112"/>
@@ -3160,6 +3133,22 @@
 						<reference key="destination" ref="416904589"/>
 					</object>
 					<int key="connectionID">1256</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: arrangedObjects.name</string>
+						<reference key="source" ref="218074405"/>
+						<reference key="destination" ref="733548112"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="218074405"/>
+							<reference key="NSDestination" ref="733548112"/>
+							<string key="NSLabel">value: arrangedObjects.name</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">arrangedObjects.name</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1263</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -4798,9 +4787,9 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>ShowHqlBtn</string>
 					<boolean value="NO"/>
-					<string>{{31, 186}, {610, 446}}</string>
+					<string>{{232, 204}, {610, 446}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{31, 186}, {610, 446}}</string>
+					<string>{{232, 204}, {610, 446}}</string>
 					<boolean value="NO"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<object class="NSMutableDictionary">
@@ -4997,7 +4986,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1256</int>
+			<int key="maxID">1263</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
