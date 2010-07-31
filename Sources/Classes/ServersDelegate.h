@@ -15,11 +15,13 @@
 @interface ServersDelegate : NSObject {
 	ObjectsPageSource * objectsPageSource;
 	NSString * selectedServer;
+	NSString * selectedTable;
 	ConnectionSheetController * connectionController;
 }
 
-@property(assign) IBOutlet ObjectsPageSource * objectsPageSource;
-@property(assign) IBOutlet ConnectionSheetController * connectionController;
-@property(readonly) NSString * selectedServer;
+@property(nonatomic, retain) IBOutlet ObjectsPageSource * objectsPageSource;
+@property(nonatomic, retain) IBOutlet ConnectionSheetController * connectionController;
+@property(nonatomic, retain) NSString * selectedServer;
+@property(nonatomic, retain) NSString * selectedTable;
 
 @end
