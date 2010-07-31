@@ -54,7 +54,49 @@
 
 - (IBAction)dropTable:(id)sender
 {
-	NSLog(@"Going to drop table\n");
+	NSString * selectedTable = [[[NSApp delegate] serversDelegate] selectedTable];
+	NSString * selectedServerAddress = [[[NSApp delegate] serversDelegate] selectedServer];
+	NSLog([NSString stringWithFormat:@"Dropping table \"%s\" from server \"%s\".", 
+		   [selectedTable UTF8String],
+		   [selectedServerAddress UTF8String]]);
+	
+	id connection = [[[NSApp delegate] serversManager] getConnection:selectedServerAddress];
+	if (!connection) {
+		[[NSApp delegate] setMessage:@"Cannot drop table. Server is NOT connected."];
+		return;
+	}
+	[[NSApp delegate] indicateBusy];
+	int rc = drop_table([connection thriftClient], [selectedTable UTF8String]);
+
+	if (rc != T_OK) {
+		[[NSApp delegate] setMessage:[NSString stringWithFormat:@"Failed to drop table \"%s\". %s",
+									  [selectedTable UTF8String],
+									  [[ThriftConnection errorFromCode:rc] UTF8String]]];
+		[[NSApp delegate] indicateDone];
+	}
+	else {
+		NSString * msg = [NSString stringWithFormat:@"Table \"%s\" was dropped.",
+						  [selectedTable UTF8String]];
+	
+		//refresh tables on connection
+		FetchTablesOperation * fetchTablesOp = [FetchTablesOperation fetchTablesFromConnection:connection];
+		[fetchTablesOp setCompletionBlock: ^ {
+			NSLog(@"Refreshing tables on \"%s\"\n", [[[connection connInfo] address] UTF8String] );
+			
+			[[[NSApp delegate] serversView] reloadItem:nil reloadChildren:YES];
+			[[[NSApp delegate] serversView] deselectAll:self];
+			
+			[[NSApp delegate] setMessage:msg];
+			[[NSApp delegate] indicateDone];
+		}];
+		
+		//start fetching tables
+		[[[NSApp delegate] operations] addOperation: fetchTablesOp];
+		[fetchTablesOp release];
+	}
+	
+	[selectedTable release];
+	[selectedServerAddress release];
 }
 
 - (IBAction)showPreferences:(id)sender
