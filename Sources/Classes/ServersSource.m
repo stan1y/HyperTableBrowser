@@ -23,6 +23,8 @@
 		//displaying server at index
 		id servers = [[[NSApp delegate] serversManager] getServers];
 		id srv = [servers objectAtIndex:index];
+		[srv retain];
+		[servers release];
 		return srv;
 	}
 }
@@ -65,8 +67,20 @@
 objectValueForTableColumn:(NSTableColumn *)tableColumn
 		   byItem:(id)item
 {
-	if ([item class] == [NSManagedObject class])
-		return [item valueForKey:@"ipAddress"];
+	if ([item class] == [NSManagedObject class]){
+		NSString * ipAddress = [item valueForKey:@"ipAddress"];
+		id settings = [[NSApp delegate] getSettingsByName:@"GeneralPrefs"];
+		int showTablesCount = [[settings valueForKey:@"showTablesCount"] intValue];
+		[settings release];
+		if (showTablesCount) {
+			//show tables count
+			int tablesCount = [[[[[NSApp delegate] serversManager] getConnection:[item valueForKey:@"ipAddress"] ] tables] count];
+			return [NSString stringWithFormat:@"%s (%d)", [ipAddress UTF8String], tablesCount];
+			
+		}
+		else
+			return ipAddress;
+	}
 	else
 		return item;
 }
