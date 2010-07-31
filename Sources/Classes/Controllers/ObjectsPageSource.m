@@ -97,18 +97,22 @@
 									   size,
 									   [[self lastDisplayedTableName] UTF8String]];
 				[objectsPageField setTitleWithMnemonic:pageInfo];
-				
-				//display received page with PageSource:setPage/reloadDataForView
-				[self setPage:receivedPage withTitle:tableName];
-				[self reloadDataForView:objectsPageView];
-				//allow refresh
-				[refreshButton setEnabled:YES];
 			}
 			else {
 				[[NSApp delegate]setMessage:[NSString stringWithFormat:
 											 @"No rows were found in table \"%s\".\n",
 											 [[fpageOp tableName] UTF8String] ]];
+				receivedPage = page_new();
+				DataRow * emptyRow = row_new("dummy");
+				page_append(receivedPage, emptyRow);
 			}
+			
+			//display received page with PageSource:setPage/reloadDataForView
+			[self setPage:receivedPage withTitle:tableName];
+			[self reloadDataForView:objectsPageView];
+			
+			//allow refresh
+			[refreshButton setEnabled:YES];
 
 		}
 		else {
