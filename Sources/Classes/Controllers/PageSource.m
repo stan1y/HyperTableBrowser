@@ -183,10 +183,10 @@
 		return;
 	}
 
-	id srv = [[[NSApp delegate] serversDelegate] selectedServer];
-	id connection = [[[NSApp delegate] serversManager] getConnection:[srv valueForKey:@"ipAddress"]];
+	id serverIpAddress = [[[NSApp delegate] serversDelegate] selectedServer];
+	id connection = [[[NSApp delegate] serversManager] getConnection:serverIpAddress];
 	if (!connection) {
-		NSLog(@"No connection for server with title %s", [[srv title] UTF8String]);
+		NSLog(@"No connection for server with title %s", [serverIpAddress UTF8String]);
 		return;
 	}
 	
