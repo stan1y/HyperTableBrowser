@@ -78,6 +78,7 @@
 		7696D7F6120592BF00DA46B8 /* zlib.h in Headers */ = {isa = PBXBuildFile; fileRef = 7696D7DB120592BF00DA46B8 /* zlib.h */; };
 		7696D7F7120592BF00DA46B8 /* zutil.c in Sources */ = {isa = PBXBuildFile; fileRef = 7696D7DC120592BF00DA46B8 /* zutil.c */; };
 		7696D7F8120592BF00DA46B8 /* zutil.h in Headers */ = {isa = PBXBuildFile; fileRef = 7696D7DD120592BF00DA46B8 /* zutil.h */; };
+		7696D8051205943D00DA46B8 /* libz.1.2.5.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7696D7BA1205917C00DA46B8 /* libz.1.2.5.dylib */; };
 		76B02666115CFA9E003854D2 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 76B02665115CFA9E003854D2 /* Credits.rtf */; };
 		76B2CDAA116107F6002F889A /* ToolBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B2CDA8116107F6002F889A /* ToolBarController.m */; };
 		76B3C5C010DA328100078742 /* DataPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 76B3C5BE10DA328100078742 /* DataPage.h */; };
@@ -197,6 +198,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				7684BA8E11FDD98700D26DA6 /* libThriftLib.dylib in CopyFiles */,
+				7696D8051205943D00DA46B8 /* libz.1.2.5.dylib in CopyFiles */,
 				766F252310D7995700AB059D /* libHyperThriftWrapper.dylib in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
