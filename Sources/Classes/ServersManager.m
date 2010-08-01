@@ -107,7 +107,8 @@
 - (NSArray *)getServers {
 	NSLog(@"Reading saved servers\n");
 	NSFetchRequest * r = [[NSFetchRequest alloc] init];
-	[r setEntity:[HyperTableServer entityDescription]];
+	[r setEntity:[NSEntityDescription entityForName:@"HyperTableServer" 
+							 inManagedObjectContext:[[NSApp delegate] managedObjectContext]]];
 	[r setIncludesPendingChanges:YES];
 	NSError * err = nil;
 	NSArray * serversArray = [[[NSApp delegate] managedObjectContext] executeFetchRequest:r error:&err];
@@ -124,19 +125,18 @@
 	return [serversArray retain];
 }
 
-- (HyperTableServer *)getServer:(NSString *)ipAddress {
-	NSLog(@"Looking for server \"%s\"", [ipAddress UTF8String]);
+- (NSManagedObject *)getServer:(NSString *)ipAddress {
 	NSArray * servers = [self getServers];
 	for (id srv in servers) {
-		NSLog(@"Checking %s", [[srv valueForKey:@"ipAddress"] UTF8String]);
 		if (strcmp([[srv valueForKey:@"ipAddress"] UTF8String],  [ipAddress UTF8String]) == 0) {
-			NSLog(@"Found.");
+			[srv retain];
 			[servers release];
-			return [srv retain];
+			return srv;
 		}
 	}
 	[servers release];
-	NSLog(@"Server not found.");
+	NSLog([NSString stringWithFormat:@"Server \"%s\" not found.",
+		   [ipAddress UTF8String]]);
 	return nil;
 }
 
@@ -151,7 +151,7 @@
 }
 
 - (void)setConnection:(ThriftConnection *)connection 
-			forServer:(NSManagedObject*)server
+			forServer:(NSManagedObject *)server
 {
 	id ipAddress = [server valueForKey:@"ipAddress"];
 	[connectionsCache setObject:connection forKey:ipAddress];

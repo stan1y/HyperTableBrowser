@@ -7,7 +7,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <HyperTableServer.h>
 
 @interface ServersSource : NSObject {
 }

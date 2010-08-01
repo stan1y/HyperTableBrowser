@@ -95,7 +95,7 @@
 										   [address UTF8String]]];
 			
 			//new server or existing?
-			id connectedServer = [[[NSApp delegate] serversManager] getServer:address];
+			NSManagedObject * connectedServer = [[[NSApp delegate] serversManager] getServer:address];
 			if (connectedServer != nil) {
 				NSLog(@"Connect: Updating connection to server %s", [address UTF8String]);
 				//update settings
@@ -107,7 +107,8 @@
 				NSLog(@"Connect: Adding new server %s", [address UTF8String]);
 				
 				//add new server
-				connectedServer = [HyperTableServer serverWithDefaultContext];
+				connectedServer = [NSEntityDescription insertNewObjectForEntityForName:@"HyperTableServer" 
+																inManagedObjectContext:[[NSApp delegate] managedObjectContext] ];
 				[connectedServer setValue:address forKey:@"ipAddress"];
 				NSNumber * portNum = [NSNumber numberWithInt:port];
 				[connectedServer setValue:portNum forKey:@"port"];
@@ -135,8 +136,8 @@
 			NSLog(@"Refreshing tables...\n");
 			//start fetching tables
 			[[[NSApp delegate] operations] addOperation: fetchTablesOp];
-			[fetchTablesOp release];
 			[connectedServer release];
+			[fetchTablesOp release];
 		}
 	} ];
 	

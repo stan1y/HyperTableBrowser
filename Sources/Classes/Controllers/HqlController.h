@@ -10,7 +10,6 @@
 #
 #import <PageSource.h>
 #import <ThriftConnection.h>
-#import <HyperTableServer.h>
 #import <HqlQueryOperation.h>
 
 @interface HqlController : NSWindowController {

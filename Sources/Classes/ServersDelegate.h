@@ -8,7 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 #import <ObjectsPageSource.h>
-#import <HyperTableServer.h>
 #import <ConnectionSheetController.h>
 #import <ToolBarController.h>
 

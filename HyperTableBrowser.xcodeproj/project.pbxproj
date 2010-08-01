@@ -54,7 +54,6 @@
 		76B2CDAA116107F6002F889A /* ToolBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B2CDA8116107F6002F889A /* ToolBarController.m */; };
 		76B3C5C010DA328100078742 /* DataPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 76B3C5BE10DA328100078742 /* DataPage.h */; };
 		76B3C5C110DA328200078742 /* DataPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76B3C5BF10DA328100078742 /* DataPage.cpp */; };
-		76DB3DDC112A7AEF00B2C2EB /* HyperTableServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DB3DDB112A7AEF00B2C2EB /* HyperTableServer.m */; };
 		76DB3E4C112A83D900B2C2EB /* ServersManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DB3E4B112A83D900B2C2EB /* ServersManager.m */; };
 		76DC6A3C11FCC24C00E14519 /* HyperTableBrowser.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76DC6A3A11FCC24C00E14519 /* HyperTableBrowser.xib */; };
 		76EB165B10FDCC810047F75B /* ServersSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EB165A10FDCC810047F75B /* ServersSource.m */; };
@@ -241,8 +240,6 @@
 		76B2CDA9116107F6002F889A /* ToolBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToolBarController.h; path = Sources/Classes/Controllers/ToolBarController.h; sourceTree = "<group>"; };
 		76B3C5BE10DA328100078742 /* DataPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataPage.h; sourceTree = "<group>"; };
 		76B3C5BF10DA328100078742 /* DataPage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataPage.cpp; sourceTree = "<group>"; };
-		76DB3DDA112A7AEF00B2C2EB /* HyperTableServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HyperTableServer.h; path = Sources/Classes/HyperTableServer.h; sourceTree = "<group>"; };
-		76DB3DDB112A7AEF00B2C2EB /* HyperTableServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HyperTableServer.m; path = Sources/Classes/HyperTableServer.m; sourceTree = "<group>"; };
 		76DB3E4A112A83D900B2C2EB /* ServersManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServersManager.h; path = Sources/Classes/ServersManager.h; sourceTree = "<group>"; };
 		76DB3E4B112A83D900B2C2EB /* ServersManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServersManager.m; path = Sources/Classes/ServersManager.m; sourceTree = "<group>"; };
 		76DC6A3B11FCC24C00E14519 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/HyperTableBrowser.xib; sourceTree = "<group>"; };
@@ -387,8 +384,6 @@
 				767A072110CFD5D400B6739F /* ThriftConnectionInfo.m */,
 				766A3E781162268C00176B42 /* MBPreferencesController.h */,
 				766A3E791162268C00176B42 /* MBPreferencesController.m */,
-				76DB3DDA112A7AEF00B2C2EB /* HyperTableServer.h */,
-				76DB3DDB112A7AEF00B2C2EB /* HyperTableServer.m */,
 				76081DA510E255DB005F668F /* HyperTableBrowserApp.h */,
 				76081DA610E255DB005F668F /* HyperTableBrowserApp.m */,
 				7677371F10CE94DB00DDDCC6 /* Controllers */,
@@ -980,7 +975,6 @@
 				76081DAA10E255F6005F668F /* main.m in Sources */,
 				76081DAC10E25683005F668F /* HyperTableBrowser_DataModel.xcdatamodel in Sources */,
 				76EB165B10FDCC810047F75B /* ServersSource.m in Sources */,
-				76DB3DDC112A7AEF00B2C2EB /* HyperTableServer.m in Sources */,
 				76DB3E4C112A83D900B2C2EB /* ServersManager.m in Sources */,
 				76B2CDAA116107F6002F889A /* ToolBarController.m in Sources */,
 				766A3E7A1162268C00176B42 /* MBPreferencesController.m in Sources */,

@@ -9,7 +9,6 @@
 #import <Cocoa/Cocoa.h>
 #import <ThriftConnection.h>
 #import <ThriftConnectionInfo.h>
-#import <HyperTableServer.h>
 #import <FetchTablesOperation.h>
 #import <ConnectOperation.h>
 
@@ -20,7 +19,7 @@
 
 - (NSArray *)getServers;
 
-- (HyperTableServer *)getServer:(NSString *)ipAddress;
+- (NSManagedObject *)getServer:(NSString *)ipAddress;
 - (void)reconnectServer:(NSManagedObject *)server;
 
 - (ThriftConnection *)getConnection:(NSString *)ipAddress;
