@@ -30,23 +30,24 @@
 	NSTextField * objectsPageField;
 	
 	//button to copy selected object key to paste
-	NSButton * copyObjectKeyButton;
+	NSButton * copyRowKeyButton;
 	NSTextField * selectedRowKey;
+	NSString * selectedRowKeyValue;
 
 }
+@property (assign) int lastDisplayedPageNumber;
+@property (nonatomic, retain) NSString * lastDisplayedTableName;
+@property (nonatomic, retain) ThriftConnection * lastUsedConnection;
+@property (nonatomic, retain) IBOutlet NSButton * refreshButton;
+@property (nonatomic, retain) IBOutlet NSButton * nextPageButton;
+@property (nonatomic, retain) IBOutlet NSButton * prevPageButton;
+@property (nonatomic, retain) IBOutlet NSTextField * pageSizeTextField;
 
-@property (assign) NSString * lastDisplayedTableName;
-@property (assign) ThriftConnection * lastUsedConnection;
-@property (readwrite) int lastDisplayedPageNumber;
-@property (assign) IBOutlet NSButton * refreshButton;
-@property (assign) IBOutlet NSButton * nextPageButton;
-@property (assign) IBOutlet NSButton * prevPageButton;
-@property (assign) IBOutlet NSTextField * pageSizeTextField;
-
-@property (assign) IBOutlet NSTableView * objectsPageView;
-@property (assign) IBOutlet NSTextField * objectsPageField;
-@property (assign) IBOutlet NSButton * copyObjectKeyButton;
-@property (assign) IBOutlet NSTextField * selectedRowKey;
+@property (nonatomic, retain) IBOutlet NSTableView * objectsPageView;
+@property (nonatomic, retain) IBOutlet NSTextField * objectsPageField;
+@property (nonatomic, retain) IBOutlet NSButton * copyRowKeyButton;
+@property (nonatomic, retain) IBOutlet NSTextField * selectedRowKey;
+@property (nonatomic, retain) NSString * selectedRowKeyValue;
 
 - (void)showFirstPageFor:(NSString *)tableName
 		  fromConnection:(ThriftConnection *)connection;
@@ -58,4 +59,5 @@
 - (IBAction)nextPage:(id)sender;
 - (IBAction)prevPage:(id)sender;
 - (IBAction)refresh:(id)sender;
+- (IBAction)copySelectedRowKey:(id)sender;
 @end

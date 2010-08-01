@@ -17,25 +17,44 @@
 @synthesize lastUsedConnection;
 @synthesize lastDisplayedPageNumber;
 @synthesize pageSizeTextField;
-@synthesize	copyObjectKeyButton;
+@synthesize	copyRowKeyButton;
 @synthesize selectedRowKey;
+@synthesize selectedRowKeyValue;
 @synthesize refreshButton;
 @synthesize	nextPageButton;
 @synthesize prevPageButton;
+
+- (void)dealloc
+{
+	[objectsPageField release];
+	[objectsPageView release];
+	[lastDisplayedTableName release];
+	[lastUsedConnection release];
+	[pageSizeTextField release];
+	[copyRowKeyButton release];
+	[selectedRowKey release];
+	[selectedRowKeyValue release];
+	[refreshButton release];
+	[nextPageButton release];
+	[prevPageButton release];
+	[super dealloc];
+}
 
 - (BOOL)tableView:(NSTableView *)aTableView 
   shouldSelectRow:(NSInteger)rowIndex {
 	if (!page) {
 		[selectedRowKey setTitleWithMnemonic:@"Nothing selected"];
-		[copyObjectKeyButton setEnabled:NO];
+		[selectedRowKeyValue release];
+		[copyRowKeyButton setEnabled:NO];
 		return NO;
 	}
-	[copyObjectKeyButton setEnabled:YES];
+	[copyRowKeyButton setEnabled:YES];
 	
-	DataRow * row = page_row_at_index(self.page, rowIndex);
+	DataRow * row = page_row_at_index([self page], rowIndex);
 	
 	//show row key
-	[selectedRowKey setTitleWithMnemonic:[NSString stringWithFormat:@"Selected table key: %s",
+	[self setSelectedRowKeyValue:[NSString stringWithUTF8String:row->rowKey]];
+	[selectedRowKey setTitleWithMnemonic:[NSString stringWithFormat:@"Row key: %s",
 												 row->rowKey]];
 	
 	//do selection
@@ -158,5 +177,16 @@
 		  andPageSize:[pageSizeTextField intValue]];
 }
 
+- (IBAction)copySelectedRowKey:(id)sender
+{
+	if ( [self selectedRowKeyValue] && [[self selectedRowKeyValue] length] > 0) {
+		NSPasteboard *pb = [NSPasteboard generalPasteboard];
+		NSArray *types = [NSArray arrayWithObjects:NSStringPboardType, nil];
+		[pb declareTypes:types owner:self];
+		[pb setString:[self selectedRowKeyValue] forType:NSStringPboardType];
+		[[NSApp delegate] setMessage:[NSString stringWithFormat:@"Row key \"%s\" was copied to clipboard",
+									  [[self selectedRowKeyValue] UTF8String]]];
+	}
+}
 
 @end
