@@ -68,16 +68,19 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
 		   byItem:(id)item
 {
 	if ([item class] == [NSManagedObject class]){
+		[item retain];
 		NSString * ipAddress = [item valueForKey:@"ipAddress"];
 		id settings = [[NSApp delegate] getSettingsByName:@"GeneralPrefs"];
 		int showTablesCount = [[settings valueForKey:@"showTablesCount"] intValue];
+		int tablesCount = [[[[[NSApp delegate] serversManager] getConnection:[item valueForKey:@"ipAddress"] ] tables] count];
+		[item release];
 		[settings release];
-		if (showTablesCount) {
-			//show tables count
-			int tablesCount = [[[[[NSApp delegate] serversManager] getConnection:[item valueForKey:@"ipAddress"] ] tables] count];
-			return [NSString stringWithFormat:@"%s (%d)", [ipAddress UTF8String], tablesCount];
-			
-		}
+		
+		//show tables count
+		if (showTablesCount)
+			return [NSString stringWithFormat:@"%s (%d)", 
+							  [ipAddress UTF8String], 
+							  tablesCount];
 		else
 			return ipAddress;
 	}

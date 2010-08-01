@@ -59,9 +59,8 @@
 		}
 	}
 	else {
-		id serverItem = [ov parentForItem:item];
-		selectedServer = serverItem;
-		NSString * serverAddress = [selectedServer valueForKey:@"ipAddress"];
+		NSString * serverAddress = [[ov parentForItem:item] valueForKey:@"ipAddress"];
+		[self setSelectedServer:serverAddress];
 		NSLog(@"Table \"%s\" from server \"%s\" was selected.\n", [item UTF8String],
 			  [serverAddress UTF8String]);
 		ThriftConnection * connection = [[[NSApp delegate] serversManager] getConnection:serverAddress];
@@ -81,7 +80,7 @@
 			doSelection = NO;
 		}
 	}
-	
+	[item release];
 	NSLog(@"Should select item: %d\n", doSelection);
 	return doSelection;
 }
