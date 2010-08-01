@@ -12,8 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="21"/>
-			<integer value="1191"/>
+			<integer value="680"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -514,12 +513,12 @@
 										<object class="NSTextField" id="500271467">
 											<reference key="NSNextResponder" ref="315851755"/>
 											<int key="NSvFlags">288</int>
-											<string key="NSFrame">{{27, 13}, {499, 17}}</string>
+											<string key="NSFrame">{{27, 13}, {126, 17}}</string>
 											<reference key="NSSuperview" ref="315851755"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSTextFieldCell" key="NSCell" id="483424157">
 												<int key="NSCellFlags">68288064</int>
-												<int key="NSCellFlags2">272630784</int>
+												<int key="NSCellFlags2">272634944</int>
 												<string key="NSContents">Nothing selected</string>
 												<object class="NSFont" key="NSSupport" id="616572200">
 													<string key="NSName">LucidaGrande</string>
@@ -1992,7 +1991,7 @@
 				<nil key="NSViewClass"/>
 				<string key="NSWindowContentMaxSize">{1.79769e+308, 1.79769e+308}</string>
 				<object class="NSView" key="NSWindowView" id="167496892">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -2340,7 +2339,6 @@
 						</object>
 					</object>
 					<string key="NSFrameSize">{610, 446}</string>
-					<reference key="NSSuperview"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1280, 778}}</string>
 				<string key="NSMaxSize">{1.79769e+308, 1.79769e+308}</string>
@@ -2622,30 +2620,6 @@
 						<reference key="destination" ref="563286141"/>
 					</object>
 					<int key="connectionID">1009</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">copySelectedObjectKey</string>
-						<reference key="source" ref="816608147"/>
-						<reference key="destination" ref="795463772"/>
-					</object>
-					<int key="connectionID">1012</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">copyObjectKeyButton</string>
-						<reference key="source" ref="816608147"/>
-						<reference key="destination" ref="795463772"/>
-					</object>
-					<int key="connectionID">1015</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">selectedObjectKey</string>
-						<reference key="source" ref="816608147"/>
-						<reference key="destination" ref="500271467"/>
-					</object>
-					<int key="connectionID">1016</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -3149,6 +3123,30 @@
 						</object>
 					</object>
 					<int key="connectionID">1263</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">selectedRowKey</string>
+						<reference key="source" ref="816608147"/>
+						<reference key="destination" ref="500271467"/>
+					</object>
+					<int key="connectionID">1264</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">copyRowKeyButton</string>
+						<reference key="source" ref="816608147"/>
+						<reference key="destination" ref="795463772"/>
+					</object>
+					<int key="connectionID">1265</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">copySelectedRowKey:</string>
+						<reference key="source" ref="816608147"/>
+						<reference key="destination" ref="795463772"/>
+					</object>
+					<int key="connectionID">1266</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -4787,9 +4785,9 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>ShowHqlBtn</string>
 					<boolean value="NO"/>
-					<string>{{232, 204}, {610, 446}}</string>
+					<string>{{151, 204}, {610, 446}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{232, 204}, {610, 446}}</string>
+					<string>{{151, 204}, {610, 446}}</string>
 					<boolean value="NO"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<object class="NSMutableDictionary">
@@ -4866,9 +4864,9 @@
 					<integer value="1"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
-					<string>{{38, 90}, {869, 621}}</string>
+					<string>{{123, 90}, {869, 621}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{38, 90}, {869, 621}}</string>
+					<string>{{123, 90}, {869, 621}}</string>
 					<integer value="1"/>
 					<boolean value="YES"/>
 					<integer value="1"/>
@@ -4986,7 +4984,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1263</int>
+			<int key="maxID">1266</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -5192,6 +5190,7 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>copySelectedRowKey:</string>
 							<string>nextPage:</string>
 							<string>prevPage:</string>
 							<string>refresh:</string>
@@ -5201,13 +5200,14 @@
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
+							<string>id</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>copyObjectKeyButton</string>
+							<string>copyRowKeyButton</string>
 							<string>nextPageButton</string>
 							<string>objectsPageField</string>
 							<string>objectsPageView</string>
