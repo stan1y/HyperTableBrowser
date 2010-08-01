@@ -28,18 +28,12 @@
 	[serverSelector release];
 	[pageSource release];
 	[pageView release];
+	[super dealloc];
 }
 
 - (void)windowWillClose:(NSNotification *)notification
 {
 	NSLog(@"HQL Interpreter was closed\n");
-}
-
-- (BOOL)shouldChangeTextInRange:(NSRange)affectedCharRange 
-			  replacementString:(NSString *)replacementString
-{
-	NSLog(@"%s", [replacementString UTF8String]);
-	return YES;
 }
 
 - (IBAction)done:(id)sender {
