@@ -96,8 +96,12 @@
 							 informativeTextWithFormat: @"Please click the \"Stop\" button before closing."];
         [alert beginSheetModalForWindow: [self window] modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];
     }
-
-    return (numOperationsRunning == 0);
+	
+	BOOL shouldClose = numOperationsRunning == 0;
+	if (shouldClose) {
+		[showBrowserMenuItem setTitle:@"Show Browser window"];
+	}
+    return shouldClose;
 }
 
 - (void)windowWillClose:(NSNotification *)notification
