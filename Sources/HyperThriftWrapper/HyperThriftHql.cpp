@@ -43,39 +43,34 @@ int hql_query(HTHRIFT_HQL hThrift, DataPage * page, const char * query)
 	try {
 		HqlResult r;
 		client->hql_query(r, std::string(query));
-		int rowIndex = 0;
-		if (r.cells.size() > 0) {
-			std::string current_row_key = r.cells[0].key.row;
-			std::vector<Cell> cells_row;
-			int index = 0;
-			//append first cell
-			cells_row.push_back(r.cells[index]);
-			while (true) {
-				index++;
-				//results end reached
-				if (index == r.cells.size()) {
-					if (cells_row.size()) {
-						//first row is the last
-						convert_row(page, cells_row);
-						rowIndex++;
-					}
-					break;
-				}
-				//next row reached
-				if (r.cells[index].key.row != current_row_key) {
-					convert_row(page, cells_row);
-					current_row_key = r.cells[index].key.row;
-					rowIndex++;
-					cells_row.clear();
-					//append as first cell of new row
-					cells_row.push_back(r.cells[index]);
-				}
-				else {
-					//append cell to row
-					cells_row.push_back(r.cells[index]);
-				}
-			}
+		
+		std::vector<Cell>::iterator it = r.cells.begin();
+		for (; it != r.cells.end(); it++) {
+			DataRow * row = row_new(it->key.row.c_str());
+			
+			DataCell * cell_row = cell_new(NULL, NULL);
+			DataCell * cell_family = cell_new(NULL, NULL);
+			DataCell * cell_qualifier = cell_new(NULL, NULL);
+			DataCell * cell_value = cell_new(NULL, NULL);
+			DataCell * cell_revision = cell_new(NULL, NULL);
+			
+			char revisionValue[255];
+			snprintf(revisionValue, 255, "%lld", it->key.revision);
+			
+			cell_set(cell_row, "row", "key", it->key.row.c_str(), it->key.revision);
+			cell_set(cell_family, "column", "family", it->key.column_family.c_str(), it->key.revision);
+			cell_set(cell_qualifier, "column", "qualifier", it->key.column_qualifier.c_str(), it->key.revision);
+			cell_set(cell_value, "cell", "value", it->value.c_str(), it->key.revision);
+			cell_set(cell_revision, "cell", "revision", revisionValue, it->key.revision);
+			
+			row_append(row, cell_row);
+			row_append(row, cell_family);
+			row_append(row, cell_qualifier);
+			row_append(row, cell_value);
+			row_append(row, cell_revision);
+			page_append(page, row);
 		}
+		
 		return T_OK;
 	}
 	catch (TTransportException & ex) {
