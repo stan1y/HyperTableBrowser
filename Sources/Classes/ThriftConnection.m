@@ -14,6 +14,7 @@
 @synthesize connInfo;
 @synthesize thriftClient;
 @synthesize hqlClient;
+@synthesize connectionLock;
 
 - (NSMutableArray *)tables 
 { 
@@ -27,6 +28,7 @@
 		   [connInfo port]]);
 	[tables release];
 	[connInfo release];
+	[connectionLock release];
 	if (thriftClient) {
 		free(thriftClient);
 		thriftClient = nil;
@@ -55,14 +57,13 @@
 			return @"Connection failed. Check Thrift broker is running.";
 			break;
 		case T_ERR_NODATA:
-			return @"No data returned from query, where is was expected too.";
+			return @"No data returned from query, where is was expected to.";
 			break;
 		case T_ERR_TIMEOUT:
 			return @"Operation timeout. Check HyperTable is running correctly.";
 			break;
 		case T_ERR_APPLICATION:
-			return @"System error occured. Either your HyperTable server \
-			is incompatible with this client application or it had experienced problem service the request";
+			return @"System error occured. Either your HyperTable server is incompatible with this client application or it had experienced problem service the request";
 			break;
 
 		case T_OK:

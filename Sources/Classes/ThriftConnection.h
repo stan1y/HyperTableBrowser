@@ -16,8 +16,10 @@
 	HTHRIFT thriftClient;
 	HTHRIFT_HQL hqlClient;
 	NSMutableArray * tables;
+	NSLock * connectionLock;
 }
 
+@property (retain) NSLock * connectionLock;
 @property (retain) NSMutableArray * tables;
 @property (retain) ThriftConnectionInfo * connInfo;
 @property (assign) HTHRIFT thriftClient;
