@@ -11,11 +11,13 @@
 
 @synthesize newTableBtn;
 @synthesize dropTableBtn;
+@synthesize refreshBtn;
 
 @synthesize toolBar;
 
 @synthesize allowNewTable;
 @synthesize allowDropTable;
+@synthesize allowRefresh;
 
 - (BOOL)validateToolbarItem:(NSToolbarItem *)toolbarItem
 {
@@ -23,9 +25,21 @@
 		return allowNewTable;
     } else if ( [toolbarItem isEqual:dropTableBtn]) {
 		return allowDropTable;
-    }
+    } else if ( [toolbarItem isEqual:refreshBtn]) {
+		NSLog(@"allowRefresh: %d", allowRefresh);
+		return allowRefresh;
+	}
 	
 	return YES;
+}
+
+- (void)dealloc
+{
+	[refreshBtn release];
+	[newTableBtn release];
+	[dropTableBtn release];
+	[toolBar release];
+	[super dealloc];
 }
 
 - (void)awakeFromNib
@@ -62,6 +76,8 @@
 	
 	id connection = [[[NSApp delegate] serversManager] getConnection:selectedServerAddress];
 	if (!connection) {
+		[selectedTable release];
+		[selectedServerAddress release];
 		[[NSApp delegate] setMessage:@"Cannot drop table. Server is NOT connected."];
 		return;
 	}
@@ -116,6 +132,32 @@
 		[[[NSApp delegate] hqlInterpreterPnl] orderFront:sender];
 	}
 	[pnl release];
+}
+
+- (IBAction)refreshTables:(id)sender
+{
+	NSString * selectedServerAddress = [[[NSApp delegate] serversDelegate] selectedServer];
+	id connection = [[[NSApp delegate] serversManager] getConnection:selectedServerAddress];
+	[selectedServerAddress release];
+	
+	if (!connection) {
+		[[NSApp delegate] setMessage:@"Cannot drop table. Server is NOT connected."];
+		return;
+	}
+	
+	[[NSApp delegate] indicateBusy];
+	
+	//refresh tables on connection
+	FetchTablesOperation * fetchTablesOp = [FetchTablesOperation fetchTablesFromConnection:connection];
+	[fetchTablesOp setCompletionBlock: ^ {
+		NSLog(@"Refreshing tables on \"%s\"\n", [[[connection connInfo] address] UTF8String] );
+		[[[NSApp delegate] serversView] reloadItem:nil reloadChildren:YES];
+		[[NSApp delegate] indicateDone];
+	}];
+	
+	//start fetching tables
+	[[[NSApp delegate] operations] addOperation: fetchTablesOp];
+	[fetchTablesOp release];
 }
 
 @end

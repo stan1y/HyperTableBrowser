@@ -80,6 +80,7 @@
 					[[[NSApp delegate] serversView] selectRowIndexes:[NSIndexSet indexSetWithIndex:serverIndex]
 												byExtendingSelection:NO];
 					[[[NSApp delegate] toolBarController] setAllowNewTable:1];
+					[[[NSApp delegate] toolBarController] setAllowRefresh:1];
 					[[[[NSApp delegate] toolBarController] toolBar] validateVisibleItems];
 				}];
 				

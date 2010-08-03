@@ -39,8 +39,9 @@
 		if (connection) {
 			NSLog(@"Connection to server is ready.\n");
 			
-			toolbar.allowNewTable = 1;
-			toolbar.allowDropTable = 0;
+			[toolbar setAllowRefresh:1];
+			[toolbar setAllowNewTable:1];
+			[toolbar setAllowDropTable:0];
 			[[toolbar toolBar] validateVisibleItems];
 			
 			[[[NSApp delegate] window] setTitle:[NSString stringWithFormat:@"HyperTable Browser @ %s", 
@@ -51,8 +52,9 @@
 		else {
 			NSLog(@"Server \"%s\" is NOT connected!\n", [[item valueForKey:@"ipAddress"] UTF8String]);
 			
-			toolbar.allowNewTable = 0;
-			toolbar.allowDropTable = 0;
+			[toolbar setAllowRefresh:0];
+			[toolbar setAllowNewTable:0];
+			[toolbar setAllowDropTable:0];
 			[[toolbar toolBar] validateVisibleItems];
 			
 			doSelection = NO;
@@ -66,8 +68,10 @@
 		ThriftConnection * connection = [[[NSApp delegate] serversManager] getConnection:serverAddress];
 		if (connection) {
 			//table selected, so allow buttons in toolbar
-			toolbar.allowNewTable = 1;
-			toolbar.allowDropTable = 1;
+			[toolbar setAllowRefresh:1];
+			[toolbar setAllowNewTable:1];
+			[toolbar setAllowDropTable:1];
+			
 			[self setSelectedTable:item];
 			[self setSelectedServer:serverAddress];
 			[[toolbar toolBar] validateVisibleItems];
@@ -77,6 +81,9 @@
 			doSelection = YES;
 		} else {
 			NSLog(@"No connection to display data for table %s\n", [item UTF8String]);
+			[toolbar setAllowRefresh:0];
+			[toolbar setAllowNewTable:0];
+			[toolbar setAllowDropTable:0];
 			doSelection = NO;
 		}
 	}
