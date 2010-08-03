@@ -27,7 +27,8 @@ DataCell * cell_new(DataCell * prev, DataCell * next)
 void cell_set(DataCell * cell,
 			  const char * family, 
 			  const char * qualifier,
-			  const char * value)
+			  const char * value,
+			  int64_t revision)
 {
 	int familyLen = strlen(family);
 	int qualifierLen = strlen(qualifier);
@@ -52,6 +53,11 @@ void cell_set(DataCell * cell,
 		cell->cellValue = (char*)malloc((valueLen + 1) * sizeof(char));
 		strncpy(cell->cellValue, value, valueLen + 1);
 		cell->cellValueSize = valueLen;
+	}
+	
+	//revision
+	if (revision) {
+		cell->revision = revision;
 	}
 }
 //removes and destroys all data from cell
@@ -203,6 +209,7 @@ DataPage * page_new()
 	page->rowsCount = 0;
 	return page;
 }
+
 //put cell into row
 void page_append(DataPage * page, DataRow * putRow)
 {

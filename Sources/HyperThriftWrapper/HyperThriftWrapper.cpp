@@ -94,7 +94,7 @@ int get_keys(HTHRIFT hThrift, DataRow * keys, const char * objectTypeId)
 			//convert row to wrapped types
 			if ( cells.size() > 0 ) {
 				DataCell * newKey = cell_new(NULL, NULL);
-				cell_set(newKey, "", "", cells[0].key.row.c_str());
+				cell_set(newKey, "", "", cells[0].key.row.c_str(), 0);
 				row_append(keys, newKey);
 			}
 			
@@ -207,7 +207,8 @@ int get_row(HTHRIFT hThrift, DataRow * row, const char * objectTypeId,
 				DataCell * dcell = cell_new(NULL, NULL);
 				cell_set(dcell, cells[i].key.column_family.c_str(), 
 						 cells[i].key.column_qualifier.c_str(),
-						 cells[i].value.c_str());
+						 cells[i].value.c_str(),
+						 cells[i].key.revision);
 				row_append(row, dcell);
 			}
 		}

@@ -24,7 +24,8 @@ void convert_row(DataPage * page, std::vector<Cell> cells)
 		DataCell * cell = cell_new(NULL, NULL);
 		cell_set(cell, it->key.column_family.c_str(),
 				 it->key.column_qualifier.c_str(),
-				 it->value.c_str());
+				 it->value.c_str(),
+				 it->key.revision);
 		row_append(row, cell);
 		index++;
 	}
@@ -38,7 +39,7 @@ void convert_lines(DataRow * row, std::vector<std::string> lines)
 	std::vector<std::string>::iterator it = lines.begin();
 	for (; it != lines.end(); it++) {
 		DataCell * cell = cell_new(NULL, NULL);
-		cell_set(cell, "", "", it->c_str());
+		cell_set(cell, "", "", it->c_str(), 0);
 		row_append(row, cell);
 	}
 }

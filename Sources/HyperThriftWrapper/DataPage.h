@@ -26,6 +26,7 @@ typedef struct _DataCell {
 	int cellColumnQualifierSize;
 	char * cellValue;
 	int cellValueSize;
+	int64_t revision;
 	
 	//cells list
 	void * nextCell;
@@ -72,7 +73,8 @@ DataCell * cell_new(DataCell * prev, DataCell * next);
 void cell_set(DataCell * cell,
 			  const char * family, 
 			  const char * qualifier,
-			  const char * value);
+			  const char * value,
+			  int64_t revision);
 //removes and destroys all data from cell
 void cell_clear(DataCell * cell);
 
