@@ -29,6 +29,7 @@
 
 - (void)main
 {
+	[[connection connectionLock] lock];
 	DataRow * row = row_new("tables");
 	int rc = get_tables_list([connection thriftClient], row);
 	[self setErrorCode:rc];
@@ -72,6 +73,7 @@
 	[[NSApp delegate] setMessage:[NSString stringWithFormat:@"%d tables found.", [tables count]]];
 	[tables retain];
 	[connection setTables:tables];
+	[[connection connectionLock] unlock];
 }
 
 @end

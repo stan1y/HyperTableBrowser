@@ -70,6 +70,7 @@ withConnection:(ThriftConnection *)con;
 
 - (void)main
 {
+	[[connection connectionLock] lock];
 	[self setErrorCode:0];
 	//construct row with one cell from
 	//data we have or just set specified row
@@ -118,6 +119,7 @@ withConnection:(ThriftConnection *)con;
 	//set row
 	int rc = set_row([connection thriftClient], row, [tableName UTF8String]);
 	[self setErrorCode:rc];
+	[[connection connectionLock] unlock];
 }
 
 @end

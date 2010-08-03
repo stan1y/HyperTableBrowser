@@ -42,7 +42,6 @@
 
 - (id) getSettingsByName:(NSString *)name
 {
-	NSLog(@"Getting settings with name %s", [name UTF8String]);
 	NSFetchRequest * request = [[NSFetchRequest alloc] init];
 	
 	NSEntityDescription * entity = [NSEntityDescription entityForName:name

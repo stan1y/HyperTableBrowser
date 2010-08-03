@@ -35,6 +35,9 @@
 		[connection release];
 	}
 	connection = [[ThriftConnection alloc] init];
+	NSLock * theLock = [[NSLock alloc] init];
+	[connection setConnectionLock:theLock];
+	[theLock release];
 	
 	NSLog(@"Opening connection thread to %s: port:%d\n", 
 		  [[connectionInfo address] UTF8String], 

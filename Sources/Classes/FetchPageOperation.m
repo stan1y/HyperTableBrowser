@@ -48,6 +48,7 @@
 
 - (void) main
 {
+	[[connection connectionLock] lock];
 	NSLog(@"Fetching keys...\n");
 	[self setTotalRows:0];
 
@@ -117,6 +118,7 @@
 	free(keys);
 	free(startRow);
 	free(stopRow);
+	[[connection connectionLock] unlock];
 }
 
 @end

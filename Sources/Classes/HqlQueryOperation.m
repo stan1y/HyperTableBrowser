@@ -37,6 +37,8 @@
 
 - (void)main
 {
+	[[[self connection] connectionLock] lock];
+	
 	NSLog(@"Executing HQL: %s\n", [query UTF8String]);
 	
 	if (page) {
@@ -46,5 +48,7 @@
 	page = page_new();
 	int rc = hql_query([connection hqlClient], page, [query UTF8String]);
 	[self setErrorCode:rc];
+	
+	[[[self connection] connectionLock] unlock];
 }
 @end
