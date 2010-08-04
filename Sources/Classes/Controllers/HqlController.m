@@ -15,17 +15,11 @@
 @synthesize hqlQuery;
 @synthesize pageSource;
 @synthesize	pageView;
-@synthesize serverSelector;
-@synthesize indicator;
-@synthesize statusField;
 
 - (void)dealloc
 {
 	[hqlQuery release];
 	[goButton release];
-	[indicator release];
-	[statusField release];
-	[serverSelector release];
 	[pageSource release];
 	[pageView release];
 	[super dealloc];
@@ -39,21 +33,6 @@
 - (IBAction)done:(id)sender {
 	if([[self window] isVisible] )
         [[self window] orderOut:sender];
-}
-
-- (void)setMessage:(NSString*)message {
-	NSLog(@"HQL: %s\n", [message UTF8String]);
-	[statusField setTitleWithMnemonic:message];
-}
-
-- (void)indicateBusy {
-	[indicator setHidden:NO];
-	[indicator startAnimation:self];
-}
-
-- (void)indicateDone {
-	[indicator stopAnimation:self];
-	[indicator setHidden:YES];
 }
 
 - (IBAction)go:(id)sender {	
@@ -70,41 +49,6 @@
 	}
 	
 	[self runQuery:hqlQueryText withConnection:con];
-}
-
-- (IBAction)updateConnections:(id)sender
-{
-	[self setMessage:@"Updating connections..."];
-	[self indicateBusy];
-	
-	//populate selector
-	id serversArray = [[[NSApp delegate] serversManager] getServers];
-	[serverSelector removeAllItems];
-	for (id server in serversArray)
-		[serverSelector addItemWithTitle:[server valueForKey:@"ipAddress"]];
-	
-	if ([serversArray count] <= 0) {
-		[self setMessage:@"No servers available. Please connect to at least one server."];
-		[serverSelector setEnabled:NO];
-		[goButton setEnabled:NO];
-	}
-	else {
-		[serverSelector setEnabled:YES];
-		[goButton setEnabled:YES];
-		[self setMessage:[NSString stringWithFormat:@"%d server(s) available", [serversArray count]] ];
-	}
-	[self indicateDone];
-	[serversArray release];
-}
-
-- (id)getSelectedConnection {
-	NSLog(@"Get selected connection");
-	if (![[serverSelector itemArray] count] < 0) {
-		[self setMessage:@"There are no connected servers. You need to establish connection before executing HQL."];
-		return nil;
-	}
-	
-	return [ [[NSApp delegate] serversManager] getConnection:[[serverSelector selectedItem] title] ];
 }
 
 - (void)runQuery:(NSString *)query withConnection:(id)connection 
