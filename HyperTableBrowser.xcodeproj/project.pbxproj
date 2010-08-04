@@ -80,6 +80,8 @@
 		76B2CDAA116107F6002F889A /* ToolBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B2CDA8116107F6002F889A /* ToolBarController.m */; };
 		76B3C5C010DA328100078742 /* DataPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 76B3C5BE10DA328100078742 /* DataPage.h */; };
 		76B3C5C110DA328200078742 /* DataPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76B3C5BF10DA328100078742 /* DataPage.cpp */; };
+		76D659861209659500D0D1B3 /* InsertNewRowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D659851209659500D0D1B3 /* InsertNewRowController.m */; };
+		76D6598F120968C000D0D1B3 /* HyperTableOperationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D6598E120968C000D0D1B3 /* HyperTableOperationController.m */; };
 		76DB3E4C112A83D900B2C2EB /* ServersManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DB3E4B112A83D900B2C2EB /* ServersManager.m */; };
 		76DC6A3C11FCC24C00E14519 /* HyperTableBrowser.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76DC6A3A11FCC24C00E14519 /* HyperTableBrowser.xib */; };
 		76EB165B10FDCC810047F75B /* ServersSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EB165A10FDCC810047F75B /* ServersSource.m */; };
@@ -297,6 +299,10 @@
 		76B2CDA9116107F6002F889A /* ToolBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToolBarController.h; path = Sources/Classes/Controllers/ToolBarController.h; sourceTree = "<group>"; };
 		76B3C5BE10DA328100078742 /* DataPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataPage.h; sourceTree = "<group>"; };
 		76B3C5BF10DA328100078742 /* DataPage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataPage.cpp; sourceTree = "<group>"; };
+		76D659841209659500D0D1B3 /* InsertNewRowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InsertNewRowController.h; path = Sources/Classes/Controllers/InsertNewRowController.h; sourceTree = "<group>"; };
+		76D659851209659500D0D1B3 /* InsertNewRowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InsertNewRowController.m; path = Sources/Classes/Controllers/InsertNewRowController.m; sourceTree = "<group>"; };
+		76D6598D120968C000D0D1B3 /* HyperTableOperationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HyperTableOperationController.h; path = Sources/Classes/Controllers/HyperTableOperationController.h; sourceTree = "<group>"; };
+		76D6598E120968C000D0D1B3 /* HyperTableOperationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HyperTableOperationController.m; path = Sources/Classes/Controllers/HyperTableOperationController.m; sourceTree = "<group>"; };
 		76DB3E4A112A83D900B2C2EB /* ServersManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServersManager.h; path = Sources/Classes/ServersManager.h; sourceTree = "<group>"; };
 		76DB3E4B112A83D900B2C2EB /* ServersManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServersManager.m; path = Sources/Classes/ServersManager.m; sourceTree = "<group>"; };
 		76DC6A3B11FCC24C00E14519 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/HyperTableBrowser.xib; sourceTree = "<group>"; };
@@ -560,6 +566,10 @@
 				76EB165A10FDCC810047F75B /* ServersSource.m */,
 				76F8185611FC6F38001B79C6 /* NewTableController.h */,
 				76F8185711FC6F38001B79C6 /* NewTableController.m */,
+				76D659841209659500D0D1B3 /* InsertNewRowController.h */,
+				76D659851209659500D0D1B3 /* InsertNewRowController.m */,
+				76D6598D120968C000D0D1B3 /* HyperTableOperationController.h */,
+				76D6598E120968C000D0D1B3 /* HyperTableOperationController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -1076,6 +1086,8 @@
 				7615175811FDA23F00485438 /* FetchTablesOperation.m in Sources */,
 				761518DE11FDBF5E00485438 /* HqlQueryOperation.m in Sources */,
 				76EDF0D811FF40FA00D5A6B5 /* SetRowOperation.m in Sources */,
+				76D659861209659500D0D1B3 /* InsertNewRowController.m in Sources */,
+				76D6598F120968C000D0D1B3 /* HyperTableOperationController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
