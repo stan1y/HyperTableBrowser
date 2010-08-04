@@ -26,7 +26,6 @@
     } else if ( [toolbarItem isEqual:dropTableBtn]) {
 		return allowDropTable;
     } else if ( [toolbarItem isEqual:refreshBtn]) {
-		NSLog(@"allowRefresh: %d", allowRefresh);
 		return allowRefresh;
 	}
 	

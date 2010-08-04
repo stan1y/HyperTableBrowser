@@ -12,6 +12,7 @@
 #import <HqlController.h>
 #import <ToolBarController.h>
 #import <NewTableController.h>
+#import <InsertNewRowController.h>
 #import <ServersDelegate.h>
 #import <ServersManager.h>
 
@@ -22,6 +23,7 @@
 	
 	NSPanel * hqlInterpreterPnl;
 	NSPanel * newTablePnl;
+	NSPanel * insertNewRowPnl;
 	
 	NSMenuItem * connectMenuItem;
 	NSMenuItem * showBrowserMenuItem;
@@ -43,15 +45,20 @@
 	ToolBarController * toolBarController;
 	HqlController * hqlController;
 	NewTableController * newTableController;
-	//GeneralPreferencesController * generalPrefsController;
+	InsertNewRowController * newRowController;
+	
+	
 }
-//@property (nonatomic, retain) IBOutlet GeneralPreferencesController * generalPrefsController;
+
 @property (nonatomic, retain) IBOutlet HqlController * hqlController;
 @property (nonatomic, retain) IBOutlet NewTableController * newTableController;
 @property (nonatomic, retain) IBOutlet ToolBarController * toolBarController;
+@property (nonatomic, retain) IBOutlet InsertNewRowController * newRowController;
+
 @property (nonatomic, retain) IBOutlet NSWindow *window;
 @property (nonatomic, retain) IBOutlet NSPanel * hqlInterpreterPnl;
 @property (nonatomic, retain) IBOutlet NSPanel * newTablePnl;
+@property (nonatomic, retain) IBOutlet NSPanel * insertNewRowPnl;
 
 @property (nonatomic, retain) IBOutlet NSOutlineView * serversView;
 

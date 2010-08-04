@@ -60,4 +60,6 @@
 - (IBAction)prevPage:(id)sender;
 - (IBAction)refresh:(id)sender;
 - (IBAction)copySelectedRowKey:(id)sender;
+- (IBAction)insertNewRow:(id)sender;
+- (IBAction)deleteSelectedRow:(id)sender;
 @end

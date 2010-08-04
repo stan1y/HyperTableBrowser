@@ -27,11 +27,12 @@
 
 @synthesize hqlInterpreterPnl;
 @synthesize newTablePnl;
+@synthesize insertNewRowPnl;
 
 @synthesize toolBarController;
 @synthesize newTableController;
 @synthesize hqlController;
-//@synthesize generalPrefsController;
+@synthesize newRowController;
 
 - (id)init
 {
@@ -341,9 +342,11 @@
 	[hqlController release];
 	[newTableController release];
 	[toolBarController release];
+	[newRowController release];
 	
 	[hqlInterpreterPnl release];
 	[newTablePnl release];
+	[insertNewRowPnl release];
 	
 	[serversView release];
 	[serversDelegate release];

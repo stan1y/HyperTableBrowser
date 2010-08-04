@@ -54,7 +54,7 @@
 	
 	//show row key
 	[self setSelectedRowKeyValue:[NSString stringWithUTF8String:row->rowKey]];
-	[selectedRowKey setTitleWithMnemonic:[NSString stringWithFormat:@"Row key: %s",
+	[selectedRowKey setTitleWithMnemonic:[NSString stringWithFormat:@"Selected: %s",
 												 row->rowKey]];
 	
 	//do selection
@@ -187,6 +187,58 @@
 		[[NSApp delegate] setMessage:[NSString stringWithFormat:@"Row key \"%s\" was copied to clipboard",
 									  [[self selectedRowKeyValue] UTF8String]]];
 	}
+}
+
+- (IBAction)insertNewRow:(id)sender
+{
+	id pnl = [[NSApp delegate] insertNewRowPnl];
+	if ([pnl isVisible]) {
+		[[[NSApp delegate] insertNewRowPnl] orderOut:sender];
+	}
+	else {
+		id cntrl = [[NSApp delegate] newRowController];
+		[cntrl updateConnections:self];
+		[[[NSApp delegate] insertNewRowPnl] orderFront:sender];
+		[cntrl release];
+	}
+	
+	[pnl release];
+}
+
+- (IBAction)deleteSelectedRow:(id)sender
+{
+	if (![self selectedRowKeyValue] || [[self selectedRowKeyValue] length] <= 0 ) {
+		NSLog(@"No row selected for delete");
+		return;
+	}
+	
+	NSString * selectedTable = [[[NSApp delegate] serversDelegate] selectedTable];
+	if (!selectedTable) {
+		NSLog(@"No table is selected to insert row");
+		return;
+	}
+	
+	NSString * selectedServerAddress = [[[NSApp delegate] serversDelegate] selectedServer];
+	if (selectedServerAddress) {
+		[selectedTable release];
+		NSLog(@"No server is selected to delete row \"%s\"", [[self selectedRowKeyValue] UTF8String]);
+		return;
+	}
+	
+	NSLog([NSString stringWithFormat:@"Deleteing row with key \"%s\" from table \"%s\" on server \"%s\".", 
+		   [[self selectedRowKeyValue] UTF8String],
+		   [selectedTable UTF8String],
+		   [selectedServerAddress UTF8String]]);
+	
+	id connection = [[[NSApp delegate] serversManager] getConnection:selectedServerAddress];
+	[selectedServerAddress release];
+	if (!connection) {
+		[selectedTable release];
+		[[NSApp delegate] setMessage:@"Cannot delete selected row. Server is NOT connected."];
+		return;
+	}
+	
+	[connection release];
 }
 
 @end
