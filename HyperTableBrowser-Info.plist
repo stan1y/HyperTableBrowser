@@ -9,7 +9,7 @@
 	<key>CFBundleExecutable</key>
 	<string>HyperTableBrowser</string>
 	<key>CFBundleIconFile</key>
-	<string>HyperTableBrowser</string>
+	<string>HyperTableBrowserT</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.utils.AwesomeStanlyLabs.HyperTableBrowser</string>
 	<key>CFBundleInfoDictionaryVersion</key>
