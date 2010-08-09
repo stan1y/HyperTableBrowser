@@ -41,24 +41,27 @@ extern "C" {
 	/* Get data */
 		
 	//returns list of all keys in objects, used to build paging information
-	int get_keys(HTHRIFT hThrift, DataRow * keys, const char * objectTypeId);
+	int get_keys(HTHRIFT hThrift, DataRow * keys, const char * tableName);
 		
 	//returns page(from firstKey to lastKey) of objects from table.
-	int get_page(HTHRIFT hThrift, DataPage * page, const char * objectTypeId,
+	int get_page(HTHRIFT hThrift, DataPage * page, const char * tableName,
 					const char * startKey,
 					const char * endKey);
 	
 	//returns row with specified key
-	int get_row(HTHRIFT hThrift, DataRow * row, const char * objectTypeId,
+	int get_row(HTHRIFT hThrift, DataRow * row, const char * tableName,
 				const char * rowKey);
 
 	/* Set Data */
 	
 	//writes cells/rows from page according to row's keys and cells' family & qualified
-	int set_page(HTHRIFT hThrift, DataPage * page, const char * objectTypeId);
+	int set_page(HTHRIFT hThrift, DataPage * page, const char * tableName);
 	
 	//writes cells from row
-	int set_row(HTHRIFT hThrift, DataRow * row, const char * objectTypeId);
+	int set_row(HTHRIFT hThrift, DataRow * row, const char * tableName);
+	
+	//drops all cells in row
+	int delete_row(HTHRIFT hThrift, DataRow * row, const char * tableName);
 	
 	//creates new table with specified name and schema
 	int new_table(HTHRIFT hThrift, const char * name, const char * schema);

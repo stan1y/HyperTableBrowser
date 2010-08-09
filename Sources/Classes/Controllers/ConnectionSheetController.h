@@ -9,7 +9,6 @@
 #import <Cocoa/Cocoa.h>
 #import <ThriftConnection.h>
 #import <ThriftConnectionInfo.h>
-#import <ToolBarController.h>
 #import <ConnectOperation.h>
 #import <FetchTablesOperation.h>
 
@@ -26,9 +25,11 @@
 	IBOutlet id portField;
 }
 
-- (IBAction)showSheet:(id)sender;
+- (IBAction)showSheet:(id)sender 
+			 modalFor:(id)modalWindow;
 
 - (IBAction)showSheet:(id)sender 
+			 modalFor:(id)modalWindow
 			   toHost:(NSString *)host 
 			  andPort:(int)port;
 

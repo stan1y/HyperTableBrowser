@@ -71,7 +71,7 @@ int get_tables_list(HTHRIFT hThrift, DataRow * row)
 	}
 }
 
-int get_keys(HTHRIFT hThrift, DataRow * keys, const char * objectTypeId)
+int get_keys(HTHRIFT hThrift, DataRow * keys, const char * tableName)
 {
 	try {
 		Client *client = (Client*)hThrift;
@@ -83,7 +83,7 @@ int get_keys(HTHRIFT hThrift, DataRow * keys, const char * objectTypeId)
 		spec.revs = 1;
 		spec.__isset.revs = true;
 		
-		Scanner scaner = client->open_scanner(std::string(objectTypeId), spec, false);
+		Scanner scaner = client->open_scanner(std::string(tableName), spec, false);
 		
 		//read rows
 		std::vector<Cell> cells;
@@ -123,7 +123,7 @@ int get_keys(HTHRIFT hThrift, DataRow * keys, const char * objectTypeId)
 	}
 }
 
-int get_page(HTHRIFT hThrift, DataPage * page, const char * objectTypeId,
+int get_page(HTHRIFT hThrift, DataPage * page, const char * tableName,
 				const char * startKey,
 				const char * endKey)
 {
@@ -152,7 +152,7 @@ int get_page(HTHRIFT hThrift, DataPage * page, const char * objectTypeId,
 		spec.revs = 1;
 		spec.__isset.revs = true;
 		
-		Scanner scaner = client->open_scanner(std::string(objectTypeId), spec, false);
+		Scanner scaner = client->open_scanner(std::string(tableName), spec, false);
 		
 		//read rows
 		int index = 0;
@@ -193,14 +193,14 @@ int get_page(HTHRIFT hThrift, DataPage * page, const char * objectTypeId,
 }
 
 //returns row with specified key
-int get_row(HTHRIFT hThrift, DataRow * row, const char * objectTypeId,
+int get_row(HTHRIFT hThrift, DataRow * row, const char * tableName,
 			const char * rowKey)
 {
 	try {
 		Client *client = (Client*)hThrift;
 		std::vector<Cell> cells;
 		//void get_row(std::vector<Cell> & _return, const std::string& name, const std::string& row);
-		client->get_row(cells, std::string(objectTypeId), std::string(rowKey));
+		client->get_row(cells, std::string(tableName), std::string(rowKey));
 		row = row_new(rowKey);
 		if (cells.size() > 0) {
 			for (int i=0; i<cells.size(); i++) {
@@ -240,11 +240,11 @@ int get_row(HTHRIFT hThrift, DataRow * row, const char * objectTypeId,
 /* Set Data */
 
 //writes cells/rows from page according to row's keys and cells' family & qualified
-int set_page(HTHRIFT hThrift, DataPage * page, const char * objectTypeId)
+int set_page(HTHRIFT hThrift, DataPage * page, const char * tableName)
 {
 	try {
 		Client *client = (Client*)hThrift;		
-		Mutator m = client->open_mutator(objectTypeId, 0, 0);
+		Mutator m = client->open_mutator(tableName, 0, 0);
 		std::vector<Cell> cells;
 		
 		//populating cells vector row by row
@@ -304,11 +304,11 @@ int set_page(HTHRIFT hThrift, DataPage * page, const char * objectTypeId)
 }
 
 //writes cells from row
-int set_row(HTHRIFT hThrift, DataRow * row, const char * objectTypeId)
+int set_row(HTHRIFT hThrift, DataRow * row, const char * tableName)
 {
 	try {
 		Client *client = (Client*)hThrift;
-		std::string id = std::string(objectTypeId);
+		std::string id = std::string(tableName);
 		Mutator m = client->open_mutator(id, 0, 0);
 		std::vector<Cell> cells;
 		
@@ -360,6 +360,65 @@ int set_row(HTHRIFT hThrift, DataRow * row, const char * objectTypeId)
 	}
 	catch (TApplicationException & aexp) {
 		printf("set_row: application exception: %s\n", aexp.what());
+		return T_ERR_APPLICATION;
+	}
+}
+
+//drops all cells with specified key
+int delete_row(HTHRIFT hThrift, DataRow * row, const char * tableName)
+{
+	try {
+		Client *client = (Client*)hThrift;
+		std::string id = std::string(tableName);
+		Mutator m = client->open_mutator(id, 0, 0);
+		std::vector<Cell> cells;
+		
+		//populating cells vector
+		//populate with row
+		DataCellIterator * ci = cell_iter_new(row);
+		DataCell * cell = NULL;
+		do {
+			cell = cell_iter_next_cell(ci);
+			if (cell) {
+				Cell c;
+				//set values
+				c.key.column_family = std::string(cell->cellColumnFamily);
+				c.key.column_qualifier = std::string(cell->cellColumnQualifier);
+				c.key.row = std::string(row->rowKey);
+				c.key.flag = DELETE_CELL;
+				//set flags
+				c.key.__isset.column_family = true;
+				c.key.__isset.column_qualifier = true;
+				c.key.__isset.row = true;
+				c.key.__isset.flag = true;
+				
+				cells.push_back(c);
+			}
+		} while (cell);
+		free(ci);
+		
+		client->set_cells(m, cells);
+		client->close_mutator(m, true);
+		
+		return T_OK;
+	}
+	catch (TTransportException & ex) {
+		if (strstr(ex.what(), "EAGAIN")) {
+			printf("delete_row: timeout: %s\n", ex.what());
+			return T_ERR_TIMEOUT;
+			
+		}
+		else {
+			printf("delete_row: exception: %s\n", ex.what());
+			return T_ERR_TRANSPORT;
+		}
+	}
+	catch (ClientException & ex) {
+		printf("delete_row: client exception: %s\n", ex.message.c_str());
+		return T_ERR_CLIENT;
+	}
+	catch (TApplicationException & aexp) {
+		printf("delete_row: application exception: %s\n", aexp.what());
 		return T_ERR_APPLICATION;
 	}
 }

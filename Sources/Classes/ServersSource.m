@@ -44,23 +44,7 @@
 - (NSInteger)outlineView:(NSOutlineView *)outlineView
   numberOfChildrenOfItem:(id)item
 {
-	if (item) {
-		id connection = [[[NSApp delegate] serversManager] getConnection:[item valueForKey:@"ipAddress"] ];
-		if (!connection) {
-			NSLog(@"Failed to get connection for %s", [[item valueForKey:@"ipAddress"] UTF8String]);
-			[[[NSApp delegate] serversManager] reconnectServer:item];
-			return 0;
-		}
-		int tablesCount = [[connection tables] count];
-		NSLog(@"%d tables found on server %s", tablesCount, [[item valueForKey:@"ipAddress"] UTF8String]);
-		return tablesCount;
-	}
-	else {
-		int serversCount = [[[[NSApp delegate] serversManager] getServers] count];
-		NSLog(@"%d servers in view", serversCount);
-		return serversCount;
-	}
-
+	
 }
 
 - (id)outlineView:(NSOutlineView *)outlineView

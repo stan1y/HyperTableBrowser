@@ -7,10 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		76081DA410E255B5005F668F /* ServersDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 76081DA310E255B5005F668F /* ServersDelegate.m */; };
 		76081DA710E255DB005F668F /* HyperTableBrowserApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 76081DA610E255DB005F668F /* HyperTableBrowserApp.m */; };
 		76081DAA10E255F6005F668F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 76081DA910E255F6005F668F /* main.m */; };
-		76081DAC10E25683005F668F /* HyperTableBrowser_DataModel.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 76081DAB10E25683005F668F /* HyperTableBrowser_DataModel.xcdatamodel */; };
 		761515E011FD851400485438 /* Client_constants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 761515D211FD851400485438 /* Client_constants.cpp */; };
 		761515E111FD851400485438 /* Client_constants.h in Headers */ = {isa = PBXBuildFile; fileRef = 761515D311FD851400485438 /* Client_constants.h */; };
 		761515E211FD851400485438 /* Client_types.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 761515D411FD851400485438 /* Client_types.cpp */; };
@@ -48,7 +46,16 @@
 		76878B46120EC51600FDBBFE /* HyperTableBrowser2.icns in Resources */ = {isa = PBXBuildFile; fileRef = 76878B45120EC51600FDBBFE /* HyperTableBrowser2.icns */; };
 		76878B67120EC84E00FDBBFE /* HyperTableBrowserT.icns in Resources */ = {isa = PBXBuildFile; fileRef = 76878B66120EC84E00FDBBFE /* HyperTableBrowserT.icns */; };
 		7689234F10D8334B00B5E024 /* PageSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 7689234E10D8334B00B5E024 /* PageSource.m */; };
-		768C58EC10D8CC4200D5DB91 /* ObjectsPageSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 768C58EB10D8CC4200D5DB91 /* ObjectsPageSource.m */; };
+		76967B2A120FEEFF000FD196 /* TablesBrowserToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 76967B29120FEEFF000FD196 /* TablesBrowserToolbar.m */; };
+		76967B30120FF467000FD196 /* TablesBrowserPageSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 76967B2F120FF467000FD196 /* TablesBrowserPageSource.m */; };
+		76967B33120FF486000FD196 /* TablesListDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 76967B32120FF486000FD196 /* TablesListDelegate.m */; };
+		76967B36120FF577000FD196 /* TablesBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 76967B35120FF577000FD196 /* TablesBrowser.m */; };
+		76967B62120FF9BE000FD196 /* DashboardController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76967B61120FF9BE000FD196 /* DashboardController.m */; };
+		76967B66120FF9F5000FD196 /* ClustersBrowserToolbarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76967B65120FF9F5000FD196 /* ClustersBrowserToolbarController.m */; };
+		76967B69120FFA90000FD196 /* ClustersBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 76967B68120FFA90000FD196 /* ClustersBrowser.m */; };
+		76967C09121010D6000FD196 /* DeleteRowOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 76967C08121010D6000FD196 /* DeleteRowOperation.m */; };
+		76967D0512103D30000FD196 /* TablesListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 76967D0412103D30000FD196 /* TablesListView.m */; };
+		76967D7912104BD0000FD196 /* ClusterInformation.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 76967D7812104BD0000FD196 /* ClusterInformation.xcdatamodel */; };
 		7696D7C01205927E00DA46B8 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7696D7BA1205917C00DA46B8 /* libz.1.2.5.dylib */; };
 		7696D7DE120592BF00DA46B8 /* adler32.c in Sources */ = {isa = PBXBuildFile; fileRef = 7696D7C3120592BF00DA46B8 /* adler32.c */; };
 		7696D7DF120592BF00DA46B8 /* compress.c in Sources */ = {isa = PBXBuildFile; fileRef = 7696D7C4120592BF00DA46B8 /* compress.c */; };
@@ -79,14 +86,12 @@
 		7696D7F8120592BF00DA46B8 /* zutil.h in Headers */ = {isa = PBXBuildFile; fileRef = 7696D7DD120592BF00DA46B8 /* zutil.h */; };
 		7696D8051205943D00DA46B8 /* libz.1.2.5.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7696D7BA1205917C00DA46B8 /* libz.1.2.5.dylib */; };
 		76B02666115CFA9E003854D2 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 76B02665115CFA9E003854D2 /* Credits.rtf */; };
-		76B2CDAA116107F6002F889A /* ToolBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B2CDA8116107F6002F889A /* ToolBarController.m */; };
 		76B3C5C010DA328100078742 /* DataPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 76B3C5BE10DA328100078742 /* DataPage.h */; };
 		76B3C5C110DA328200078742 /* DataPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76B3C5BF10DA328100078742 /* DataPage.cpp */; };
 		76D659861209659500D0D1B3 /* InsertNewRowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D659851209659500D0D1B3 /* InsertNewRowController.m */; };
 		76D6598F120968C000D0D1B3 /* HyperTableOperationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D6598E120968C000D0D1B3 /* HyperTableOperationController.m */; };
 		76DB3E4C112A83D900B2C2EB /* ServersManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DB3E4B112A83D900B2C2EB /* ServersManager.m */; };
 		76DC6A3C11FCC24C00E14519 /* HyperTableBrowser.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76DC6A3A11FCC24C00E14519 /* HyperTableBrowser.xib */; };
-		76EB165B10FDCC810047F75B /* ServersSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EB165A10FDCC810047F75B /* ServersSource.m */; };
 		76EDF0D811FF40FA00D5A6B5 /* SetRowOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EDF0D711FF40FA00D5A6B5 /* SetRowOperation.m */; };
 		76F8150111FB84B0001B79C6 /* libHyperThriftWrapper.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 767A3CB310D5AA6500BAE46E /* libHyperThriftWrapper.dylib */; };
 		76F815B311FB88BB001B79C6 /* Exception.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F8155E11FB88BB001B79C6 /* Exception.h */; };
@@ -216,7 +221,6 @@
 		76081DA510E255DB005F668F /* HyperTableBrowserApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HyperTableBrowserApp.h; path = Sources/Classes/HyperTableBrowserApp.h; sourceTree = "<group>"; };
 		76081DA610E255DB005F668F /* HyperTableBrowserApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HyperTableBrowserApp.m; path = Sources/Classes/HyperTableBrowserApp.m; sourceTree = "<group>"; };
 		76081DA910E255F6005F668F /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Sources/main.m; sourceTree = "<group>"; };
-		76081DAB10E25683005F668F /* HyperTableBrowser_DataModel.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; name = HyperTableBrowser_DataModel.xcdatamodel; path = Sources/HyperTableBrowser_DataModel.xcdatamodel; sourceTree = "<group>"; };
 		76081DC310E257E9005F668F /* HyperTableBrowser_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyperTableBrowser_Prefix.pch; sourceTree = "<group>"; };
 		761515D211FD851400485438 /* Client_constants.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Client_constants.cpp; sourceTree = "<group>"; };
 		761515D311FD851400485438 /* Client_constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client_constants.h; sourceTree = "<group>"; };
@@ -245,8 +249,8 @@
 		766A3E491162234800176B42 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PreferencesGeneral.xib; sourceTree = "<group>"; };
 		766A3E781162268C00176B42 /* MBPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBPreferencesController.h; path = Sources/Classes/MBPreferencesController.h; sourceTree = SOURCE_ROOT; };
 		766A3E791162268C00176B42 /* MBPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBPreferencesController.m; path = Sources/Classes/MBPreferencesController.m; sourceTree = SOURCE_ROOT; };
-		766A3E7B1162269C00176B42 /* GeneralPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GeneralPreferencesController.h; path = Sources/Classes/Controllers/GeneralPreferencesController.h; sourceTree = SOURCE_ROOT; };
-		766A3E7C1162269C00176B42 /* GeneralPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GeneralPreferencesController.m; path = Sources/Classes/Controllers/GeneralPreferencesController.m; sourceTree = SOURCE_ROOT; };
+		766A3E7B1162269C00176B42 /* GeneralPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GeneralPreferencesController.h; path = Sources/Classes/Controllers/GeneralPreferencesController.h; sourceTree = "<group>"; };
+		766A3E7C1162269C00176B42 /* GeneralPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GeneralPreferencesController.m; path = Sources/Classes/Controllers/GeneralPreferencesController.m; sourceTree = "<group>"; };
 		766F24D610D7935100AB059D /* HyperThriftHql.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyperThriftHql.h; sourceTree = "<group>"; };
 		766F24D710D7935100AB059D /* HyperThriftHql.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HyperThriftHql.cpp; sourceTree = "<group>"; };
 		766F24E310D794F600AB059D /* Convert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Convert.h; sourceTree = "<group>"; };
@@ -268,8 +272,25 @@
 		76878B66120EC84E00FDBBFE /* HyperTableBrowserT.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = HyperTableBrowserT.icns; sourceTree = "<group>"; };
 		7689234D10D8334B00B5E024 /* PageSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PageSource.h; path = Sources/Classes/Controllers/PageSource.h; sourceTree = "<group>"; };
 		7689234E10D8334B00B5E024 /* PageSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PageSource.m; path = Sources/Classes/Controllers/PageSource.m; sourceTree = "<group>"; };
-		768C58EA10D8CC4200D5DB91 /* ObjectsPageSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ObjectsPageSource.h; path = Sources/Classes/Controllers/ObjectsPageSource.h; sourceTree = "<group>"; };
-		768C58EB10D8CC4200D5DB91 /* ObjectsPageSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ObjectsPageSource.m; path = Sources/Classes/Controllers/ObjectsPageSource.m; sourceTree = "<group>"; };
+		76967B28120FEEFF000FD196 /* TablesBrowserToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TablesBrowserToolbar.h; path = Sources/Classes/Controllers/TablesBrowserToolbar.h; sourceTree = "<group>"; };
+		76967B29120FEEFF000FD196 /* TablesBrowserToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TablesBrowserToolbar.m; path = Sources/Classes/Controllers/TablesBrowserToolbar.m; sourceTree = "<group>"; };
+		76967B2E120FF467000FD196 /* TablesBrowserPageSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TablesBrowserPageSource.h; path = Sources/Classes/TablesBrowserPageSource.h; sourceTree = "<group>"; };
+		76967B2F120FF467000FD196 /* TablesBrowserPageSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TablesBrowserPageSource.m; path = Sources/Classes/TablesBrowserPageSource.m; sourceTree = "<group>"; };
+		76967B31120FF486000FD196 /* TablesListDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TablesListDelegate.h; path = Sources/Classes/Controllers/TablesListDelegate.h; sourceTree = "<group>"; };
+		76967B32120FF486000FD196 /* TablesListDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TablesListDelegate.m; path = Sources/Classes/Controllers/TablesListDelegate.m; sourceTree = "<group>"; };
+		76967B34120FF577000FD196 /* TablesBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TablesBrowser.h; path = Sources/Classes/TablesBrowser.h; sourceTree = "<group>"; };
+		76967B35120FF577000FD196 /* TablesBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TablesBrowser.m; path = Sources/Classes/TablesBrowser.m; sourceTree = "<group>"; };
+		76967B60120FF9BE000FD196 /* DashboardController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DashboardController.h; path = Sources/Classes/Controllers/DashboardController.h; sourceTree = "<group>"; };
+		76967B61120FF9BE000FD196 /* DashboardController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DashboardController.m; path = Sources/Classes/Controllers/DashboardController.m; sourceTree = "<group>"; };
+		76967B64120FF9F5000FD196 /* ClustersBrowserToolbarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ClustersBrowserToolbarController.h; path = Sources/Classes/Controllers/ClustersBrowserToolbarController.h; sourceTree = "<group>"; };
+		76967B65120FF9F5000FD196 /* ClustersBrowserToolbarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ClustersBrowserToolbarController.m; path = Sources/Classes/Controllers/ClustersBrowserToolbarController.m; sourceTree = "<group>"; };
+		76967B67120FFA90000FD196 /* ClustersBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ClustersBrowser.h; path = Sources/Classes/Controllers/ClustersBrowser.h; sourceTree = "<group>"; };
+		76967B68120FFA90000FD196 /* ClustersBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ClustersBrowser.m; path = Sources/Classes/Controllers/ClustersBrowser.m; sourceTree = "<group>"; };
+		76967C07121010D6000FD196 /* DeleteRowOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeleteRowOperation.h; path = Sources/Classes/DeleteRowOperation.h; sourceTree = "<group>"; };
+		76967C08121010D6000FD196 /* DeleteRowOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeleteRowOperation.m; path = Sources/Classes/DeleteRowOperation.m; sourceTree = "<group>"; };
+		76967D0312103D30000FD196 /* TablesListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TablesListView.h; path = Sources/Classes/TablesListView.h; sourceTree = "<group>"; };
+		76967D0412103D30000FD196 /* TablesListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TablesListView.m; path = Sources/Classes/TablesListView.m; sourceTree = "<group>"; };
+		76967D7812104BD0000FD196 /* ClusterInformation.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = ClusterInformation.xcdatamodel; sourceTree = "<group>"; };
 		7696D7BA1205917C00DA46B8 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libz.1.2.5.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		7696D7C3120592BF00DA46B8 /* adler32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = adler32.c; path = "Sources/zlib-1.2.5/adler32.c"; sourceTree = "<group>"; };
 		7696D7C4120592BF00DA46B8 /* compress.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = compress.c; path = "Sources/zlib-1.2.5/compress.c"; sourceTree = "<group>"; };
@@ -299,8 +320,6 @@
 		7696D7DC120592BF00DA46B8 /* zutil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = zutil.c; path = "Sources/zlib-1.2.5/zutil.c"; sourceTree = "<group>"; };
 		7696D7DD120592BF00DA46B8 /* zutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = zutil.h; path = "Sources/zlib-1.2.5/zutil.h"; sourceTree = "<group>"; };
 		76B02665115CFA9E003854D2 /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
-		76B2CDA8116107F6002F889A /* ToolBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToolBarController.m; path = Sources/Classes/Controllers/ToolBarController.m; sourceTree = "<group>"; };
-		76B2CDA9116107F6002F889A /* ToolBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToolBarController.h; path = Sources/Classes/Controllers/ToolBarController.h; sourceTree = "<group>"; };
 		76B3C5BE10DA328100078742 /* DataPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataPage.h; sourceTree = "<group>"; };
 		76B3C5BF10DA328100078742 /* DataPage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataPage.cpp; sourceTree = "<group>"; };
 		76D659841209659500D0D1B3 /* InsertNewRowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InsertNewRowController.h; path = Sources/Classes/Controllers/InsertNewRowController.h; sourceTree = "<group>"; };
@@ -435,6 +454,11 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				76D6598D120968C000D0D1B3 /* HyperTableOperationController.h */,
+				76D6598E120968C000D0D1B3 /* HyperTableOperationController.m */,
+				76967BEE121009E1000FD196 /* HQL Interpreter */,
+				76967B63120FF9CE000FD196 /* Clusters Browser */,
+				76967B2D120FF430000FD196 /* Tables Browser */,
 				76EDF0D411FF40D800D5A6B5 /* Operations */,
 				7677367410CE88C800DDDCC6 /* ThriftConnection.h */,
 				7677367510CE88C800DDDCC6 /* ThriftConnection.m */,
@@ -444,6 +468,8 @@
 				766A3E791162268C00176B42 /* MBPreferencesController.m */,
 				76081DA510E255DB005F668F /* HyperTableBrowserApp.h */,
 				76081DA610E255DB005F668F /* HyperTableBrowserApp.m */,
+				766A3E7B1162269C00176B42 /* GeneralPreferencesController.h */,
+				766A3E7C1162269C00176B42 /* GeneralPreferencesController.m */,
 				7677371F10CE94DB00DDDCC6 /* Controllers */,
 				76DB3E4A112A83D900B2C2EB /* ServersManager.h */,
 				76DB3E4B112A83D900B2C2EB /* ServersManager.m */,
@@ -554,28 +580,10 @@
 		7677371F10CE94DB00DDDCC6 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				766A3E7B1162269C00176B42 /* GeneralPreferencesController.h */,
-				766A3E7C1162269C00176B42 /* GeneralPreferencesController.m */,
-				76B2CDA9116107F6002F889A /* ToolBarController.h */,
-				76B2CDA8116107F6002F889A /* ToolBarController.m */,
 				76081DA210E255B5005F668F /* ServersDelegate.h */,
 				76081DA310E255B5005F668F /* ServersDelegate.m */,
-				761FDAC610D0D33F00D2EEFF /* ConnectionSheetController.h */,
-				761FDAC710D0D33F00D2EEFF /* ConnectionSheetController.m */,
-				765E610910D811BD00E4CA1D /* HqlController.h */,
-				765E610A10D811BD00E4CA1D /* HqlController.m */,
-				7689234D10D8334B00B5E024 /* PageSource.h */,
-				7689234E10D8334B00B5E024 /* PageSource.m */,
-				768C58EA10D8CC4200D5DB91 /* ObjectsPageSource.h */,
-				768C58EB10D8CC4200D5DB91 /* ObjectsPageSource.m */,
 				76EB165910FDCC800047F75B /* ServersSource.h */,
 				76EB165A10FDCC810047F75B /* ServersSource.m */,
-				76F8185611FC6F38001B79C6 /* NewTableController.h */,
-				76F8185711FC6F38001B79C6 /* NewTableController.m */,
-				76D659841209659500D0D1B3 /* InsertNewRowController.h */,
-				76D659851209659500D0D1B3 /* InsertNewRowController.m */,
-				76D6598D120968C000D0D1B3 /* HyperTableOperationController.h */,
-				76D6598E120968C000D0D1B3 /* HyperTableOperationController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -607,6 +615,53 @@
 				767A3C8710D5A97600BAE46E /* TestWrapper.c */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		76967B2D120FF430000FD196 /* Tables Browser */ = {
+			isa = PBXGroup;
+			children = (
+				76F8185611FC6F38001B79C6 /* NewTableController.h */,
+				76F8185711FC6F38001B79C6 /* NewTableController.m */,
+				76D659841209659500D0D1B3 /* InsertNewRowController.h */,
+				76D659851209659500D0D1B3 /* InsertNewRowController.m */,
+				76967B28120FEEFF000FD196 /* TablesBrowserToolbar.h */,
+				76967B29120FEEFF000FD196 /* TablesBrowserToolbar.m */,
+				76967B2E120FF467000FD196 /* TablesBrowserPageSource.h */,
+				76967B2F120FF467000FD196 /* TablesBrowserPageSource.m */,
+				76967B31120FF486000FD196 /* TablesListDelegate.h */,
+				76967B32120FF486000FD196 /* TablesListDelegate.m */,
+				76967B34120FF577000FD196 /* TablesBrowser.h */,
+				76967B35120FF577000FD196 /* TablesBrowser.m */,
+				76967D0312103D30000FD196 /* TablesListView.h */,
+				76967D0412103D30000FD196 /* TablesListView.m */,
+			);
+			name = "Tables Browser";
+			sourceTree = "<group>";
+		};
+		76967B63120FF9CE000FD196 /* Clusters Browser */ = {
+			isa = PBXGroup;
+			children = (
+				761FDAC610D0D33F00D2EEFF /* ConnectionSheetController.h */,
+				761FDAC710D0D33F00D2EEFF /* ConnectionSheetController.m */,
+				76967B60120FF9BE000FD196 /* DashboardController.h */,
+				76967B61120FF9BE000FD196 /* DashboardController.m */,
+				76967B64120FF9F5000FD196 /* ClustersBrowserToolbarController.h */,
+				76967B65120FF9F5000FD196 /* ClustersBrowserToolbarController.m */,
+				76967B67120FFA90000FD196 /* ClustersBrowser.h */,
+				76967B68120FFA90000FD196 /* ClustersBrowser.m */,
+			);
+			name = "Clusters Browser";
+			sourceTree = "<group>";
+		};
+		76967BEE121009E1000FD196 /* HQL Interpreter */ = {
+			isa = PBXGroup;
+			children = (
+				765E610910D811BD00E4CA1D /* HqlController.h */,
+				765E610A10D811BD00E4CA1D /* HqlController.m */,
+				7689234D10D8334B00B5E024 /* PageSource.h */,
+				7689234E10D8334B00B5E024 /* PageSource.m */,
+			);
+			name = "HQL Interpreter";
 			sourceTree = "<group>";
 		};
 		7696D7B41205910300DA46B8 /* zlib 1.2.5 */ = {
@@ -656,6 +711,8 @@
 				761518DD11FDBF5E00485438 /* HqlQueryOperation.m */,
 				76EDF0D611FF40FA00D5A6B5 /* SetRowOperation.h */,
 				76EDF0D711FF40FA00D5A6B5 /* SetRowOperation.m */,
+				76967C07121010D6000FD196 /* DeleteRowOperation.h */,
+				76967C08121010D6000FD196 /* DeleteRowOperation.m */,
 			);
 			name = Operations;
 			sourceTree = "<group>";
@@ -782,7 +839,7 @@
 		7756732906782D8800D1FEB8 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				76081DAB10E25683005F668F /* HyperTableBrowser_DataModel.xcdatamodel */,
+				76967D7812104BD0000FD196 /* ClusterInformation.xcdatamodel */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -1078,14 +1135,9 @@
 				767A072210CFD5D400B6739F /* ThriftConnectionInfo.m in Sources */,
 				761FDAC810D0D33F00D2EEFF /* ConnectionSheetController.m in Sources */,
 				7689234F10D8334B00B5E024 /* PageSource.m in Sources */,
-				768C58EC10D8CC4200D5DB91 /* ObjectsPageSource.m in Sources */,
-				76081DA410E255B5005F668F /* ServersDelegate.m in Sources */,
 				76081DA710E255DB005F668F /* HyperTableBrowserApp.m in Sources */,
 				76081DAA10E255F6005F668F /* main.m in Sources */,
-				76081DAC10E25683005F668F /* HyperTableBrowser_DataModel.xcdatamodel in Sources */,
-				76EB165B10FDCC810047F75B /* ServersSource.m in Sources */,
 				76DB3E4C112A83D900B2C2EB /* ServersManager.m in Sources */,
-				76B2CDAA116107F6002F889A /* ToolBarController.m in Sources */,
 				766A3E7A1162268C00176B42 /* MBPreferencesController.m in Sources */,
 				766A3E7D1162269C00176B42 /* GeneralPreferencesController.m in Sources */,
 				76F8182F11FC66C2001B79C6 /* TableSchema.m in Sources */,
@@ -1096,6 +1148,16 @@
 				76EDF0D811FF40FA00D5A6B5 /* SetRowOperation.m in Sources */,
 				76D659861209659500D0D1B3 /* InsertNewRowController.m in Sources */,
 				76D6598F120968C000D0D1B3 /* HyperTableOperationController.m in Sources */,
+				76967B2A120FEEFF000FD196 /* TablesBrowserToolbar.m in Sources */,
+				76967B30120FF467000FD196 /* TablesBrowserPageSource.m in Sources */,
+				76967B33120FF486000FD196 /* TablesListDelegate.m in Sources */,
+				76967B36120FF577000FD196 /* TablesBrowser.m in Sources */,
+				76967B62120FF9BE000FD196 /* DashboardController.m in Sources */,
+				76967B66120FF9F5000FD196 /* ClustersBrowserToolbarController.m in Sources */,
+				76967B69120FFA90000FD196 /* ClustersBrowser.m in Sources */,
+				76967C09121010D6000FD196 /* DeleteRowOperation.m in Sources */,
+				76967D0512103D30000FD196 /* TablesListView.m in Sources */,
+				76967D7912104BD0000FD196 /* ClusterInformation.xcdatamodel in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,35 +10,35 @@
 
 @implementation HyperTableBrowserApp
 
-@synthesize window;
+@synthesize hqlWindow;
+@synthesize hqlController;
+
+@synthesize tablesBrowserWindow;
+@synthesize tablesBrowser;
+
+@synthesize clustersBrowserWindow;
+@synthesize clustersBrowser;
+
+@synthesize serversManager;
 @synthesize operations;
 
-@synthesize statusMessageField;
-@synthesize statusIndicator;
-
-@synthesize serversView;
-@synthesize connectionSheetController;
-
-@synthesize connectMenuItem;
-@synthesize showBrowserMenuItem;
-
-@synthesize serversDelegate;
-@synthesize serversManager;
-
-@synthesize hqlInterpreterPnl;
-@synthesize newTablePnl;
-@synthesize insertNewRowPnl;
-
-@synthesize toolBarController;
-@synthesize newTableController;
-@synthesize hqlController;
-@synthesize newRowController;
 
 - (id)init
 {
     [super init];
     operations = [[NSOperationQueue alloc] init];
     return self;
+}
+
+- (void) showErrorDialog:(int)errorCode
+			 message:(NSString *)description 
+		  withReason:(NSString *)reason
+{
+	NSMutableDictionary * dict = [NSMutableDictionary dictionary];
+	[dict setValue:description forKey:NSLocalizedDescriptionKey];
+	[dict setValue:reason forKey:NSLocalizedFailureReasonErrorKey];
+	NSError * error = [NSError errorWithDomain:@"HyperTableBrowser" code:errorCode userInfo:dict];
+	[[NSApplication sharedApplication] presentError:error];
 }
 
 - (id) getSettingsByName:(NSString *)name
@@ -81,75 +81,14 @@
 	return settings;
 }
 
-
-- (BOOL)windowShouldClose:(id)sender
-{
-	NSLog(@"Checking running threads...\n");
-	
-    NSInteger numOperationsRunning = [[operations operations] count];
-    if (numOperationsRunning > 0)
-    {
-		id msg = [NSString stringWithFormat:@"There are %d background operations in progress.", numOperationsRunning];
-        NSAlert *alert = [NSAlert alertWithMessageText: msg 
-										 defaultButton: @"OK"
-									   alternateButton: nil
-										   otherButton: nil
-							 informativeTextWithFormat: @"Please click the \"Stop\" button before closing."];
-        [alert beginSheetModalForWindow: [self window] modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];
-    }
-	
-	BOOL shouldClose = numOperationsRunning == 0;
-	if (shouldClose) {
-		[showBrowserMenuItem setTitle:@"Show Browser window"];
-	}
-    return shouldClose;
-}
-
-- (void)windowWillClose:(NSNotification *)notification
-{
-	NSLog(@"Saving persisten store...\n");
-	[self saveAction:self];
-}
-
--(IBAction)showHideObjectsBrowser:(id)sender
-{
-	if ([[self window] isVisible]) {
-		[showBrowserMenuItem setTitle:@"Show Browser window"];
-		[[self window] orderOut:nil];
-	}
-	else {
-		[showBrowserMenuItem setTitle:@"Hide Browser window"];
-		[[self window] makeKeyAndOrderFront:self];
-	}
-}
-
 - (void)applicationDidFinishLaunching:(NSApplication *)application 
 {	
-	//set initial status
-	[self setMessage:@"Application started."];
-	[window setTitle:@"HyperTable Browser is not connected" ];
-	[statusMessageField setHidden:NO];
-	//NSLog(@"allowsEmptySelection: %d\n", [[self serversView] allowsEmptySelection]);
+	//show clusters browser
+	[[self clustersBrowserWindow] orderFront:self];
+	[[self clustersBrowser] setMessage:@"Application started."];
+	[[[self clustersBrowser] statusMessageField] setHidden:NO];
+	serversManager = [[ServersManager alloc] init];
 }
-
-- (void)setMessage:(NSString*)message 
-{
-	NSLog(@"Browser: %s\n", [message UTF8String]);
-	[statusMessageField setTitleWithMnemonic:message];
-}
-
-- (void)indicateBusy 
-{
-	[statusIndicator setHidden:NO];
-	[statusIndicator startAnimation:self];
-}
-
-- (void)indicateDone 
-{
-	[statusIndicator stopAnimation:self];
-	[statusIndicator setHidden:YES];
-}
-
 /**
     Returns the support directory for the application, used to store the Core Data
     store file.  This code uses a directory named "HyperTableBrowser" for
@@ -337,34 +276,18 @@
  
 - (void)dealloc 
 {
-	NSLog(@"Deallocating app instance...");
-    [window release];
+	[hqlWindow release];
 	[hqlController release];
-	[newTableController release];
-	[toolBarController release];
-	[newRowController release];
-	
-	[hqlInterpreterPnl release];
-	[newTablePnl release];
-	[insertNewRowPnl release];
-	
-	[serversView release];
-	[serversDelegate release];
-	
-	[statusMessageField release];
-	[statusIndicator release];
-	
-	[connectMenuItem release];
-	[showBrowserMenuItem release];
-	
-	[connectionSheetController release];
+	[tablesBrowserWindow release];
+	[tablesBrowser release];
+	[clustersBrowserWindow release];
+	[clustersBrowser release];
 	
     [managedObjectContext release];
     [persistentStoreCoordinator release];
     [managedObjectModel release];
 	
 	[operations release];
-	[serversManager release];
 	
     [super dealloc];
 }

@@ -196,20 +196,6 @@
 													   atRow:rowIndex 
 												   andColumn:[aTableColumn identifier] 
 											  withConnection:connection];
-	[setRowOp setCompletionBlock:^ {
-		[[NSApp delegate] indicateDone];
-		if (setRowOp.errorCode != T_OK) {
-			[[NSApp delegate] setMessage:[ThriftConnection errorFromCode:setRowOp.errorCode]];
-		}
-		else {
-			[[NSApp delegate] setMessage:@"Row updated successfully."];
-		}
-		
-		[self reloadDataForView:aTableView];
-	}];
-	
-	[[NSApp delegate] setMessage:@"Setting row value..."];
-	[[NSApp delegate] indicateBusy];
 	[[[NSApp delegate] operations] addOperation: setRowOp];
 	[setRowOp release];
 	

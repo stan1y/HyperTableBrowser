@@ -32,6 +32,4 @@
 - (IBAction)go:(id)sender;
 - (IBAction)done:(id)sender;
 
-//called when hql windows is about to close
-- (void)windowWillClose:(NSNotification *)notification;
 @end

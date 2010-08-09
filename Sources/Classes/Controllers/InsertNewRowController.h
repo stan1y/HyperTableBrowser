@@ -8,14 +8,16 @@
 
 #import <Cocoa/Cocoa.h>
 #import <HyperTableOperationController.h>
+#import <ThriftConnection.h>
 
-@interface InsertNewRowController : HyperTableOperationController {
+@interface InsertNewRowController : NSViewController {
 	NSPopUpButton * tableSelector;
+	ThriftConnection * connection;
 }
 
+@property (nonatomic, retain) ThriftConnection * connection;
 @property (nonatomic, retain) IBOutlet NSPopUpButton * tableSelector;
 
-- (IBAction)updateConnections:(id)sender;
-- (IBAction)serverSelectionChanged:(id)sender;
+- (IBAction)updateTables:(id)sender;
 
 @end

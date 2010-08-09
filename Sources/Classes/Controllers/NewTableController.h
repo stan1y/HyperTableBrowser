@@ -11,24 +11,22 @@
 #import <TableSchema.h>
 #import <FetchTablesOperation.h>
 
-@interface NewTableController : NSWindowController {
+@interface NewTableController : NSViewController {
 
 	NSTextField * tableNameField;
 	NSTextField * schemaContents;
 	NSButton * createButton;
-	NSPopUpButton * serverSelector;
 	NSTableView * schemasView;
-	NSProgressIndicator * indicator;
-	NSTextField * statusField;
+	
+	ThriftConnection * connection;
 }
 
-@property (assign) IBOutlet NSTextField * schemaContents;
-@property (assign) IBOutlet NSButton * createButton;
-@property (assign) IBOutlet NSPopUpButton * serverSelector;
-@property (assign) IBOutlet NSTableView * schemasView;
-@property (assign) IBOutlet NSProgressIndicator * indicator;
-@property (assign) IBOutlet NSTextField * statusField;
-@property (assign) IBOutlet NSTextField * tableNameField;
+@property (nonatomic, retain) ThriftConnection * connection;
+@property (nonatomic, retain) IBOutlet NSTextField * schemaContents;
+@property (nonatomic, retain) IBOutlet NSButton * createButton;
+@property (nonatomic, retain) IBOutlet NSPopUpButton * serverSelector;
+@property (nonatomic, retain) IBOutlet NSTableView * schemasView;
+@property (nonatomic, retain) IBOutlet NSTextField * tableNameField;
 
 - (IBAction)createTable:(id)sender;
 
@@ -36,16 +34,4 @@
 				   andSchema:(NSString *)schemaContent
 					onServer:(ThriftConnection *)connection;
 
-//show message on window's status bar
-- (void)setMessage:(NSString*)message;
-//start operation indicator
-- (void)indicateBusy;
-//stop operation indicator
-- (void)indicateDone;
-//set available connections
-- (IBAction)updateConnections:(id)sender;
-//get connection selected by user in drop down 
-- (id)getSelectedConnection;
-//called when hql windows is about to close
-- (void)windowWillClose:(NSNotification *)notification;
 @end

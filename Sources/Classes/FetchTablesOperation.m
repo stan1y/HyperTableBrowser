@@ -48,7 +48,7 @@
 	//filter out METADATA if specified
 	id generalPrefs = [[NSApp delegate] getSettingsByName:@"GeneralPrefs"];
 	if (!generalPrefs) {
-		[[NSApp delegate] setMessage:@"There is no settings found!"];
+		NSLog(@"There is no settings found!");
 		return;
 	}
 	int skipMetadata = [[generalPrefs valueForKey:@"skipMetadata"] intValue];
@@ -70,7 +70,7 @@
 	free(ci);
 	row_clear(row);
 	free(row);
-	[[NSApp delegate] setMessage:[NSString stringWithFormat:@"%d tables found.", [tables count]]];
+	NSLog(@"%d tables found.", [tables count]);
 	[tables retain];
 	[connection setTables:tables];
 	[[connection connectionLock] unlock];

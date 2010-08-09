@@ -12,33 +12,18 @@
 
 @synthesize schemaContents;
 @synthesize createButton;
-@synthesize serverSelector;
 @synthesize schemasView;
-@synthesize indicator;
-@synthesize statusField;
 @synthesize tableNameField;
+@synthesize connection;
 
-- (void)windowWillClose:(NSNotification *)notification
+- (void) dealloc
 {
-	//save schemas if any
-	[[NSApp delegate] saveAction:self];
-	//reload servers and tables
-	[[[NSApp delegate] serversView] reloadItem:nil reloadChildren:YES];
-}
-
-- (void)setMessage:(NSString*)message {
-	NSLog(@"New Table: %s\n", [message UTF8String]);
-	[statusField setTitleWithMnemonic:message];
-}
-
-- (void)indicateBusy {
-	[indicator setHidden:NO];
-	[indicator startAnimation:self];
-}
-
-- (void)indicateDone {
-	[indicator stopAnimation:self];
-	[indicator setHidden:YES];
+	[schemasView release];
+	[schemaContents release];
+	[createButton release];
+	[tableNameField release];
+	[connection release];
+	[super dealloc];
 }
 
 - (IBAction)createTable:(id)sender
@@ -94,48 +79,6 @@
 	//start fetching tables
 	[[[NSApp delegate] operations] addOperation: fetchTablesOp];
 	[fetchTablesOp release];
-}
-
-- (IBAction)updateConnections:(id)sender
-{
-	[self setMessage:@"Updating connections..."];
-	[self indicateBusy];
-	//populate selector
-	id serversArray = [[[NSApp delegate] serversManager] getServers];
-	[serverSelector removeAllItems];
-	for (id server in serversArray) {
-		id serverLabel = nil;
-		if ( [server valueForKey:@"name"] ) {
-			serverLabel = [server valueForKey:@"name"];
-		}
-		else {
-			serverLabel = [server valueForKey:@"ipAddress"];
-		}
-
-		[serverSelector addItemWithTitle:serverLabel];
-	}
-	if ([serversArray count] <= 0) {
-		[self setMessage:@"No servers available. Please connect to at least one server."];
-		[serverSelector setEnabled:NO];
-		[createButton setEnabled:NO];
-	}
-	else {
-		[serverSelector setEnabled:YES];
-		[createButton setEnabled:YES];
-		[self setMessage:[NSString stringWithFormat:@"%d server(s) available", [serversArray count]] ];
-	}
-	[self indicateDone];
-	[serversArray release];
-}
-
-- (id)getSelectedConnection 
-{
-	if (![[serverSelector itemArray] count] < 0) {
-		[self setMessage:@"There are no connected servers. You need to establish connection before creating new tables."];
-		return nil;
-	}
-	
-	return [ [[NSApp delegate] serversManager] getConnection:[[serverSelector selectedItem] title] ];
 }
 
 @end

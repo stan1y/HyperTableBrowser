@@ -20,7 +20,7 @@
 - (id)init
 {
 	[super init];
-	NSLog(@"Initializing connections cache");
+	NSLog(@"Initializing servers manager");
 	connectionsCache = [[NSMutableDictionary alloc] init];
 	return self;
 }
@@ -32,18 +32,16 @@
 	
 	id generalPrefs = [[NSApp delegate] getSettingsByName:@"GeneralPrefs"];
 	if (!generalPrefs) {
-		[[NSApp delegate] setMessage:@"Failed to read general preferences from storage. Please recreate HyperTableBrowser.xml"];
+		[[NSApp delegate] showErrorDialog:1 
+							   message:@"Failed to read general preferences from storage." 
+							withReason:@"Please recreate HyperTableBrowser.xml"];
 		return;
 	}
 	int autoReconnectServer =  [[generalPrefs valueForKey:@"autoReconnectServer"] intValue];
 	[generalPrefs release];
 	if ( autoReconnectServer ) {
 		//reconnect server with saved values
-		NSLog(@"Autoreconnecting server \"%s:%d\"\n", [address UTF8String], port);
-		[[NSApp delegate] indicateBusy];
-		[[NSApp delegate] setMessage:[NSString stringWithFormat:@"Reconnecting to server %s...",
-									  [address	UTF8String]]];
-		
+		NSLog(@"Autoreconnecting server \"%s:%d\"\n", [address UTF8String], port);		
 		ThriftConnectionInfo * serverInfo = [ThriftConnectionInfo infoWithAddress:address
 																		  andPort:port];
 		ConnectOperation * connectOp = [ConnectOperation connectWithInfo:serverInfo];
@@ -53,7 +51,6 @@
 			if ( ![[connectOp connection] isConnected] ) {
 				[[NSApp delegate] indicateDone];
 				NSLog(@"Automatic reconnect: Connection failed!\n");
-				[[NSApp delegate] setMessage: @"Failed to automatically reconnect to server."];
 				
 				//maybe user wants to connect with other port or address
 				//show connection sheet for that
@@ -63,11 +60,6 @@
 			}
 			else {
 				NSLog(@"Automatic reconnect: Connection successful!");
-				
-				[[[NSApp delegate] window] setTitle:[NSString stringWithFormat:@"HyperTable Browser @ %s", [address UTF8String]] ];
-				[[NSApp delegate] setMessage: [NSString stringWithFormat:@"Connected to %s.", 
-											   [address UTF8String]]];
-				
 				//set connection
 				[[[NSApp delegate] serversManager] setConnection:[connectOp connection] forServer:server];
 				

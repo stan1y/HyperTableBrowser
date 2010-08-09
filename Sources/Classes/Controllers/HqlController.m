@@ -27,7 +27,8 @@
 
 - (void)windowWillClose:(NSNotification *)notification
 {
-	NSLog(@"HQL Interpreter was closed\n");
+	NSLog(@"HQL Interpreter closed\n");
+	[[NSApp delegate] saveAction:self];
 }
 
 - (IBAction)done:(id)sender {

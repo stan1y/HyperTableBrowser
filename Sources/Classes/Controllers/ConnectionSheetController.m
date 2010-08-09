@@ -26,7 +26,6 @@
 	}
 	[srv release];
 	//close sheet
-	[[NSApp delegate] setMessage:@"Connection canceled."];
 	[connectionSheet orderOut:nil];
 	[NSApp endSheet:connectionSheet];
 }
@@ -34,14 +33,16 @@
 - (IBAction)showSheet:(id)sender 
 			   toHost:(NSString *)host 
 			  andPort:(int)port
+			 modalFor:(id)modalWindow
 {
 	[addressField setStringValue:host];
 	[portField setIntValue:port];
 	
-	[self showSheet:self];
+	[self showSheet:self modalFor:modalWindow];
 }
 
-- (IBAction)showSheet:(id)sender {
+- (IBAction)showSheet:(id)sender
+			 modalFor:(id)modalWindow;{
 	//initial sheet state
 	[indicator setHidden:YES];
 	[statusField setHidden:YES];
@@ -52,7 +53,7 @@
 		  [[addressField stringValue] UTF8String],
 		  [portField intValue]);
 	
-    [NSApp beginSheet:connectionSheet modalForWindow:[[NSApp delegate] window]
+    [NSApp beginSheet:connectionSheet modalForWindow:modalWindow
         modalDelegate:self didEndSelector:nil contextInfo:nil];
 }
 
@@ -89,10 +90,6 @@
 		}
 		else {
 			NSLog(@"Connect: Connection successful!");
-			
-			[[[NSApp delegate] window] setTitle:[NSString stringWithFormat:@"HyperTable Browser @ %s", [address UTF8String]] ];
-			[[NSApp delegate] setMessage: [NSString stringWithFormat:@"Connected to %s.", 
-										   [address UTF8String]]];
 			
 			//new server or existing?
 			NSManagedObject * connectedServer = [[[NSApp delegate] serversManager] getServer:address];
