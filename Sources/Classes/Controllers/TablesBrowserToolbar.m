@@ -54,34 +54,21 @@
 
 - (IBAction)newTable:(id)sender
 {
-	id pnl = [[NSApp delegate] newTablePnl];
-	if ([pnl isVisible]) {
-		[pnl orderOut:sender];
-	}
-	else {
-		id cntl = [[NSApp delegate] newTableController];
-		[cntl updateConnections:sender];
-		[pnl orderFront:sender];
-	}
-	[pnl release];
+	[NSApp beginSheet:[[[NSApp delegate] tablesBrowser] newTablePnl] 
+	   modalForWindow:[[[NSApp delegate] tablesBrowser] window]
+        modalDelegate:self didEndSelector:nil contextInfo:nil];
 }
 
 - (IBAction)dropTable:(id)sender
 {
-	NSString * selectedTable = [[[NSApp delegate] serversDelegate] selectedTable];
-	NSString * selectedServerAddress = [[[NSApp delegate] serversDelegate] selectedServer];
-	NSLog([NSString stringWithFormat:@"Dropping table \"%s\" from server \"%s\".", 
-		   [selectedTable UTF8String],
-		   [selectedServerAddress UTF8String]]);
-	
-	id connection = [[[NSApp delegate] serversManager] getConnection:selectedServerAddress];
+	id connection = [[[NSApp delegate] tablesBrowser] getSelectedConnection];
 	if (!connection) {
-		[selectedTable release];
-		[selectedServerAddress release];
 		[[[NSApp delegate] tablesBrowser] setMessage:@"Cannot drop table. Server is NOT connected."];
 		return;
 	}
+	
 	[[[NSApp delegate] tablesBrowser] indicateBusy];
+	NSString * selectedTable = [[[NSApp delegate] serversDelegate] selectedTable];
 	int rc = drop_table([connection thriftClient], [selectedTable UTF8String]);
 	
 	if (rc != T_OK) {
@@ -113,7 +100,6 @@
 	}
 	
 	[selectedTable release];
-	[selectedServerAddress release];
 }
 
 - (IBAction)refreshTables:(id)sender

@@ -20,8 +20,11 @@
 - (IBAction)showHqlInterpreter:(id)sender;
 - (IBAction)showInspector:(id)sender;
 - (IBAction)showUserGroupManager:(id)sender;
-- (IBAction)refreshClusters:(id)sender;
+
 - (IBAction)showPreferences:(id)sender;
-- (IBAction)showConnectionSheet:(id)sender;
+
+- (IBAction)refresh:(id)sender;
+- (IBAction)newCluster:(id)sender;
+- (IBAction)addServer:(id)sender;
 
 @end

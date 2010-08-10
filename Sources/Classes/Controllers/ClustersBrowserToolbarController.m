@@ -29,14 +29,12 @@
 	[[[NSApp delegate] hqlWindow] orderFront:sender];
 }
 
-//- (IBAction)showInspector:(id)sender;
-//- (IBAction)showUserGroupManager:(id)sender;
-//- (IBAction)refreshClusters:(id)sender;
-
-- (IBAction)showConnectionSheet:(id)sender
+- (IBAction) newCluster:(id)sender
 {
-	[[[self clustersBrowser] connectionSheetController] showSheet:sender 
-														 modalFor:[[self clustersBrowser] window]];
+	[NSApp beginSheet:[[[NSApp delegate] clustersBrowser] newClusterPanel] 
+	   modalForWindow:[[[NSApp delegate] clustersBrowser] window]
+        modalDelegate:self didEndSelector:nil contextInfo:nil];
+
 }
 
 @end

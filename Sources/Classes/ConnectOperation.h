@@ -7,20 +7,29 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <ThriftConnection.h>
-#import <ThriftConnectionInfo.h>
+#include <HyperThriftWrapper.h>
+#include <HyperThriftHql.h>
 
 @interface ConnectOperation : NSOperation {
-	ThriftConnectionInfo * connectionInfo;
-	ThriftConnection * connection;
+	NSString * ipAddress;
+	int port;
+	
+	HTHRIFT thriftClient;
+	HTHRIFT_HQL hqlClient;
+	
 	int errorCode;
 }
 
-@property (nonatomic, retain) ThriftConnectionInfo * connectionInfo;
-@property (nonatomic, retain, readonly) ThriftConnection * connection;
+@property (nonatomic, retain) NSString * ipAddress;
+@property (assign) int port;
+
 @property (assign) int errorCode;
 
-+ connectWithInfo:(ThriftConnectionInfo *)info;
+@property (readonly) HTHRIFT thriftClient;
+@property (readonly) HTHRIFT_HQL hqlClient;
+
++ connectTo:(NSString *)address onPort:(int)port;
+
 - (void)main;
 
 @end

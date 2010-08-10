@@ -29,10 +29,10 @@
 	[self indicateBusy];
 	
 	//populate selector
-	id serversArray = [[[NSApp delegate] serversManager] getServers];
+	id serversArray = [[[NSApp delegate] clusterManager] allHypertableBrokers];
 	[serverSelector removeAllItems];
 	for (id server in serversArray)
-		[serverSelector addItemWithTitle:[server valueForKey:@"ipAddress"]];
+		[serverSelector addItemWithTitle:[server ipAddress]];
 	
 	if ([serversArray count] <= 0) {
 		[self setMessage:@"No servers available. Please connect to at least one server."];
@@ -52,7 +52,14 @@
 		return nil;
 	}
 	
-	return [ [[NSApp delegate] serversManager] getConnection:[[serverSelector selectedItem] title] ];
+	for (HyperTable * hypertable in [[[NSApp delegate] clusterManager] allHypertableBrokers]) {
+		if ([[hypertable ipAddress] isEqual: [[serverSelector selectedItem] title]]) {
+			return hypertable;
+		}
+	}
+	
+	NSLog(@"No connected Hypertable brokers available!");
+	return nil;
 }
 
 - (void)setMessage:(NSString*)message {

@@ -11,11 +11,14 @@
 #import <HqlController.h>
 #import <ClustersBrowser.h>
 #import <TablesBrowser.h>
-#import <ServersManager.h>
+
+#import <ClusterManager.h>
+#import <SettingsManager.h>
 
 @interface HyperTableBrowserApp : NSObject 
 {
-	ServersManager * serversManager;
+	ClusterManager * clusterManager;
+	SettingsManager * settingsManager;
 	
 	NSWindow * clustersBrowserWindow;
 	ClustersBrowser * clustersBrowser;
@@ -27,13 +30,10 @@
 	HqlController * hqlController;
 	
 	NSOperationQueue * operations;
-	
-    NSPersistentStoreCoordinator *persistentStoreCoordinator;
-    NSManagedObjectModel *managedObjectModel;
-    NSManagedObjectContext *managedObjectContext;
 }
 
-@property (nonatomic, readonly) ServersManager * serversManager;
+@property (nonatomic, retain) IBOutlet SettingsManager * settingsManager;
+@property (nonatomic, retain) IBOutlet ClusterManager * clusterManager;
 
 @property (nonatomic, retain) IBOutlet  NSWindow * clustersBrowserWindow;
 @property (nonatomic, retain) IBOutlet ClustersBrowser * clustersBrowser;

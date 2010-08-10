@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
+#import <HyperTable.h>
 
 @interface HyperTableOperationController : NSWindowController {
 	NSProgressIndicator * indicator;

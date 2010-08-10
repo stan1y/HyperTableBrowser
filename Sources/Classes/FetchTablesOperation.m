@@ -46,7 +46,7 @@
 	DataCellIterator * ci = cell_iter_new(row);
 	DataCell * cell = NULL;
 	//filter out METADATA if specified
-	id generalPrefs = [[NSApp delegate] getSettingsByName:@"GeneralPrefs"];
+	id generalPrefs = [[[NSApp delegate] settingsManager] getSettingsByName:@"GeneralPrefs"];
 	if (!generalPrefs) {
 		NSLog(@"There is no settings found!");
 		return;

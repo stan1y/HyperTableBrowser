@@ -15,17 +15,15 @@
 	NSTextField * statusMessageField;
 	NSProgressIndicator * statusIndicator;
 	
-	NSMenuItem * connectMenuItem;
-	NSPanel * connectionSheet;
-	ConnectionSheetController * connectionSheetController;
+	NSMenuItem * newClusterMenuItem;
+	NSPanel * newClusterPanel;
 }
 
 @property (nonatomic, retain) IBOutlet NSTextField * statusMessageField;
 @property (nonatomic, retain) IBOutlet NSProgressIndicator * statusIndicator;
 
-@property (nonatomic, retain) IBOutlet NSMenuItem * connectMenuItem;
-@property (nonatomic, retain) IBOutlet NSPanel * connectionSheet;
-@property (nonatomic, retain) IBOutlet ConnectionSheetController * connectionSheetController;
+@property (nonatomic, retain) IBOutlet NSMenuItem * newClusterMenuItem;
+@property (nonatomic, retain) IBOutlet NSPanel * newClusterPanel;
 
 //show status message on the bottom
 - (void)setMessage:(NSString*)message;

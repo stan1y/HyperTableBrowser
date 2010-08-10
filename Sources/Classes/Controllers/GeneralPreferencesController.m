@@ -32,7 +32,7 @@
 - (void)awakeFromNib
 {
 	NSLog(@"Loading General Preferences pane.\n");
-	id settings = [[NSApp delegate] getSettingsByName:@"GeneralPrefs"];
+	id settings = [[[NSApp delegate] settingsManager] getSettingsByName:@"GeneralPrefs"];
 	[autoReconnectServer setState:[[settings valueForKey:@"autoReconnectServer"] intValue]];
 	[showTablesCount setState:[[settings valueForKey:@"showTablesCount"] intValue]];
 	[skipMetadata setState:[[settings valueForKey:@"skipMetadata"] intValue]];
@@ -42,7 +42,7 @@
 - (IBAction)switchCheckBox:(id)sender
 {
 	NSLog(@"Switching option for \"%s\"\n", [[sender title] UTF8String]);
-	id settings = [[NSApp delegate] getSettingsByName:@"GeneralPrefs"];
+	id settings = [[[NSApp delegate] settingsManager] getSettingsByName:@"GeneralPrefs"];
 	if (settings) {
 		if (sender == autoReconnectServer) {
 			NSNumber * state = [NSNumber numberWithInt:[autoReconnectServer state]];

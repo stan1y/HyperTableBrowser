@@ -19,9 +19,10 @@
 @synthesize clustersBrowserWindow;
 @synthesize clustersBrowser;
 
-@synthesize serversManager;
-@synthesize operations;
+@synthesize clusterManager;
+@synthesize settingsManager;
 
+@synthesize operations;
 
 - (id)init
 {
@@ -41,53 +42,15 @@
 	[[NSApplication sharedApplication] presentError:error];
 }
 
-- (id) getSettingsByName:(NSString *)name
-{
-	NSFetchRequest * request = [[NSFetchRequest alloc] init];
-	
-	NSEntityDescription * entity = [NSEntityDescription entityForName:name
-											   inManagedObjectContext:[self managedObjectContext] ];
-	
-	[request setEntity:entity];
-	[request setIncludesPendingChanges:YES];
-	NSError * err = nil;
-	NSArray * result = [[self managedObjectContext] executeFetchRequest:request error:&err];
-	if (err) {
-		NSString * msg = @"Failed to get servers from datastore";
-		[self setMessage:[NSString stringWithFormat:@"Error: %s", [msg UTF8String]]];
-		[[NSApplication sharedApplication] presentError:err];
-		[err release];
-		return nil;
-	}
-	[request release];
-	
-	if ( [result count] <= 0 ) {
-		//create new default settings
-		id defaults = [NSEntityDescription insertNewObjectForEntityForName:name
-									  inManagedObjectContext:[self managedObjectContext] ];
-		[self setMessage:[NSString stringWithFormat:@"Loading defaults for %s", 
-						  [name UTF8String]]];
-		return defaults;
-	}
-	else if ([result count] > 1) {
-		NSString * msg = [NSString stringWithFormat:@"%d results were found for name \"%s\".", 
-						  [result count],
-						  [name UTF8String]];
-		[self setMessage:msg];
-		return nil;
-	}
-	[result retain];
-	id settings = [result objectAtIndex:0];
-	return settings;
-}
-
 - (void)applicationDidFinishLaunching:(NSApplication *)application 
 {	
+	//settingsManager = [SettingsManager settingsFromFile:@"Settings.xml"];
+	//clusterManager = [ClusterManager clusterManagerFromFile:@"Clusters.xml"];
+	
 	//show clusters browser
 	[[self clustersBrowserWindow] orderFront:self];
 	[[self clustersBrowser] setMessage:@"Application started."];
 	[[[self clustersBrowser] statusMessageField] setHidden:NO];
-	serversManager = [[ServersManager alloc] init];
 }
 /**
     Returns the support directory for the application, used to store the Core Data
@@ -102,97 +65,13 @@
     return [basePath stringByAppendingPathComponent:@"HyperTableBrowser"];
 }
 
-
-/**
-    Creates, retains, and returns the managed object model for the application 
-    by merging all of the models found in the application bundle.
- */
- 
-- (NSManagedObjectModel *)managedObjectModel {
-
-    if (managedObjectModel) return managedObjectModel;
-	
-    managedObjectModel = [[NSManagedObjectModel mergedModelFromBundles:nil] retain];    
-    return managedObjectModel;
-}
-
-
-/**
-    Returns the persistent store coordinator for the application.  This 
-    implementation will create and return a coordinator, having added the 
-    store for the application to it.  (The directory for the store is created, 
-    if necessary.)
- */
-
-- (NSPersistentStoreCoordinator *) persistentStoreCoordinator {
-
-    if (persistentStoreCoordinator) return persistentStoreCoordinator;
-
-    NSManagedObjectModel *mom = [self managedObjectModel];
-    if (!mom) {
-        NSAssert(NO, @"Managed object model is nil");
-        NSLog(@"%@:%s No model to generate a store from", [self class], _cmd);
-        return nil;
-    }
-
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *applicationSupportDirectory = [self applicationSupportDirectory];
-    NSError *error = nil;
-    
-    if ( ![fileManager fileExistsAtPath:applicationSupportDirectory isDirectory:NULL] ) {
-		if (![fileManager createDirectoryAtPath:applicationSupportDirectory withIntermediateDirectories:NO attributes:nil error:&error]) {
-            NSAssert(NO, ([NSString stringWithFormat:@"Failed to create App Support directory %@ : %@", applicationSupportDirectory,error]));
-            NSLog(@"Error creating application support directory at %@ : %@",applicationSupportDirectory,error);
-            return nil;
-		}
-    }
-    
-    NSURL *url = [NSURL fileURLWithPath: [applicationSupportDirectory stringByAppendingPathComponent: @"HyperTableBrowser.xml"]];
-    persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: mom];
-    if (![persistentStoreCoordinator addPersistentStoreWithType:NSXMLStoreType 
-                                                configuration:nil 
-                                                URL:url 
-                                                options:nil 
-                                                error:&error]){
-        [[NSApplication sharedApplication] presentError:error];
-        [persistentStoreCoordinator release], persistentStoreCoordinator = nil;
-        return nil;
-    }    
-
-    return persistentStoreCoordinator;
-}
-
-/**
-    Returns the managed object context for the application (which is already
-    bound to the persistent store coordinator for the application.) 
- */
- 
-- (NSManagedObjectContext *) managedObjectContext {
-
-    if (managedObjectContext) return managedObjectContext;
-
-    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-    if (!coordinator) {
-        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-        [dict setValue:@"Failed to initialize the store" forKey:NSLocalizedDescriptionKey];
-        [dict setValue:@"There was an error building up the data file." forKey:NSLocalizedFailureReasonErrorKey];
-        NSError *error = [NSError errorWithDomain:@"YOUR_ERROR_DOMAIN" code:9999 userInfo:dict];
-        [[NSApplication sharedApplication] presentError:error];
-        return nil;
-    }
-    managedObjectContext = [[NSManagedObjectContext alloc] init];
-    [managedObjectContext setPersistentStoreCoordinator: coordinator];
-
-    return managedObjectContext;
-}
-
 /**
     Returns the NSUndoManager for the application.  In this case, the manager
     returned is that of the managed object context for the application.
  */
  
 - (NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)window {
-    return [[self managedObjectContext] undoManager];
+    return [[[self clusterManager] managedObjectContext] undoManager];
 }
 
 
@@ -206,11 +85,11 @@
 
     NSError *error = nil;
     
-    if (![[self managedObjectContext] commitEditing]) {
+    if (![[[self clusterManager] managedObjectContext] commitEditing]) {
         NSLog(@"%@:%s unable to commit editing before saving", [self class], _cmd);
     }
 
-    if (![[self managedObjectContext] save:&error]) {
+    if (![[[self clusterManager] managedObjectContext] save:&error]) {
         [[NSApplication sharedApplication] presentError:error];
     }
 }
@@ -224,17 +103,17 @@
  
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
 
-    if (!managedObjectContext) return NSTerminateNow;
+    if (![[self clusterManager] managedObjectContext]) return NSTerminateNow;
 
-    if (![managedObjectContext commitEditing]) {
+    if (![[[self clusterManager] managedObjectContext] commitEditing]) {
         NSLog(@"%@:%s unable to commit editing to terminate", [self class], _cmd);
         return NSTerminateCancel;
     }
 
-    if (![managedObjectContext hasChanges]) return NSTerminateNow;
+    if (![[[self clusterManager] managedObjectContext] hasChanges]) return NSTerminateNow;
 
     NSError *error = nil;
-    if (![managedObjectContext save:&error]) {
+    if (![[[self clusterManager] managedObjectContext] save:&error]) {
     
         // This error handling simply presents error information in a panel with an 
         // "Ok" button, which does not include any attempt at error recovery (meaning, 
@@ -283,11 +162,10 @@
 	[clustersBrowserWindow release];
 	[clustersBrowser release];
 	
-    [managedObjectContext release];
-    [persistentStoreCoordinator release];
-    [managedObjectModel release];
-	
 	[operations release];
+	
+	[clusterManager release];
+	[settingsManager release];
 	
     [super dealloc];
 }

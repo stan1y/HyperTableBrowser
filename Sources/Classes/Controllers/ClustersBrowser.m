@@ -13,17 +13,15 @@
 @synthesize statusMessageField;
 @synthesize statusIndicator;
 
-@synthesize connectMenuItem;
-@synthesize connectionSheetController;
-@synthesize connectionSheet;
+@synthesize newClusterMenuItem;
+@synthesize newClusterPanel;
 
 - (void) dealloc
 {
 	[statusMessageField release];
 	[statusIndicator release];
-	[connectMenuItem release];
-	[connectionSheet release];
-	[connectionSheetController release];
+	[newClusterMenuItem release];
+	[newClusterPanel release];
 	[super dealloc];
 }
 

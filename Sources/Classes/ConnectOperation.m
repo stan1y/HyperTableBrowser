@@ -10,58 +10,50 @@
 
 @implementation ConnectOperation
 
-@synthesize connectionInfo;
-@synthesize connection;
+@synthesize thriftClient;
+@synthesize hqlClient;
+
+@synthesize ipAddress;
+@synthesize port;
+
 @synthesize errorCode;
 
-+ connectWithInfo:(ThriftConnectionInfo *)info
++ connectTo:(NSString *)address onPort:(int)port;
 {
 	ConnectOperation * conOp = [[ConnectOperation alloc] init];
-	[conOp setConnectionInfo:info];
+	[conOp setAddress:address];
+	[conOp setPort:port];
 	return conOp;
 }
 
 - (void)dealloc 
 {
-	[connectionInfo release];
-	[connection release];
-	
+	[ipAddress release];
 	[super dealloc];
 }
 
 - (void)main
 {
-	if (connection) {
-		[connection release];
-	}
-	connection = [[ThriftConnection alloc] init];
-	NSLock * theLock = [[NSLock alloc] init];
-	[connection setConnectionLock:theLock];
-	[theLock release];
-	
-	NSLog(@"Opening connection thread to %s: port:%d\n", 
-		  [[connectionInfo address] UTF8String], 
-		  [connectionInfo port]);
 	HTHRIFT th;
-	int rc = create_thrift_client(&th, [[connectionInfo address] UTF8String], [connectionInfo port]);
+	
+	int rc = create_thrift_client(&th, [ipAddress UTF8String], port);
 	[self setErrorCode:rc];
+	
 	if (rc != T_OK) {
-		NSLog(@"connectTo: error: create_thrift_client returned %d", rc);
+		NSLog(@"Error: create_thrift_client returned %d", rc);
 	}
 	else {
 		HTHRIFT_HQL hql;
-		rc = create_hql_client(&hql, [[connectionInfo address] UTF8String], [connectionInfo port]);
+		
+		rc = create_hql_client(&hql, [ipAddress UTF8String], port);
 		[self setErrorCode:rc];
 		
 		if (rc != T_OK) {
-			NSLog(@"Failed to connect with code %d, %s\n", rc,
-				  [[ThriftConnection errorFromCode:rc] UTF8String]);
+			NSLog(@"Error: create_hql_client returned %d", rc);
 		}
 		else {
-			[connection setHqlClient:hql];
-			[connection setThriftClient:th];
-			[connection setConnInfo:connectionInfo];
-			NSLog(@"Connected!\n");
+			hqlClient = hql;
+			thriftClient = th;
 		}
 	}
 }
