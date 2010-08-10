@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <PageSource.h>
-#import <ThriftConnection.h>
+#import <HyperTable.h>
 #import <FetchPageOperation.h>
 
 @interface TablesBrowserPageSource : PageSource {
@@ -17,7 +17,7 @@
 	
 	//last used args for showPageFor
 	NSString * lastDisplayedTableName;
-	ThriftConnection * lastUsedConnection;
+	HyperTable * lastUsedConnection;
 	int lastDisplayedPageNumber;
 	
 	//paging controls
@@ -37,7 +37,7 @@
 }
 @property (assign) int lastDisplayedPageNumber;
 @property (nonatomic, retain) NSString * lastDisplayedTableName;
-@property (nonatomic, retain) ThriftConnection * lastUsedConnection;
+@property (nonatomic, retain) HyperTable * lastUsedConnection;
 @property (nonatomic, retain) IBOutlet NSButton * refreshButton;
 @property (nonatomic, retain) IBOutlet NSButton * nextPageButton;
 @property (nonatomic, retain) IBOutlet NSButton * prevPageButton;
@@ -51,9 +51,9 @@
 @property (nonatomic) int selectedRowIndex;
 
 - (void)showFirstPageFor:(NSString *)tableName
-		  fromConnection:(ThriftConnection *)connection;
+		  fromConnection:(HyperTable *)connection;
 - (void)showPageFor:(NSString *)tableName 
-	 fromConnection:(ThriftConnection *)connection
+	 fromConnection:(HyperTable *)connection
 	 withPageNumber:(int)number
 		andPageSize:(int)size;
 

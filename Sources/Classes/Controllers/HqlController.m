@@ -60,7 +60,7 @@
 		if (hqlOp.errorCode != T_OK) {
 			[self setMessage:[NSString stringWithFormat:
 							  @"Query failed: %s",
-							  [[ThriftConnection errorFromCode:hqlOp.errorCode] UTF8String]]];
+							  [[HyperTable errorFromCode:hqlOp.errorCode] UTF8String]]];
 		}
 		else {
 			DataPage * thePage = [hqlOp page];

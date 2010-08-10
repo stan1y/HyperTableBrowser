@@ -64,7 +64,7 @@
 }
 
 - (void)showFirstPageFor:(NSString *)tableName
-		  fromConnection:(ThriftConnection *)connection
+		  fromConnection:(HyperTable *)connection
 {
 	[self showPageFor:tableName 
 	   fromConnection:connection
@@ -73,7 +73,7 @@
 }
 
 - (void)showPageFor:(NSString *)tableName 
-	 fromConnection:(ThriftConnection *)connection
+	 fromConnection:(HyperTable *)connection
 	 withPageNumber:(int)number andPageSize:(int)size
 {
 	NSLog(@"Preparing to fetch page\n");
@@ -136,7 +136,7 @@
 			[refreshButton setEnabled:YES];
 		}
 		else {
-			[[[NSApp delegate] tablesBrowser] setMessage:[ThriftConnection errorFromCode:fpageOp.errorCode]];
+			[[[NSApp delegate] tablesBrowser] setMessage:[HyperTable errorFromCode:fpageOp.errorCode]];
 			//disabled controls
 			[refreshButton setEnabled:NO];
 			[nextPageButton setEnabled:NO];

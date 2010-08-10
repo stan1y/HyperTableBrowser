@@ -25,7 +25,6 @@
 		761516E211FD96C100485438 /* FetchPageOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 761516DD11FD96A100485438 /* FetchPageOperation.m */; };
 		7615175811FDA23F00485438 /* FetchTablesOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7615175711FDA23F00485438 /* FetchTablesOperation.m */; };
 		761518DE11FDBF5E00485438 /* HqlQueryOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 761518DD11FDBF5E00485438 /* HqlQueryOperation.m */; };
-		761FDAC810D0D33F00D2EEFF /* ConnectionSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 761FDAC710D0D33F00D2EEFF /* ConnectionSheetController.m */; };
 		765E610B10D811BD00E4CA1D /* HqlController.h in Headers */ = {isa = PBXBuildFile; fileRef = 765E610910D811BD00E4CA1D /* HqlController.h */; };
 		765E611610D818F200E4CA1D /* HqlController.m in Sources */ = {isa = PBXBuildFile; fileRef = 765E610A10D811BD00E4CA1D /* HqlController.m */; };
 		766A3E4A1162234800176B42 /* PreferencesGeneral.xib in Resources */ = {isa = PBXBuildFile; fileRef = 766A3E481162234800176B42 /* PreferencesGeneral.xib */; };
@@ -36,9 +35,7 @@
 		766F24E510D794F600AB059D /* Convert.h in Headers */ = {isa = PBXBuildFile; fileRef = 766F24E310D794F600AB059D /* Convert.h */; };
 		766F24E610D794F600AB059D /* Convert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 766F24E410D794F600AB059D /* Convert.cpp */; };
 		766F252310D7995700AB059D /* libHyperThriftWrapper.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 767A3CB310D5AA6500BAE46E /* libHyperThriftWrapper.dylib */; };
-		7677367610CE88C800DDDCC6 /* ThriftConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 7677367510CE88C800DDDCC6 /* ThriftConnection.m */; };
 		7677371710CE93D100DDDCC6 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7677371610CE93D100DDDCC6 /* CoreServices.framework */; };
-		767A072210CFD5D400B6739F /* ThriftConnectionInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 767A072110CFD5D400B6739F /* ThriftConnectionInfo.m */; };
 		767A3C5410D5A8A700BAE46E /* HyperTableBrowser.icns in Resources */ = {isa = PBXBuildFile; fileRef = 767A3C5310D5A8A700BAE46E /* HyperTableBrowser.icns */; };
 		767A3CBD10D5AA9800BAE46E /* HyperThriftWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 767A3C8310D5A97600BAE46E /* HyperThriftWrapper.cpp */; };
 		767A3CBF10D5AABC00BAE46E /* HyperThriftWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 767A3C8410D5A97600BAE46E /* HyperThriftWrapper.h */; };
@@ -244,8 +241,6 @@
 		7615175711FDA23F00485438 /* FetchTablesOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FetchTablesOperation.m; path = Sources/Classes/FetchTablesOperation.m; sourceTree = "<group>"; };
 		761518DC11FDBF5E00485438 /* HqlQueryOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HqlQueryOperation.h; path = Sources/Classes/HqlQueryOperation.h; sourceTree = "<group>"; };
 		761518DD11FDBF5E00485438 /* HqlQueryOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HqlQueryOperation.m; path = Sources/Classes/HqlQueryOperation.m; sourceTree = "<group>"; };
-		761FDAC610D0D33F00D2EEFF /* ConnectionSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConnectionSheetController.h; path = Sources/Classes/Controllers/ConnectionSheetController.h; sourceTree = "<group>"; };
-		761FDAC710D0D33F00D2EEFF /* ConnectionSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConnectionSheetController.m; path = Sources/Classes/Controllers/ConnectionSheetController.m; sourceTree = "<group>"; };
 		765E610910D811BD00E4CA1D /* HqlController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HqlController.h; path = Sources/Classes/Controllers/HqlController.h; sourceTree = "<group>"; };
 		765E610A10D811BD00E4CA1D /* HqlController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HqlController.m; path = Sources/Classes/Controllers/HqlController.m; sourceTree = "<group>"; };
 		766A3E491162234800176B42 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PreferencesGeneral.xib; sourceTree = "<group>"; };
@@ -257,11 +252,7 @@
 		766F24D710D7935100AB059D /* HyperThriftHql.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HyperThriftHql.cpp; sourceTree = "<group>"; };
 		766F24E310D794F600AB059D /* Convert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Convert.h; sourceTree = "<group>"; };
 		766F24E410D794F600AB059D /* Convert.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Convert.cpp; sourceTree = "<group>"; };
-		7677367410CE88C800DDDCC6 /* ThriftConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ThriftConnection.h; path = Sources/Classes/ThriftConnection.h; sourceTree = "<group>"; };
-		7677367510CE88C800DDDCC6 /* ThriftConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ThriftConnection.m; path = Sources/Classes/ThriftConnection.m; sourceTree = "<group>"; };
 		7677371610CE93D100DDDCC6 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = /System/Library/Frameworks/CoreServices.framework; sourceTree = "<absolute>"; };
-		767A072010CFD5D300B6739F /* ThriftConnectionInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ThriftConnectionInfo.h; path = Sources/Classes/ThriftConnectionInfo.h; sourceTree = "<group>"; };
-		767A072110CFD5D400B6739F /* ThriftConnectionInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ThriftConnectionInfo.m; path = Sources/Classes/ThriftConnectionInfo.m; sourceTree = "<group>"; };
 		767A3C5310D5A8A700BAE46E /* HyperTableBrowser.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = HyperTableBrowser.icns; sourceTree = "<group>"; };
 		767A3C7510D5A97500BAE46E /* Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client.h; sourceTree = "<group>"; };
 		767A3C8310D5A97600BAE46E /* HyperThriftWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HyperThriftWrapper.cpp; sourceTree = "<group>"; };
@@ -469,10 +460,6 @@
 				76967B63120FF9CE000FD196 /* Clusters Browser */,
 				76967B2D120FF430000FD196 /* Tables Browser */,
 				76EDF0D411FF40D800D5A6B5 /* Operations */,
-				7677367410CE88C800DDDCC6 /* ThriftConnection.h */,
-				7677367510CE88C800DDDCC6 /* ThriftConnection.m */,
-				767A072010CFD5D300B6739F /* ThriftConnectionInfo.h */,
-				767A072110CFD5D400B6739F /* ThriftConnectionInfo.m */,
 				766A3E781162268C00176B42 /* MBPreferencesController.h */,
 				766A3E791162268C00176B42 /* MBPreferencesController.m */,
 				76081DA510E255DB005F668F /* HyperTableBrowserApp.h */,
@@ -636,8 +623,6 @@
 		76967B63120FF9CE000FD196 /* Clusters Browser */ = {
 			isa = PBXGroup;
 			children = (
-				761FDAC610D0D33F00D2EEFF /* ConnectionSheetController.h */,
-				761FDAC710D0D33F00D2EEFF /* ConnectionSheetController.m */,
 				76967B60120FF9BE000FD196 /* DashboardController.h */,
 				76967B61120FF9BE000FD196 /* DashboardController.m */,
 				76967B64120FF9F5000FD196 /* ClustersBrowserToolbarController.h */,
@@ -1143,9 +1128,6 @@
 			files = (
 				7615168411FD8FED00485438 /* ConnectOperation.m in Sources */,
 				765E611610D818F200E4CA1D /* HqlController.m in Sources */,
-				7677367610CE88C800DDDCC6 /* ThriftConnection.m in Sources */,
-				767A072210CFD5D400B6739F /* ThriftConnectionInfo.m in Sources */,
-				761FDAC810D0D33F00D2EEFF /* ConnectionSheetController.m in Sources */,
 				7689234F10D8334B00B5E024 /* PageSource.m in Sources */,
 				76081DA710E255DB005F668F /* HyperTableBrowserApp.m in Sources */,
 				76081DAA10E255F6005F668F /* main.m in Sources */,

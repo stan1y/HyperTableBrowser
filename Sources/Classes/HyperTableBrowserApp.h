@@ -7,7 +7,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <ConnectionSheetController.h>
 #import <HqlController.h>
 #import <ClustersBrowser.h>
 #import <TablesBrowser.h>

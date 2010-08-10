@@ -24,7 +24,6 @@
 - (IBAction)showPreferences:(id)sender;
 
 - (IBAction)refresh:(id)sender;
-- (IBAction)newCluster:(id)sender;
 - (IBAction)addServer:(id)sender;
 
 @end

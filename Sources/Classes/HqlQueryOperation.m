@@ -15,7 +15,7 @@
 @synthesize page;
 @synthesize query;
 
-+ queryHql:(NSString *)query withConnection:(ThriftConnection *)con
++ queryHql:(NSString *)query withConnection:(HyperTable *)con
 {
 	HqlQueryOperation * hqlOp = [[HqlQueryOperation alloc] init];
 	[hqlOp setConnection:con];
@@ -51,4 +51,5 @@
 	
 	[[[self connection] connectionLock] unlock];
 }
+
 @end

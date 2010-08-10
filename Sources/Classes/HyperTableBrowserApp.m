@@ -43,14 +43,16 @@
 }
 
 - (void)applicationDidFinishLaunching:(NSApplication *)application 
-{	
-	//settingsManager = [SettingsManager settingsFromFile:@"Settings.xml"];
-	//clusterManager = [ClusterManager clusterManagerFromFile:@"Clusters.xml"];
-	
+{
 	//show clusters browser
 	[[self clustersBrowserWindow] orderFront:self];
 	[[self clustersBrowser] setMessage:@"Application started."];
 	[[[self clustersBrowser] statusMessageField] setHidden:NO];
+	
+	//define cluster if none
+	if ( ![[[self clusterManager] clusters] count] ) {
+		[[self clustersBrowser] showNewClusterDialog:application];
+	}
 }
 /**
     Returns the support directory for the application, used to store the Core Data
@@ -90,6 +92,14 @@
     }
 
     if (![[[self clusterManager] managedObjectContext] save:&error]) {
+        [[NSApplication sharedApplication] presentError:error];
+    }
+	
+	if (![[[self settingsManager] managedObjectContext] commitEditing]) {
+        NSLog(@"%@:%s unable to commit editing before saving", [self class], _cmd);
+    }
+	
+    if (![[[self settingsManager] managedObjectContext] save:&error]) {
         [[NSApplication sharedApplication] presentError:error];
     }
 }

@@ -7,21 +7,21 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <ThriftConnection.h>
+#import <HyperTable.h>
 
 @interface DeleteRowOperation : NSObject {
-	ThriftConnection * connection;
+	//HyperTable * connection;
 	DataRow * row;
 	NSString * tableName;
 	int errorCode;
 }
 
 @property (nonatomic, retain) NSString * tableName;
-@property (nonatomic, retain) ThriftConnection * connection;
+//@property (nonatomic, retain) HyperTable * connection;
 @property (assign) int errorCode;
 @property (assign) DataRow * row;
 
-+ deleteRow:(DataRow *)row inTable:(NSString*)tableName withConnection:(ThriftConnection *)con;
+//+ deleteRow:(DataRow *)row inTable:(NSString*)tableName withConnection:(HyperTable *)con;
 
 - (void)main;
 

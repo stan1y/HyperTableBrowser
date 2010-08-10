@@ -10,7 +10,7 @@
 
 
 @implementation SetRowOperation
-
+/*
 @synthesize connection;
 @synthesize row;
 @synthesize cellValue;
@@ -20,7 +20,7 @@
 @synthesize tableName;
 @synthesize page;
 
-+ setRow:(DataRow *)row inTable:(NSString*)tableName withConnection:(ThriftConnection *)con
++ setRow:(DataRow *)row inTable:(NSString*)tableName withConnection:(HyperTable *)con
 {
 	SetRowOperation * op = [[SetRowOperation alloc] init];
 	[op setConnection:con];
@@ -34,7 +34,7 @@
 	   inTable:(NSString *)tableName 
 		 atRow:(NSInteger)rowIndex
 	 andColumn:(NSString *)columnName
-withConnection:(ThriftConnection *)con;
+withConnection:(HyperTable *)con;
 {
 	SetRowOperation * op = [[SetRowOperation alloc] init];
 	[op setConnection:con];
@@ -121,5 +121,5 @@ withConnection:(ThriftConnection *)con;
 	[self setErrorCode:rc];
 	[[connection connectionLock] unlock];
 }
-
+*/
 @end

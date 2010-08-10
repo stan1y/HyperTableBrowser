@@ -47,13 +47,13 @@
 
 - (void) createTableWithName:(NSString *)tableName
 				   andSchema:(NSString*)schemaContent
-					onServer:(ThriftConnection *)connection
+					onServer:(HyperTable *)connection
 {
 	[self indicateBusy];
 	[self setMessage:@"Creating table..."];
 	
 	NSLog(@"Creating new table \"%s\" on %s\n", [tableName UTF8String],
-		  [connection.connInfo.address UTF8String]);
+		  [[connection ipAddress] UTF8String]);
 	
 	int rc = new_table([connection thriftClient], 
 						  [tableName UTF8String], 
@@ -61,7 +61,7 @@
 	[self indicateDone];
 	
 	if (rc != T_OK) {
-		[self setMessage:[ThriftConnection errorFromCode:rc]];
+		[self setMessage:[HyperTable errorFromCode:rc]];
 		return;
 	}
 	//success

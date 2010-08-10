@@ -8,7 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 #import <CoreDataManager.h>
-#import <ThriftConnection.h>
 #import <HyperTable.h>
 
 @interface ClusterManager : CoreDataManager {
@@ -16,14 +15,12 @@
 	NSMutableDictionary * hadoopCache;
 }
 
-//+ (ClusterManager *) clusterManagerFromFile:(NSString *)filename;
 - (ClusterManager *) init;
 
 - (NSArray *)clusters;
 - (id)serversInCluster:(NSManagedObject *)cluster;
 
 - (HyperTable *)hypertableOnServer:(NSManagedObject *)server;
-- (ThriftConnection *)hadoopOnServer:(NSManagedObject *)server;
 
 - (NSArray *)allHypertableBrokers;
 - (NSArray *)allHadoopBrokers;

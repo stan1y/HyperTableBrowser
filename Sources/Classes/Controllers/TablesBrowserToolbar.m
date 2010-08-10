@@ -74,7 +74,7 @@
 	if (rc != T_OK) {
 		[[[NSApp delegate] tablesBrowser] setMessage:[NSString stringWithFormat:@"Failed to drop table \"%s\". %s",
 									  [selectedTable UTF8String],
-									  [[ThriftConnection errorFromCode:rc] UTF8String]]];
+									  [[HyperTable errorFromCode:rc] UTF8String]]];
 		[[[NSApp delegate] tablesBrowser] indicateDone];
 	}
 	else {

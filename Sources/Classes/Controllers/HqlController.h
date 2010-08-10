@@ -9,9 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import <HyperTableOperationController.h>
 #import <PageSource.h>
-#import <ThriftConnection.h>
 #import <HqlQueryOperation.h>
-
 
 @interface HqlController : HyperTableOperationController {
 	NSTextView * hqlQuery;

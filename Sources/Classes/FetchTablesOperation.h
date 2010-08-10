@@ -7,17 +7,17 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <ThriftConnection.h>
+#import <HyperTable.h>
 
 @interface FetchTablesOperation : NSOperation {
-	ThriftConnection * connection;
+	HyperTable * connection;
 	int errorCode;
 }
 
-@property (retain) ThriftConnection * connection;
+@property (retain) HyperTable * connection;
 @property (assign) int errorCode;
 
-+ fetchTablesFromConnection:(ThriftConnection *)conn;
++ fetchTablesFromConnection:(HyperTable *)conn;
 - (void)main;
 
 @end

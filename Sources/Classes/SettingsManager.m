@@ -21,6 +21,7 @@
 
 - (SettingsManager *) init
 {
+	[super init];
 	[self setDataFileName:@"Settings.xml"];
 	return self;
 }

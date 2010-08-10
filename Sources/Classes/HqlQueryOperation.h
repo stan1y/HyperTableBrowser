@@ -7,23 +7,22 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <ThriftConnection.h>
-#import <HyperThriftHql.h>
+#import <HyperTable.h>
 
 @interface HqlQueryOperation : NSOperation {
-	ThriftConnection * connection;
+	HyperTable * connection;
 	NSString * query;
 	DataPage * page;
 	int errorCode;
 }
 
-@property (nonatomic, retain) ThriftConnection * connection;
+@property (nonatomic, retain) HyperTable * connection;
 @property (assign) int errorCode;
 @property (nonatomic, retain) NSString * query;
 
 @property (assign, readonly) DataPage * page;
 
-+ queryHql:(NSString *)query withConnection:(ThriftConnection *)con;
++ queryHql:(NSString *)query withConnection:(HyperTable *)con;
 - (void)main;
 
 @end

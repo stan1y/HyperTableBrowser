@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <ThriftConnection.h>
+#import <HyperTable.h>
 #import <TableSchema.h>
 #import <FetchTablesOperation.h>
 
@@ -18,10 +18,10 @@
 	NSButton * createButton;
 	NSTableView * schemasView;
 	
-	ThriftConnection * connection;
+	HyperTable * connection;
 }
 
-@property (nonatomic, retain) ThriftConnection * connection;
+@property (nonatomic, retain) HyperTable * connection;
 @property (nonatomic, retain) IBOutlet NSTextField * schemaContents;
 @property (nonatomic, retain) IBOutlet NSButton * createButton;
 @property (nonatomic, retain) IBOutlet NSPopUpButton * serverSelector;
@@ -32,6 +32,6 @@
 
 - (void) createTableWithName:(NSString *)tableName
 				   andSchema:(NSString *)schemaContent
-					onServer:(ThriftConnection *)connection;
+					onServer:(HyperTable *)connection;
 
 @end

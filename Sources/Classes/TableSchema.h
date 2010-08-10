@@ -11,9 +11,6 @@
 @interface TableSchema : NSManagedObject {
 }
 
-+ (TableSchema *) tableSchemaWithDefaultContext;
-+ (NSEntityDescription *) entityDescription;
-
 + (NSArray *)listSchemes;
 + (TableSchema *)getSchemaByName:(NSString *)name;
 

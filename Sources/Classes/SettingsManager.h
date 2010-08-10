@@ -13,7 +13,6 @@
 
 }
 
-//+ (SettingsManager *) settingsFromFile:(NSString *)filename;
 - (SettingsManager *) init;
 
 @end

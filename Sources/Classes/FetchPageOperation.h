@@ -7,10 +7,10 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <ThriftConnection.h>
+#import <HyperTable.h>
 
 @interface FetchPageOperation : NSOperation {
-	ThriftConnection * connection;
+	HyperTable * connection;
 	DataPage * page;
 	int errorCode;
 	
@@ -23,7 +23,7 @@
 	int stopIndex;
 }
 
-@property (nonatomic, retain) ThriftConnection * connection;
+@property (nonatomic, retain) HyperTable * connection;
 @property (assign) int totalRows;
 @property (assign) int errorCode;
 @property (assign) int pageIndex;
@@ -34,7 +34,7 @@
 
 @property (assign, readonly) DataPage * page;
 
-+ fetchPageFromConnection:(ThriftConnection *)conn
++ fetchPageFromConnection:(HyperTable *)conn
 				 withName:(NSString *)tableName 
 				atIndex:(int)pageIndex 
 				  andSize:(int)pageSize;

@@ -7,7 +7,7 @@
 //
 
 #import "HyperTable.h"
-
+#import <FetchTablesOperation.h>
 
 @implementation HyperTable
 

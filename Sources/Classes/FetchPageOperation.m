@@ -20,7 +20,7 @@
 @synthesize totalRows;
 @synthesize page;
 
-+ fetchPageFromConnection:(ThriftConnection *)conn
++ fetchPageFromConnection:(HyperTable *)conn
 				 withName:(NSString *)tableName 
 				  atIndex:(int)pageIndex 
 				  andSize:(int)pageSize
@@ -57,7 +57,7 @@
 	[self setErrorCode:rc];
 	if ( rc != T_OK) {
 		NSLog(@"Failed to fetch keys with code %d, %s\n", rc,
-			  [[ThriftConnection errorFromCode:rc] UTF8String]);
+			  [[HyperTable errorFromCode:rc] UTF8String]);
 		free(keys);
 		return;
 	}
@@ -108,7 +108,7 @@
 	[self setErrorCode:rc];
 	if ( rc != T_OK) {
 		NSLog(@"Failed to fetch page content with code %d, %s\n", rc,
-			  [[ThriftConnection errorFromCode:rc] UTF8String]);
+			  [[HyperTable errorFromCode:rc] UTF8String]);
 	}
 	else {
 		NSLog(@"Successfully received page with %d row(s) of %d requested.\n",

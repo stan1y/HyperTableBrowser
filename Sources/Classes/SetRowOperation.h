@@ -7,10 +7,10 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <ThriftConnection.h>
+#import <HyperTable.h>
 
 @interface SetRowOperation : NSOperation {
-	ThriftConnection * connection;
+	//HyperTable * connection;
 	DataRow * row;
 	DataPage * page;
 	NSString * tableName;
@@ -25,21 +25,22 @@
 @property (nonatomic, retain) NSString * tableName;
 @property (nonatomic, retain) NSString * cellValue;
 @property (nonatomic, retain) NSString * columnName;
-@property (nonatomic, retain) ThriftConnection * connection;
+//@property (nonatomic, retain) HyperTable * connection;
 @property (assign) int rowIndex;
 @property (assign) int errorCode;
 @property (assign) DataRow * row;
 @property (assign) DataPage * page;
 
+/*
 + setCellValue:(NSString *)newValue
 	  fromPage:(DataPage *)page
 	   inTable:(NSString *)tableName 
 		 atRow:(NSInteger)rowIndex
 	 andColumn:(NSString *)columnName
-withConnection:(ThriftConnection *)con;
+withConnection:(HyperTable *)con;
 
-+ setRow:(DataRow *)row inTable:(NSString*)tableName withConnection:(ThriftConnection *)con;
-
++ setRow:(DataRow *)row inTable:(NSString*)tableName withConnection:(HyperTable *)con;
+*/
 - (void)main;
 
 @end

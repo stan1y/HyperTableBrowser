@@ -8,7 +8,9 @@
 
 #import <Cocoa/Cocoa.h>
 #import <ConnectOperation.h>
-#import <FetchTablesOperation.h>
+
+#import <HyperThriftWrapper.h>
+#import <HyperThriftHql.h>
 
 @interface HyperTable : NSObject {
 	NSString * ipAddress;

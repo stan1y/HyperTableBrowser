@@ -7,8 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <ThriftConnection.h>
 #import <SetRowOperation.h>
+#import <HyperTable.h>
 
 @interface PageSource : NSObject {
 	DataPage * page;

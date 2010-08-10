@@ -29,12 +29,4 @@
 	[[[NSApp delegate] hqlWindow] orderFront:sender];
 }
 
-- (IBAction) newCluster:(id)sender
-{
-	[NSApp beginSheet:[[[NSApp delegate] clustersBrowser] newClusterPanel] 
-	   modalForWindow:[[[NSApp delegate] clustersBrowser] window]
-        modalDelegate:self didEndSelector:nil contextInfo:nil];
-
-}
-
 @end

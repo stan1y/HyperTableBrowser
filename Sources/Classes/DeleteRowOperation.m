@@ -11,13 +11,13 @@
 
 @implementation DeleteRowOperation
 
-@synthesize connection;
+//@synthesize connection;
 @synthesize row;
 @synthesize tableName;
 @synthesize errorCode;
 
-
-+ deleteRow:(DataRow *)row inTable:(NSString*)tableName withConnection:(ThriftConnection *)con
+/*
++ deleteRow:(DataRow *)row inTable:(NSString*)tableName withConnection:(HyperTable *)con
 {
 	DeleteRowOperation * op = [[DeleteRowOperation alloc] init];
 	[op setConnection:con];
@@ -49,5 +49,5 @@
 	[self setErrorCode:rc];
 	[[connection connectionLock] unlock];
 }
-
+*/
 @end

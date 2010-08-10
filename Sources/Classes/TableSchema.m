@@ -11,16 +11,6 @@
 
 @implementation TableSchema
 
-+ (TableSchema *) tableSchemaWithDefaultContext
-{
-	return [NSEntityDescription insertNewObjectForEntityForName:@"TableSchema" inManagedObjectContext:[[NSApp delegate] managedObjectContext] ];
-}
-
-+ (NSEntityDescription *) entityDescription
-{
-	return [NSEntityDescription entityForName:@"TableSchema" inManagedObjectContext:[[NSApp delegate] managedObjectContext] ];
-}
-
 + (NSArray *)listSchemes
 {
 	NSLog(@"Listing table schemes\n");
@@ -28,7 +18,8 @@
 	[r setEntity:[TableSchema entityDescription]];
 	[r setIncludesPendingChanges:YES];
 	NSError * err = nil;
-	NSArray * schemesArray = [[[NSApp delegate] managedObjectContext] executeFetchRequest:r error:&err];
+	NSManagedObjectContext * context = [[[NSApp delegate] clusterManager] managedObjectContext];
+	NSArray * schemesArray = [context executeFetchRequest:r error:&err];
 	if (err) {
 		NSString * msg = @"listSchemes : Failed to get schemes from datastore";
 		NSLog(@"Error: %s", [msg UTF8String]);
@@ -38,6 +29,7 @@
 	}
 	[err release];
 	[r release];
+	[context release];
 	NSLog(@"There are %d schemes stored", [schemesArray count]);
 	return schemesArray;
 }

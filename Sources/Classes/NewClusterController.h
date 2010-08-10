@@ -7,12 +7,13 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
+#import <ClustersBrowser.h>
 
 @interface NewClusterController : NSViewController {
 	
 	NSTextField * clusterName;
 	NSTextField * masterAddress;
+	NSTextField * sshPort;
 	NSTextField * userName;
 	NSTextField * password;
 	
@@ -22,6 +23,7 @@
 
 @property (nonatomic, retain) IBOutlet NSTextField * clusterName;
 @property (nonatomic, retain) IBOutlet NSTextField * masterAddress;
+@property (nonatomic, retain) IBOutlet NSTextField * sshPort;
 @property (nonatomic, retain) IBOutlet NSTextField * userName;
 @property (nonatomic, retain) IBOutlet NSTextField * password;
 

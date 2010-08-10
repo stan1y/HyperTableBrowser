@@ -14,7 +14,7 @@
 @synthesize connection;
 @synthesize errorCode;
 
-+ fetchTablesFromConnection:(ThriftConnection *)conn
++ fetchTablesFromConnection:(HyperTable *)conn
 {
 	FetchTablesOperation * ftOp = [[FetchTablesOperation alloc] init];
 	[ftOp setConnection:conn];
@@ -36,7 +36,7 @@
 	if ( rc != T_OK ) {
 		free(row);
 		NSLog(@"Failed to get tables list with code %d, %s\n", rc,
-			  [[ThriftConnection errorFromCode:rc] UTF8String]);
+			  [[HyperTable errorFromCode:rc] UTF8String]);
 		return;
 	}
 	

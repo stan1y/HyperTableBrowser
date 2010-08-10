@@ -21,6 +21,7 @@
 
 - (ClusterManager *) init
 {
+	[super init];
 	NSLog(@"Initializing cluster manager.");
 	hypertableCache = [[NSMutableDictionary alloc] init];
 	hadoopCache = [[NSMutableDictionary alloc] init];
@@ -52,7 +53,7 @@
 - (id)serversInCluster:(NSManagedObject *)cluster
 {
 	NSLog(@"Reading members of %s...", [[cluster valueForKey:@"name"] UTF8String]);
-	id members = [cluster valueForKey:@"members"];
+	id members = [cluster mutableSetValueForKey:@"members"];
 	NSLog(@"There are %d members in %s", [members count], [[cluster valueForKey:@"name"] UTF8String]);
 }
 
@@ -64,12 +65,11 @@
 		return ht;
 	}
 	else {
-		id hypertableInfo = [server valueForKey:@"hypertable"];
-		int port = [[hypertableInfo valueForKey:@"port"] intValue];
-		ht = [HyperTable hypertableAt:ipAddress onPort:port];
+		int thriftPort = [[server valueForKey:@"thriftPort"] intValue];
+		ht = [HyperTable hypertableAt:ipAddress onPort:thriftPort];
 
 		NSLog(@"Connecting to HyperTable Thrift broker at %s:%d...",
-			  [ipAddress UTF8String], port);
+			  [ipAddress UTF8String], thriftPort);
 		
 		[ht reconnect];
 		return ht;

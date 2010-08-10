@@ -8,7 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 #import <GeneralPreferencesController.h>
-#import <ConnectionSheetController.h>
 
 @interface ClustersBrowser : NSWindowController {
 
@@ -36,5 +35,8 @@
 
 //called when objects browser windows is about to close
 - (void)windowWillClose:(NSNotification *)notification;
+
+//show new cluster definion dialog
+- (IBAction)showNewClusterDialog:(id)sender;
 
 @end

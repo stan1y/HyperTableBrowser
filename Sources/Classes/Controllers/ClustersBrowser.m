@@ -34,6 +34,13 @@
 	[general release];
 }
 
+- (void)showNewClusterDialog:(id)sender
+{
+	[NSApp beginSheet:[self newClusterPanel] 
+	   modalForWindow:[self window]
+        modalDelegate:self didEndSelector:nil contextInfo:nil];
+}
+
 - (void)setMessage:(NSString*)message 
 {
 	NSLog(@"Clusters Browser: %s\n", [message UTF8String]);
