@@ -27,9 +27,7 @@
 		761518DE11FDBF5E00485438 /* HqlQueryOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 761518DD11FDBF5E00485438 /* HqlQueryOperation.m */; };
 		765E610B10D811BD00E4CA1D /* HqlController.h in Headers */ = {isa = PBXBuildFile; fileRef = 765E610910D811BD00E4CA1D /* HqlController.h */; };
 		765E611610D818F200E4CA1D /* HqlController.m in Sources */ = {isa = PBXBuildFile; fileRef = 765E610A10D811BD00E4CA1D /* HqlController.m */; };
-		766A3E4A1162234800176B42 /* PreferencesGeneral.xib in Resources */ = {isa = PBXBuildFile; fileRef = 766A3E481162234800176B42 /* PreferencesGeneral.xib */; };
 		766A3E7A1162268C00176B42 /* MBPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 766A3E791162268C00176B42 /* MBPreferencesController.m */; };
-		766A3E7D1162269C00176B42 /* GeneralPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 766A3E7C1162269C00176B42 /* GeneralPreferencesController.m */; };
 		766F24D810D7935100AB059D /* HyperThriftHql.h in Headers */ = {isa = PBXBuildFile; fileRef = 766F24D610D7935100AB059D /* HyperThriftHql.h */; };
 		766F24D910D7935100AB059D /* HyperThriftHql.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 766F24D710D7935100AB059D /* HyperThriftHql.cpp */; };
 		766F24E510D794F600AB059D /* Convert.h in Headers */ = {isa = PBXBuildFile; fileRef = 766F24E310D794F600AB059D /* Convert.h */; };
@@ -90,6 +88,13 @@
 		76B42BA21210643C00CAC6A8 /* CoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B42BA11210643C00CAC6A8 /* CoreDataManager.m */; };
 		76B42BC6121069A300CAC6A8 /* HyperTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B42BC5121069A300CAC6A8 /* HyperTable.m */; };
 		76B42C441210976800CAC6A8 /* NewClusterController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B42C431210976800CAC6A8 /* NewClusterController.m */; };
+		76C854AD121294F100525B28 /* TablesBrowserSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C854AC121294F100525B28 /* TablesBrowserSettings.m */; };
+		76C854B01212950100525B28 /* ClustersBrowserSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C854AF1212950100525B28 /* ClustersBrowserSettings.m */; };
+		76C854B31212950E00525B28 /* UpdateSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C854B21212950E00525B28 /* UpdateSettings.m */; };
+		76C854D9121298AE00525B28 /* Settings.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 76C854D8121298AE00525B28 /* Settings.xcdatamodel */; };
+		76C855321212A19A00525B28 /* ClustersBrowserPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76C8552C1212A19A00525B28 /* ClustersBrowserPreferences.xib */; };
+		76C855331212A19A00525B28 /* TablesBrowserPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76C8552E1212A19A00525B28 /* TablesBrowserPreferences.xib */; };
+		76C855341212A19A00525B28 /* UpdatesPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76C855301212A19A00525B28 /* UpdatesPreferences.xib */; };
 		76D659861209659500D0D1B3 /* InsertNewRowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D659851209659500D0D1B3 /* InsertNewRowController.m */; };
 		76D6598F120968C000D0D1B3 /* HyperTableOperationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D6598E120968C000D0D1B3 /* HyperTableOperationController.m */; };
 		76DC6A3C11FCC24C00E14519 /* HyperTableBrowser.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76DC6A3A11FCC24C00E14519 /* HyperTableBrowser.xib */; };
@@ -243,11 +248,8 @@
 		761518DD11FDBF5E00485438 /* HqlQueryOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HqlQueryOperation.m; path = Sources/Classes/HqlQueryOperation.m; sourceTree = "<group>"; };
 		765E610910D811BD00E4CA1D /* HqlController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HqlController.h; path = Sources/Classes/Controllers/HqlController.h; sourceTree = "<group>"; };
 		765E610A10D811BD00E4CA1D /* HqlController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HqlController.m; path = Sources/Classes/Controllers/HqlController.m; sourceTree = "<group>"; };
-		766A3E491162234800176B42 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PreferencesGeneral.xib; sourceTree = "<group>"; };
-		766A3E781162268C00176B42 /* MBPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBPreferencesController.h; path = Sources/Classes/MBPreferencesController.h; sourceTree = SOURCE_ROOT; };
-		766A3E791162268C00176B42 /* MBPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBPreferencesController.m; path = Sources/Classes/MBPreferencesController.m; sourceTree = SOURCE_ROOT; };
-		766A3E7B1162269C00176B42 /* GeneralPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GeneralPreferencesController.h; path = Sources/Classes/Controllers/GeneralPreferencesController.h; sourceTree = "<group>"; };
-		766A3E7C1162269C00176B42 /* GeneralPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GeneralPreferencesController.m; path = Sources/Classes/Controllers/GeneralPreferencesController.m; sourceTree = "<group>"; };
+		766A3E781162268C00176B42 /* MBPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBPreferencesController.h; path = Sources/Classes/MBPreferencesController.h; sourceTree = "<group>"; };
+		766A3E791162268C00176B42 /* MBPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBPreferencesController.m; path = Sources/Classes/MBPreferencesController.m; sourceTree = "<group>"; };
 		766F24D610D7935100AB059D /* HyperThriftHql.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyperThriftHql.h; sourceTree = "<group>"; };
 		766F24D710D7935100AB059D /* HyperThriftHql.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HyperThriftHql.cpp; sourceTree = "<group>"; };
 		766F24E310D794F600AB059D /* Convert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Convert.h; sourceTree = "<group>"; };
@@ -325,6 +327,16 @@
 		76B42BC5121069A300CAC6A8 /* HyperTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HyperTable.m; path = Sources/Classes/HyperTable.m; sourceTree = "<group>"; };
 		76B42C421210976800CAC6A8 /* NewClusterController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewClusterController.h; path = Sources/Classes/NewClusterController.h; sourceTree = "<group>"; };
 		76B42C431210976800CAC6A8 /* NewClusterController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewClusterController.m; path = Sources/Classes/NewClusterController.m; sourceTree = "<group>"; };
+		76C854AB121294F100525B28 /* TablesBrowserSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TablesBrowserSettings.h; path = Sources/Classes/TablesBrowserSettings.h; sourceTree = "<group>"; };
+		76C854AC121294F100525B28 /* TablesBrowserSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TablesBrowserSettings.m; path = Sources/Classes/TablesBrowserSettings.m; sourceTree = "<group>"; };
+		76C854AE1212950100525B28 /* ClustersBrowserSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ClustersBrowserSettings.h; path = Sources/Classes/ClustersBrowserSettings.h; sourceTree = "<group>"; };
+		76C854AF1212950100525B28 /* ClustersBrowserSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ClustersBrowserSettings.m; path = Sources/Classes/ClustersBrowserSettings.m; sourceTree = "<group>"; };
+		76C854B11212950E00525B28 /* UpdateSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UpdateSettings.h; path = Sources/Classes/UpdateSettings.h; sourceTree = "<group>"; };
+		76C854B21212950E00525B28 /* UpdateSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UpdateSettings.m; path = Sources/Classes/UpdateSettings.m; sourceTree = "<group>"; };
+		76C854D8121298AE00525B28 /* Settings.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = Settings.xcdatamodel; sourceTree = "<group>"; };
+		76C8552D1212A19A00525B28 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ClustersBrowserPreferences.xib; sourceTree = "<group>"; };
+		76C8552F1212A19A00525B28 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/TablesBrowserPreferences.xib; sourceTree = "<group>"; };
+		76C855311212A19A00525B28 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/UpdatesPreferences.xib; sourceTree = "<group>"; };
 		76D659841209659500D0D1B3 /* InsertNewRowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InsertNewRowController.h; path = Sources/Classes/Controllers/InsertNewRowController.h; sourceTree = "<group>"; };
 		76D659851209659500D0D1B3 /* InsertNewRowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InsertNewRowController.m; path = Sources/Classes/Controllers/InsertNewRowController.m; sourceTree = "<group>"; };
 		76D6598D120968C000D0D1B3 /* HyperTableOperationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HyperTableOperationController.h; path = Sources/Classes/Controllers/HyperTableOperationController.h; sourceTree = "<group>"; };
@@ -453,6 +465,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				76C854AA121294C900525B28 /* Settings Controllers */,
 				76B42B961210620800CAC6A8 /* Managers */,
 				76D6598D120968C000D0D1B3 /* HyperTableOperationController.h */,
 				76D6598E120968C000D0D1B3 /* HyperTableOperationController.m */,
@@ -460,12 +473,8 @@
 				76967B63120FF9CE000FD196 /* Clusters Browser */,
 				76967B2D120FF430000FD196 /* Tables Browser */,
 				76EDF0D411FF40D800D5A6B5 /* Operations */,
-				766A3E781162268C00176B42 /* MBPreferencesController.h */,
-				766A3E791162268C00176B42 /* MBPreferencesController.m */,
 				76081DA510E255DB005F668F /* HyperTableBrowserApp.h */,
 				76081DA610E255DB005F668F /* HyperTableBrowserApp.m */,
-				766A3E7B1162269C00176B42 /* GeneralPreferencesController.h */,
-				766A3E7C1162269C00176B42 /* GeneralPreferencesController.m */,
 				76F8182D11FC66C2001B79C6 /* TableSchema.h */,
 				76F8182E11FC66C2001B79C6 /* TableSchema.m */,
 			);
@@ -530,6 +539,9 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				76C8552C1212A19A00525B28 /* ClustersBrowserPreferences.xib */,
+				76C8552E1212A19A00525B28 /* TablesBrowserPreferences.xib */,
+				76C855301212A19A00525B28 /* UpdatesPreferences.xib */,
 				76878B66120EC84E00FDBBFE /* HyperTableBrowserT.icns */,
 				76878B45120EC51600FDBBFE /* HyperTableBrowser2.icns */,
 				76DC6A3A11FCC24C00E14519 /* HyperTableBrowser.xib */,
@@ -537,7 +549,6 @@
 				8D1107310486CEB800E47090 /* HyperTableBrowser-Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				76B02665115CFA9E003854D2 /* Credits.rtf */,
-				766A3E481162234800176B42 /* PreferencesGeneral.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -695,6 +706,21 @@
 			name = Managers;
 			sourceTree = "<group>";
 		};
+		76C854AA121294C900525B28 /* Settings Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				766A3E781162268C00176B42 /* MBPreferencesController.h */,
+				766A3E791162268C00176B42 /* MBPreferencesController.m */,
+				76C854AB121294F100525B28 /* TablesBrowserSettings.h */,
+				76C854AC121294F100525B28 /* TablesBrowserSettings.m */,
+				76C854AE1212950100525B28 /* ClustersBrowserSettings.h */,
+				76C854AF1212950100525B28 /* ClustersBrowserSettings.m */,
+				76C854B11212950E00525B28 /* UpdateSettings.h */,
+				76C854B21212950E00525B28 /* UpdateSettings.m */,
+			);
+			name = "Settings Controllers";
+			sourceTree = "<group>";
+		};
 		76EDF0D411FF40D800D5A6B5 /* Operations */ = {
 			isa = PBXGroup;
 			children = (
@@ -837,6 +863,7 @@
 			isa = PBXGroup;
 			children = (
 				76967D7812104BD0000FD196 /* ClusterInformation.xcdatamodel */,
+				76C854D8121298AE00525B28 /* Settings.xcdatamodel */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -1038,10 +1065,12 @@
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				767A3C5410D5A8A700BAE46E /* HyperTableBrowser.icns in Resources */,
 				76B02666115CFA9E003854D2 /* Credits.rtf in Resources */,
-				766A3E4A1162234800176B42 /* PreferencesGeneral.xib in Resources */,
 				76DC6A3C11FCC24C00E14519 /* HyperTableBrowser.xib in Resources */,
 				76878B46120EC51600FDBBFE /* HyperTableBrowser2.icns in Resources */,
 				76878B67120EC84E00FDBBFE /* HyperTableBrowserT.icns in Resources */,
+				76C855321212A19A00525B28 /* ClustersBrowserPreferences.xib in Resources */,
+				76C855331212A19A00525B28 /* TablesBrowserPreferences.xib in Resources */,
+				76C855341212A19A00525B28 /* UpdatesPreferences.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1132,7 +1161,6 @@
 				76081DA710E255DB005F668F /* HyperTableBrowserApp.m in Sources */,
 				76081DAA10E255F6005F668F /* main.m in Sources */,
 				766A3E7A1162268C00176B42 /* MBPreferencesController.m in Sources */,
-				766A3E7D1162269C00176B42 /* GeneralPreferencesController.m in Sources */,
 				76F8182F11FC66C2001B79C6 /* TableSchema.m in Sources */,
 				761516E211FD96C100485438 /* FetchPageOperation.m in Sources */,
 				76F8185811FC6F38001B79C6 /* NewTableController.m in Sources */,
@@ -1156,6 +1184,10 @@
 				76B42BA21210643C00CAC6A8 /* CoreDataManager.m in Sources */,
 				76B42BC6121069A300CAC6A8 /* HyperTable.m in Sources */,
 				76B42C441210976800CAC6A8 /* NewClusterController.m in Sources */,
+				76C854AD121294F100525B28 /* TablesBrowserSettings.m in Sources */,
+				76C854B01212950100525B28 /* ClustersBrowserSettings.m in Sources */,
+				76C854B31212950E00525B28 /* UpdateSettings.m in Sources */,
+				76C854D9121298AE00525B28 /* Settings.xcdatamodel in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1188,12 +1220,28 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		766A3E481162234800176B42 /* PreferencesGeneral.xib */ = {
+		76C8552C1212A19A00525B28 /* ClustersBrowserPreferences.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				766A3E491162234800176B42 /* English */,
+				76C8552D1212A19A00525B28 /* English */,
 			);
-			name = PreferencesGeneral.xib;
+			name = ClustersBrowserPreferences.xib;
+			sourceTree = "<group>";
+		};
+		76C8552E1212A19A00525B28 /* TablesBrowserPreferences.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				76C8552F1212A19A00525B28 /* English */,
+			);
+			name = TablesBrowserPreferences.xib;
+			sourceTree = "<group>";
+		};
+		76C855301212A19A00525B28 /* UpdatesPreferences.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				76C855311212A19A00525B28 /* English */,
+			);
+			name = UpdatesPreferences.xib;
 			sourceTree = "<group>";
 		};
 		76DC6A3A11FCC24C00E14519 /* HyperTableBrowser.xib */ = {
