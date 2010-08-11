@@ -7,8 +7,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "MBPreferencesController.h"
-#import "GeneralPreferencesController.h"
 #import <FetchTablesOperation.h>
 #import <DeleteRowOperation.h>
 

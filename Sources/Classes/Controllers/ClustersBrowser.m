@@ -27,11 +27,15 @@
 
 - (void)awakeFromNib
 {
-	NSLog(@"Initializing preferences controller\n");
-	//prepare preferences window
-	GeneralPreferencesController * general = [[GeneralPreferencesController alloc] initWithNibName:@"PreferencesGeneral" bundle:nil];
-	[[MBPreferencesController sharedController] setModules:[NSArray arrayWithObjects:general, nil]];
-	[general release];
+	NSLog(@"Initializing preferences.");
+	// try to fetch each settings resulting in defaults creation if none
+	id dummy = [[[NSApp delegate] settingsManager] getSettingsByName:@"TablesBrowserPrefs"];
+	[dummy release];
+	dummy = [[[NSApp delegate] settingsManager] getSettingsByName:@"ClustersBrowserPrefs"];
+	[dummy release];
+	dummy = [[[NSApp delegate] settingsManager] getSettingsByName:@"UpdatesPrefs"];
+	[dummy release];
+	[[NSApp delegate] saveAction:self];
 }
 
 - (void)showNewClusterDialog:(id)sender

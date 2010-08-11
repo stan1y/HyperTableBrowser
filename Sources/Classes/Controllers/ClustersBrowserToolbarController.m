@@ -14,6 +14,24 @@
 
 - (IBAction)showPreferences:(id)sender
 {	
+	NSLog(@"Initializing preferences controllers.");
+	//prepare preferences windows
+	TablesBrowserSettings * tables = [[TablesBrowserSettings alloc] initWithNibName:@"TablesBrowserPreferences" 
+																			 bundle:nil];
+	ClustersBrowserSettings * clusters = [[ClustersBrowserSettings alloc] initWithNibName:@"ClustersBrowserPreferences" 
+																				   bundle:nil];
+	UpdateSettings * updates = [[UpdateSettings alloc] initWithNibName:@"UpdatesPreferences" 
+																bundle:nil];
+	
+	
+	[[MBPreferencesController sharedController] setModules:[NSArray arrayWithObjects:tables,
+															clusters,
+															updates,
+															nil]];
+	[tables release];
+	[clusters release];
+	[updates release];
+	
 	[[MBPreferencesController sharedController] showWindow:sender];
 }
 

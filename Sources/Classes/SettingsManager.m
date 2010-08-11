@@ -46,7 +46,8 @@
 	[request release];
 	
 	if ( [result count] <= 0 ) {
-		//create new default settings
+		NSLog(@"Creating default preferences for %s", [name UTF8String]);
+		
 		id defaults = [NSEntityDescription insertNewObjectForEntityForName:name
 													inManagedObjectContext:[self managedObjectContext] ];
 		return defaults;

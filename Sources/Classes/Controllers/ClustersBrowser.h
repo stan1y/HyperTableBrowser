@@ -7,7 +7,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <GeneralPreferencesController.h>
+#import <TablesBrowserSettings.h>
+#import <ClustersBrowserSettings.h>
+#import <UpdateSettings.h>
 
 @interface ClustersBrowser : NSWindowController {
 

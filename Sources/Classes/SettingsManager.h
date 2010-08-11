@@ -13,6 +13,7 @@
 
 }
 
+- (id) getSettingsByName:(NSString *)name;
 - (SettingsManager *) init;
 
 @end
