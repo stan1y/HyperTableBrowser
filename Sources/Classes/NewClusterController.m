@@ -1,6 +1,6 @@
 //
 //  NewClusterController.m
-//  HyperTableBrowser
+//  Ore Foundry
 //
 //  Created by Stanislav Yudin on 10/8/2010.
 //  Copyright 2010 AwesomeStanly Lab. All rights reserved.
@@ -27,6 +27,18 @@
 	[password release];
 	[hadoopBroker release];
 	[hypertableBroker release];
+}
+
+- (IBAction) cancel:(id)sender
+{
+	//close dialog
+	[[[self view] window] orderOut:sender];
+	
+	//quit app if no clusters
+	if ( ![[[[NSApp delegate] clusterManager] clusters] count] ) {
+		NSLog(@"Quiting application, new cluster dialog was canceled with no defined clusters");
+		[NSApp terminate:nil];
+	}
 }
 
 - (IBAction) saveCluster:(id)sender

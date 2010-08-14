@@ -1,6 +1,6 @@
 /*
  *  DataPage.h
- *  HyperTableBrowser
+ *  Ore Foundry
  *
  *  Created by Stanislav Yudin on 12/17/09.
  *  Copyright 2009 AwesomeStanlyLabs. All rights reserved.

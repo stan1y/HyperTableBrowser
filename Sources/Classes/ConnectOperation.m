@@ -1,6 +1,6 @@
 //
 //  ConnectOperation.m
-//  HyperTableBrowser
+//  Ore Foundry
 //
 //  Created by Stanislav Yudin on 26/7/2010.
 //  Copyright 2010 AwesomeStanly Lab. All rights reserved.

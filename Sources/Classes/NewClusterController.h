@@ -1,6 +1,6 @@
 //
 //  NewClusterController.h
-//  HyperTableBrowser
+//  Ore Foundry
 //
 //  Created by Stanislav Yudin on 10/8/2010.
 //  Copyright 2010 AwesomeStanly Lab. All rights reserved.
@@ -31,5 +31,6 @@
 @property (nonatomic, retain) IBOutlet NSTextField * hadoopBroker;
 
 - (IBAction) saveCluster:(id)sender;
+- (IBAction) cancel:(id)sender;
 
 @end

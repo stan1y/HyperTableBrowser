@@ -1,0 +1,1530 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		76081DAA10E255F6005F668F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 76081DA910E255F6005F668F /* main.m */; };
+		761515E011FD851400485438 /* Client_constants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 761515D211FD851400485438 /* Client_constants.cpp */; };
+		761515E111FD851400485438 /* Client_constants.h in Headers */ = {isa = PBXBuildFile; fileRef = 761515D311FD851400485438 /* Client_constants.h */; };
+		761515E211FD851400485438 /* Client_types.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 761515D411FD851400485438 /* Client_types.cpp */; };
+		761515E311FD851400485438 /* Client_types.h in Headers */ = {isa = PBXBuildFile; fileRef = 761515D511FD851400485438 /* Client_types.h */; };
+		761515E411FD851400485438 /* ClientService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 761515D611FD851400485438 /* ClientService.cpp */; };
+		761515E511FD851400485438 /* ClientService.h in Headers */ = {isa = PBXBuildFile; fileRef = 761515D711FD851400485438 /* ClientService.h */; };
+		761515E711FD851400485438 /* Hql_constants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 761515D911FD851400485438 /* Hql_constants.cpp */; };
+		761515E811FD851400485438 /* Hql_constants.h in Headers */ = {isa = PBXBuildFile; fileRef = 761515DA11FD851400485438 /* Hql_constants.h */; };
+		761515E911FD851400485438 /* Hql_types.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 761515DB11FD851400485438 /* Hql_types.cpp */; };
+		761515EA11FD851400485438 /* Hql_types.h in Headers */ = {isa = PBXBuildFile; fileRef = 761515DC11FD851400485438 /* Hql_types.h */; };
+		761515EB11FD851400485438 /* HqlService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 761515DD11FD851400485438 /* HqlService.cpp */; };
+		761515EC11FD851400485438 /* HqlService.h in Headers */ = {isa = PBXBuildFile; fileRef = 761515DE11FD851400485438 /* HqlService.h */; };
+		7615168411FD8FED00485438 /* ConnectOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7615165111FD8C4800485438 /* ConnectOperation.m */; };
+		761516E211FD96C100485438 /* FetchPageOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 761516DD11FD96A100485438 /* FetchPageOperation.m */; };
+		7615175811FDA23F00485438 /* FetchTablesOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7615175711FDA23F00485438 /* FetchTablesOperation.m */; };
+		761518DE11FDBF5E00485438 /* HqlQueryOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 761518DD11FDBF5E00485438 /* HqlQueryOperation.m */; };
+		766A3E7A1162268C00176B42 /* MBPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 766A3E791162268C00176B42 /* MBPreferencesController.m */; };
+		766F24D810D7935100AB059D /* HyperThriftHql.h in Headers */ = {isa = PBXBuildFile; fileRef = 766F24D610D7935100AB059D /* HyperThriftHql.h */; };
+		766F24D910D7935100AB059D /* HyperThriftHql.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 766F24D710D7935100AB059D /* HyperThriftHql.cpp */; };
+		766F24E510D794F600AB059D /* Convert.h in Headers */ = {isa = PBXBuildFile; fileRef = 766F24E310D794F600AB059D /* Convert.h */; };
+		766F24E610D794F600AB059D /* Convert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 766F24E410D794F600AB059D /* Convert.cpp */; };
+		766F252310D7995700AB059D /* libHyperThriftWrapper.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 767A3CB310D5AA6500BAE46E /* libHyperThriftWrapper.dylib */; };
+		7677371710CE93D100DDDCC6 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7677371610CE93D100DDDCC6 /* CoreServices.framework */; };
+		767A3CBD10D5AA9800BAE46E /* HyperThriftWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 767A3C8310D5A97600BAE46E /* HyperThriftWrapper.cpp */; };
+		767A3CBF10D5AABC00BAE46E /* HyperThriftWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 767A3C8410D5A97600BAE46E /* HyperThriftWrapper.h */; };
+		7684BA8E11FDD98700D26DA6 /* libThriftLib.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 76F8155911FB88A0001B79C6 /* libThriftLib.dylib */; };
+		76967B30120FF467000FD196 /* TablesBrowserPageSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 76967B2F120FF467000FD196 /* TablesBrowserPageSource.m */; };
+		76967B36120FF577000FD196 /* TablesBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 76967B35120FF577000FD196 /* TablesBrowser.m */; };
+		76967C09121010D6000FD196 /* DeleteRowOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 76967C08121010D6000FD196 /* DeleteRowOperation.m */; };
+		76967D0512103D30000FD196 /* TablesListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 76967D0412103D30000FD196 /* TablesListView.m */; };
+		7696D7C01205927E00DA46B8 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7696D7BA1205917C00DA46B8 /* libz.1.2.5.dylib */; };
+		7696D7DE120592BF00DA46B8 /* adler32.c in Sources */ = {isa = PBXBuildFile; fileRef = 7696D7C3120592BF00DA46B8 /* adler32.c */; };
+		7696D7DF120592BF00DA46B8 /* compress.c in Sources */ = {isa = PBXBuildFile; fileRef = 7696D7C4120592BF00DA46B8 /* compress.c */; };
+		7696D7E0120592BF00DA46B8 /* crc32.c in Sources */ = {isa = PBXBuildFile; fileRef = 7696D7C5120592BF00DA46B8 /* crc32.c */; };
+		7696D7E1120592BF00DA46B8 /* crc32.h in Headers */ = {isa = PBXBuildFile; fileRef = 7696D7C6120592BF00DA46B8 /* crc32.h */; };
+		7696D7E2120592BF00DA46B8 /* deflate.c in Sources */ = {isa = PBXBuildFile; fileRef = 7696D7C7120592BF00DA46B8 /* deflate.c */; };
+		7696D7E3120592BF00DA46B8 /* deflate.h in Headers */ = {isa = PBXBuildFile; fileRef = 7696D7C8120592BF00DA46B8 /* deflate.h */; };
+		7696D7E4120592BF00DA46B8 /* gzclose.c in Sources */ = {isa = PBXBuildFile; fileRef = 7696D7C9120592BF00DA46B8 /* gzclose.c */; };
+		7696D7E5120592BF00DA46B8 /* gzguts.h in Headers */ = {isa = PBXBuildFile; fileRef = 7696D7CA120592BF00DA46B8 /* gzguts.h */; };
+		7696D7E6120592BF00DA46B8 /* gzlib.c in Sources */ = {isa = PBXBuildFile; fileRef = 7696D7CB120592BF00DA46B8 /* gzlib.c */; };
+		7696D7E7120592BF00DA46B8 /* gzread.c in Sources */ = {isa = PBXBuildFile; fileRef = 7696D7CC120592BF00DA46B8 /* gzread.c */; };
+		7696D7E8120592BF00DA46B8 /* gzwrite.c in Sources */ = {isa = PBXBuildFile; fileRef = 7696D7CD120592BF00DA46B8 /* gzwrite.c */; };
+		7696D7E9120592BF00DA46B8 /* infback.c in Sources */ = {isa = PBXBuildFile; fileRef = 7696D7CE120592BF00DA46B8 /* infback.c */; };
+		7696D7EA120592BF00DA46B8 /* inffast.c in Sources */ = {isa = PBXBuildFile; fileRef = 7696D7CF120592BF00DA46B8 /* inffast.c */; };
+		7696D7EB120592BF00DA46B8 /* inffast.h in Headers */ = {isa = PBXBuildFile; fileRef = 7696D7D0120592BF00DA46B8 /* inffast.h */; };
+		7696D7EC120592BF00DA46B8 /* inffixed.h in Headers */ = {isa = PBXBuildFile; fileRef = 7696D7D1120592BF00DA46B8 /* inffixed.h */; };
+		7696D7ED120592BF00DA46B8 /* inflate.c in Sources */ = {isa = PBXBuildFile; fileRef = 7696D7D2120592BF00DA46B8 /* inflate.c */; };
+		7696D7EE120592BF00DA46B8 /* inflate.h in Headers */ = {isa = PBXBuildFile; fileRef = 7696D7D3120592BF00DA46B8 /* inflate.h */; };
+		7696D7EF120592BF00DA46B8 /* inftrees.c in Sources */ = {isa = PBXBuildFile; fileRef = 7696D7D4120592BF00DA46B8 /* inftrees.c */; };
+		7696D7F0120592BF00DA46B8 /* inftrees.h in Headers */ = {isa = PBXBuildFile; fileRef = 7696D7D5120592BF00DA46B8 /* inftrees.h */; };
+		7696D7F1120592BF00DA46B8 /* minigzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 7696D7D6120592BF00DA46B8 /* minigzip.c */; };
+		7696D7F2120592BF00DA46B8 /* trees.c in Sources */ = {isa = PBXBuildFile; fileRef = 7696D7D7120592BF00DA46B8 /* trees.c */; };
+		7696D7F3120592BF00DA46B8 /* trees.h in Headers */ = {isa = PBXBuildFile; fileRef = 7696D7D8120592BF00DA46B8 /* trees.h */; };
+		7696D7F4120592BF00DA46B8 /* uncompr.c in Sources */ = {isa = PBXBuildFile; fileRef = 7696D7D9120592BF00DA46B8 /* uncompr.c */; };
+		7696D7F5120592BF00DA46B8 /* zconf.h in Headers */ = {isa = PBXBuildFile; fileRef = 7696D7DA120592BF00DA46B8 /* zconf.h */; };
+		7696D7F6120592BF00DA46B8 /* zlib.h in Headers */ = {isa = PBXBuildFile; fileRef = 7696D7DB120592BF00DA46B8 /* zlib.h */; };
+		7696D7F7120592BF00DA46B8 /* zutil.c in Sources */ = {isa = PBXBuildFile; fileRef = 7696D7DC120592BF00DA46B8 /* zutil.c */; };
+		7696D7F8120592BF00DA46B8 /* zutil.h in Headers */ = {isa = PBXBuildFile; fileRef = 7696D7DD120592BF00DA46B8 /* zutil.h */; };
+		7696D8051205943D00DA46B8 /* libz.1.2.5.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7696D7BA1205917C00DA46B8 /* libz.1.2.5.dylib */; };
+		769DD6D91216C62800ED0B3A /* OreFoundry.xib in Resources */ = {isa = PBXBuildFile; fileRef = 769DD6D71216C62800ED0B3A /* OreFoundry.xib */; };
+		769DD6DB1216C63A00ED0B3A /* OreFoundry-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 769DD6DA1216C63A00ED0B3A /* OreFoundry-Info.plist */; };
+		769DD6DD1216C69C00ED0B3A /* OreFoundryMain.icns in Resources */ = {isa = PBXBuildFile; fileRef = 769DD6DC1216C69C00ED0B3A /* OreFoundryMain.icns */; };
+		769DD6E01216C6BD00ED0B3A /* OreFoundryApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 769DD6DF1216C6BD00ED0B3A /* OreFoundryApp.m */; };
+		769DD6E81216C78300ED0B3A /* HyperTableOperationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 769DD6E71216C78300ED0B3A /* HyperTableOperationController.m */; };
+		769DD6F11216C7C000ED0B3A /* InsertNewRowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 769DD6EA1216C7C000ED0B3A /* InsertNewRowController.m */; };
+		769DD6F21216C7C000ED0B3A /* NewTableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 769DD6EC1216C7C000ED0B3A /* NewTableController.m */; };
+		769DD6F31216C7C000ED0B3A /* TablesBrowserToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 769DD6EE1216C7C000ED0B3A /* TablesBrowserToolbar.m */; };
+		769DD6F41216C7C000ED0B3A /* TablesListDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 769DD6F01216C7C000ED0B3A /* TablesListDelegate.m */; };
+		769DD6FB1216C7E000ED0B3A /* ClustersBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 769DD6F61216C7E000ED0B3A /* ClustersBrowser.m */; };
+		769DD6FC1216C7E000ED0B3A /* ClustersBrowserToolbarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 769DD6F81216C7E000ED0B3A /* ClustersBrowserToolbarController.m */; };
+		769DD6FD1216C7E000ED0B3A /* DashboardController.m in Sources */ = {isa = PBXBuildFile; fileRef = 769DD6FA1216C7E000ED0B3A /* DashboardController.m */; };
+		769DD7021216C80A00ED0B3A /* HqlController.m in Sources */ = {isa = PBXBuildFile; fileRef = 769DD6FF1216C80A00ED0B3A /* HqlController.m */; };
+		769DD7031216C80A00ED0B3A /* PageSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 769DD7011216C80A00ED0B3A /* PageSource.m */; };
+		769DD7CF1216CFF800ED0B3A /* OreFoundry.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 769DD7CE1216CFF800ED0B3A /* OreFoundry.xcdatamodel */; };
+		769DD7F21216D0DF00ED0B3A /* Settings.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 769DD7F11216D0DF00ED0B3A /* Settings.xcdatamodel */; };
+		76B02666115CFA9E003854D2 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 76B02665115CFA9E003854D2 /* Credits.rtf */; };
+		76B3C5C010DA328100078742 /* DataPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 76B3C5BE10DA328100078742 /* DataPage.h */; };
+		76B3C5C110DA328200078742 /* DataPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76B3C5BF10DA328100078742 /* DataPage.cpp */; };
+		76B42B931210613A00CAC6A8 /* ClusterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B42B921210613A00CAC6A8 /* ClusterManager.m */; };
+		76B42B9F1210642700CAC6A8 /* SettingsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B42B9E1210642700CAC6A8 /* SettingsManager.m */; };
+		76B42BA21210643C00CAC6A8 /* CoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B42BA11210643C00CAC6A8 /* CoreDataManager.m */; };
+		76B42BC6121069A300CAC6A8 /* HyperTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B42BC5121069A300CAC6A8 /* HyperTable.m */; };
+		76B42C441210976800CAC6A8 /* NewClusterController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B42C431210976800CAC6A8 /* NewClusterController.m */; };
+		76C854AD121294F100525B28 /* TablesBrowserSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C854AC121294F100525B28 /* TablesBrowserSettings.m */; };
+		76C854B01212950100525B28 /* ClustersBrowserSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C854AF1212950100525B28 /* ClustersBrowserSettings.m */; };
+		76C854B31212950E00525B28 /* UpdateSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C854B21212950E00525B28 /* UpdateSettings.m */; };
+		76C855321212A19A00525B28 /* ClustersBrowserPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76C8552C1212A19A00525B28 /* ClustersBrowserPreferences.xib */; };
+		76C855331212A19A00525B28 /* TablesBrowserPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76C8552E1212A19A00525B28 /* TablesBrowserPreferences.xib */; };
+		76C855341212A19A00525B28 /* UpdatesPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76C855301212A19A00525B28 /* UpdatesPreferences.xib */; };
+		76EDF0D811FF40FA00D5A6B5 /* SetRowOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EDF0D711FF40FA00D5A6B5 /* SetRowOperation.m */; };
+		76F8150111FB84B0001B79C6 /* libHyperThriftWrapper.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 767A3CB310D5AA6500BAE46E /* libHyperThriftWrapper.dylib */; };
+		76F815B311FB88BB001B79C6 /* Exception.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F8155E11FB88BB001B79C6 /* Exception.h */; };
+		76F815B411FB88BB001B79C6 /* FunctionRunner.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F8155F11FB88BB001B79C6 /* FunctionRunner.h */; };
+		76F815B511FB88BB001B79C6 /* Monitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76F8156011FB88BB001B79C6 /* Monitor.cpp */; };
+		76F815B611FB88BB001B79C6 /* Monitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F8156111FB88BB001B79C6 /* Monitor.h */; };
+		76F815B711FB88BB001B79C6 /* Mutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76F8156211FB88BB001B79C6 /* Mutex.cpp */; };
+		76F815B811FB88BB001B79C6 /* Mutex.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F8156311FB88BB001B79C6 /* Mutex.h */; };
+		76F815B911FB88BB001B79C6 /* PosixThreadFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76F8156411FB88BB001B79C6 /* PosixThreadFactory.cpp */; };
+		76F815BA11FB88BB001B79C6 /* PosixThreadFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F8156511FB88BB001B79C6 /* PosixThreadFactory.h */; };
+		76F815BB11FB88BB001B79C6 /* Tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76F8156711FB88BB001B79C6 /* Tests.cpp */; };
+		76F815BC11FB88BB001B79C6 /* ThreadFactoryTests.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F8156811FB88BB001B79C6 /* ThreadFactoryTests.h */; };
+		76F815BD11FB88BB001B79C6 /* ThreadManagerTests.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F8156911FB88BB001B79C6 /* ThreadManagerTests.h */; };
+		76F815BE11FB88BB001B79C6 /* TimerManagerTests.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F8156A11FB88BB001B79C6 /* TimerManagerTests.h */; };
+		76F815BF11FB88BB001B79C6 /* Thread.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F8156B11FB88BB001B79C6 /* Thread.h */; };
+		76F815C011FB88BB001B79C6 /* ThreadManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76F8156C11FB88BB001B79C6 /* ThreadManager.cpp */; };
+		76F815C111FB88BB001B79C6 /* ThreadManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F8156D11FB88BB001B79C6 /* ThreadManager.h */; };
+		76F815C211FB88BB001B79C6 /* TimerManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76F8156E11FB88BB001B79C6 /* TimerManager.cpp */; };
+		76F815C311FB88BB001B79C6 /* TimerManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F8156F11FB88BB001B79C6 /* TimerManager.h */; };
+		76F815C411FB88BB001B79C6 /* Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76F8157011FB88BB001B79C6 /* Util.cpp */; };
+		76F815C511FB88BB001B79C6 /* Util.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F8157111FB88BB001B79C6 /* Util.h */; };
+		76F815C611FB88BB001B79C6 /* PeekProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76F8157311FB88BB001B79C6 /* PeekProcessor.cpp */; };
+		76F815C711FB88BB001B79C6 /* PeekProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F8157411FB88BB001B79C6 /* PeekProcessor.h */; };
+		76F815C811FB88BB001B79C6 /* StatsProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F8157511FB88BB001B79C6 /* StatsProcessor.h */; };
+		76F815C911FB88BB001B79C6 /* TBase64Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76F8157711FB88BB001B79C6 /* TBase64Utils.cpp */; };
+		76F815CA11FB88BB001B79C6 /* TBase64Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F8157811FB88BB001B79C6 /* TBase64Utils.h */; };
+		76F815CB11FB88BB001B79C6 /* TBinaryProtocol.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76F8157911FB88BB001B79C6 /* TBinaryProtocol.cpp */; };
+		76F815CC11FB88BB001B79C6 /* TBinaryProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F8157A11FB88BB001B79C6 /* TBinaryProtocol.h */; };
+		76F815CD11FB88BB001B79C6 /* TCompactProtocol.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76F8157B11FB88BB001B79C6 /* TCompactProtocol.cpp */; };
+		76F815CE11FB88BB001B79C6 /* TCompactProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F8157C11FB88BB001B79C6 /* TCompactProtocol.h */; };
+		76F815CF11FB88BB001B79C6 /* TDebugProtocol.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76F8157D11FB88BB001B79C6 /* TDebugProtocol.cpp */; };
+		76F815D011FB88BB001B79C6 /* TDebugProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F8157E11FB88BB001B79C6 /* TDebugProtocol.h */; };
+		76F815D111FB88BB001B79C6 /* TDenseProtocol.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76F8157F11FB88BB001B79C6 /* TDenseProtocol.cpp */; };
+		76F815D211FB88BB001B79C6 /* TDenseProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F8158011FB88BB001B79C6 /* TDenseProtocol.h */; };
+		76F815D311FB88BB001B79C6 /* TJSONProtocol.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76F8158111FB88BB001B79C6 /* TJSONProtocol.cpp */; };
+		76F815D411FB88BB001B79C6 /* TJSONProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F8158211FB88BB001B79C6 /* TJSONProtocol.h */; };
+		76F815D511FB88BB001B79C6 /* TOneWayProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F8158311FB88BB001B79C6 /* TOneWayProtocol.h */; };
+		76F815D611FB88BB001B79C6 /* TProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F8158411FB88BB001B79C6 /* TProtocol.h */; };
+		76F815D711FB88BB001B79C6 /* TProtocolException.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F8158511FB88BB001B79C6 /* TProtocolException.h */; };
+		76F815D811FB88BB001B79C6 /* TProtocolTap.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F8158611FB88BB001B79C6 /* TProtocolTap.h */; };
+		76F815E311FB88BB001B79C6 /* TApplicationException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76F8159211FB88BB001B79C6 /* TApplicationException.cpp */; };
+		76F815E411FB88BB001B79C6 /* TApplicationException.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F8159311FB88BB001B79C6 /* TApplicationException.h */; };
+		76F815E511FB88BB001B79C6 /* Thrift.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76F8159411FB88BB001B79C6 /* Thrift.cpp */; };
+		76F815E611FB88BB001B79C6 /* Thrift.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F8159511FB88BB001B79C6 /* Thrift.h */; };
+		76F815E711FB88BB001B79C6 /* TLogging.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F8159611FB88BB001B79C6 /* TLogging.h */; };
+		76F815E811FB88BB001B79C6 /* TProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F8159711FB88BB001B79C6 /* TProcessor.h */; };
+		76F815E911FB88BB001B79C6 /* TBufferTransports.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76F8159911FB88BB001B79C6 /* TBufferTransports.cpp */; };
+		76F815EA11FB88BB001B79C6 /* TBufferTransports.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F8159A11FB88BB001B79C6 /* TBufferTransports.h */; };
+		76F815EB11FB88BB001B79C6 /* TFDTransport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76F8159B11FB88BB001B79C6 /* TFDTransport.cpp */; };
+		76F815EC11FB88BB001B79C6 /* TFDTransport.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F8159C11FB88BB001B79C6 /* TFDTransport.h */; };
+		76F815ED11FB88BB001B79C6 /* TFileTransport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76F8159D11FB88BB001B79C6 /* TFileTransport.cpp */; };
+		76F815EE11FB88BB001B79C6 /* TFileTransport.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F8159E11FB88BB001B79C6 /* TFileTransport.h */; };
+		76F815EF11FB88BB001B79C6 /* THttpClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76F8159F11FB88BB001B79C6 /* THttpClient.cpp */; };
+		76F815F011FB88BB001B79C6 /* THttpClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F815A011FB88BB001B79C6 /* THttpClient.h */; };
+		76F815F111FB88BB001B79C6 /* TServerSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76F815A111FB88BB001B79C6 /* TServerSocket.cpp */; };
+		76F815F211FB88BB001B79C6 /* TServerSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F815A211FB88BB001B79C6 /* TServerSocket.h */; };
+		76F815F311FB88BB001B79C6 /* TServerTransport.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F815A311FB88BB001B79C6 /* TServerTransport.h */; };
+		76F815F411FB88BB001B79C6 /* TShortReadTransport.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F815A411FB88BB001B79C6 /* TShortReadTransport.h */; };
+		76F815F511FB88BB001B79C6 /* TSimpleFileTransport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76F815A511FB88BB001B79C6 /* TSimpleFileTransport.cpp */; };
+		76F815F611FB88BB001B79C6 /* TSimpleFileTransport.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F815A611FB88BB001B79C6 /* TSimpleFileTransport.h */; };
+		76F815F711FB88BB001B79C6 /* TSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76F815A711FB88BB001B79C6 /* TSocket.cpp */; };
+		76F815F811FB88BB001B79C6 /* TSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F815A811FB88BB001B79C6 /* TSocket.h */; };
+		76F815F911FB88BB001B79C6 /* TSocketPool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76F815A911FB88BB001B79C6 /* TSocketPool.cpp */; };
+		76F815FA11FB88BB001B79C6 /* TSocketPool.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F815AA11FB88BB001B79C6 /* TSocketPool.h */; };
+		76F815FB11FB88BB001B79C6 /* TTransport.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F815AB11FB88BB001B79C6 /* TTransport.h */; };
+		76F815FC11FB88BB001B79C6 /* TTransportException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76F815AC11FB88BB001B79C6 /* TTransportException.cpp */; };
+		76F815FD11FB88BB001B79C6 /* TTransportException.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F815AD11FB88BB001B79C6 /* TTransportException.h */; };
+		76F815FE11FB88BB001B79C6 /* TTransportUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76F815AE11FB88BB001B79C6 /* TTransportUtils.cpp */; };
+		76F815FF11FB88BB001B79C6 /* TTransportUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F815AF11FB88BB001B79C6 /* TTransportUtils.h */; };
+		76F8160011FB88BB001B79C6 /* TZlibTransport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76F815B011FB88BB001B79C6 /* TZlibTransport.cpp */; };
+		76F8160111FB88BB001B79C6 /* TZlibTransport.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F815B111FB88BB001B79C6 /* TZlibTransport.h */; };
+		76F8160211FB88BB001B79C6 /* TReflectionLocal.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F815B211FB88BB001B79C6 /* TReflectionLocal.h */; };
+		76F8160911FB8941001B79C6 /* config.h in Headers */ = {isa = PBXBuildFile; fileRef = 76F8160811FB8941001B79C6 /* config.h */; };
+		76F8163A11FB8BF1001B79C6 /* libThriftLib.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 76F8155911FB88A0001B79C6 /* libThriftLib.dylib */; };
+		76F8182F11FC66C2001B79C6 /* TableSchema.m in Sources */ = {isa = PBXBuildFile; fileRef = 76F8182E11FC66C2001B79C6 /* TableSchema.m */; };
+		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
+		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		7696D7BE1205927A00DA46B8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7696D7B91205917C00DA46B8;
+			remoteInfo = libz;
+		};
+		76E4702310D5CA7C00A5809D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 767A3CB210D5AA6500BAE46E;
+			remoteInfo = HyperThriftWrapper;
+		};
+		76F8163811FB8BED001B79C6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 76F8155811FB88A0001B79C6;
+			remoteInfo = ThriftLib;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		7638B25910D12A6A006C127C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				7684BA8E11FDD98700D26DA6 /* libThriftLib.dylib in CopyFiles */,
+				7696D8051205943D00DA46B8 /* libz.1.2.5.dylib in CopyFiles */,
+				766F252310D7995700AB059D /* libHyperThriftWrapper.dylib in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		76081DA910E255F6005F668F /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Sources/main.m; sourceTree = "<group>"; };
+		761515D211FD851400485438 /* Client_constants.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Client_constants.cpp; sourceTree = "<group>"; };
+		761515D311FD851400485438 /* Client_constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client_constants.h; sourceTree = "<group>"; };
+		761515D411FD851400485438 /* Client_types.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Client_types.cpp; sourceTree = "<group>"; };
+		761515D511FD851400485438 /* Client_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client_types.h; sourceTree = "<group>"; };
+		761515D611FD851400485438 /* ClientService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClientService.cpp; sourceTree = "<group>"; };
+		761515D711FD851400485438 /* ClientService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientService.h; sourceTree = "<group>"; };
+		761515D911FD851400485438 /* Hql_constants.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Hql_constants.cpp; sourceTree = "<group>"; };
+		761515DA11FD851400485438 /* Hql_constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hql_constants.h; sourceTree = "<group>"; };
+		761515DB11FD851400485438 /* Hql_types.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Hql_types.cpp; sourceTree = "<group>"; };
+		761515DC11FD851400485438 /* Hql_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hql_types.h; sourceTree = "<group>"; };
+		761515DD11FD851400485438 /* HqlService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HqlService.cpp; sourceTree = "<group>"; };
+		761515DE11FD851400485438 /* HqlService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HqlService.h; sourceTree = "<group>"; };
+		7615165011FD8C4800485438 /* ConnectOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConnectOperation.h; path = Sources/Classes/ConnectOperation.h; sourceTree = "<group>"; };
+		7615165111FD8C4800485438 /* ConnectOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConnectOperation.m; path = Sources/Classes/ConnectOperation.m; sourceTree = "<group>"; };
+		761516DC11FD96A100485438 /* FetchPageOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FetchPageOperation.h; path = Sources/Classes/FetchPageOperation.h; sourceTree = "<group>"; };
+		761516DD11FD96A100485438 /* FetchPageOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FetchPageOperation.m; path = Sources/Classes/FetchPageOperation.m; sourceTree = "<group>"; };
+		7615175611FDA23F00485438 /* FetchTablesOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FetchTablesOperation.h; path = Sources/Classes/FetchTablesOperation.h; sourceTree = "<group>"; };
+		7615175711FDA23F00485438 /* FetchTablesOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FetchTablesOperation.m; path = Sources/Classes/FetchTablesOperation.m; sourceTree = "<group>"; };
+		761518DC11FDBF5E00485438 /* HqlQueryOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HqlQueryOperation.h; path = Sources/Classes/HqlQueryOperation.h; sourceTree = "<group>"; };
+		761518DD11FDBF5E00485438 /* HqlQueryOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HqlQueryOperation.m; path = Sources/Classes/HqlQueryOperation.m; sourceTree = "<group>"; };
+		766A3E781162268C00176B42 /* MBPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBPreferencesController.h; path = Sources/Classes/MBPreferencesController.h; sourceTree = "<group>"; };
+		766A3E791162268C00176B42 /* MBPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBPreferencesController.m; path = Sources/Classes/MBPreferencesController.m; sourceTree = "<group>"; };
+		766F24D610D7935100AB059D /* HyperThriftHql.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyperThriftHql.h; sourceTree = "<group>"; };
+		766F24D710D7935100AB059D /* HyperThriftHql.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HyperThriftHql.cpp; sourceTree = "<group>"; };
+		766F24E310D794F600AB059D /* Convert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Convert.h; sourceTree = "<group>"; };
+		766F24E410D794F600AB059D /* Convert.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Convert.cpp; sourceTree = "<group>"; };
+		7677371610CE93D100DDDCC6 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = /System/Library/Frameworks/CoreServices.framework; sourceTree = "<absolute>"; };
+		767A3C7510D5A97500BAE46E /* Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client.h; sourceTree = "<group>"; };
+		767A3C8310D5A97600BAE46E /* HyperThriftWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HyperThriftWrapper.cpp; sourceTree = "<group>"; };
+		767A3C8410D5A97600BAE46E /* HyperThriftWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyperThriftWrapper.h; sourceTree = "<group>"; };
+		767A3C8610D5A97600BAE46E /* TestThriftGen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestThriftGen.cpp; sourceTree = "<group>"; };
+		767A3C8710D5A97600BAE46E /* TestWrapper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = TestWrapper.c; sourceTree = "<group>"; };
+		767A3C8810D5A97600BAE46E /* ThriftHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThriftHelper.h; sourceTree = "<group>"; };
+		767A3CB310D5AA6500BAE46E /* libHyperThriftWrapper.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libHyperThriftWrapper.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		76967B2E120FF467000FD196 /* TablesBrowserPageSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TablesBrowserPageSource.h; path = Sources/Classes/TablesBrowserPageSource.h; sourceTree = "<group>"; };
+		76967B2F120FF467000FD196 /* TablesBrowserPageSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TablesBrowserPageSource.m; path = Sources/Classes/TablesBrowserPageSource.m; sourceTree = "<group>"; };
+		76967B34120FF577000FD196 /* TablesBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TablesBrowser.h; path = Sources/Classes/TablesBrowser.h; sourceTree = "<group>"; };
+		76967B35120FF577000FD196 /* TablesBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TablesBrowser.m; path = Sources/Classes/TablesBrowser.m; sourceTree = "<group>"; };
+		76967C07121010D6000FD196 /* DeleteRowOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeleteRowOperation.h; path = Sources/Classes/DeleteRowOperation.h; sourceTree = "<group>"; };
+		76967C08121010D6000FD196 /* DeleteRowOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeleteRowOperation.m; path = Sources/Classes/DeleteRowOperation.m; sourceTree = "<group>"; };
+		76967D0312103D30000FD196 /* TablesListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TablesListView.h; path = Sources/Classes/TablesListView.h; sourceTree = "<group>"; };
+		76967D0412103D30000FD196 /* TablesListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TablesListView.m; path = Sources/Classes/TablesListView.m; sourceTree = "<group>"; };
+		7696D7BA1205917C00DA46B8 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libz.1.2.5.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		7696D7C3120592BF00DA46B8 /* adler32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = adler32.c; path = "Sources/zlib-1.2.5/adler32.c"; sourceTree = "<group>"; };
+		7696D7C4120592BF00DA46B8 /* compress.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = compress.c; path = "Sources/zlib-1.2.5/compress.c"; sourceTree = "<group>"; };
+		7696D7C5120592BF00DA46B8 /* crc32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = crc32.c; path = "Sources/zlib-1.2.5/crc32.c"; sourceTree = "<group>"; };
+		7696D7C6120592BF00DA46B8 /* crc32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = crc32.h; path = "Sources/zlib-1.2.5/crc32.h"; sourceTree = "<group>"; };
+		7696D7C7120592BF00DA46B8 /* deflate.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = deflate.c; path = "Sources/zlib-1.2.5/deflate.c"; sourceTree = "<group>"; };
+		7696D7C8120592BF00DA46B8 /* deflate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = deflate.h; path = "Sources/zlib-1.2.5/deflate.h"; sourceTree = "<group>"; };
+		7696D7C9120592BF00DA46B8 /* gzclose.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = gzclose.c; path = "Sources/zlib-1.2.5/gzclose.c"; sourceTree = "<group>"; };
+		7696D7CA120592BF00DA46B8 /* gzguts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = gzguts.h; path = "Sources/zlib-1.2.5/gzguts.h"; sourceTree = "<group>"; };
+		7696D7CB120592BF00DA46B8 /* gzlib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = gzlib.c; path = "Sources/zlib-1.2.5/gzlib.c"; sourceTree = "<group>"; };
+		7696D7CC120592BF00DA46B8 /* gzread.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = gzread.c; path = "Sources/zlib-1.2.5/gzread.c"; sourceTree = "<group>"; };
+		7696D7CD120592BF00DA46B8 /* gzwrite.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = gzwrite.c; path = "Sources/zlib-1.2.5/gzwrite.c"; sourceTree = "<group>"; };
+		7696D7CE120592BF00DA46B8 /* infback.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = infback.c; path = "Sources/zlib-1.2.5/infback.c"; sourceTree = "<group>"; };
+		7696D7CF120592BF00DA46B8 /* inffast.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = inffast.c; path = "Sources/zlib-1.2.5/inffast.c"; sourceTree = "<group>"; };
+		7696D7D0120592BF00DA46B8 /* inffast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = inffast.h; path = "Sources/zlib-1.2.5/inffast.h"; sourceTree = "<group>"; };
+		7696D7D1120592BF00DA46B8 /* inffixed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = inffixed.h; path = "Sources/zlib-1.2.5/inffixed.h"; sourceTree = "<group>"; };
+		7696D7D2120592BF00DA46B8 /* inflate.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = inflate.c; path = "Sources/zlib-1.2.5/inflate.c"; sourceTree = "<group>"; };
+		7696D7D3120592BF00DA46B8 /* inflate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = inflate.h; path = "Sources/zlib-1.2.5/inflate.h"; sourceTree = "<group>"; };
+		7696D7D4120592BF00DA46B8 /* inftrees.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = inftrees.c; path = "Sources/zlib-1.2.5/inftrees.c"; sourceTree = "<group>"; };
+		7696D7D5120592BF00DA46B8 /* inftrees.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = inftrees.h; path = "Sources/zlib-1.2.5/inftrees.h"; sourceTree = "<group>"; };
+		7696D7D6120592BF00DA46B8 /* minigzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = minigzip.c; path = "Sources/zlib-1.2.5/minigzip.c"; sourceTree = "<group>"; };
+		7696D7D7120592BF00DA46B8 /* trees.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = trees.c; path = "Sources/zlib-1.2.5/trees.c"; sourceTree = "<group>"; };
+		7696D7D8120592BF00DA46B8 /* trees.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = trees.h; path = "Sources/zlib-1.2.5/trees.h"; sourceTree = "<group>"; };
+		7696D7D9120592BF00DA46B8 /* uncompr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = uncompr.c; path = "Sources/zlib-1.2.5/uncompr.c"; sourceTree = "<group>"; };
+		7696D7DA120592BF00DA46B8 /* zconf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = zconf.h; path = "Sources/zlib-1.2.5/zconf.h"; sourceTree = "<group>"; };
+		7696D7DB120592BF00DA46B8 /* zlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = zlib.h; path = "Sources/zlib-1.2.5/zlib.h"; sourceTree = "<group>"; };
+		7696D7DC120592BF00DA46B8 /* zutil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = zutil.c; path = "Sources/zlib-1.2.5/zutil.c"; sourceTree = "<group>"; };
+		7696D7DD120592BF00DA46B8 /* zutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = zutil.h; path = "Sources/zlib-1.2.5/zutil.h"; sourceTree = "<group>"; };
+		769DD6D81216C62800ED0B3A /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/OreFoundry.xib; sourceTree = "<group>"; };
+		769DD6DA1216C63A00ED0B3A /* OreFoundry-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "OreFoundry-Info.plist"; sourceTree = "<group>"; };
+		769DD6DC1216C69C00ED0B3A /* OreFoundryMain.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = OreFoundryMain.icns; sourceTree = "<group>"; };
+		769DD6DE1216C6BD00ED0B3A /* OreFoundryApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OreFoundryApp.h; path = Sources/Classes/OreFoundryApp.h; sourceTree = "<group>"; };
+		769DD6DF1216C6BD00ED0B3A /* OreFoundryApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OreFoundryApp.m; path = Sources/Classes/OreFoundryApp.m; sourceTree = "<group>"; };
+		769DD6E61216C78300ED0B3A /* HyperTableOperationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HyperTableOperationController.h; path = Sources/Classes/HyperTableOperationController.h; sourceTree = "<group>"; };
+		769DD6E71216C78300ED0B3A /* HyperTableOperationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HyperTableOperationController.m; path = Sources/Classes/HyperTableOperationController.m; sourceTree = "<group>"; };
+		769DD6E91216C7C000ED0B3A /* InsertNewRowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InsertNewRowController.h; path = Sources/Classes/InsertNewRowController.h; sourceTree = "<group>"; };
+		769DD6EA1216C7C000ED0B3A /* InsertNewRowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InsertNewRowController.m; path = Sources/Classes/InsertNewRowController.m; sourceTree = "<group>"; };
+		769DD6EB1216C7C000ED0B3A /* NewTableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewTableController.h; path = Sources/Classes/NewTableController.h; sourceTree = "<group>"; };
+		769DD6EC1216C7C000ED0B3A /* NewTableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewTableController.m; path = Sources/Classes/NewTableController.m; sourceTree = "<group>"; };
+		769DD6ED1216C7C000ED0B3A /* TablesBrowserToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TablesBrowserToolbar.h; path = Sources/Classes/TablesBrowserToolbar.h; sourceTree = "<group>"; };
+		769DD6EE1216C7C000ED0B3A /* TablesBrowserToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TablesBrowserToolbar.m; path = Sources/Classes/TablesBrowserToolbar.m; sourceTree = "<group>"; };
+		769DD6EF1216C7C000ED0B3A /* TablesListDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TablesListDelegate.h; path = Sources/Classes/TablesListDelegate.h; sourceTree = "<group>"; };
+		769DD6F01216C7C000ED0B3A /* TablesListDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TablesListDelegate.m; path = Sources/Classes/TablesListDelegate.m; sourceTree = "<group>"; };
+		769DD6F51216C7E000ED0B3A /* ClustersBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ClustersBrowser.h; path = Sources/Classes/ClustersBrowser.h; sourceTree = "<group>"; };
+		769DD6F61216C7E000ED0B3A /* ClustersBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ClustersBrowser.m; path = Sources/Classes/ClustersBrowser.m; sourceTree = "<group>"; };
+		769DD6F71216C7E000ED0B3A /* ClustersBrowserToolbarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ClustersBrowserToolbarController.h; path = Sources/Classes/ClustersBrowserToolbarController.h; sourceTree = "<group>"; };
+		769DD6F81216C7E000ED0B3A /* ClustersBrowserToolbarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ClustersBrowserToolbarController.m; path = Sources/Classes/ClustersBrowserToolbarController.m; sourceTree = "<group>"; };
+		769DD6F91216C7E000ED0B3A /* DashboardController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DashboardController.h; path = Sources/Classes/DashboardController.h; sourceTree = "<group>"; };
+		769DD6FA1216C7E000ED0B3A /* DashboardController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DashboardController.m; path = Sources/Classes/DashboardController.m; sourceTree = "<group>"; };
+		769DD6FE1216C80A00ED0B3A /* HqlController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HqlController.h; path = Sources/Classes/HqlController.h; sourceTree = "<group>"; };
+		769DD6FF1216C80A00ED0B3A /* HqlController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HqlController.m; path = Sources/Classes/HqlController.m; sourceTree = "<group>"; };
+		769DD7001216C80A00ED0B3A /* PageSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PageSource.h; path = Sources/Classes/PageSource.h; sourceTree = "<group>"; };
+		769DD7011216C80A00ED0B3A /* PageSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PageSource.m; path = Sources/Classes/PageSource.m; sourceTree = "<group>"; };
+		769DD7041216C82B00ED0B3A /* ObjectsPageSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ObjectsPageSource.h; path = Sources/Classes/ObjectsPageSource.h; sourceTree = "<group>"; };
+		769DD7051216C82B00ED0B3A /* ObjectsPageSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ObjectsPageSource.m; path = Sources/Classes/ObjectsPageSource.m; sourceTree = "<group>"; };
+		769DD7091216C88600ED0B3A /* Ore_Foundry_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ore_Foundry_Prefix.pch; sourceTree = "<group>"; };
+		769DD7CE1216CFF800ED0B3A /* OreFoundry.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = OreFoundry.xcdatamodel; sourceTree = "<group>"; };
+		769DD7F11216D0DF00ED0B3A /* Settings.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = Settings.xcdatamodel; sourceTree = "<group>"; };
+		76B02665115CFA9E003854D2 /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
+		76B3C5BE10DA328100078742 /* DataPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataPage.h; sourceTree = "<group>"; };
+		76B3C5BF10DA328100078742 /* DataPage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataPage.cpp; sourceTree = "<group>"; };
+		76B42B911210613A00CAC6A8 /* ClusterManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ClusterManager.h; path = Sources/Classes/ClusterManager.h; sourceTree = "<group>"; };
+		76B42B921210613A00CAC6A8 /* ClusterManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ClusterManager.m; path = Sources/Classes/ClusterManager.m; sourceTree = "<group>"; };
+		76B42B9D1210642700CAC6A8 /* SettingsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsManager.h; path = Sources/Classes/SettingsManager.h; sourceTree = "<group>"; };
+		76B42B9E1210642700CAC6A8 /* SettingsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsManager.m; path = Sources/Classes/SettingsManager.m; sourceTree = "<group>"; };
+		76B42BA01210643C00CAC6A8 /* CoreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreDataManager.h; path = Sources/Classes/CoreDataManager.h; sourceTree = "<group>"; };
+		76B42BA11210643C00CAC6A8 /* CoreDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CoreDataManager.m; path = Sources/Classes/CoreDataManager.m; sourceTree = "<group>"; };
+		76B42BC4121069A300CAC6A8 /* HyperTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HyperTable.h; path = Sources/Classes/HyperTable.h; sourceTree = "<group>"; };
+		76B42BC5121069A300CAC6A8 /* HyperTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HyperTable.m; path = Sources/Classes/HyperTable.m; sourceTree = "<group>"; };
+		76B42C421210976800CAC6A8 /* NewClusterController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewClusterController.h; path = Sources/Classes/NewClusterController.h; sourceTree = "<group>"; };
+		76B42C431210976800CAC6A8 /* NewClusterController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewClusterController.m; path = Sources/Classes/NewClusterController.m; sourceTree = "<group>"; };
+		76C854AB121294F100525B28 /* TablesBrowserSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TablesBrowserSettings.h; path = Sources/Classes/TablesBrowserSettings.h; sourceTree = "<group>"; };
+		76C854AC121294F100525B28 /* TablesBrowserSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TablesBrowserSettings.m; path = Sources/Classes/TablesBrowserSettings.m; sourceTree = "<group>"; };
+		76C854AE1212950100525B28 /* ClustersBrowserSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ClustersBrowserSettings.h; path = Sources/Classes/ClustersBrowserSettings.h; sourceTree = "<group>"; };
+		76C854AF1212950100525B28 /* ClustersBrowserSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ClustersBrowserSettings.m; path = Sources/Classes/ClustersBrowserSettings.m; sourceTree = "<group>"; };
+		76C854B11212950E00525B28 /* UpdateSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UpdateSettings.h; path = Sources/Classes/UpdateSettings.h; sourceTree = "<group>"; };
+		76C854B21212950E00525B28 /* UpdateSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UpdateSettings.m; path = Sources/Classes/UpdateSettings.m; sourceTree = "<group>"; };
+		76C8552D1212A19A00525B28 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ClustersBrowserPreferences.xib; sourceTree = "<group>"; };
+		76C8552F1212A19A00525B28 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/TablesBrowserPreferences.xib; sourceTree = "<group>"; };
+		76C855311212A19A00525B28 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/UpdatesPreferences.xib; sourceTree = "<group>"; };
+		76EDF0D611FF40FA00D5A6B5 /* SetRowOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SetRowOperation.h; path = Sources/Classes/SetRowOperation.h; sourceTree = "<group>"; };
+		76EDF0D711FF40FA00D5A6B5 /* SetRowOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SetRowOperation.m; path = Sources/Classes/SetRowOperation.m; sourceTree = "<group>"; };
+		76F8155911FB88A0001B79C6 /* libThriftLib.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libThriftLib.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		76F8155E11FB88BB001B79C6 /* Exception.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Exception.h; sourceTree = "<group>"; };
+		76F8155F11FB88BB001B79C6 /* FunctionRunner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FunctionRunner.h; sourceTree = "<group>"; };
+		76F8156011FB88BB001B79C6 /* Monitor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Monitor.cpp; sourceTree = "<group>"; };
+		76F8156111FB88BB001B79C6 /* Monitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Monitor.h; sourceTree = "<group>"; };
+		76F8156211FB88BB001B79C6 /* Mutex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mutex.cpp; sourceTree = "<group>"; };
+		76F8156311FB88BB001B79C6 /* Mutex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mutex.h; sourceTree = "<group>"; };
+		76F8156411FB88BB001B79C6 /* PosixThreadFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PosixThreadFactory.cpp; sourceTree = "<group>"; };
+		76F8156511FB88BB001B79C6 /* PosixThreadFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PosixThreadFactory.h; sourceTree = "<group>"; };
+		76F8156711FB88BB001B79C6 /* Tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Tests.cpp; sourceTree = "<group>"; };
+		76F8156811FB88BB001B79C6 /* ThreadFactoryTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadFactoryTests.h; sourceTree = "<group>"; };
+		76F8156911FB88BB001B79C6 /* ThreadManagerTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadManagerTests.h; sourceTree = "<group>"; };
+		76F8156A11FB88BB001B79C6 /* TimerManagerTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimerManagerTests.h; sourceTree = "<group>"; };
+		76F8156B11FB88BB001B79C6 /* Thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Thread.h; sourceTree = "<group>"; };
+		76F8156C11FB88BB001B79C6 /* ThreadManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ThreadManager.cpp; sourceTree = "<group>"; };
+		76F8156D11FB88BB001B79C6 /* ThreadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadManager.h; sourceTree = "<group>"; };
+		76F8156E11FB88BB001B79C6 /* TimerManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TimerManager.cpp; sourceTree = "<group>"; };
+		76F8156F11FB88BB001B79C6 /* TimerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimerManager.h; sourceTree = "<group>"; };
+		76F8157011FB88BB001B79C6 /* Util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Util.cpp; sourceTree = "<group>"; };
+		76F8157111FB88BB001B79C6 /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
+		76F8157311FB88BB001B79C6 /* PeekProcessor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PeekProcessor.cpp; sourceTree = "<group>"; };
+		76F8157411FB88BB001B79C6 /* PeekProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeekProcessor.h; sourceTree = "<group>"; };
+		76F8157511FB88BB001B79C6 /* StatsProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatsProcessor.h; sourceTree = "<group>"; };
+		76F8157711FB88BB001B79C6 /* TBase64Utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TBase64Utils.cpp; sourceTree = "<group>"; };
+		76F8157811FB88BB001B79C6 /* TBase64Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBase64Utils.h; sourceTree = "<group>"; };
+		76F8157911FB88BB001B79C6 /* TBinaryProtocol.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TBinaryProtocol.cpp; sourceTree = "<group>"; };
+		76F8157A11FB88BB001B79C6 /* TBinaryProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBinaryProtocol.h; sourceTree = "<group>"; };
+		76F8157B11FB88BB001B79C6 /* TCompactProtocol.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCompactProtocol.cpp; sourceTree = "<group>"; };
+		76F8157C11FB88BB001B79C6 /* TCompactProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCompactProtocol.h; sourceTree = "<group>"; };
+		76F8157D11FB88BB001B79C6 /* TDebugProtocol.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDebugProtocol.cpp; sourceTree = "<group>"; };
+		76F8157E11FB88BB001B79C6 /* TDebugProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDebugProtocol.h; sourceTree = "<group>"; };
+		76F8157F11FB88BB001B79C6 /* TDenseProtocol.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDenseProtocol.cpp; sourceTree = "<group>"; };
+		76F8158011FB88BB001B79C6 /* TDenseProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDenseProtocol.h; sourceTree = "<group>"; };
+		76F8158111FB88BB001B79C6 /* TJSONProtocol.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TJSONProtocol.cpp; sourceTree = "<group>"; };
+		76F8158211FB88BB001B79C6 /* TJSONProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TJSONProtocol.h; sourceTree = "<group>"; };
+		76F8158311FB88BB001B79C6 /* TOneWayProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TOneWayProtocol.h; sourceTree = "<group>"; };
+		76F8158411FB88BB001B79C6 /* TProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TProtocol.h; sourceTree = "<group>"; };
+		76F8158511FB88BB001B79C6 /* TProtocolException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TProtocolException.h; sourceTree = "<group>"; };
+		76F8158611FB88BB001B79C6 /* TProtocolTap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TProtocolTap.h; sourceTree = "<group>"; };
+		76F8159211FB88BB001B79C6 /* TApplicationException.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TApplicationException.cpp; sourceTree = "<group>"; };
+		76F8159311FB88BB001B79C6 /* TApplicationException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TApplicationException.h; sourceTree = "<group>"; };
+		76F8159411FB88BB001B79C6 /* Thrift.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Thrift.cpp; sourceTree = "<group>"; };
+		76F8159511FB88BB001B79C6 /* Thrift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Thrift.h; sourceTree = "<group>"; };
+		76F8159611FB88BB001B79C6 /* TLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLogging.h; sourceTree = "<group>"; };
+		76F8159711FB88BB001B79C6 /* TProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TProcessor.h; sourceTree = "<group>"; };
+		76F8159911FB88BB001B79C6 /* TBufferTransports.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TBufferTransports.cpp; sourceTree = "<group>"; };
+		76F8159A11FB88BB001B79C6 /* TBufferTransports.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBufferTransports.h; sourceTree = "<group>"; };
+		76F8159B11FB88BB001B79C6 /* TFDTransport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFDTransport.cpp; sourceTree = "<group>"; };
+		76F8159C11FB88BB001B79C6 /* TFDTransport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFDTransport.h; sourceTree = "<group>"; };
+		76F8159D11FB88BB001B79C6 /* TFileTransport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFileTransport.cpp; sourceTree = "<group>"; };
+		76F8159E11FB88BB001B79C6 /* TFileTransport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFileTransport.h; sourceTree = "<group>"; };
+		76F8159F11FB88BB001B79C6 /* THttpClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = THttpClient.cpp; sourceTree = "<group>"; };
+		76F815A011FB88BB001B79C6 /* THttpClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THttpClient.h; sourceTree = "<group>"; };
+		76F815A111FB88BB001B79C6 /* TServerSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TServerSocket.cpp; sourceTree = "<group>"; };
+		76F815A211FB88BB001B79C6 /* TServerSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TServerSocket.h; sourceTree = "<group>"; };
+		76F815A311FB88BB001B79C6 /* TServerTransport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TServerTransport.h; sourceTree = "<group>"; };
+		76F815A411FB88BB001B79C6 /* TShortReadTransport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TShortReadTransport.h; sourceTree = "<group>"; };
+		76F815A511FB88BB001B79C6 /* TSimpleFileTransport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TSimpleFileTransport.cpp; sourceTree = "<group>"; };
+		76F815A611FB88BB001B79C6 /* TSimpleFileTransport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSimpleFileTransport.h; sourceTree = "<group>"; };
+		76F815A711FB88BB001B79C6 /* TSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TSocket.cpp; sourceTree = "<group>"; };
+		76F815A811FB88BB001B79C6 /* TSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSocket.h; sourceTree = "<group>"; };
+		76F815A911FB88BB001B79C6 /* TSocketPool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TSocketPool.cpp; sourceTree = "<group>"; };
+		76F815AA11FB88BB001B79C6 /* TSocketPool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSocketPool.h; sourceTree = "<group>"; };
+		76F815AB11FB88BB001B79C6 /* TTransport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTransport.h; sourceTree = "<group>"; };
+		76F815AC11FB88BB001B79C6 /* TTransportException.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTransportException.cpp; sourceTree = "<group>"; };
+		76F815AD11FB88BB001B79C6 /* TTransportException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTransportException.h; sourceTree = "<group>"; };
+		76F815AE11FB88BB001B79C6 /* TTransportUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTransportUtils.cpp; sourceTree = "<group>"; };
+		76F815AF11FB88BB001B79C6 /* TTransportUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTransportUtils.h; sourceTree = "<group>"; };
+		76F815B011FB88BB001B79C6 /* TZlibTransport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TZlibTransport.cpp; sourceTree = "<group>"; };
+		76F815B111FB88BB001B79C6 /* TZlibTransport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TZlibTransport.h; sourceTree = "<group>"; };
+		76F815B211FB88BB001B79C6 /* TReflectionLocal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TReflectionLocal.h; sourceTree = "<group>"; };
+		76F8160811FB8941001B79C6 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
+		76F8182D11FC66C2001B79C6 /* TableSchema.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TableSchema.h; path = Sources/Classes/TableSchema.h; sourceTree = "<group>"; };
+		76F8182E11FC66C2001B79C6 /* TableSchema.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TableSchema.m; path = Sources/Classes/TableSchema.m; sourceTree = "<group>"; };
+		77C82804067257F0000B614F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		8D1107320486CEB800E47090 /* OreFoundry.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OreFoundry.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		767A3CB110D5AA6500BAE46E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				76F8163A11FB8BF1001B79C6 /* libThriftLib.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7696D7B81205917C00DA46B8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		76F8155711FB88A0001B79C6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7696D7C01205927E00DA46B8 /* libz.1.2.5.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8D11072E0486CEB800E47090 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+				7677371710CE93D100DDDCC6 /* CoreServices.framework in Frameworks */,
+				76F8150111FB84B0001B79C6 /* libHyperThriftWrapper.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		080E96DDFE201D6D7F000001 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				769DD6DE1216C6BD00ED0B3A /* OreFoundryApp.h */,
+				769DD6DF1216C6BD00ED0B3A /* OreFoundryApp.m */,
+				76C854AA121294C900525B28 /* Settings Controllers */,
+				76B42B961210620800CAC6A8 /* Managers */,
+				76967BEE121009E1000FD196 /* HQL Interpreter */,
+				76967B63120FF9CE000FD196 /* Clusters Browser */,
+				76967B2D120FF430000FD196 /* Tables Browser */,
+				76EDF0D411FF40D800D5A6B5 /* HyperTable Operations */,
+				76F8182D11FC66C2001B79C6 /* TableSchema.h */,
+				76F8182E11FC66C2001B79C6 /* TableSchema.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7677371610CE93D100DDDCC6 /* CoreServices.framework */,
+				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				77C82804067257F0000B614F /* CoreData.framework */,
+				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
+				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D1107320486CEB800E47090 /* OreFoundry.app */,
+				767A3CB310D5AA6500BAE46E /* libHyperThriftWrapper.dylib */,
+				76F8155911FB88A0001B79C6 /* libThriftLib.dylib */,
+				7696D7BA1205917C00DA46B8 /* libz.1.2.5.dylib */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* HyperTableBrowser */ = {
+			isa = PBXGroup;
+			children = (
+				7696D7B41205910300DA46B8 /* zlib 1.2.5 */,
+				76F8155C11FB88BB001B79C6 /* ThriftLib */,
+				767A3C7410D5A97500BAE46E /* HyperThriftWrapper */,
+				7756732906782D8800D1FEB8 /* Models */,
+				080E96DDFE201D6D7F000001 /* Classes */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+			);
+			name = HyperTableBrowser;
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				769DD7091216C88600ED0B3A /* Ore_Foundry_Prefix.pch */,
+				76081DA910E255F6005F668F /* main.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				769DD6DC1216C69C00ED0B3A /* OreFoundryMain.icns */,
+				769DD6DA1216C63A00ED0B3A /* OreFoundry-Info.plist */,
+				769DD6D71216C62800ED0B3A /* OreFoundry.xib */,
+				76C8552C1212A19A00525B28 /* ClustersBrowserPreferences.xib */,
+				76C8552E1212A19A00525B28 /* TablesBrowserPreferences.xib */,
+				76C855301212A19A00525B28 /* UpdatesPreferences.xib */,
+				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
+				76B02665115CFA9E003854D2 /* Credits.rtf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
+				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		761515D111FD851400485438 /* gen-cpp */ = {
+			isa = PBXGroup;
+			children = (
+				761515D211FD851400485438 /* Client_constants.cpp */,
+				761515D311FD851400485438 /* Client_constants.h */,
+				761515D411FD851400485438 /* Client_types.cpp */,
+				761515D511FD851400485438 /* Client_types.h */,
+				761515D611FD851400485438 /* ClientService.cpp */,
+				761515D711FD851400485438 /* ClientService.h */,
+				761515D911FD851400485438 /* Hql_constants.cpp */,
+				761515DA11FD851400485438 /* Hql_constants.h */,
+				761515DB11FD851400485438 /* Hql_types.cpp */,
+				761515DC11FD851400485438 /* Hql_types.h */,
+				761515DD11FD851400485438 /* HqlService.cpp */,
+				761515DE11FD851400485438 /* HqlService.h */,
+			);
+			path = "gen-cpp";
+			sourceTree = "<group>";
+		};
+		767A3C7410D5A97500BAE46E /* HyperThriftWrapper */ = {
+			isa = PBXGroup;
+			children = (
+				761515D111FD851400485438 /* gen-cpp */,
+				767A3C7510D5A97500BAE46E /* Client.h */,
+				767A3C8310D5A97600BAE46E /* HyperThriftWrapper.cpp */,
+				767A3C8410D5A97600BAE46E /* HyperThriftWrapper.h */,
+				767A3C8510D5A97600BAE46E /* Tests */,
+				767A3C8810D5A97600BAE46E /* ThriftHelper.h */,
+				766F24D610D7935100AB059D /* HyperThriftHql.h */,
+				766F24D710D7935100AB059D /* HyperThriftHql.cpp */,
+				766F24E310D794F600AB059D /* Convert.h */,
+				766F24E410D794F600AB059D /* Convert.cpp */,
+				76B3C5BE10DA328100078742 /* DataPage.h */,
+				76B3C5BF10DA328100078742 /* DataPage.cpp */,
+			);
+			name = HyperThriftWrapper;
+			path = Sources/HyperThriftWrapper;
+			sourceTree = "<group>";
+		};
+		767A3C8510D5A97600BAE46E /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				767A3C8610D5A97600BAE46E /* TestThriftGen.cpp */,
+				767A3C8710D5A97600BAE46E /* TestWrapper.c */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		76967B2D120FF430000FD196 /* Tables Browser */ = {
+			isa = PBXGroup;
+			children = (
+				769DD7041216C82B00ED0B3A /* ObjectsPageSource.h */,
+				769DD7051216C82B00ED0B3A /* ObjectsPageSource.m */,
+				769DD6E91216C7C000ED0B3A /* InsertNewRowController.h */,
+				769DD6EA1216C7C000ED0B3A /* InsertNewRowController.m */,
+				769DD6EB1216C7C000ED0B3A /* NewTableController.h */,
+				769DD6EC1216C7C000ED0B3A /* NewTableController.m */,
+				769DD6ED1216C7C000ED0B3A /* TablesBrowserToolbar.h */,
+				769DD6EE1216C7C000ED0B3A /* TablesBrowserToolbar.m */,
+				769DD6EF1216C7C000ED0B3A /* TablesListDelegate.h */,
+				769DD6F01216C7C000ED0B3A /* TablesListDelegate.m */,
+				76967B2E120FF467000FD196 /* TablesBrowserPageSource.h */,
+				76967B2F120FF467000FD196 /* TablesBrowserPageSource.m */,
+				76967B34120FF577000FD196 /* TablesBrowser.h */,
+				76967B35120FF577000FD196 /* TablesBrowser.m */,
+				76967D0312103D30000FD196 /* TablesListView.h */,
+				76967D0412103D30000FD196 /* TablesListView.m */,
+			);
+			name = "Tables Browser";
+			sourceTree = "<group>";
+		};
+		76967B63120FF9CE000FD196 /* Clusters Browser */ = {
+			isa = PBXGroup;
+			children = (
+				769DD6F51216C7E000ED0B3A /* ClustersBrowser.h */,
+				769DD6F61216C7E000ED0B3A /* ClustersBrowser.m */,
+				769DD6F71216C7E000ED0B3A /* ClustersBrowserToolbarController.h */,
+				769DD6F81216C7E000ED0B3A /* ClustersBrowserToolbarController.m */,
+				769DD6F91216C7E000ED0B3A /* DashboardController.h */,
+				769DD6FA1216C7E000ED0B3A /* DashboardController.m */,
+				76B42C421210976800CAC6A8 /* NewClusterController.h */,
+				76B42C431210976800CAC6A8 /* NewClusterController.m */,
+			);
+			name = "Clusters Browser";
+			sourceTree = "<group>";
+		};
+		76967BEE121009E1000FD196 /* HQL Interpreter */ = {
+			isa = PBXGroup;
+			children = (
+				769DD6FE1216C80A00ED0B3A /* HqlController.h */,
+				769DD6FF1216C80A00ED0B3A /* HqlController.m */,
+				769DD7001216C80A00ED0B3A /* PageSource.h */,
+				769DD7011216C80A00ED0B3A /* PageSource.m */,
+			);
+			name = "HQL Interpreter";
+			sourceTree = "<group>";
+		};
+		7696D7B41205910300DA46B8 /* zlib 1.2.5 */ = {
+			isa = PBXGroup;
+			children = (
+				7696D7C3120592BF00DA46B8 /* adler32.c */,
+				7696D7C4120592BF00DA46B8 /* compress.c */,
+				7696D7C5120592BF00DA46B8 /* crc32.c */,
+				7696D7C6120592BF00DA46B8 /* crc32.h */,
+				7696D7C7120592BF00DA46B8 /* deflate.c */,
+				7696D7C8120592BF00DA46B8 /* deflate.h */,
+				7696D7C9120592BF00DA46B8 /* gzclose.c */,
+				7696D7CA120592BF00DA46B8 /* gzguts.h */,
+				7696D7CB120592BF00DA46B8 /* gzlib.c */,
+				7696D7CC120592BF00DA46B8 /* gzread.c */,
+				7696D7CD120592BF00DA46B8 /* gzwrite.c */,
+				7696D7CE120592BF00DA46B8 /* infback.c */,
+				7696D7CF120592BF00DA46B8 /* inffast.c */,
+				7696D7D0120592BF00DA46B8 /* inffast.h */,
+				7696D7D1120592BF00DA46B8 /* inffixed.h */,
+				7696D7D2120592BF00DA46B8 /* inflate.c */,
+				7696D7D3120592BF00DA46B8 /* inflate.h */,
+				7696D7D4120592BF00DA46B8 /* inftrees.c */,
+				7696D7D5120592BF00DA46B8 /* inftrees.h */,
+				7696D7D6120592BF00DA46B8 /* minigzip.c */,
+				7696D7D7120592BF00DA46B8 /* trees.c */,
+				7696D7D8120592BF00DA46B8 /* trees.h */,
+				7696D7D9120592BF00DA46B8 /* uncompr.c */,
+				7696D7DA120592BF00DA46B8 /* zconf.h */,
+				7696D7DB120592BF00DA46B8 /* zlib.h */,
+				7696D7DC120592BF00DA46B8 /* zutil.c */,
+				7696D7DD120592BF00DA46B8 /* zutil.h */,
+			);
+			name = "zlib 1.2.5";
+			sourceTree = "<group>";
+		};
+		76B42B961210620800CAC6A8 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				76B42B911210613A00CAC6A8 /* ClusterManager.h */,
+				76B42B921210613A00CAC6A8 /* ClusterManager.m */,
+				76B42B9D1210642700CAC6A8 /* SettingsManager.h */,
+				76B42B9E1210642700CAC6A8 /* SettingsManager.m */,
+				76B42BA01210643C00CAC6A8 /* CoreDataManager.h */,
+				76B42BA11210643C00CAC6A8 /* CoreDataManager.m */,
+				76B42BC4121069A300CAC6A8 /* HyperTable.h */,
+				76B42BC5121069A300CAC6A8 /* HyperTable.m */,
+			);
+			name = Managers;
+			sourceTree = "<group>";
+		};
+		76C854AA121294C900525B28 /* Settings Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				766A3E781162268C00176B42 /* MBPreferencesController.h */,
+				766A3E791162268C00176B42 /* MBPreferencesController.m */,
+				76C854AB121294F100525B28 /* TablesBrowserSettings.h */,
+				76C854AC121294F100525B28 /* TablesBrowserSettings.m */,
+				76C854AE1212950100525B28 /* ClustersBrowserSettings.h */,
+				76C854AF1212950100525B28 /* ClustersBrowserSettings.m */,
+				76C854B11212950E00525B28 /* UpdateSettings.h */,
+				76C854B21212950E00525B28 /* UpdateSettings.m */,
+			);
+			name = "Settings Controllers";
+			sourceTree = "<group>";
+		};
+		76EDF0D411FF40D800D5A6B5 /* HyperTable Operations */ = {
+			isa = PBXGroup;
+			children = (
+				769DD6E61216C78300ED0B3A /* HyperTableOperationController.h */,
+				769DD6E71216C78300ED0B3A /* HyperTableOperationController.m */,
+				7615165011FD8C4800485438 /* ConnectOperation.h */,
+				7615165111FD8C4800485438 /* ConnectOperation.m */,
+				761516DC11FD96A100485438 /* FetchPageOperation.h */,
+				761516DD11FD96A100485438 /* FetchPageOperation.m */,
+				7615175611FDA23F00485438 /* FetchTablesOperation.h */,
+				7615175711FDA23F00485438 /* FetchTablesOperation.m */,
+				761518DC11FDBF5E00485438 /* HqlQueryOperation.h */,
+				761518DD11FDBF5E00485438 /* HqlQueryOperation.m */,
+				76EDF0D611FF40FA00D5A6B5 /* SetRowOperation.h */,
+				76EDF0D711FF40FA00D5A6B5 /* SetRowOperation.m */,
+				76967C07121010D6000FD196 /* DeleteRowOperation.h */,
+				76967C08121010D6000FD196 /* DeleteRowOperation.m */,
+			);
+			name = "HyperTable Operations";
+			sourceTree = "<group>";
+		};
+		76F8155C11FB88BB001B79C6 /* ThriftLib */ = {
+			isa = PBXGroup;
+			children = (
+				76F8160811FB8941001B79C6 /* config.h */,
+				76F8155D11FB88BB001B79C6 /* concurrency */,
+				76F8157211FB88BB001B79C6 /* processor */,
+				76F8157611FB88BB001B79C6 /* protocol */,
+				76F8159211FB88BB001B79C6 /* TApplicationException.cpp */,
+				76F8159311FB88BB001B79C6 /* TApplicationException.h */,
+				76F8159411FB88BB001B79C6 /* Thrift.cpp */,
+				76F8159511FB88BB001B79C6 /* Thrift.h */,
+				76F8159611FB88BB001B79C6 /* TLogging.h */,
+				76F8159711FB88BB001B79C6 /* TProcessor.h */,
+				76F8159811FB88BB001B79C6 /* transport */,
+				76F815B211FB88BB001B79C6 /* TReflectionLocal.h */,
+			);
+			name = ThriftLib;
+			path = Sources/ThriftLib;
+			sourceTree = "<group>";
+		};
+		76F8155D11FB88BB001B79C6 /* concurrency */ = {
+			isa = PBXGroup;
+			children = (
+				76F8155E11FB88BB001B79C6 /* Exception.h */,
+				76F8155F11FB88BB001B79C6 /* FunctionRunner.h */,
+				76F8156011FB88BB001B79C6 /* Monitor.cpp */,
+				76F8156111FB88BB001B79C6 /* Monitor.h */,
+				76F8156211FB88BB001B79C6 /* Mutex.cpp */,
+				76F8156311FB88BB001B79C6 /* Mutex.h */,
+				76F8156411FB88BB001B79C6 /* PosixThreadFactory.cpp */,
+				76F8156511FB88BB001B79C6 /* PosixThreadFactory.h */,
+				76F8156611FB88BB001B79C6 /* test */,
+				76F8156B11FB88BB001B79C6 /* Thread.h */,
+				76F8156C11FB88BB001B79C6 /* ThreadManager.cpp */,
+				76F8156D11FB88BB001B79C6 /* ThreadManager.h */,
+				76F8156E11FB88BB001B79C6 /* TimerManager.cpp */,
+				76F8156F11FB88BB001B79C6 /* TimerManager.h */,
+				76F8157011FB88BB001B79C6 /* Util.cpp */,
+				76F8157111FB88BB001B79C6 /* Util.h */,
+			);
+			path = concurrency;
+			sourceTree = "<group>";
+		};
+		76F8156611FB88BB001B79C6 /* test */ = {
+			isa = PBXGroup;
+			children = (
+				76F8156711FB88BB001B79C6 /* Tests.cpp */,
+				76F8156811FB88BB001B79C6 /* ThreadFactoryTests.h */,
+				76F8156911FB88BB001B79C6 /* ThreadManagerTests.h */,
+				76F8156A11FB88BB001B79C6 /* TimerManagerTests.h */,
+			);
+			path = test;
+			sourceTree = "<group>";
+		};
+		76F8157211FB88BB001B79C6 /* processor */ = {
+			isa = PBXGroup;
+			children = (
+				76F8157311FB88BB001B79C6 /* PeekProcessor.cpp */,
+				76F8157411FB88BB001B79C6 /* PeekProcessor.h */,
+				76F8157511FB88BB001B79C6 /* StatsProcessor.h */,
+			);
+			path = processor;
+			sourceTree = "<group>";
+		};
+		76F8157611FB88BB001B79C6 /* protocol */ = {
+			isa = PBXGroup;
+			children = (
+				76F8157711FB88BB001B79C6 /* TBase64Utils.cpp */,
+				76F8157811FB88BB001B79C6 /* TBase64Utils.h */,
+				76F8157911FB88BB001B79C6 /* TBinaryProtocol.cpp */,
+				76F8157A11FB88BB001B79C6 /* TBinaryProtocol.h */,
+				76F8157B11FB88BB001B79C6 /* TCompactProtocol.cpp */,
+				76F8157C11FB88BB001B79C6 /* TCompactProtocol.h */,
+				76F8157D11FB88BB001B79C6 /* TDebugProtocol.cpp */,
+				76F8157E11FB88BB001B79C6 /* TDebugProtocol.h */,
+				76F8157F11FB88BB001B79C6 /* TDenseProtocol.cpp */,
+				76F8158011FB88BB001B79C6 /* TDenseProtocol.h */,
+				76F8158111FB88BB001B79C6 /* TJSONProtocol.cpp */,
+				76F8158211FB88BB001B79C6 /* TJSONProtocol.h */,
+				76F8158311FB88BB001B79C6 /* TOneWayProtocol.h */,
+				76F8158411FB88BB001B79C6 /* TProtocol.h */,
+				76F8158511FB88BB001B79C6 /* TProtocolException.h */,
+				76F8158611FB88BB001B79C6 /* TProtocolTap.h */,
+			);
+			path = protocol;
+			sourceTree = "<group>";
+		};
+		76F8159811FB88BB001B79C6 /* transport */ = {
+			isa = PBXGroup;
+			children = (
+				76F8159911FB88BB001B79C6 /* TBufferTransports.cpp */,
+				76F8159A11FB88BB001B79C6 /* TBufferTransports.h */,
+				76F8159B11FB88BB001B79C6 /* TFDTransport.cpp */,
+				76F8159C11FB88BB001B79C6 /* TFDTransport.h */,
+				76F8159D11FB88BB001B79C6 /* TFileTransport.cpp */,
+				76F8159E11FB88BB001B79C6 /* TFileTransport.h */,
+				76F8159F11FB88BB001B79C6 /* THttpClient.cpp */,
+				76F815A011FB88BB001B79C6 /* THttpClient.h */,
+				76F815A111FB88BB001B79C6 /* TServerSocket.cpp */,
+				76F815A211FB88BB001B79C6 /* TServerSocket.h */,
+				76F815A311FB88BB001B79C6 /* TServerTransport.h */,
+				76F815A411FB88BB001B79C6 /* TShortReadTransport.h */,
+				76F815A511FB88BB001B79C6 /* TSimpleFileTransport.cpp */,
+				76F815A611FB88BB001B79C6 /* TSimpleFileTransport.h */,
+				76F815A711FB88BB001B79C6 /* TSocket.cpp */,
+				76F815A811FB88BB001B79C6 /* TSocket.h */,
+				76F815A911FB88BB001B79C6 /* TSocketPool.cpp */,
+				76F815AA11FB88BB001B79C6 /* TSocketPool.h */,
+				76F815AB11FB88BB001B79C6 /* TTransport.h */,
+				76F815AC11FB88BB001B79C6 /* TTransportException.cpp */,
+				76F815AD11FB88BB001B79C6 /* TTransportException.h */,
+				76F815AE11FB88BB001B79C6 /* TTransportUtils.cpp */,
+				76F815AF11FB88BB001B79C6 /* TTransportUtils.h */,
+				76F815B011FB88BB001B79C6 /* TZlibTransport.cpp */,
+				76F815B111FB88BB001B79C6 /* TZlibTransport.h */,
+			);
+			path = transport;
+			sourceTree = "<group>";
+		};
+		7756732906782D8800D1FEB8 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				769DD7F11216D0DF00ED0B3A /* Settings.xcdatamodel */,
+				769DD7CE1216CFF800ED0B3A /* OreFoundry.xcdatamodel */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		767A3CAF10D5AA6500BAE46E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				767A3CBF10D5AABC00BAE46E /* HyperThriftWrapper.h in Headers */,
+				766F24D810D7935100AB059D /* HyperThriftHql.h in Headers */,
+				766F24E510D794F600AB059D /* Convert.h in Headers */,
+				76B3C5C010DA328100078742 /* DataPage.h in Headers */,
+				761515E111FD851400485438 /* Client_constants.h in Headers */,
+				761515E311FD851400485438 /* Client_types.h in Headers */,
+				761515E511FD851400485438 /* ClientService.h in Headers */,
+				761515E811FD851400485438 /* Hql_constants.h in Headers */,
+				761515EA11FD851400485438 /* Hql_types.h in Headers */,
+				761515EC11FD851400485438 /* HqlService.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7696D7B61205917C00DA46B8 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7696D7E1120592BF00DA46B8 /* crc32.h in Headers */,
+				7696D7E3120592BF00DA46B8 /* deflate.h in Headers */,
+				7696D7E5120592BF00DA46B8 /* gzguts.h in Headers */,
+				7696D7EB120592BF00DA46B8 /* inffast.h in Headers */,
+				7696D7EC120592BF00DA46B8 /* inffixed.h in Headers */,
+				7696D7EE120592BF00DA46B8 /* inflate.h in Headers */,
+				7696D7F0120592BF00DA46B8 /* inftrees.h in Headers */,
+				7696D7F3120592BF00DA46B8 /* trees.h in Headers */,
+				7696D7F5120592BF00DA46B8 /* zconf.h in Headers */,
+				7696D7F6120592BF00DA46B8 /* zlib.h in Headers */,
+				7696D7F8120592BF00DA46B8 /* zutil.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		76F8155511FB88A0001B79C6 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				76F815B311FB88BB001B79C6 /* Exception.h in Headers */,
+				76F815B411FB88BB001B79C6 /* FunctionRunner.h in Headers */,
+				76F815B611FB88BB001B79C6 /* Monitor.h in Headers */,
+				76F815B811FB88BB001B79C6 /* Mutex.h in Headers */,
+				76F815BA11FB88BB001B79C6 /* PosixThreadFactory.h in Headers */,
+				76F815BC11FB88BB001B79C6 /* ThreadFactoryTests.h in Headers */,
+				76F815BD11FB88BB001B79C6 /* ThreadManagerTests.h in Headers */,
+				76F815BE11FB88BB001B79C6 /* TimerManagerTests.h in Headers */,
+				76F815BF11FB88BB001B79C6 /* Thread.h in Headers */,
+				76F815C111FB88BB001B79C6 /* ThreadManager.h in Headers */,
+				76F815C311FB88BB001B79C6 /* TimerManager.h in Headers */,
+				76F815C511FB88BB001B79C6 /* Util.h in Headers */,
+				76F815C711FB88BB001B79C6 /* PeekProcessor.h in Headers */,
+				76F815C811FB88BB001B79C6 /* StatsProcessor.h in Headers */,
+				76F815CA11FB88BB001B79C6 /* TBase64Utils.h in Headers */,
+				76F815CC11FB88BB001B79C6 /* TBinaryProtocol.h in Headers */,
+				76F815CE11FB88BB001B79C6 /* TCompactProtocol.h in Headers */,
+				76F815D011FB88BB001B79C6 /* TDebugProtocol.h in Headers */,
+				76F815D211FB88BB001B79C6 /* TDenseProtocol.h in Headers */,
+				76F815D411FB88BB001B79C6 /* TJSONProtocol.h in Headers */,
+				76F815D511FB88BB001B79C6 /* TOneWayProtocol.h in Headers */,
+				76F815D611FB88BB001B79C6 /* TProtocol.h in Headers */,
+				76F815D711FB88BB001B79C6 /* TProtocolException.h in Headers */,
+				76F815D811FB88BB001B79C6 /* TProtocolTap.h in Headers */,
+				76F815E411FB88BB001B79C6 /* TApplicationException.h in Headers */,
+				76F815E611FB88BB001B79C6 /* Thrift.h in Headers */,
+				76F815E711FB88BB001B79C6 /* TLogging.h in Headers */,
+				76F815E811FB88BB001B79C6 /* TProcessor.h in Headers */,
+				76F815EA11FB88BB001B79C6 /* TBufferTransports.h in Headers */,
+				76F815EC11FB88BB001B79C6 /* TFDTransport.h in Headers */,
+				76F815EE11FB88BB001B79C6 /* TFileTransport.h in Headers */,
+				76F815F011FB88BB001B79C6 /* THttpClient.h in Headers */,
+				76F815F211FB88BB001B79C6 /* TServerSocket.h in Headers */,
+				76F815F311FB88BB001B79C6 /* TServerTransport.h in Headers */,
+				76F815F411FB88BB001B79C6 /* TShortReadTransport.h in Headers */,
+				76F815F611FB88BB001B79C6 /* TSimpleFileTransport.h in Headers */,
+				76F815F811FB88BB001B79C6 /* TSocket.h in Headers */,
+				76F815FA11FB88BB001B79C6 /* TSocketPool.h in Headers */,
+				76F815FB11FB88BB001B79C6 /* TTransport.h in Headers */,
+				76F815FD11FB88BB001B79C6 /* TTransportException.h in Headers */,
+				76F815FF11FB88BB001B79C6 /* TTransportUtils.h in Headers */,
+				76F8160111FB88BB001B79C6 /* TZlibTransport.h in Headers */,
+				76F8160211FB88BB001B79C6 /* TReflectionLocal.h in Headers */,
+				76F8160911FB8941001B79C6 /* config.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		767A3CB210D5AA6500BAE46E /* HyperThriftWrapper */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 767A3CB610D5AA8400BAE46E /* Build configuration list for PBXNativeTarget "HyperThriftWrapper" */;
+			buildPhases = (
+				767A3CAF10D5AA6500BAE46E /* Headers */,
+				767A3CB010D5AA6500BAE46E /* Sources */,
+				767A3CB110D5AA6500BAE46E /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				76F8163911FB8BED001B79C6 /* PBXTargetDependency */,
+			);
+			name = HyperThriftWrapper;
+			productName = HyperThriftWrapper;
+			productReference = 767A3CB310D5AA6500BAE46E /* libHyperThriftWrapper.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+		7696D7B91205917C00DA46B8 /* libz */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7696D7BD1205919B00DA46B8 /* Build configuration list for PBXNativeTarget "libz" */;
+			buildPhases = (
+				7696D7B61205917C00DA46B8 /* Headers */,
+				7696D7B71205917C00DA46B8 /* Sources */,
+				7696D7B81205917C00DA46B8 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = libz;
+			productName = libz;
+			productReference = 7696D7BA1205917C00DA46B8 /* libz.1.2.5.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+		76F8155811FB88A0001B79C6 /* ThriftLib */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 76F8160311FB88BB001B79C6 /* Build configuration list for PBXNativeTarget "ThriftLib" */;
+			buildPhases = (
+				76F8155511FB88A0001B79C6 /* Headers */,
+				76F8155611FB88A0001B79C6 /* Sources */,
+				76F8155711FB88A0001B79C6 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7696D7BF1205927A00DA46B8 /* PBXTargetDependency */,
+			);
+			name = ThriftLib;
+			productName = ThriftLib;
+			productReference = 76F8155911FB88A0001B79C6 /* libThriftLib.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+		8D1107260486CEB800E47090 /* Ore Foundry */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 26FC0A840875C7B200E6366F /* Build configuration list for PBXNativeTarget "Ore Foundry" */;
+			buildPhases = (
+				8D1107290486CEB800E47090 /* Resources */,
+				8D11072C0486CEB800E47090 /* Sources */,
+				8D11072E0486CEB800E47090 /* Frameworks */,
+				7638B25910D12A6A006C127C /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				76E4702410D5CA7C00A5809D /* PBXTargetDependency */,
+			);
+			name = "Ore Foundry";
+			productInstallPath = "$(HOME)/Applications";
+			productName = HyperTableBrowser;
+			productReference = 8D1107320486CEB800E47090 /* OreFoundry.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = "AwesomeStanly Lab";
+			};
+			buildConfigurationList = 26FC0A880875C7B200E6366F /* Build configuration list for PBXProject "Ore Foundry" */;
+			compatibilityVersion = "Xcode 3.1";
+			hasScannedForEncodings = 1;
+			mainGroup = 29B97314FDCFA39411CA2CEA /* HyperTableBrowser */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D1107260486CEB800E47090 /* Ore Foundry */,
+				767A3CB210D5AA6500BAE46E /* HyperThriftWrapper */,
+				76F8155811FB88A0001B79C6 /* ThriftLib */,
+				7696D7B91205917C00DA46B8 /* libz */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D1107290486CEB800E47090 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
+				76B02666115CFA9E003854D2 /* Credits.rtf in Resources */,
+				76C855321212A19A00525B28 /* ClustersBrowserPreferences.xib in Resources */,
+				76C855331212A19A00525B28 /* TablesBrowserPreferences.xib in Resources */,
+				76C855341212A19A00525B28 /* UpdatesPreferences.xib in Resources */,
+				769DD6D91216C62800ED0B3A /* OreFoundry.xib in Resources */,
+				769DD6DB1216C63A00ED0B3A /* OreFoundry-Info.plist in Resources */,
+				769DD6DD1216C69C00ED0B3A /* OreFoundryMain.icns in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		767A3CB010D5AA6500BAE46E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				766F24D910D7935100AB059D /* HyperThriftHql.cpp in Sources */,
+				767A3CBD10D5AA9800BAE46E /* HyperThriftWrapper.cpp in Sources */,
+				766F24E610D794F600AB059D /* Convert.cpp in Sources */,
+				76B3C5C110DA328200078742 /* DataPage.cpp in Sources */,
+				761515E011FD851400485438 /* Client_constants.cpp in Sources */,
+				761515E211FD851400485438 /* Client_types.cpp in Sources */,
+				761515E411FD851400485438 /* ClientService.cpp in Sources */,
+				761515E711FD851400485438 /* Hql_constants.cpp in Sources */,
+				761515E911FD851400485438 /* Hql_types.cpp in Sources */,
+				761515EB11FD851400485438 /* HqlService.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7696D7B71205917C00DA46B8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7696D7DE120592BF00DA46B8 /* adler32.c in Sources */,
+				7696D7DF120592BF00DA46B8 /* compress.c in Sources */,
+				7696D7E0120592BF00DA46B8 /* crc32.c in Sources */,
+				7696D7E2120592BF00DA46B8 /* deflate.c in Sources */,
+				7696D7E4120592BF00DA46B8 /* gzclose.c in Sources */,
+				7696D7E6120592BF00DA46B8 /* gzlib.c in Sources */,
+				7696D7E7120592BF00DA46B8 /* gzread.c in Sources */,
+				7696D7E8120592BF00DA46B8 /* gzwrite.c in Sources */,
+				7696D7E9120592BF00DA46B8 /* infback.c in Sources */,
+				7696D7EA120592BF00DA46B8 /* inffast.c in Sources */,
+				7696D7ED120592BF00DA46B8 /* inflate.c in Sources */,
+				7696D7EF120592BF00DA46B8 /* inftrees.c in Sources */,
+				7696D7F1120592BF00DA46B8 /* minigzip.c in Sources */,
+				7696D7F2120592BF00DA46B8 /* trees.c in Sources */,
+				7696D7F4120592BF00DA46B8 /* uncompr.c in Sources */,
+				7696D7F7120592BF00DA46B8 /* zutil.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		76F8155611FB88A0001B79C6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				76F815B511FB88BB001B79C6 /* Monitor.cpp in Sources */,
+				76F815B711FB88BB001B79C6 /* Mutex.cpp in Sources */,
+				76F815B911FB88BB001B79C6 /* PosixThreadFactory.cpp in Sources */,
+				76F815BB11FB88BB001B79C6 /* Tests.cpp in Sources */,
+				76F815C011FB88BB001B79C6 /* ThreadManager.cpp in Sources */,
+				76F815C211FB88BB001B79C6 /* TimerManager.cpp in Sources */,
+				76F815C411FB88BB001B79C6 /* Util.cpp in Sources */,
+				76F815C611FB88BB001B79C6 /* PeekProcessor.cpp in Sources */,
+				76F815C911FB88BB001B79C6 /* TBase64Utils.cpp in Sources */,
+				76F815CB11FB88BB001B79C6 /* TBinaryProtocol.cpp in Sources */,
+				76F815CD11FB88BB001B79C6 /* TCompactProtocol.cpp in Sources */,
+				76F815CF11FB88BB001B79C6 /* TDebugProtocol.cpp in Sources */,
+				76F815D111FB88BB001B79C6 /* TDenseProtocol.cpp in Sources */,
+				76F815D311FB88BB001B79C6 /* TJSONProtocol.cpp in Sources */,
+				76F815E311FB88BB001B79C6 /* TApplicationException.cpp in Sources */,
+				76F815E511FB88BB001B79C6 /* Thrift.cpp in Sources */,
+				76F815E911FB88BB001B79C6 /* TBufferTransports.cpp in Sources */,
+				76F815EB11FB88BB001B79C6 /* TFDTransport.cpp in Sources */,
+				76F815ED11FB88BB001B79C6 /* TFileTransport.cpp in Sources */,
+				76F815EF11FB88BB001B79C6 /* THttpClient.cpp in Sources */,
+				76F815F111FB88BB001B79C6 /* TServerSocket.cpp in Sources */,
+				76F815F511FB88BB001B79C6 /* TSimpleFileTransport.cpp in Sources */,
+				76F815F711FB88BB001B79C6 /* TSocket.cpp in Sources */,
+				76F815F911FB88BB001B79C6 /* TSocketPool.cpp in Sources */,
+				76F815FC11FB88BB001B79C6 /* TTransportException.cpp in Sources */,
+				76F815FE11FB88BB001B79C6 /* TTransportUtils.cpp in Sources */,
+				76F8160011FB88BB001B79C6 /* TZlibTransport.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8D11072C0486CEB800E47090 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7615168411FD8FED00485438 /* ConnectOperation.m in Sources */,
+				76081DAA10E255F6005F668F /* main.m in Sources */,
+				766A3E7A1162268C00176B42 /* MBPreferencesController.m in Sources */,
+				76F8182F11FC66C2001B79C6 /* TableSchema.m in Sources */,
+				761516E211FD96C100485438 /* FetchPageOperation.m in Sources */,
+				7615175811FDA23F00485438 /* FetchTablesOperation.m in Sources */,
+				761518DE11FDBF5E00485438 /* HqlQueryOperation.m in Sources */,
+				76EDF0D811FF40FA00D5A6B5 /* SetRowOperation.m in Sources */,
+				76967B30120FF467000FD196 /* TablesBrowserPageSource.m in Sources */,
+				76967B36120FF577000FD196 /* TablesBrowser.m in Sources */,
+				76967C09121010D6000FD196 /* DeleteRowOperation.m in Sources */,
+				76967D0512103D30000FD196 /* TablesListView.m in Sources */,
+				76B42B931210613A00CAC6A8 /* ClusterManager.m in Sources */,
+				76B42B9F1210642700CAC6A8 /* SettingsManager.m in Sources */,
+				76B42BA21210643C00CAC6A8 /* CoreDataManager.m in Sources */,
+				76B42BC6121069A300CAC6A8 /* HyperTable.m in Sources */,
+				76B42C441210976800CAC6A8 /* NewClusterController.m in Sources */,
+				76C854AD121294F100525B28 /* TablesBrowserSettings.m in Sources */,
+				76C854B01212950100525B28 /* ClustersBrowserSettings.m in Sources */,
+				76C854B31212950E00525B28 /* UpdateSettings.m in Sources */,
+				769DD6E01216C6BD00ED0B3A /* OreFoundryApp.m in Sources */,
+				769DD6E81216C78300ED0B3A /* HyperTableOperationController.m in Sources */,
+				769DD6F11216C7C000ED0B3A /* InsertNewRowController.m in Sources */,
+				769DD6F21216C7C000ED0B3A /* NewTableController.m in Sources */,
+				769DD6F31216C7C000ED0B3A /* TablesBrowserToolbar.m in Sources */,
+				769DD6F41216C7C000ED0B3A /* TablesListDelegate.m in Sources */,
+				769DD6FB1216C7E000ED0B3A /* ClustersBrowser.m in Sources */,
+				769DD6FC1216C7E000ED0B3A /* ClustersBrowserToolbarController.m in Sources */,
+				769DD6FD1216C7E000ED0B3A /* DashboardController.m in Sources */,
+				769DD7021216C80A00ED0B3A /* HqlController.m in Sources */,
+				769DD7031216C80A00ED0B3A /* PageSource.m in Sources */,
+				769DD7CF1216CFF800ED0B3A /* OreFoundry.xcdatamodel in Sources */,
+				769DD7F21216D0DF00ED0B3A /* Settings.xcdatamodel in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		7696D7BF1205927A00DA46B8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7696D7B91205917C00DA46B8 /* libz */;
+			targetProxy = 7696D7BE1205927A00DA46B8 /* PBXContainerItemProxy */;
+		};
+		76E4702410D5CA7C00A5809D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 767A3CB210D5AA6500BAE46E /* HyperThriftWrapper */;
+			targetProxy = 76E4702310D5CA7C00A5809D /* PBXContainerItemProxy */;
+		};
+		76F8163911FB8BED001B79C6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 76F8155811FB88A0001B79C6 /* ThriftLib */;
+			targetProxy = 76F8163811FB8BED001B79C6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C165DFE840E0CC02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		769DD6D71216C62800ED0B3A /* OreFoundry.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				769DD6D81216C62800ED0B3A /* English */,
+			);
+			name = OreFoundry.xib;
+			sourceTree = "<group>";
+		};
+		76C8552C1212A19A00525B28 /* ClustersBrowserPreferences.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				76C8552D1212A19A00525B28 /* English */,
+			);
+			name = ClustersBrowserPreferences.xib;
+			sourceTree = "<group>";
+		};
+		76C8552E1212A19A00525B28 /* TablesBrowserPreferences.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				76C8552F1212A19A00525B28 /* English */,
+			);
+			name = TablesBrowserPreferences.xib;
+			sourceTree = "<group>";
+		};
+		76C855301212A19A00525B28 /* UpdatesPreferences.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				76C855311212A19A00525B28 /* English */,
+			);
+			name = UpdatesPreferences.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		26FC0A850875C7B200E6366F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/CoreServices.framework/Versions/A/Frameworks\"",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Ore_Foundry_Prefix.pch;
+				INFOPLIST_FILE = "OreFoundry-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/local/lib,
+				);
+				PRODUCT_NAME = OreFoundry;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		26FC0A860875C7B200E6366F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/CoreServices.framework/Versions/A/Frameworks\"",
+				);
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Ore_Foundry_Prefix.pch;
+				HEADER_SEARCH_PATHS = /opt/local/include/thrift;
+				INFOPLIST_FILE = "OreFoundry-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/local/lib,
+				);
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = OreFoundry;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		26FC0A890875C7B200E6366F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CURRENT_PROJECT_VERSION = 001;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					/opt/local/include/,
+					/opt/hypertable/0.9.2.7/include,
+					/opt/local/include/thrift,
+				);
+				LIBRARY_SEARCH_PATHS = "";
+				ONLY_ACTIVE_ARCH = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.6;
+			};
+			name = Debug;
+		};
+		26FC0A8A0875C7B200E6366F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.6;
+			};
+			name = Release;
+		};
+		767A3CB410D5AA6600BAE46E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				EXECUTABLE_PREFIX = lib;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = (
+					/opt/local/include,
+					/opt/local/include/thrift/,
+				);
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/local/lib,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = HyperThriftWrapper;
+			};
+			name = Debug;
+		};
+		767A3CB510D5AA6600BAE46E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				HEADER_SEARCH_PATHS = (
+					/opt/local/include/thrift,
+					/opt/local/include,
+				);
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/local/lib,
+				);
+				ONLY_ACTIVE_ARCH = YES;
+				PREBINDING = NO;
+				PRODUCT_NAME = HyperThriftWrapper;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		7696D7BB1205917D00DA46B8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				EXECUTABLE_PREFIX = "";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				PREBINDING = NO;
+				PRODUCT_NAME = libz.1.2.5;
+			};
+			name = Debug;
+		};
+		7696D7BC1205917D00DA46B8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EXECUTABLE_PREFIX = "";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				PREBINDING = NO;
+				PRODUCT_NAME = libz.1.2.5;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		76F8155A11FB88A1001B79C6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				EXECUTABLE_PREFIX = lib;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"HAVE_CONFIG_H=1",
+					"DEBUG=1",
+				);
+				HEADER_SEARCH_PATHS = /opt/local/include/;
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/lib\"",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = ThriftLib;
+			};
+			name = Debug;
+		};
+		76F8155B11FB88A1001B79C6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PREPROCESSOR_DEFINITIONS = "HAVE_CONFIG_H=1";
+				HEADER_SEARCH_PATHS = (
+					/opt/local/include/thrift,
+					/opt/local/include,
+				);
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/lib\"",
+				);
+				ONLY_ACTIVE_ARCH = YES;
+				PREBINDING = NO;
+				PRODUCT_NAME = ThriftLib;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		26FC0A840875C7B200E6366F /* Build configuration list for PBXNativeTarget "Ore Foundry" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				26FC0A850875C7B200E6366F /* Debug */,
+				26FC0A860875C7B200E6366F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		26FC0A880875C7B200E6366F /* Build configuration list for PBXProject "Ore Foundry" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				26FC0A890875C7B200E6366F /* Debug */,
+				26FC0A8A0875C7B200E6366F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		767A3CB610D5AA8400BAE46E /* Build configuration list for PBXNativeTarget "HyperThriftWrapper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				767A3CB410D5AA6600BAE46E /* Debug */,
+				767A3CB510D5AA6600BAE46E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7696D7BD1205919B00DA46B8 /* Build configuration list for PBXNativeTarget "libz" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7696D7BB1205917D00DA46B8 /* Debug */,
+				7696D7BC1205917D00DA46B8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		76F8160311FB88BB001B79C6 /* Build configuration list for PBXNativeTarget "ThriftLib" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				76F8155A11FB88A1001B79C6 /* Debug */,
+				76F8155B11FB88A1001B79C6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}

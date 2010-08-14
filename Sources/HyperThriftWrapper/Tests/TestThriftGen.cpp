@@ -1,6 +1,6 @@
 /*
  *  TestThriftGen.cpp
- *  HyperTableBrowser
+ *  Ore Foundry
  *
  *  Created by Stanislav Yudin on 12/12/09.
  *  Copyright 2009 AwesomeStanlyLabs. All rights reserved.

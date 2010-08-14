@@ -1,6 +1,6 @@
 //
 //  HyperTable.m
-//  HyperTableBrowser
+//  Ore Foundry
 //
 //  Created by Stanislav Yudin on 9/8/2010.
 //  Copyright 2010 AwesomeStanly Lab. All rights reserved.
@@ -40,7 +40,7 @@
 	if (!generalPrefs) {
 		[[NSApp delegate] showErrorDialog:1 
 								  message:@"Failed to read general preferences from storage." 
-							   withReason:@"Please recreate HyperTableBrowser.xml"];
+							   withReason:@"Please recreate Ore Foundry.xml"];
 		return;
 	}
 	int autoReconnectServer =  [[generalPrefs valueForKey:@"autoReconnectServer"] intValue];
