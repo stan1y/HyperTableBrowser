@@ -14,7 +14,7 @@
 @synthesize masterAddress;
 @synthesize sshPort;
 @synthesize userName;
-@synthesize password;
+@synthesize privateKeyPath;
 @synthesize hadoopBroker;
 @synthesize hypertableBroker;
 
@@ -24,7 +24,7 @@
 	[masterAddress release];
 	[sshPort release];
 	[userName release];
-	[password release];
+	[privateKeyPath release];
 	[hadoopBroker release];
 	[hypertableBroker release];
 }
@@ -55,10 +55,6 @@
 		NSLog(@"Empty user name!");
 		return;
 	}
-	if ( ![[password stringValue] length] ) {
-		NSLog(@"Empty password!");
-		return;
-	}
 	
 	//ssh port number?
 	NSNumber * portNum;
@@ -68,7 +64,12 @@
 	else {
 		portNum = [NSNumber numberWithInt:22];
 	}
-
+	
+	//private key path?
+	NSString * privateKeyPathStr = @"~/.ssh/id_dsa";
+	if ([[privateKeyPath stringValue] length]) {
+		privateKeyPathStr = [privateKeyPath stringValue];
+	}
 	
 	NSLog(@"Saving new cluster");
 	NSManagedObjectContext * context = [[[NSApp delegate] clusterManager] managedObjectContext];
@@ -92,9 +93,12 @@
 	[master setValue:@"Pending..." forKey:@"status"];
 	[master setValue:[NSNumber numberWithInt:0] forKey:@"statusInt"];		
 	[master setValue:[NSNumber numberWithInt:0] forKey:@"health"];
-	//network
+	//network & ssh
 	[master setValue:[masterAddress stringValue] forKey:@"ipAddress"];
 	[master setValue:portNum forKey:@"sshPort"];
+	[master setValue:[userName stringValue] forKey:@"sshUserName"];
+	[master setValue:privateKeyPathStr forKey:@"sshPrivateKeyPath"];
+
 	//add to cluster
 	[master setValue:cluster forKey:@"belongsTo"];
 	[members addObject:master];
@@ -153,10 +157,6 @@
 		//set master as hypertable broker
 		[cluster setValue:master forKey:@"hypertableThriftBroker"];
 	}
-	
-	//username & password
-	[cluster setValue:[userName stringValue] forKey:@"userName"];
-	[cluster setValue:[password stringValue] forKey:@"password"];
 	
 	//commit
 	NSError * error = nil;
