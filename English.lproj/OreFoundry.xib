@@ -12,7 +12,8 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="1760"/>
+			<integer value="1761"/>
+			<integer value="21"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -462,9 +463,9 @@
 								<string key="NSToolbarItemPaletteLabel">HQL Interperter</string>
 								<string key="NSToolbarItemToolTip"/>
 								<nil key="NSToolbarItemView"/>
-								<object class="NSCustomResource" key="NSToolbarItemImage" id="272489072">
+								<object class="NSCustomResource" key="NSToolbarItemImage">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">NSAdvanced</string>
+									<string key="NSResourceName">System-run-icon</string>
 								</object>
 								<nil key="NSToolbarItemTarget"/>
 								<nil key="NSToolbarItemAction"/>
@@ -484,9 +485,9 @@
 								<string key="NSToolbarItemPaletteLabel">Refresh</string>
 								<string key="NSToolbarItemToolTip"/>
 								<nil key="NSToolbarItemView"/>
-								<object class="NSCustomResource" key="NSToolbarItemImage" id="253903648">
+								<object class="NSCustomResource" key="NSToolbarItemImage">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">NSRefreshFreestandingTemplate</string>
+									<string key="NSResourceName">Folder-subscriptions-icon</string>
 								</object>
 								<nil key="NSToolbarItemTarget"/>
 								<nil key="NSToolbarItemAction"/>
@@ -528,9 +529,9 @@
 								<string key="NSToolbarItemPaletteLabel">Tables Browser</string>
 								<string key="NSToolbarItemToolTip"/>
 								<nil key="NSToolbarItemView"/>
-								<object class="NSCustomResource" key="NSToolbarItemImage" id="955145936">
+								<object class="NSCustomResource" key="NSToolbarItemImage">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">NSActionTemplate</string>
+									<string key="NSResourceName">System-desktop-icon</string>
 								</object>
 								<nil key="NSToolbarItemTarget"/>
 								<nil key="NSToolbarItemAction"/>
@@ -572,9 +573,9 @@
 								<string key="NSToolbarItemPaletteLabel">Add Server</string>
 								<string key="NSToolbarItemToolTip"/>
 								<nil key="NSToolbarItemView"/>
-								<object class="NSCustomResource" key="NSToolbarItemImage" id="758576266">
+								<object class="NSCustomResource" key="NSToolbarItemImage">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">NSAddTemplate</string>
+									<string key="NSResourceName">System-computer-icon</string>
 								</object>
 								<nil key="NSToolbarItemTarget"/>
 								<nil key="NSToolbarItemAction"/>
@@ -724,7 +725,7 @@
 				<string key="NSWindowContentMaxSize">{1.79769e+308, 1.79769e+308}</string>
 				<string key="NSWindowContentMinSize">{869, 589}</string>
 				<object class="NSView" key="NSWindowView" id="823886803">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1298,6 +1299,7 @@
 						</object>
 					</object>
 					<string key="NSFrameSize">{869, 621}</string>
+					<reference key="NSSuperview"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
 				<string key="NSMinSize">{869, 665}</string>
@@ -1417,7 +1419,7 @@
 								<int key="NSCellFlags2">272630784</int>
 								<string key="NSContents"/>
 								<reference key="NSSupport" ref="616572200"/>
-								<string key="NSPlaceholderString">127.0.0.1</string>
+								<string key="NSPlaceholderString">Address or hostname of master</string>
 								<reference key="NSControlView" ref="922690667"/>
 								<bool key="NSDrawsBackground">YES</bool>
 								<reference key="NSBackgroundColor" ref="476352881"/>
@@ -1494,7 +1496,6 @@
 								<int key="NSCellFlags2">272630784</int>
 								<string key="NSContents"/>
 								<reference key="NSSupport" ref="616572200"/>
-								<string key="NSPlaceholderString">root</string>
 								<reference key="NSControlView" ref="904876042"/>
 								<bool key="NSDrawsBackground">YES</bool>
 								<reference key="NSBackgroundColor" ref="476352881"/>
@@ -1597,7 +1598,7 @@
 							<object class="NSTextFieldCell" key="NSCell" id="787470609">
 								<int key="NSCellFlags">68288064</int>
 								<int key="NSCellFlags2">71304192</int>
-								<string key="NSContents">Password</string>
+								<string key="NSContents">Private Key</string>
 								<reference key="NSSupport" ref="227175011"/>
 								<reference key="NSControlView" ref="564301103"/>
 								<reference key="NSBackgroundColor" ref="905437726"/>
@@ -1615,6 +1616,7 @@
 								<int key="NSCellFlags2">272630848</int>
 								<string key="NSContents"/>
 								<reference key="NSSupport" ref="616572200"/>
+								<string key="NSPlaceholderString">~/.ssh/id_dsa</string>
 								<reference key="NSControlView" ref="489053086"/>
 								<bool key="NSDrawsBackground">YES</bool>
 								<reference key="NSBackgroundColor" ref="476352881"/>
@@ -2134,7 +2136,10 @@
 								<reference key="NSControlView" ref="734890399"/>
 								<int key="NSButtonFlags">-2042347265</int>
 								<int key="NSButtonFlags2">6</int>
-								<reference key="NSNormalImage" ref="253903648"/>
+								<object class="NSCustomResource" key="NSNormalImage" id="1011844814">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">NSRefreshFreestandingTemplate</string>
+								</object>
 								<string key="NSAlternateContents"/>
 								<string key="NSKeyEquivalent"/>
 								<int key="NSPeriodicDelay">400</int>
@@ -2375,7 +2380,10 @@
 								<string key="NSToolbarItemPaletteLabel">Insert New Row</string>
 								<string key="NSToolbarItemToolTip"/>
 								<nil key="NSToolbarItemView"/>
-								<reference key="NSToolbarItemImage" ref="955145936"/>
+								<object class="NSCustomResource" key="NSToolbarItemImage" id="721439507">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">NSActionTemplate</string>
+								</object>
 								<nil key="NSToolbarItemTarget"/>
 								<nil key="NSToolbarItemAction"/>
 								<string key="NSToolbarItemMinSize">{0, 0}</string>
@@ -2394,7 +2402,10 @@
 								<string key="NSToolbarItemPaletteLabel">Create New Table</string>
 								<string key="NSToolbarItemToolTip"/>
 								<nil key="NSToolbarItemView"/>
-								<reference key="NSToolbarItemImage" ref="758576266"/>
+								<object class="NSCustomResource" key="NSToolbarItemImage">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">NSAddTemplate</string>
+								</object>
 								<nil key="NSToolbarItemTarget"/>
 								<nil key="NSToolbarItemAction"/>
 								<string key="NSToolbarItemMinSize">{0, 0}</string>
@@ -2413,7 +2424,10 @@
 								<string key="NSToolbarItemPaletteLabel">HQL Interperter</string>
 								<string key="NSToolbarItemToolTip"/>
 								<nil key="NSToolbarItemView"/>
-								<reference key="NSToolbarItemImage" ref="272489072"/>
+								<object class="NSCustomResource" key="NSToolbarItemImage">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">NSAdvanced</string>
+								</object>
 								<nil key="NSToolbarItemTarget"/>
 								<nil key="NSToolbarItemAction"/>
 								<string key="NSToolbarItemMinSize">{0, 0}</string>
@@ -2454,7 +2468,7 @@
 								<string key="NSToolbarItemPaletteLabel">Delete Selected Row</string>
 								<string key="NSToolbarItemToolTip"/>
 								<nil key="NSToolbarItemView"/>
-								<reference key="NSToolbarItemImage" ref="955145936"/>
+								<reference key="NSToolbarItemImage" ref="721439507"/>
 								<nil key="NSToolbarItemTarget"/>
 								<nil key="NSToolbarItemAction"/>
 								<string key="NSToolbarItemMinSize">{0, 0}</string>
@@ -2640,7 +2654,7 @@
 														<reference key="NSControlView" ref="394460408"/>
 														<int key="NSButtonFlags">-2042347265</int>
 														<int key="NSButtonFlags2">6</int>
-														<reference key="NSNormalImage" ref="253903648"/>
+														<reference key="NSNormalImage" ref="1011844814"/>
 														<string key="NSAlternateContents"/>
 														<string key="NSKeyEquivalent"/>
 														<int key="NSPeriodicDelay">400</int>
@@ -2763,7 +2777,7 @@
 										<reference key="NSControlView" ref="838110519"/>
 										<int key="NSButtonFlags">-2042347265</int>
 										<int key="NSButtonFlags2">6</int>
-										<reference key="NSNormalImage" ref="253903648"/>
+										<reference key="NSNormalImage" ref="1011844814"/>
 										<string key="NSAlternateContents"/>
 										<string key="NSKeyEquivalent"/>
 										<int key="NSPeriodicDelay">400</int>
@@ -3848,7 +3862,7 @@
 								<reference key="NSControlView" ref="718395207"/>
 								<int key="NSButtonFlags">-2042347265</int>
 								<int key="NSButtonFlags2">6</int>
-								<reference key="NSNormalImage" ref="253903648"/>
+								<reference key="NSNormalImage" ref="1011844814"/>
 								<string key="NSAlternateContents"/>
 								<string key="NSKeyEquivalent"/>
 								<int key="NSPeriodicDelay">400</int>
@@ -4666,14 +4680,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">password</string>
-						<reference key="source" ref="1072272308"/>
-						<reference key="destination" ref="489053086"/>
-					</object>
-					<int key="connectionID">1802</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">userName</string>
 						<reference key="source" ref="1072272308"/>
 						<reference key="destination" ref="904876042"/>
@@ -5097,6 +5103,14 @@
 						<reference key="destination" ref="896551265"/>
 					</object>
 					<int key="connectionID">1984</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">privateKeyPath</string>
+						<reference key="source" ref="1072272308"/>
+						<reference key="destination" ref="489053086"/>
+					</object>
+					<int key="connectionID">1985</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -6890,11 +6904,11 @@
 							<reference ref="896551265"/>
 							<reference ref="70502084"/>
 							<reference ref="904876042"/>
-							<reference ref="564301103"/>
-							<reference ref="489053086"/>
 							<reference ref="237161550"/>
 							<reference ref="358221110"/>
 							<reference ref="171911494"/>
+							<reference ref="564301103"/>
+							<reference ref="489053086"/>
 						</object>
 						<reference key="parent" ref="1001292937"/>
 					</object>
@@ -7014,34 +7028,6 @@
 						<int key="objectID">1779</int>
 						<reference key="object" ref="941055941"/>
 						<reference key="parent" ref="70502084"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1780</int>
-						<reference key="object" ref="564301103"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="787470609"/>
-						</object>
-						<reference key="parent" ref="187120627"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1783</int>
-						<reference key="object" ref="787470609"/>
-						<reference key="parent" ref="564301103"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1784</int>
-						<reference key="object" ref="489053086"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="16896757"/>
-						</object>
-						<reference key="parent" ref="187120627"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1785</int>
-						<reference key="object" ref="16896757"/>
-						<reference key="parent" ref="489053086"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1788</int>
@@ -7309,6 +7295,34 @@
 						<int key="objectID">1970</int>
 						<reference key="object" ref="869411481"/>
 						<reference key="parent" ref="0"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1780</int>
+						<reference key="object" ref="564301103"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="787470609"/>
+						</object>
+						<reference key="parent" ref="187120627"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1783</int>
+						<reference key="object" ref="787470609"/>
+						<reference key="parent" ref="564301103"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1784</int>
+						<reference key="object" ref="489053086"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="16896757"/>
+						</object>
+						<reference key="parent" ref="187120627"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1785</int>
+						<reference key="object" ref="16896757"/>
+						<reference key="parent" ref="489053086"/>
 					</object>
 				</object>
 			</object>
@@ -7670,7 +7684,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
-					<string>{{152, 625}, {617, 0}}</string>
+					<string>{{308, 673}, {617, 0}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>ShowPrefsBtn</string>
@@ -7938,9 +7952,9 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{942, 344}, {465, 404}}</string>
+					<string>{{164, 343}, {465, 404}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{942, 344}, {465, 404}}</string>
+					<string>{{164, 343}, {465, 404}}</string>
 					<boolean value="NO"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -8005,9 +8019,9 @@
 					<integer value="1"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
-					<string>{{298, 110}, {869, 621}}</string>
+					<string>{{327, 52}, {869, 621}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{298, 110}, {869, 621}}</string>
+					<string>{{327, 52}, {869, 621}}</string>
 					<integer value="1"/>
 					<boolean value="YES"/>
 					<integer value="1"/>
@@ -8047,7 +8061,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1984</int>
+			<int key="maxID">1985</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -8475,7 +8489,7 @@
 							<string>hadoopBroker</string>
 							<string>hypertableBroker</string>
 							<string>masterAddress</string>
-							<string>password</string>
+							<string>privateKeyPath</string>
 							<string>sshPort</string>
 							<string>userName</string>
 						</object>
@@ -8498,7 +8512,7 @@
 							<string>hadoopBroker</string>
 							<string>hypertableBroker</string>
 							<string>masterAddress</string>
-							<string>password</string>
+							<string>privateKeyPath</string>
 							<string>sshPort</string>
 							<string>userName</string>
 						</object>
@@ -8521,7 +8535,7 @@
 								<string key="candidateClassName">NSTextField</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">password</string>
+								<string key="name">privateKeyPath</string>
 								<string key="candidateClassName">NSTextField</string>
 							</object>
 							<object class="IBToOneOutletInfo">
@@ -9801,6 +9815,7 @@
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<object class="NSArray" key="dict.sortedKeys">
 				<bool key="EncodedWithXMLCoder">YES</bool>
+				<string>Folder-subscriptions-icon</string>
 				<string>NSActionTemplate</string>
 				<string>NSAddTemplate</string>
 				<string>NSAdvanced</string>
@@ -9815,9 +9830,13 @@
 				<string>NSStopProgressTemplate</string>
 				<string>NSToolbarPrint</string>
 				<string>NSUserAccounts</string>
+				<string>System-computer-icon</string>
+				<string>System-desktop-icon</string>
+				<string>System-run-icon</string>
 			</object>
 			<object class="NSMutableArray" key="dict.values">
 				<bool key="EncodedWithXMLCoder">YES</bool>
+				<string>{256, 256}</string>
 				<string>{15, 15}</string>
 				<string>{8, 8}</string>
 				<string>{32, 32}</string>
@@ -9832,6 +9851,9 @@
 				<string>{11, 11}</string>
 				<string>{32, 32}</string>
 				<string>{32, 32}</string>
+				<string>{256, 256}</string>
+				<string>{256, 256}</string>
+				<string>{256, 256}</string>
 			</object>
 		</object>
 	</data>
