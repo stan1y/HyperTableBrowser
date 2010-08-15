@@ -10,14 +10,6 @@
 
 
 @implementation ClusterManager
-/*
-+ (ClusterManager *) clusterManagerFromFile:(NSString *)filename
-{
-	NSLog(@"Clusters description file: %s", [filename UTF8String]);
-	ClusterManager * cm = [[ClusterManager alloc] init];
-	[cm setDataFileName:filename];
-	return cm;
-}*/
 
 - (ClusterManager *) init
 {
@@ -25,6 +17,7 @@
 	NSLog(@"Initializing cluster manager.");
 	hypertableCache = [[NSMutableDictionary alloc] init];
 	hadoopCache = [[NSMutableDictionary alloc] init];
+	sshCache = [[NSMutableDictionary alloc] init];
 	[self setDataFileName:@"Clusters.xml"];
 	return self;
 }
@@ -59,7 +52,7 @@
 
 - (HyperTable *)hypertableOnServer:(NSManagedObject *)server
 {
-	NSString * ipAddress = [server valueForKey:@"ipAddress"];
+	NSString * ipAddress = [server stringForKey:@"ipAddress"];
 	HyperTable * ht = [hypertableCache objectForKey:ipAddress];
 	if (ht) {
 		return ht;
@@ -77,10 +70,38 @@
 	}	
 }
 
+- (SSHClient *)remoteShellOnServer:(NSManagedObject *)server
+{
+	NSString * ipAddress = [server stringForKey:@"ipAddress"];
+	SSHClient * ssh = [sshCache	objectForKey:ipAddress];
+	if (ssh) {
+		return ssh;
+	}
+	else {
+		int sshPort = [[server valueForKey:@"sshPort"] intValue];
+		NSString * sshUserName = [server stringForKey:@"sshUserName"];
+		NSString * sshPrivateKeyPath = [server stringForKey:@"sshPrivateKeyPath"];
+		
+		NSLog(@"Connecting to remote shell at %s:%d...",
+			  [ipAddress UTF8String], sshPort);
+		ssh = [SSHClient initClientTo:ipAddress onPort:sshPort asUser:sshUserName withKey:sshPrivateKeyPath];
+		
+		int rc = [ssh runCommand:@"lsb_release -a"];
+		if (rc) {
+			NSLog(@"Failed to open remote shell on server. Code %d", rc);
+			NSLog(@"Error: %s", [[ssh error] UTF8String]);
+			return nil;
+		}
+		NSLog(@"Connected to server:\n%s", [[ssh output] UTF8String]);
+		return ssh;
+	}
+}
+
 - (void) dealloc
 {
 	[hypertableCache release];
 	[hadoopCache release];
+	[sshCache release];
 	[super dealloc];
 }
 
@@ -88,7 +109,7 @@
 {
 	NSMutableArray * found = [[NSMutableArray alloc] init];
 	for (id cluster in [self clusters]) {
-		id server = [cluster valueForKey:@"hypertableThriftBroker"];
+		id server = [cluster stringForKey:@"hypertableThriftBroker"];
 		HyperTable * hypertable = [self hypertableOnServer:server];
 		[found addObject:hypertable];
 	}
