@@ -24,6 +24,26 @@
 		761516E211FD96C100485438 /* FetchPageOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 761516DD11FD96A100485438 /* FetchPageOperation.m */; };
 		7615175811FDA23F00485438 /* FetchTablesOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7615175711FDA23F00485438 /* FetchTablesOperation.m */; };
 		761518DE11FDBF5E00485438 /* HqlQueryOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 761518DD11FDBF5E00485438 /* HqlQueryOperation.m */; };
+		76152E6F121728FE003D8B3B /* Folder-subscriptions-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 76152E5E121728FE003D8B3B /* Folder-subscriptions-icon.png */; };
+		76152E70121728FE003D8B3B /* Internet-css-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 76152E5F121728FE003D8B3B /* Internet-css-icon.png */; };
+		76152E71121728FE003D8B3B /* Internet-html-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 76152E60121728FE003D8B3B /* Internet-html-icon.png */; };
+		76152E72121728FE003D8B3B /* Internet-xml-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 76152E61121728FE003D8B3B /* Internet-xml-icon.png */; };
+		76152E73121728FE003D8B3B /* System-computer-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 76152E62121728FE003D8B3B /* System-computer-icon.png */; };
+		76152E74121728FE003D8B3B /* System-control-panel-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 76152E63121728FE003D8B3B /* System-control-panel-icon.png */; };
+		76152E75121728FE003D8B3B /* System-desktop-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 76152E64121728FE003D8B3B /* System-desktop-icon.png */; };
+		76152E76121728FE003D8B3B /* System-help-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 76152E65121728FE003D8B3B /* System-help-icon.png */; };
+		76152E77121728FE003D8B3B /* System-internet-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 76152E66121728FE003D8B3B /* System-internet-icon.png */; };
+		76152E78121728FE003D8B3B /* System-notepad-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 76152E67121728FE003D8B3B /* System-notepad-icon.png */; };
+		76152E79121728FE003D8B3B /* System-processor-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 76152E68121728FE003D8B3B /* System-processor-icon.png */; };
+		76152E7A121728FE003D8B3B /* System-run-icon-1.png in Resources */ = {isa = PBXBuildFile; fileRef = 76152E69121728FE003D8B3B /* System-run-icon-1.png */; };
+		76152E7B121728FE003D8B3B /* System-run-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 76152E6A121728FE003D8B3B /* System-run-icon.png */; };
+		76152E7C121728FE003D8B3B /* System-scanner-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 76152E6B121728FE003D8B3B /* System-scanner-icon.png */; };
+		76152E7D121728FE003D8B3B /* System-search-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 76152E6C121728FE003D8B3B /* System-search-icon.png */; };
+		76152E7E121728FE003D8B3B /* System-search-v2-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 76152E6D121728FE003D8B3B /* System-search-v2-icon.png */; };
+		76152E7F121728FE003D8B3B /* System-shortcut-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 76152E6E121728FE003D8B3B /* System-shortcut-icon.png */; };
+		7618FC151217DC5500E3FC30 /* SSHClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 7618FC111217DC5500E3FC30 /* SSHClient.h */; };
+		7618FC161217DC5500E3FC30 /* SSHClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 7618FC121217DC5500E3FC30 /* SSHClient.m */; };
+		7618FC351217F9D000E3FC30 /* SSHClientLib.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 76F4C32A121730EB003CD9CC /* SSHClientLib.dylib */; };
 		766A3E7A1162268C00176B42 /* MBPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 766A3E791162268C00176B42 /* MBPreferencesController.m */; };
 		766F24D810D7935100AB059D /* HyperThriftHql.h in Headers */ = {isa = PBXBuildFile; fileRef = 766F24D610D7935100AB059D /* HyperThriftHql.h */; };
 		766F24D910D7935100AB059D /* HyperThriftHql.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 766F24D710D7935100AB059D /* HyperThriftHql.cpp */; };
@@ -34,6 +54,10 @@
 		767A3CBD10D5AA9800BAE46E /* HyperThriftWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 767A3C8310D5A97600BAE46E /* HyperThriftWrapper.cpp */; };
 		767A3CBF10D5AABC00BAE46E /* HyperThriftWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 767A3C8410D5A97600BAE46E /* HyperThriftWrapper.h */; };
 		7684BA8E11FDD98700D26DA6 /* libThriftLib.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 76F8155911FB88A0001B79C6 /* libThriftLib.dylib */; };
+		768A3D6F1217FA7100D8EBEE /* SSHTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 7618FC2A1217F7BB00E3FC30 /* SSHTool.m */; };
+		768A3D881217FB2000D8EBEE /* SSHClientLib.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 76F4C32A121730EB003CD9CC /* SSHClientLib.dylib */; };
+		768A3D891217FB4400D8EBEE /* SSHClientLib.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 76F4C32A121730EB003CD9CC /* SSHClientLib.dylib */; };
+		768A3D8A1217FB4A00D8EBEE /* SSHTool in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7618FC2E1217F96200E3FC30 /* SSHTool */; };
 		76967B30120FF467000FD196 /* TablesBrowserPageSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 76967B2F120FF467000FD196 /* TablesBrowserPageSource.m */; };
 		76967B36120FF577000FD196 /* TablesBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 76967B35120FF577000FD196 /* TablesBrowser.m */; };
 		76967C09121010D6000FD196 /* DeleteRowOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 76967C08121010D6000FD196 /* DeleteRowOperation.m */; };
@@ -177,6 +201,27 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		7618FC321217F96D00E3FC30 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 76F4C329121730EB003CD9CC;
+			remoteInfo = SSHClientLib;
+		};
+		768A3D861217FB1C00D8EBEE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 76F4C329121730EB003CD9CC /* SSHClientLib */;
+			remoteInfo = SSHClientLib;
+		};
+		768A3DBD1217FCA900D8EBEE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7618FC2D1217F96200E3FC30 /* SSHTool */;
+			remoteInfo = SSHTool;
+		};
 		7696D7BE1205927A00DA46B8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
@@ -207,6 +252,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				768A3D8A1217FB4A00D8EBEE /* SSHTool in CopyFiles */,
+				768A3D891217FB4400D8EBEE /* SSHClientLib.dylib in CopyFiles */,
 				7684BA8E11FDD98700D26DA6 /* libThriftLib.dylib in CopyFiles */,
 				7696D8051205943D00DA46B8 /* libz.1.2.5.dylib in CopyFiles */,
 				766F252310D7995700AB059D /* libHyperThriftWrapper.dylib in CopyFiles */,
@@ -241,6 +288,27 @@
 		7615175711FDA23F00485438 /* FetchTablesOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FetchTablesOperation.m; path = Sources/Classes/FetchTablesOperation.m; sourceTree = "<group>"; };
 		761518DC11FDBF5E00485438 /* HqlQueryOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HqlQueryOperation.h; path = Sources/Classes/HqlQueryOperation.h; sourceTree = "<group>"; };
 		761518DD11FDBF5E00485438 /* HqlQueryOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HqlQueryOperation.m; path = Sources/Classes/HqlQueryOperation.m; sourceTree = "<group>"; };
+		76152E5E121728FE003D8B3B /* Folder-subscriptions-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Folder-subscriptions-icon.png"; path = "Icons/Folder-subscriptions-icon.png"; sourceTree = "<group>"; };
+		76152E5F121728FE003D8B3B /* Internet-css-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Internet-css-icon.png"; path = "Icons/Internet-css-icon.png"; sourceTree = "<group>"; };
+		76152E60121728FE003D8B3B /* Internet-html-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Internet-html-icon.png"; path = "Icons/Internet-html-icon.png"; sourceTree = "<group>"; };
+		76152E61121728FE003D8B3B /* Internet-xml-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Internet-xml-icon.png"; path = "Icons/Internet-xml-icon.png"; sourceTree = "<group>"; };
+		76152E62121728FE003D8B3B /* System-computer-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "System-computer-icon.png"; path = "Icons/System-computer-icon.png"; sourceTree = "<group>"; };
+		76152E63121728FE003D8B3B /* System-control-panel-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "System-control-panel-icon.png"; path = "Icons/System-control-panel-icon.png"; sourceTree = "<group>"; };
+		76152E64121728FE003D8B3B /* System-desktop-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "System-desktop-icon.png"; path = "Icons/System-desktop-icon.png"; sourceTree = "<group>"; };
+		76152E65121728FE003D8B3B /* System-help-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "System-help-icon.png"; path = "Icons/System-help-icon.png"; sourceTree = "<group>"; };
+		76152E66121728FE003D8B3B /* System-internet-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "System-internet-icon.png"; path = "Icons/System-internet-icon.png"; sourceTree = "<group>"; };
+		76152E67121728FE003D8B3B /* System-notepad-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "System-notepad-icon.png"; path = "Icons/System-notepad-icon.png"; sourceTree = "<group>"; };
+		76152E68121728FE003D8B3B /* System-processor-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "System-processor-icon.png"; path = "Icons/System-processor-icon.png"; sourceTree = "<group>"; };
+		76152E69121728FE003D8B3B /* System-run-icon-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "System-run-icon-1.png"; path = "Icons/System-run-icon-1.png"; sourceTree = "<group>"; };
+		76152E6A121728FE003D8B3B /* System-run-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "System-run-icon.png"; path = "Icons/System-run-icon.png"; sourceTree = "<group>"; };
+		76152E6B121728FE003D8B3B /* System-scanner-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "System-scanner-icon.png"; path = "Icons/System-scanner-icon.png"; sourceTree = "<group>"; };
+		76152E6C121728FE003D8B3B /* System-search-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "System-search-icon.png"; path = "Icons/System-search-icon.png"; sourceTree = "<group>"; };
+		76152E6D121728FE003D8B3B /* System-search-v2-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "System-search-v2-icon.png"; path = "Icons/System-search-v2-icon.png"; sourceTree = "<group>"; };
+		76152E6E121728FE003D8B3B /* System-shortcut-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "System-shortcut-icon.png"; path = "Icons/System-shortcut-icon.png"; sourceTree = "<group>"; };
+		7618FC111217DC5500E3FC30 /* SSHClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSHClient.h; path = Sources/SSHClientLib/SSHClient.h; sourceTree = "<group>"; };
+		7618FC121217DC5500E3FC30 /* SSHClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSHClient.m; path = Sources/SSHClientLib/SSHClient.m; sourceTree = "<group>"; };
+		7618FC2A1217F7BB00E3FC30 /* SSHTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSHTool.m; path = Sources/SSHClientLib/SSHTool.m; sourceTree = "<group>"; };
+		7618FC2E1217F96200E3FC30 /* SSHTool */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SSHTool; sourceTree = BUILT_PRODUCTS_DIR; };
 		766A3E781162268C00176B42 /* MBPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBPreferencesController.h; path = Sources/Classes/MBPreferencesController.h; sourceTree = "<group>"; };
 		766A3E791162268C00176B42 /* MBPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBPreferencesController.m; path = Sources/Classes/MBPreferencesController.m; sourceTree = "<group>"; };
 		766F24D610D7935100AB059D /* HyperThriftHql.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyperThriftHql.h; sourceTree = "<group>"; };
@@ -345,6 +413,7 @@
 		76C855311212A19A00525B28 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/UpdatesPreferences.xib; sourceTree = "<group>"; };
 		76EDF0D611FF40FA00D5A6B5 /* SetRowOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SetRowOperation.h; path = Sources/Classes/SetRowOperation.h; sourceTree = "<group>"; };
 		76EDF0D711FF40FA00D5A6B5 /* SetRowOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SetRowOperation.m; path = Sources/Classes/SetRowOperation.m; sourceTree = "<group>"; };
+		76F4C32A121730EB003CD9CC /* SSHClientLib.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = SSHClientLib.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		76F8155911FB88A0001B79C6 /* libThriftLib.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libThriftLib.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		76F8155E11FB88BB001B79C6 /* Exception.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Exception.h; sourceTree = "<group>"; };
 		76F8155F11FB88BB001B79C6 /* FunctionRunner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FunctionRunner.h; sourceTree = "<group>"; };
@@ -424,6 +493,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		7618FC2C1217F96200E3FC30 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7618FC351217F9D000E3FC30 /* SSHClientLib.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		767A3CB110D5AA6500BAE46E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -433,6 +510,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		7696D7B81205917C00DA46B8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		76F4C328121730EB003CD9CC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -454,6 +538,7 @@
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				7677371710CE93D100DDDCC6 /* CoreServices.framework in Frameworks */,
 				76F8150111FB84B0001B79C6 /* libHyperThriftWrapper.dylib in Frameworks */,
+				768A3D881217FB2000D8EBEE /* SSHClientLib.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -503,6 +588,8 @@
 				767A3CB310D5AA6500BAE46E /* libHyperThriftWrapper.dylib */,
 				76F8155911FB88A0001B79C6 /* libThriftLib.dylib */,
 				7696D7BA1205917C00DA46B8 /* libz.1.2.5.dylib */,
+				76F4C32A121730EB003CD9CC /* SSHClientLib.dylib */,
+				7618FC2E1217F96200E3FC30 /* SSHTool */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -510,6 +597,7 @@
 		29B97314FDCFA39411CA2CEA /* HyperTableBrowser */ = {
 			isa = PBXGroup;
 			children = (
+				76F4C32D121730FF003CD9CC /* SSHClientLib */,
 				7696D7B41205910300DA46B8 /* zlib 1.2.5 */,
 				76F8155C11FB88BB001B79C6 /* ThriftLib */,
 				767A3C7410D5A97500BAE46E /* HyperThriftWrapper */,
@@ -535,6 +623,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				76152E8212172908003D8B3B /* Icons */,
 				769DD6DC1216C69C00ED0B3A /* OreFoundryMain.icns */,
 				769DD6DA1216C63A00ED0B3A /* OreFoundry-Info.plist */,
 				769DD6D71216C62800ED0B3A /* OreFoundry.xib */,
@@ -573,6 +662,30 @@
 				761515DE11FD851400485438 /* HqlService.h */,
 			);
 			path = "gen-cpp";
+			sourceTree = "<group>";
+		};
+		76152E8212172908003D8B3B /* Icons */ = {
+			isa = PBXGroup;
+			children = (
+				76152E5E121728FE003D8B3B /* Folder-subscriptions-icon.png */,
+				76152E5F121728FE003D8B3B /* Internet-css-icon.png */,
+				76152E60121728FE003D8B3B /* Internet-html-icon.png */,
+				76152E61121728FE003D8B3B /* Internet-xml-icon.png */,
+				76152E62121728FE003D8B3B /* System-computer-icon.png */,
+				76152E63121728FE003D8B3B /* System-control-panel-icon.png */,
+				76152E64121728FE003D8B3B /* System-desktop-icon.png */,
+				76152E65121728FE003D8B3B /* System-help-icon.png */,
+				76152E66121728FE003D8B3B /* System-internet-icon.png */,
+				76152E67121728FE003D8B3B /* System-notepad-icon.png */,
+				76152E68121728FE003D8B3B /* System-processor-icon.png */,
+				76152E69121728FE003D8B3B /* System-run-icon-1.png */,
+				76152E6A121728FE003D8B3B /* System-run-icon.png */,
+				76152E6B121728FE003D8B3B /* System-scanner-icon.png */,
+				76152E6C121728FE003D8B3B /* System-search-icon.png */,
+				76152E6D121728FE003D8B3B /* System-search-v2-icon.png */,
+				76152E6E121728FE003D8B3B /* System-shortcut-icon.png */,
+			);
+			name = Icons;
 			sourceTree = "<group>";
 		};
 		767A3C7410D5A97500BAE46E /* HyperThriftWrapper */ = {
@@ -736,6 +849,16 @@
 				76967C08121010D6000FD196 /* DeleteRowOperation.m */,
 			);
 			name = "HyperTable Operations";
+			sourceTree = "<group>";
+		};
+		76F4C32D121730FF003CD9CC /* SSHClientLib */ = {
+			isa = PBXGroup;
+			children = (
+				7618FC111217DC5500E3FC30 /* SSHClient.h */,
+				7618FC121217DC5500E3FC30 /* SSHClient.m */,
+				7618FC2A1217F7BB00E3FC30 /* SSHTool.m */,
+			);
+			name = SSHClientLib;
 			sourceTree = "<group>";
 		};
 		76F8155C11FB88BB001B79C6 /* ThriftLib */ = {
@@ -904,6 +1027,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		76F4C326121730EB003CD9CC /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7618FC151217DC5500E3FC30 /* SSHClient.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		76F8155511FB88A0001B79C6 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -958,6 +1089,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		7618FC2D1217F96200E3FC30 /* SSHTool */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7618FC341217F98B00E3FC30 /* Build configuration list for PBXNativeTarget "SSHTool" */;
+			buildPhases = (
+				7618FC2B1217F96200E3FC30 /* Sources */,
+				7618FC2C1217F96200E3FC30 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7618FC331217F96D00E3FC30 /* PBXTargetDependency */,
+			);
+			name = SSHTool;
+			productName = SSHTool;
+			productReference = 7618FC2E1217F96200E3FC30 /* SSHTool */;
+			productType = "com.apple.product-type.tool";
+		};
 		767A3CB210D5AA6500BAE46E /* HyperThriftWrapper */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 767A3CB610D5AA8400BAE46E /* Build configuration list for PBXNativeTarget "HyperThriftWrapper" */;
@@ -993,6 +1141,23 @@
 			productReference = 7696D7BA1205917C00DA46B8 /* libz.1.2.5.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
+		76F4C329121730EB003CD9CC /* SSHClientLib */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 76F4C32E121730FF003CD9CC /* Build configuration list for PBXNativeTarget "SSHClientLib" */;
+			buildPhases = (
+				76F4C326121730EB003CD9CC /* Headers */,
+				76F4C327121730EB003CD9CC /* Sources */,
+				76F4C328121730EB003CD9CC /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SSHClientLib;
+			productName = libsshclient;
+			productReference = 76F4C32A121730EB003CD9CC /* SSHClientLib.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
 		76F8155811FB88A0001B79C6 /* ThriftLib */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 76F8160311FB88BB001B79C6 /* Build configuration list for PBXNativeTarget "ThriftLib" */;
@@ -1024,6 +1189,8 @@
 			);
 			dependencies = (
 				76E4702410D5CA7C00A5809D /* PBXTargetDependency */,
+				768A3D871217FB1C00D8EBEE /* PBXTargetDependency */,
+				768A3DBE1217FCA900D8EBEE /* PBXTargetDependency */,
 			);
 			name = "Ore Foundry";
 			productInstallPath = "$(HOME)/Applications";
@@ -1050,6 +1217,8 @@
 				767A3CB210D5AA6500BAE46E /* HyperThriftWrapper */,
 				76F8155811FB88A0001B79C6 /* ThriftLib */,
 				7696D7B91205917C00DA46B8 /* libz */,
+				76F4C329121730EB003CD9CC /* SSHClientLib */,
+				7618FC2D1217F96200E3FC30 /* SSHTool */,
 			);
 		};
 /* End PBXProject section */
@@ -1067,12 +1236,37 @@
 				769DD6D91216C62800ED0B3A /* OreFoundry.xib in Resources */,
 				769DD6DB1216C63A00ED0B3A /* OreFoundry-Info.plist in Resources */,
 				769DD6DD1216C69C00ED0B3A /* OreFoundryMain.icns in Resources */,
+				76152E6F121728FE003D8B3B /* Folder-subscriptions-icon.png in Resources */,
+				76152E70121728FE003D8B3B /* Internet-css-icon.png in Resources */,
+				76152E71121728FE003D8B3B /* Internet-html-icon.png in Resources */,
+				76152E72121728FE003D8B3B /* Internet-xml-icon.png in Resources */,
+				76152E73121728FE003D8B3B /* System-computer-icon.png in Resources */,
+				76152E74121728FE003D8B3B /* System-control-panel-icon.png in Resources */,
+				76152E75121728FE003D8B3B /* System-desktop-icon.png in Resources */,
+				76152E76121728FE003D8B3B /* System-help-icon.png in Resources */,
+				76152E77121728FE003D8B3B /* System-internet-icon.png in Resources */,
+				76152E78121728FE003D8B3B /* System-notepad-icon.png in Resources */,
+				76152E79121728FE003D8B3B /* System-processor-icon.png in Resources */,
+				76152E7A121728FE003D8B3B /* System-run-icon-1.png in Resources */,
+				76152E7B121728FE003D8B3B /* System-run-icon.png in Resources */,
+				76152E7C121728FE003D8B3B /* System-scanner-icon.png in Resources */,
+				76152E7D121728FE003D8B3B /* System-search-icon.png in Resources */,
+				76152E7E121728FE003D8B3B /* System-search-v2-icon.png in Resources */,
+				76152E7F121728FE003D8B3B /* System-shortcut-icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		7618FC2B1217F96200E3FC30 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				768A3D6F1217FA7100D8EBEE /* SSHTool.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		767A3CB010D5AA6500BAE46E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1110,6 +1304,14 @@
 				7696D7F2120592BF00DA46B8 /* trees.c in Sources */,
 				7696D7F4120592BF00DA46B8 /* uncompr.c in Sources */,
 				7696D7F7120592BF00DA46B8 /* zutil.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		76F4C327121730EB003CD9CC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7618FC161217DC5500E3FC30 /* SSHClient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1190,6 +1392,21 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		7618FC331217F96D00E3FC30 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 76F4C329121730EB003CD9CC /* SSHClientLib */;
+			targetProxy = 7618FC321217F96D00E3FC30 /* PBXContainerItemProxy */;
+		};
+		768A3D871217FB1C00D8EBEE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 76F4C329121730EB003CD9CC /* SSHClientLib */;
+			targetProxy = 768A3D861217FB1C00D8EBEE /* PBXContainerItemProxy */;
+		};
+		768A3DBE1217FCA900D8EBEE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7618FC2D1217F96200E3FC30 /* SSHTool */;
+			targetProxy = 768A3DBD1217FCA900D8EBEE /* PBXContainerItemProxy */;
+		};
 		7696D7BF1205927A00DA46B8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 7696D7B91205917C00DA46B8 /* libz */;
@@ -1339,6 +1556,52 @@
 			};
 			name = Release;
 		};
+		7618FC301217F96300E3FC30 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INSTALL_PATH = "@executable_path";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = SSHTool;
+			};
+			name = Debug;
+		};
+		7618FC311217F96300E3FC30 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INSTALL_PATH = /usr/local/bin;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = SSHTool;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 		767A3CB410D5AA6600BAE46E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1423,6 +1686,56 @@
 			};
 			name = Release;
 		};
+		76F4C32B121730EC003CD9CC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = SSHClientLib;
+			};
+			name = Debug;
+		};
+		76F4C32C121730EC003CD9CC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = SSHClientLib;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 		76F8155A11FB88A1001B79C6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1497,6 +1810,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		7618FC341217F98B00E3FC30 /* Build configuration list for PBXNativeTarget "SSHTool" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7618FC301217F96300E3FC30 /* Debug */,
+				7618FC311217F96300E3FC30 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		767A3CB610D5AA8400BAE46E /* Build configuration list for PBXNativeTarget "HyperThriftWrapper" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1511,6 +1833,15 @@
 			buildConfigurations = (
 				7696D7BB1205917D00DA46B8 /* Debug */,
 				7696D7BC1205917D00DA46B8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		76F4C32E121730FF003CD9CC /* Build configuration list for PBXNativeTarget "SSHClientLib" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				76F4C32B121730EC003CD9CC /* Debug */,
+				76F4C32C121730EC003CD9CC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
