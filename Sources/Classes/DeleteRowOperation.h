@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import <HyperTable.h>
 
-@interface DeleteRowOperation : NSObject {
+@interface DeleteRowOperation : NSOperation {
 	//HyperTable * connection;
 	DataRow * row;
 	NSString * tableName;
