@@ -28,8 +28,9 @@
 
 - (id) init
 {
-	[super init];
-	connectionLock = [[NSLock alloc] init];
+	if (self = [super init] ) {
+		connectionLock = [[NSLock alloc] init];
+	}
 	return self;
 }
 
