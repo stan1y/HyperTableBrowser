@@ -9,11 +9,19 @@
 #import <Cocoa/Cocoa.h>
 #import <CoreDataManager.h>
 #import <HyperTable.h>
+#import <SSHClient.h>
 
 @interface ClusterManager : CoreDataManager {
 	NSMutableDictionary * hypertableCache;
 	NSMutableDictionary * hadoopCache;
+	NSMutableDictionary * sshCache;
+	
+	NSArrayController * clustersController;
+	NSArrayController * membersController;
 }
+
+@property (nonatomic, retain) IBOutlet NSArrayController * clustersController;
+@property (nonatomic, retain) IBOutlet NSArrayController * membersController;
 
 - (ClusterManager *) init;
 
@@ -21,6 +29,10 @@
 - (id)serversInCluster:(NSManagedObject *)cluster;
 
 - (HyperTable *)hypertableOnServer:(NSManagedObject *)server;
+- (SSHClient *)remoteShellOnServer:(NSManagedObject *)server;
+
+- (NSManagedObject *) selectedCluster;
+- (NSManagedObject *) selectedMember;
 
 - (NSArray *)allHypertableBrokers;
 - (NSArray *)allHadoopBrokers;
