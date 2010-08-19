@@ -24,10 +24,12 @@
 	[stderrPipe release];
 	
 	if (sshOutput) {
+		NSLog(@"removing ssh output at dealloc");
 		[sshOutput release];
 	}
 	
 	if (sshError) {
+		NSLog(@"removing ssh error at dealloc");
 		[sshError release];
 	}
 	
@@ -109,6 +111,7 @@
 
 - (int)runCommand:(NSString*)command
 {
+	NSLog(@"SSH running command \"%s\"", [command UTF8String]);
 	ssh = [[NSTask alloc] init];
 	//path to actual ssh
 	[ssh setLaunchPath:@"/usr/bin/ssh"];
@@ -130,9 +133,11 @@
 	
 	if (sshOutput) {
 		[sshOutput release];
+		sshOutput = nil;
 	}
 	if (sshError) {
 		[sshError release];
+		sshError = nil;
 	}
 	
 	[ssh setStandardInput:[NSFileHandle fileHandleWithNullDevice]];
@@ -161,8 +166,10 @@
 - (NSString *) output
 {
 	if (!sshOutput) {
+		NSLog(@"Reading ssh output");
 		NSData *theOutput = [[stdoutPipe fileHandleForReading] readDataToEndOfFile];
 		sshOutput = [[NSString alloc] initWithData:theOutput encoding:NSUTF8StringEncoding];
+		[sshOutput retain];
 	}
 	return sshOutput;
 }
@@ -170,8 +177,10 @@
 - (NSString *) error
 {
 	if (!sshError) {
+		NSLog(@"Reading ssh error");
 		NSData *theOutput = [[stderrPipe fileHandleForReading] readDataToEndOfFile];
 		sshError = [[NSString alloc] initWithData:theOutput encoding:NSUTF8StringEncoding];
+		[sshError retain];
 	}
 	return sshError;
 }
