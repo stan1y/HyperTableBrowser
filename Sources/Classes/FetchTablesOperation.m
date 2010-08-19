@@ -46,13 +46,13 @@
 	DataCellIterator * ci = cell_iter_new(row);
 	DataCell * cell = NULL;
 	//filter out METADATA if specified
-	id generalPrefs = [[[NSApp delegate] settingsManager] getSettingsByName:@"GeneralPrefs"];
-	if (!generalPrefs) {
+	id prefs = [[[NSApp delegate] settingsManager] getSettingsByName:@"TablesBrowserPrefs"];
+	if (!prefs) {
 		NSLog(@"There is no settings found!");
 		return;
 	}
-	int skipMetadata = [[generalPrefs valueForKey:@"skipMetadata"] intValue];
-	[generalPrefs release];
+	int skipMetadata = [[prefs valueForKey:@"skipMetadata"] intValue];
+	[prefs release];
 	int index = 0;
 	do {
 		cell = cell_iter_next_cell(ci);
