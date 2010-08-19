@@ -55,7 +55,7 @@
 		return;
 	}
 	//get running services
-	errorCode = [sshClient runCommand:@"ls -l /opt/hypertable/0.9.3.2/run/*.pid"];
+	errorCode = [sshClient runCommand:@"ls -l /opt/hypertable/current/run/*.pid"];
 	if (errorCode) {
 		NSLog(@"Failed to list running services. Code: %d, Error: %s", errorCode,
 			  [[sshClient error] UTF8String]);
@@ -107,11 +107,22 @@
 	totalLoad += [[parts objectAtIndex:2] floatValue];
 	totalLoad = totalLoad / 3;
 	
-	int health = (1 - totalLoad) * 100;
-	[server setValue:[NSNumber numberWithInt:health] forKey:@"health"];
-	NSLog(@"Server health: %d", health);
+	int healthPercent = (1 - totalLoad) * 100;
+	int healthLevel = 0;
 	
+	if (healthPercent > 80)
+		healthLevel = 3;
+	else if (healthPercent > 50)
+		healthLevel = 2;
+	else if (healthPercent > 20)
+		healthLevel = 1;
 	
+	[server setValue:[NSNumber numberWithInt:healthLevel] forKey:@"health"];
+	[server setValue:[NSNumber numberWithInt:healthPercent] forKey:@"healthPercent"];
+	NSLog(@"Server health: %d %%. Level: %d", healthPercent, healthLevel);
+	
+	//set status to 0 == Operational
+	[server setValue:[NSNumber numberWithInt:0] forKey:@"status"];
 	[[sshClient sshLock] unlock];
 }
 
