@@ -29,24 +29,38 @@
 	[self indicateBusy];
 	
 	//populate selector
-	id serversArray = [[[NSApp delegate] clusterManager] allHypertableBrokers];
+	id brokersList = [[[NSApp delegate] clusterManager] allHypertableBrokers];
 	[serverSelector removeAllItems];
-	for (id server in serversArray)
-		[serverSelector addItemWithTitle:[server ipAddress]];
-	
-	if ([serversArray count] <= 0) {
+	for (id hypertable in brokersList) {
+		if ( ![hypertable isConnected]) {
+			[hypertable reconnect:^ {
+				NSLog(@"Automatic reconnect: Operation complete.\n");
+				[self indicateDone];
+				
+				if ( ![hypertable isConnected] ) {
+					[self setMessage:@"Failed to reconnect to HyperTable thrift broker."];
+				}
+				else {
+					[self setMessage:@"Connected to HyperTable broker successfuly."];
+				}
+			}];
+		}
+		
+		[serverSelector addItemWithTitle:[hypertable ipAddress]];
+	}
+	if ([brokersList count] <= 0) {
 		[self setMessage:@"No servers available. Please connect to at least one server."];
 		[serverSelector setEnabled:NO];
 	}
 	else {
 		[serverSelector setEnabled:YES];
-		[self setMessage:[NSString stringWithFormat:@"%d server(s) available", [serversArray count]] ];
+		[self setMessage:[NSString stringWithFormat:@"%d server(s) available", [brokersList count]] ];
 	}
 	[self indicateDone];
-	[serversArray release];
+	[brokersList release];
 }
 
-- (id)getSelectedConnection {
+- (id) getSelectedConnection {
 	if (![[serverSelector itemArray] count] < 0) {
 		[self setMessage:@"There are no connected servers. You need to establish connection before executing HQL."];
 		return nil;
