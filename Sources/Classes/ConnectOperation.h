@@ -7,29 +7,24 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <HyperTable.h>
 #include <HyperThriftWrapper.h>
 #include <HyperThriftHql.h>
 
 @interface ConnectOperation : NSOperation {
 	NSString * ipAddress;
 	int port;
-	
-	HTHRIFT thriftClient;
-	HTHRIFT_HQL hqlClient;
-	
+	HyperTable * hypertable;
 	int errorCode;
 }
 
 @property (nonatomic, retain) NSString * ipAddress;
 @property (assign) int port;
 
+@property (nonatomic, retain) HyperTable * hypertable;
 @property (assign) int errorCode;
 
-@property (readonly) HTHRIFT thriftClient;
-@property (readonly) HTHRIFT_HQL hqlClient;
-
-+ connectTo:(NSString *)address onPort:(int)port;
-
-- (void)main;
++ connect:(HyperTable*)hypertable toBroker:(NSString *)address onPort:(int)port;
+- (void) main;
 
 @end

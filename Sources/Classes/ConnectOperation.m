@@ -10,19 +10,18 @@
 
 @implementation ConnectOperation
 
-@synthesize thriftClient;
-@synthesize hqlClient;
-
 @synthesize ipAddress;
 @synthesize port;
 
+@synthesize hypertable;
 @synthesize errorCode;
 
-+ connectTo:(NSString *)address onPort:(int)port;
++ connect:(HyperTable *)hypertable toBroker:(NSString *)address onPort:(int)port;
 {
 	ConnectOperation * conOp = [[ConnectOperation alloc] init];
-	[conOp setAddress:address];
+	[conOp setIpAddress:address];
 	[conOp setPort:port];
+	[conOp setHypertable:hypertable];
 	return conOp;
 }
 
@@ -32,10 +31,15 @@
 	[super dealloc];
 }
 
+- (BOOL) isConnected
+{
+	return [hypertable isConnected];
+}
+
 - (void)main
 {
+	[[hypertable connectionLock] lock];
 	HTHRIFT th;
-	
 	int rc = create_thrift_client(&th, [ipAddress UTF8String], port);
 	[self setErrorCode:rc];
 	
@@ -52,10 +56,11 @@
 			NSLog(@"Error: create_hql_client returned %d", rc);
 		}
 		else {
-			hqlClient = hql;
-			thriftClient = th;
+			[hypertable setHqlClient:hql];
+			[hypertable setThriftClient:th];
 		}
 	}
+	[[hypertable connectionLock]  unlock];
 }
 
 @end
