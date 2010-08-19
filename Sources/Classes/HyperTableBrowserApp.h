@@ -14,8 +14,12 @@
 #import <ClusterManager.h>
 #import <SettingsManager.h>
 
-@interface HyperTableBrowserApp : NSObject 
-{
+@interface StatusValueTransformer : NSValueTransformer {	
+
+}
+@end
+
+@interface HyperTableBrowserApp : NSObject {
 	ClusterManager * clusterManager;
 	SettingsManager * settingsManager;
 	

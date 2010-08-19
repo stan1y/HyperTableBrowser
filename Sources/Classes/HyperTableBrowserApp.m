@@ -8,6 +8,36 @@
 
 #import "HyperTableBrowserApp.h"
 
+// ---------------------- Utility for status ---------------- //
+
+@implementation StatusValueTransformer
+
++ (Class)transformedValueClass { return [NSString class]; }
++ (BOOL)allowsReverseTransformation { return YES; }
+- (id)transformedValue:(id)value 
+{
+	int intStatus = [value intValue];
+	NSString * status;
+	
+	switch (intStatus) {
+		case 0:
+			status = @"Operational";
+			break;
+		case 1:
+			status = @"Error";
+			break;
+		default:
+			status = @"Pending...";
+			break;
+	}
+	
+	return status;
+}
+
+@end
+
+// ---------------------- Application Delegate ---------------- //
+
 @implementation HyperTableBrowserApp
 
 @synthesize hqlWindow;
@@ -24,10 +54,18 @@
 
 @synthesize operations;
 
++ (void) initialize
+{
+	//register value transformer
+	NSValueTransformer *transformer = [[StatusValueTransformer alloc] init];
+	[NSValueTransformer setValueTransformer:transformer forName:@"StatusValueTransformer"];
+}
+
 - (id)init
 {
-    [super init];
-    operations = [[NSOperationQueue alloc] init];
+	if (self = [super init]) {
+		operations = [[NSOperationQueue alloc] init];
+	}
     return self;
 }
 
@@ -50,7 +88,8 @@
 	[[[self clustersBrowser] statusMessageField] setHidden:NO];
 	
 	//define cluster if none
-	if ( ![[[self clusterManager] clusters] count] ) {
+	id clusters = [[self clusterManager] clusters];
+	if ( ![clusters count] ) {
 		[[self clustersBrowser] showNewClusterDialog:application];
 	}
 }
