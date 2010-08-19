@@ -7,6 +7,8 @@
 //
 
 #import "ClustersBrowser.h"
+#import "GetStatusOperation.h"
+#import "SSHClient.h"
 
 @implementation ClustersBrowser
 
@@ -36,6 +38,38 @@
 	dummy = [[[NSApp delegate] settingsManager] getSettingsByName:@"UpdatesPrefs"];
 	[dummy release];
 	[[NSApp delegate] saveAction:self];
+}
+
+- (IBAction) refresh:(id)sender
+{
+	id selectedCluster = [[[NSApp delegate] clusterManager] selectedCluster];
+	if ( selectedCluster ){
+		[self indicateBusy];
+		[self setMessage:@"Updating cluster members..."];
+		
+		//update cluster members
+		id members = [[[NSApp delegate] clusterManager] serversInCluster:selectedCluster];
+		for (NSManagedObject * server in members) {
+			SSHClient * client = [[[NSApp delegate] clusterManager] remoteShellOnServer:server];
+			GetStatusOperation * op = [GetStatusOperation getStatusFrom:client
+															  forServer:server];
+			[op setCompletionBlock: ^ {
+				[self indicateDone];
+				if ([op errorCode]) {
+					[self setMessage:@"Operation failed."];
+					NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+					[dict setValue:[op errorMessage] forKey:NSLocalizedDescriptionKey];
+					[dict setValue:[op errorMessage] forKey:NSLocalizedFailureReasonErrorKey];
+					NSError *error = [NSError errorWithDomain:@"" code:[op errorCode] userInfo:dict];
+					[NSApp presentError:error];			
+				}
+			}];
+			[[[NSApp delegate] operations] addOperation:op];
+			[op release];
+			[client release];
+		}
+		[selectedCluster release];
+	}
 }
 
 - (void)showNewClusterDialog:(id)sender
@@ -86,6 +120,42 @@
 {
 	NSLog(@"Clusters browser closed\n");
 	[[NSApp delegate] saveAction:self];
+}
+
+- (IBAction)showPreferences:(id)sender
+{	
+	NSLog(@"Initializing preferences controllers.");
+	//prepare preferences windows
+	TablesBrowserSettings * tables = [[TablesBrowserSettings alloc] initWithNibName:@"TablesBrowserPreferences" 
+																			 bundle:nil];
+	ClustersBrowserSettings * clusters = [[ClustersBrowserSettings alloc] initWithNibName:@"ClustersBrowserPreferences" 
+																				   bundle:nil];
+	UpdateSettings * updates = [[UpdateSettings alloc] initWithNibName:@"UpdatesPreferences" 
+																bundle:nil];
+	
+	
+	[[MBPreferencesController sharedController] setModules:[NSArray arrayWithObjects:tables,
+															clusters,
+															updates,
+															nil]];
+	[tables release];
+	[clusters release];
+	[updates release];
+	
+	[[MBPreferencesController sharedController] showWindow:sender];
+}
+
+- (IBAction)showTablesBrowser:(id)sender
+{
+	[[[NSApp delegate] tablesBrowser] updateConnections:sender];
+	[[[NSApp delegate] tablesBrowser] refreshTables:sender];
+	[[[NSApp delegate] tablesBrowserWindow] orderFront:sender];
+}
+
+- (IBAction)showHqlInterpreter:(id)sender
+{
+	[[[NSApp delegate] hqlController] updateConnections:sender];
+	[[[NSApp delegate] hqlWindow] orderFront:sender];
 }
 
 @end
