@@ -13,7 +13,6 @@
 @implementation TablesBrowser
 
 @synthesize pageSource;
-@synthesize selectedTable;
 @synthesize tablesList;
 
 @synthesize newTablePnl;
@@ -39,15 +38,15 @@
 - (BOOL)validateToolbarItem:(NSToolbarItem *)toolbarItem
 {
     if ([toolbarItem isEqual:newTableBtn]) {
-		return allowNewTable;
+		return [[self getSelectedConnection] isConnected];
     } else if ( [toolbarItem isEqual:dropTableBtn]) {
-		return allowDropTable;
+		return [tablesList selectedRowInColumn:0] >= 0;
     } else if ( [toolbarItem isEqual:refreshBtn]) {
-		return allowRefresh;
+		return [[self getSelectedConnection] isConnected];
 	} else if ( [toolbarItem isEqual:newRowBtn]) {
-		return allowInsertRow;
+		return [tablesList selectedRowInColumn:0] >= 0;
 	} else if ( [toolbarItem isEqual:dropRowBtn]) {
-		return allowDeleteRow;
+		return ([pageSource selectedRowKeyValue] != nil) && ([[pageSource selectedRowKeyValue] length] > 0);
 	}
 	
 	return YES;
@@ -55,7 +54,6 @@
 
 - (void) dealloc
 {
-	[selectedTable release];
 	[pageSource release];
 	[newTablePnl release];
 	[newTableController release];
@@ -93,27 +91,23 @@
 	}
 	
 	[self indicateBusy];
-	int rc = drop_table([connection thriftClient], [selectedTable UTF8String]);
+	int rc = drop_table([connection thriftClient], [[[tablesList selectedCellInColumn:0] stringValue] UTF8String]);
 	
 	if (rc != T_OK) {
 		[self setMessage:[NSString stringWithFormat:@"Failed to drop table \"%s\". %s",
-													  [selectedTable UTF8String],
+													  [[[tablesList selectedCellInColumn:0] stringValue]  UTF8String],
 													  [[HyperTable errorFromCode:rc] UTF8String]]];
 		[self indicateDone];
 	}
 	else {
 		NSString * msg = [NSString stringWithFormat:@"Table \"%s\" was dropped.",
-						  [selectedTable UTF8String]];
+						  [[[tablesList selectedCellInColumn:0] stringValue]  UTF8String]];
 		
 		//refresh tables on connection
 		FetchTablesOperation * fetchTablesOp = [FetchTablesOperation fetchTablesFromConnection:connection];
 		[fetchTablesOp setCompletionBlock: ^ {
-			NSLog(@"Refreshing tables on \"%s\"\n", [[[connection connInfo] address] UTF8String] );
-			
-			//FIXME: servers view
-			//[[[NSApp delegate] serversView] reloadItem:nil reloadChildren:YES];
-			//[[[NSApp delegate] serversView] deselectAll:self];
-			
+			NSLog(@"Refreshing tables on \"%s\"\n", [[connection ipAddress] UTF8String] );
+			[tablesList reloadColumn:0];
 			[self setMessage:msg];
 			[self indicateDone];
 		}];
@@ -122,8 +116,6 @@
 		[[[NSApp delegate] operations] addOperation: fetchTablesOp];
 		[fetchTablesOp release];
 	}
-	
-	[selectedTable release];
 }
 
 - (IBAction)refreshTables:(id)sender
@@ -230,6 +222,7 @@
 		id table = [[[self getSelectedConnection] tables] objectAtIndex:index];
 		return table;
 	}
+	return nil;
 }
 
 - (NSInteger)browser:(NSBrowser *)browser numberOfChildrenOfItem:(id)item
@@ -240,5 +233,10 @@
 	return 0;
 }
 
+- (IBAction)tableSelectionChanged:(id)sender
+{
+	[pageSource showFirstPageFor:[[tablesList selectedCellInColumn:0] stringValue]
+				  fromConnection:[self getSelectedConnection]];
+}
 
 @end

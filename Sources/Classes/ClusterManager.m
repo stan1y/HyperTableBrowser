@@ -38,7 +38,6 @@
 
 - (NSArray *)clusters
 {
-	NSLog(@"Reading clusters...\n");
 	NSFetchRequest * r = [[NSFetchRequest alloc] init];
 	[r setEntity:[NSEntityDescription entityForName:@"Cluster" 
 							 inManagedObjectContext:[self managedObjectContext]]];
@@ -53,7 +52,6 @@
 	}
 	[err release];
 	[r release];
-	NSLog(@"There are %d clusters known.\n", [clustersArray count]);
 	return [clustersArray retain];
 }
 

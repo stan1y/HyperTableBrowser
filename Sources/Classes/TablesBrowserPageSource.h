@@ -52,6 +52,7 @@
 
 - (void)showFirstPageFor:(NSString *)tableName
 		  fromConnection:(HyperTable *)connection;
+
 - (void)showPageFor:(NSString *)tableName 
 	 fromConnection:(HyperTable *)connection
 	 withPageNumber:(int)number

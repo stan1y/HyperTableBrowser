@@ -36,13 +36,8 @@
 	int allowDropTable;
 	int allowRefresh;
 	int allowInsertRow;
-	int allowDeleteRow;
-	
-	//selections
-	NSString * selectedTable;
+	int allowDeleteRow;	
 }
-//selection properties
-@property (nonatomic, readonly, retain) NSString * selectedTable;
 
 //toolbar properties 
 @property (nonatomic, retain) IBOutlet NSBrowser * tablesList;
@@ -87,7 +82,9 @@
 - (id)rootItemForBrowser:(NSBrowser *)browser;
 - (id)browser:(NSBrowser *)browser objectValueForItem:(id)item;
 - (id)browser:(NSBrowser *)browser child:(NSInteger)index ofItem:(id)item;
-
 - (NSInteger)browser:(NSBrowser *)browser numberOfChildrenOfItem:(id)item;
+
+//called by browser's selector
+- (IBAction)tableSelectionChanged:(id)sender;
 
 @end
