@@ -7,8 +7,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <ConnectOperation.h>
-
 #import <HyperThriftWrapper.h>
 #import <HyperThriftHql.h>
 
@@ -28,14 +26,20 @@
 @property (assign) int port;
 
 @property (nonatomic, retain) NSLock * connectionLock;
-@property (nonatomic, retain)NSMutableArray * tables;
+@property (nonatomic, retain) NSArray * tables;
 
 @property (assign) HTHRIFT thriftClient;
 @property (assign) HTHRIFT_HQL hqlClient;
 
-+ (HyperTable *) hypertableAt:(NSString *)addr onPort:(in)aPort;
-- (void) reconnect;
++ (HyperTable *) hypertableAt:(NSString *)addr onPort:(int)aPort;
+
+//sync operation
+- (void) disconnect;
 - (BOOL) isConnected;
+
+//async operations
+- (void) reconnect:(void (^)(void)) codeBlock;
+- (void) refresh:(void (^)(void)) codeBlock;
 
 + (NSString *)errorFromCode:(int)code;
 @end

@@ -8,6 +8,7 @@
 
 #import "HyperTable.h"
 #import <FetchTablesOperation.h>
+#import <ConnectOperation.h>
 
 @implementation HyperTable
 
@@ -18,12 +19,37 @@
 @synthesize ipAddress;
 @synthesize port;
 
-+ (HyperTable *) hypertableAt:(NSString *)addr onPort:(in)aPort
+- (NSArray *)tables
+{
+	if (!tables) {
+		NSLog(@"Tables were not updated ever yet.");
+		return [NSArray array];
+	}
+	//make sure tables were updated right after conenction
+	[connectionLock lock];
+	NSArray * copy = [NSArray arrayWithArray:tables];
+	[copy retain];
+	[connectionLock unlock];
+	return copy;
+}
+
+- (void) setTables:(NSArray *)array
+{
+	if ([connectionLock tryLock]) {
+		NSLog(@"Connection is not locked for tables update!");
+		return;
+	}
+	[tables release];
+	tables = [NSMutableArray arrayWithArray:array];
+	[tables retain];
+}
+
++ (HyperTable *) hypertableAt:(NSString *)addr onPort:(int)aPort
 {
 	HyperTable * ht = [[HyperTable alloc] init];
 	[ht setIpAddress:addr];
 	[ht setPort:aPort];
-	[ht reconnect];
+	return ht;
 }
 
 - (id) init
@@ -34,59 +60,49 @@
 	return self;
 }
 
-- (void) reconnect
+- (void) disconnect
 {
+	if ( ![self isConnected] ) {
+		NSLog(@"disconnect: Not connected to %s:%d.", [ipAddress UTF8String], port);
+		return;
+	}
+	destroy_thrift_client(thriftClient);
+	destroy_hql_client(hqlClient);
+}
+
+- (void) refresh:(void (^)(void))codeBlock
+{
+	FetchTablesOperation * fetchTablesOp = [FetchTablesOperation fetchTablesFromConnection:self];
+	[fetchTablesOp setCompletionBlock:codeBlock];
+	
+	NSLog(@"Refreshing tables...\n");
+	//start fetching tables
+	[[[NSApp delegate] operations] addOperation: fetchTablesOp];
+	[fetchTablesOp release];
+}
+
+- (void) reconnect:(void (^)(void))codeBlock
+{
+	if ( [self isConnected] ) {
+		NSLog(@"reconnect: Already connected to %s:%d.", [ipAddress UTF8String], port);
+		return;
+	}
 	// check if auto reconnect enabled
-	id generalPrefs = [[[NSApp delegate] settingsManager] getSettingsByName:@"GeneralPrefs"];
-	if (!generalPrefs) {
+	id tbrowserPrefs = [[[NSApp delegate] settingsManager] getSettingsByName:@"TablesBrowserPrefs"];
+	if (!tbrowserPrefs) {
 		[[NSApp delegate] showErrorDialog:1 
-								  message:@"Failed to read general preferences from storage." 
+								  message:@"Failed to read Tabales Browser settings from storage." 
 							   withReason:@"Please recreate HyperTableBrowser.xml"];
 		return;
 	}
-	int autoReconnectServer =  [[generalPrefs valueForKey:@"autoReconnectServer"] intValue];
-	[generalPrefs release];
+	int autoReconnectBroker =  [[tbrowserPrefs valueForKey:@"autoReconnectBroker"] intValue];
+	[tbrowserPrefs release];
 	
-	if ( autoReconnectServer ) {
+	if ( autoReconnectBroker ) {
 		//reconnect server with saved values
 		NSLog(@"Automatic reconnect: Opening connection to HyperTable at %s:%d...", [ipAddress UTF8String], port);		
-		ConnectOperation * connectOp = [ConnectOperation connectTo:ipAddress onPort:port];
-		[connectOp setCompletionBlock: ^ {
-			NSLog(@"Automatic reconnect: Operation complete.\n");
-			if ( ![[connectOp connection] isConnected] ) {
-				[[NSApp delegate] indicateDone];
-				NSLog(@"Automatic reconnect: Reconnect failed!\n");
-			}
-			else {
-				NSLog(@"Automatic reconnect: Connection successful!");
-				
-				//update tables
-				FetchTablesOperation * fetchTablesOp = [FetchTablesOperation fetchTablesFromConnection:[connectOp connection]];
-				[fetchTablesOp setCompletionBlock: ^ {
-					if ([fetchTablesOp errorCode] != 0) {
-						NSLog(@"Error: Failed to update tables from Hypertable!");
-					}
-					else {
-						NSLog(@"Automatic reconnect: Updated tables sucessfully.");
-						/*
-						[[[NSApp delegate] serversView] reloadItem:nil reloadChildren:YES];
-						int serverIndex = [[[NSApp delegate] serversView] rowForItem:server];
-						[[[NSApp delegate] serversView] selectRowIndexes:[NSIndexSet indexSetWithIndex:serverIndex]
-													byExtendingSelection:NO];
-						[[[NSApp delegate] toolBarController] setAllowNewTable:1];
-						[[[NSApp delegate] toolBarController] setAllowRefresh:1];
-						[[[[NSApp delegate] toolBarController] toolBar] validateVisibleItems];
-						*/
-					}
-				}];
-				
-				NSLog(@"Automatic reconnect: Refreshing tables...\n");
-				//start fetching tables
-				[[[NSApp delegate] operations] addOperation: fetchTablesOp];
-				[fetchTablesOp release];
-			}
-		} ];
-		
+		ConnectOperation * connectOp = [ConnectOperation connect:self toBroker:ipAddress onPort:port];
+		[connectOp setCompletionBlock:codeBlock];
 		//add operation to queue
 		[[[NSApp delegate] operations] addOperation: connectOp];
 		[connectOp release];
@@ -94,11 +110,6 @@
 	else {
 		NSLog(@"Automatic reconnect: Disabled.");
 	}
-}
-
-- (NSMutableArray *)tables 
-{ 
-	return tables;
 }
 
 - (void) dealloc
@@ -115,14 +126,7 @@
 		free(hqlClient);
 		hqlClient = nil;
 	}
-}
-
--(void) setTables:(NSMutableArray *)newTables
-{
-	if (newTables) {
-		[tables release];
-		tables = newTables;
-	}
+	[super dealloc];
 }
 
 + (NSString *)errorFromCode:(int)code {
