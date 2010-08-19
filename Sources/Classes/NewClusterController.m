@@ -10,53 +10,58 @@
 
 @implementation NewClusterController
 
+@synthesize errorMessage;
 @synthesize clusterName;
 @synthesize masterAddress;
 @synthesize sshPort;
 @synthesize userName;
-@synthesize password;
+@synthesize privateKeyPath;
 @synthesize hadoopBroker;
 @synthesize hypertableBroker;
 
 - (void) dealloc
 {
+	[errorMessage release];
 	[clusterName release];
 	[masterAddress release];
 	[sshPort release];
 	[userName release];
-	[password release];
+	[privateKeyPath release];
 	[hadoopBroker release];
 	[hypertableBroker release];
+}
+
+- (IBAction) cancel:(id)sender
+{
+	//close dialog
+	[[[self view] window] orderOut:sender];
+	
+	//quit app if no clusters
+	if ( ![[[[NSApp delegate] clusterManager] clusters] count] ) {
+		NSLog(@"Quiting application, new cluster dialog was canceled with no defined clusters");
+		[NSApp terminate:nil];
+	}
 }
 
 - (IBAction) saveCluster:(id)sender
 {
 	if ( ![[clusterName stringValue] length] ) {
-		NSLog(@"Empty cluster name!");
+		[errorMessage setHidden:NO];
+		[errorMessage setStringValue:@"Please specify Cluster name"];
 		return;
 	}
 	if ( ![[masterAddress stringValue] length] ) {
-		NSLog(@"Empty master address!");
+		[errorMessage setHidden:NO];
+		[errorMessage setStringValue:@"Please specify Master hostname"];
 		return;
 	}
 	if ( ![[userName stringValue] length] ) {
-		NSLog(@"Empty user name!");
-		return;
-	}
-	if ( ![[password stringValue] length] ) {
-		NSLog(@"Empty password!");
+		[errorMessage setHidden:NO];
+		[errorMessage setStringValue:@"Please specify Username for SSH"];
 		return;
 	}
 	
-	//ssh port number?
-	NSNumber * portNum;
-	if ([[sshPort stringValue] length]) {
-		portNum = [NSNumber numberWithInt:[sshPort intValue]];
-	}
-	else {
-		portNum = [NSNumber numberWithInt:22];
-	}
-
+	[errorMessage setHidden:YES];
 	
 	NSLog(@"Saving new cluster");
 	NSManagedObjectContext * context = [[[NSApp delegate] clusterManager] managedObjectContext];
@@ -74,28 +79,32 @@
 	
 	//name
 	[master setValue:@"Master" forKey:@"name"];
-	[master setValue:@"Master" forKey:@"role"];
 	[master setValue:@"" forKey:@"comment"];
 	//status
-	[master setValue:@"Pending..." forKey:@"status"];
-	[master setValue:[NSNumber numberWithInt:0] forKey:@"statusInt"];		
+	[master setValue:[NSNumber numberWithInt:0] forKey:@"status"];		
 	[master setValue:[NSNumber numberWithInt:0] forKey:@"health"];
 	//network
 	[master setValue:[masterAddress stringValue] forKey:@"ipAddress"];
-	[master setValue:portNum forKey:@"sshPort"];
+	[master setValue:[userName stringValue] forKey:@"sshUserName"];
+	if ([[privateKeyPath stringValue] length]) {
+		[master setValue:[privateKeyPath stringValue] forKey:@"sshPrivateKeyPath"];
+	}
+	if ([[sshPort stringValue] length]) {
+		[master setValue:[NSNumber numberWithInt:[sshPort intValue]] forKey:@"sshPort"];
+	}
 	//add to cluster
 	[master setValue:cluster forKey:@"belongsTo"];
 	[members addObject:master];
 	[cluster setValue:master forKey:@"master"];
 	
 	//hadoop settings
+	NSManagedObject * hadoop = nil;
 	if ([[hadoopBroker stringValue] length] > 0) {
 		//define new server as hadoop broker
-		NSManagedObject * hadoop = [NSEntityDescription insertNewObjectForEntityForName:@"Hadoop" 
+		hadoop = [NSEntityDescription insertNewObjectForEntityForName:@"Hadoop" 
 																 inManagedObjectContext:context ];
 		//name
 		[hadoop setValue:@"HDFS Broker" forKey:@"name"];
-		[hadoop setValue:@"HDFS Broker" forKey:@"role"];
 		[hadoop setValue:@"" forKey:@"comment"];
 		//status
 		[hadoop setValue:@"Pending..." forKey:@"status"];
@@ -103,7 +112,13 @@
 		[hadoop setValue:[NSNumber numberWithInt:0] forKey:@"health"];
 		//network
 		[hadoop setValue:[hadoopBroker stringValue] forKey:@"ipAddress"];
-		[hadoop setValue:portNum forKey:@"sshPort"];
+		[hadoop setValue:[userName stringValue] forKey:@"sshUserName"];
+		if ([[privateKeyPath stringValue] length]) {
+			[hadoop setValue:[privateKeyPath stringValue] forKey:@"sshPrivateKeyPath"];
+		}
+		if ([[sshPort stringValue] length]) {
+			[hadoop setValue:[NSNumber numberWithInt:[sshPort intValue]] forKey:@"sshPort"];
+		}
 		//add to cluster
 		[hadoop setValue:cluster forKey:@"belongsTo"];
 		[members addObject:hadoop];
@@ -115,15 +130,14 @@
 	}
 
 	//hypertable settings
+	NSManagedObject * hypertable = nil;
 	if ([[hypertableBroker stringValue] length] > 0) {
 		//define new server as hypertable broker
-		NSManagedObject * hypertable = [NSEntityDescription insertNewObjectForEntityForName:@"HyperTable" 
+		hypertable = [NSEntityDescription insertNewObjectForEntityForName:@"HyperTable" 
 																 inManagedObjectContext:context ];
-		
 		
 		//name
 		[hypertable setValue:@"Hypertable Broker" forKey:@"name"];
-		[hypertable setValue:@"Hypertable" forKey:@"role"];
 		[hypertable setValue:@"" forKey:@"comment"];
 		//status
 		[hypertable setValue:@"Pending..." forKey:@"status"];
@@ -131,7 +145,13 @@
 		[hypertable setValue:[NSNumber numberWithInt:0] forKey:@"health"];
 		//network
 		[hypertable setValue:[hypertableBroker stringValue] forKey:@"ipAddress"];
-		[hypertable setValue:portNum forKey:@"sshPort"];
+		[hypertable setValue:[userName stringValue] forKey:@"sshUserName"];
+		if ([[privateKeyPath stringValue] length]) {
+			[hypertable setValue:[privateKeyPath stringValue] forKey:@"sshPrivateKeyPath"];
+		}
+		if ([[sshPort stringValue] length]) {
+			[hypertable setValue:[NSNumber numberWithInt:[sshPort intValue]] forKey:@"sshPort"];
+		}
 		//add to cluster
 		[hypertable setValue:cluster forKey:@"belongsTo"];
 		[members addObject:hypertable];
@@ -141,10 +161,6 @@
 		//set master as hypertable broker
 		[cluster setValue:master forKey:@"hypertableThriftBroker"];
 	}
-	
-	//username & password
-	[cluster setValue:[userName stringValue] forKey:@"userName"];
-	[cluster setValue:[password stringValue] forKey:@"password"];
 	
 	//commit
 	NSError * error = nil;
@@ -159,6 +175,61 @@
 	
 	//close dialog
 	[[[self view] window] orderOut:sender];
+	
+	//get status for master
+	SSHClient * sshMaster = [[[NSApp delegate] clusterManager] remoteShellOnServer:master];
+	GetStatusOperation * masterStatus = [GetStatusOperation getStatusFrom:sshMaster
+														forServer:master ];
+	[masterStatus setCompletionBlock: ^ {
+		if ([masterStatus errorCode]) {
+			NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+			[dict setValue:[masterStatus errorMessage] forKey:NSLocalizedDescriptionKey];
+			[dict setValue:[masterStatus errorMessage] forKey:NSLocalizedFailureReasonErrorKey];
+			NSError *error = [NSError errorWithDomain:@"" code:[masterStatus errorCode] userInfo:dict];
+			[NSApp presentError:error];			
+		}
+	}];
+	[[[NSApp delegate] operations] addOperation:masterStatus];
+	[masterStatus release];
+	[sshMaster release];
+	
+	//get status for hypertable
+	if (hypertable) {
+		SSHClient * sshHypertable = [[[NSApp delegate] clusterManager] remoteShellOnServer:hypertable];
+		GetStatusOperation * hypertableStatus = [GetStatusOperation getStatusFrom:sshHypertable
+																	forServer:hypertable ];
+		[hypertableStatus setCompletionBlock: ^ {
+			if ([hypertableStatus errorCode]) {
+				NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+				[dict setValue:[hypertableStatus errorMessage] forKey:NSLocalizedDescriptionKey];
+				[dict setValue:[hypertableStatus errorMessage] forKey:NSLocalizedFailureReasonErrorKey];
+				NSError *error = [NSError errorWithDomain:@"" code:[hypertableStatus errorCode] userInfo:dict];
+				[NSApp presentError:error];			
+			}
+		}];
+		
+		[[[NSApp delegate] operations] addOperation:hypertableStatus];
+		[hypertableStatus release];
+		[sshHypertable release];
+	}
+	//get status for hadoop
+	if (hadoop) {
+		SSHClient * sshHadoop = [[[NSApp delegate] clusterManager] remoteShellOnServer:hadoop];
+		GetStatusOperation * hadoopStatus = [GetStatusOperation getStatusFrom:sshHadoop
+																		forServer:hadoop ];
+		[hadoopStatus setCompletionBlock: ^ {
+			if ([hadoopStatus errorCode]) {
+				NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+				[dict setValue:[hadoopStatus errorMessage] forKey:NSLocalizedDescriptionKey];
+				[dict setValue:[hadoopStatus errorMessage] forKey:NSLocalizedFailureReasonErrorKey];
+				NSError *error = [NSError errorWithDomain:@"" code:[hadoopStatus errorCode] userInfo:dict];
+				[NSApp presentError:error];			
+			}
+		}];
+		[[[NSApp delegate] operations] addOperation:hadoopStatus];
+		[hadoopStatus release];
+		[sshHadoop release];
+	}
 }
 
 @end
