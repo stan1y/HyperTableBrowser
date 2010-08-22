@@ -16,6 +16,7 @@
 #import <Inspector.h>
 
 @interface HyperTableBrowserApp : NSObject {
+	
 	ClusterManager * clusterManager;
 	SettingsManager * settingsManager;
 	
@@ -50,8 +51,6 @@
 @property (nonatomic, retain) IBOutlet HqlController * hqlController;
 
 @property (nonatomic, readonly) NSOperationQueue * operations;
-
-- (id) getSettingsByName:(NSString *)name;
 
 - (void) showErrorDialog:(int)errorCode
 			 message:(NSString *)description 

@@ -26,18 +26,9 @@
 	return self;
 }
 
-- (NSManagedObject *) selectedCluster
-{
-	return [clustersController selection];
-}
-
-- (NSManagedObject *) selectedMember
-{
-	return [membersController selection];
-}
-
 - (NSArray *)clusters
 {
+	NSLog(@"Reading clusters...");
 	NSFetchRequest * r = [[NSFetchRequest alloc] init];
 	[r setEntity:[NSEntityDescription entityForName:@"Cluster" 
 							 inManagedObjectContext:[self managedObjectContext]]];
@@ -55,11 +46,11 @@
 	return [clustersArray retain];
 }
 
-- (id)serversInCluster:(NSManagedObject *)cluster
+- (NSSet *)serversInCluster:(NSManagedObject *)cluster
 {
 	if (cluster) {
 		NSLog(@"Reading members of %s...", [[cluster valueForKey:@"name"] UTF8String]);
-		id members = [cluster mutableSetValueForKey:@"members"];
+		NSSet * members = [cluster mutableSetValueForKey:@"members"];
 		NSLog(@"There are %d members in %s", [members count], [[cluster valueForKey:@"name"] UTF8String]);
 		return members;
 	}
@@ -119,11 +110,14 @@
 
 - (NSManagedObject *)serviceOnServer:(NSManagedObject *)server withName:(NSString *)name
 {
+	NSLog(@"Quering service %@ on server %@.", name, [server valueForKey:@"name"]);
 	NSFetchRequest * r = [[NSFetchRequest alloc] init];
-	[r setEntity:[NSEntityDescription entityForName:@"Cluster" 
+	[r setEntity:[NSEntityDescription entityForName:@"Service" 
 							 inManagedObjectContext:[self managedObjectContext]]];
 	[r setIncludesPendingChanges:YES];
-	[r setPredicate:[NSPredicate predicateWithFormat:@"runsOnServer.name == %@", [server valueForKey:@"name"]]];
+	[r setPredicate:[NSPredicate predicateWithFormat:@"runsOnServer = %@ && name = %@", 
+					 server, 
+					 name] ];
 	
 	NSError * err = nil;
 	NSArray * servicesArray = [[self managedObjectContext] executeFetchRequest:r error:&err];
@@ -135,6 +129,42 @@
 	}
 	[err release];
 	[r release];
+	if (![servicesArray count]) {
+		NSLog(@"No service \"%@\" found on server \"%@\"",
+			  name, [server valueForKey:@"name"]);
+		return nil;
+	}
+	else if ([servicesArray count] > 1) {
+		NSLog(@"Multiple (%d) services with name \"%@\" found on server \"%@\"",
+			  [servicesArray count], name, [server valueForKey:@"name"]);
+	}
+	return [servicesArray objectAtIndex:0];
+}
+
+- (NSArray *)servicesOnServer:(NSManagedObject *)server
+{
+	NSLog(@"Enumerating services on server %@.", [server valueForKey:@"name"]);
+	NSFetchRequest * r = [[NSFetchRequest alloc] init];
+	[r setEntity:[NSEntityDescription entityForName:@"Service" 
+							 inManagedObjectContext:[self managedObjectContext]]];
+	[r setIncludesPendingChanges:YES];
+	[r setPredicate:[NSPredicate predicateWithFormat:@"runsOnServer == %@", server]];
+	
+	NSError * err = nil;
+	NSArray * servicesArray = [[self managedObjectContext] executeFetchRequest:r error:&err];
+	if (err) {
+		NSLog(@"Error: Failed to get services on server %@.", [server valueForKey:@"name"]);
+		[err release];
+		[r release];
+		return nil;
+	}
+	[err release];
+	[r release];
+	if (![servicesArray count]) {
+		NSLog(@"No services found on server \"%@\"", [server valueForKey:@"name"]);
+		return nil;
+	}
+	NSLog(@"%d services found.", [servicesArray count]);
 	return [servicesArray retain];
 }
 

@@ -12,6 +12,7 @@
 
 @interface HyperTable : NSObject {
 	NSString * ipAddress;
+	NSString * hypertableConfContent;
 	int port;
 	
 	HTHRIFT thriftClient;

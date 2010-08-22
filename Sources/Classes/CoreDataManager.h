@@ -21,4 +21,6 @@
 @property (nonatomic, retain, readonly) IBOutlet NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, retain, readonly) IBOutlet NSManagedObjectContext *managedObjectContext;
 
+- (BOOL) recreateDataFiles;
+
 @end

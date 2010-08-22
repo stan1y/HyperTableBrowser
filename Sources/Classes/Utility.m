@@ -31,6 +31,38 @@
 	
 	return status;
 }
-
 @end
 
+@implementation ServerSummaryTransformer
+
++ (Class)transformedValueClass { return [NSString class]; }
++ (BOOL)allowsReverseTransformation { return YES; }
+- (id)transformedValue:(id)value 
+{
+	id services = [[[NSApp delegate] clusterManager] servicesOnServer:value];
+	int runningServices = 0;
+	for (id service in services) {
+		if ([[service valueForKey:@"processID"] intValue] > 0) {
+			runningServices++;
+		}
+	}
+	return [NSString stringWithFormat:@"%d of %d services running", 
+			runningServices, [services count]];
+}
+@end
+
+@implementation ServiceStatusTransformer
+
++ (Class)transformedValueClass { return [NSImage class]; }
++ (BOOL)allowsReverseTransformation { return YES; }
+- (id)transformedValue:(id)value 
+{
+	if (value > 0) {
+		return [[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ServiceStatusRunning" ofType:@"png"]];
+	}
+	else {
+		return [[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ServiceStatusStopped" ofType:@"png"]];
+	}
+
+}
+@end

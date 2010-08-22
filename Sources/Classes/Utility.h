@@ -12,3 +12,9 @@
 	
 }
 @end
+
+@interface ServerSummaryTransformer : NSValueTransformer {	
+	
+}
+
+@end

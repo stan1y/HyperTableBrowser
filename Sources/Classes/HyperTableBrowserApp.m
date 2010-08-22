@@ -30,9 +30,11 @@
 
 + (void) initialize
 {
-	//register value transformer
-	NSValueTransformer *transformer = [[StatusValueTransformer alloc] init];
-	[NSValueTransformer setValueTransformer:transformer forName:@"StatusValueTransformer"];
+	//register value transformers
+	NSValueTransformer * statusTransformer = [[StatusValueTransformer alloc] init];
+	[NSValueTransformer setValueTransformer:statusTransformer forName:@"StatusValueTransformer"];
+	NSValueTransformer * summaryTransformer = [[ServerSummaryTransformer alloc] init];
+	[NSValueTransformer setValueTransformer:summaryTransformer forName:@"ServerSummaryTransformer"];
 }
 
 - (id)init
@@ -40,6 +42,7 @@
 	if (self = [super init]) {
 		operations = [[NSOperationQueue alloc] init];
 	}
+	
     return self;
 }
 
@@ -56,51 +59,6 @@
 
 - (void)applicationDidFinishLaunching:(NSApplication *)application 
 {
-	//check coredata managers are initialized
-	if (![settingsManager managedObjectContext] ||
-		![clusterManager managedObjectContext]) {
-		NSString * question = NSLocalizedString(@"Failed to initialized application data from a file at \"%@\".",
-											   @"Failed to initialized application data from a file");
-        NSString * info = NSLocalizedString(@"You need to recreate new data files. You can cancel recreation and try to upgrade files manually.",
-										   @"You need to recreate new data files.");
-        NSString * recreateButton = NSLocalizedString(@"Recreate", @"Recreate button title");
-        NSString * quitButton = NSLocalizedString(@"Quit", @"Cancel recreate button title");
-        NSAlert * alert = [[NSAlert alloc] init];
-        [alert setMessageText:question];
-        [alert setInformativeText:info];
-        [alert addButtonWithTitle:recreateButton];
-        [alert addButtonWithTitle:quitButton];
-		
-        NSInteger answer = [alert runModal];
-        [alert release];
-        alert = nil;
-		if (answer == NSAlertAlternateReturn) {
-			NSLog(@"Recreation of data files canceled. Quiting...");
-			[NSApp terminate:nil];
-		}
-		
-		NSLog(@"Recreating data files.");
-		NSFileManager * fm = [NSFileManager defaultManager];
-		NSError * err;
-		BOOL rc = [fm removeItemAtPath:[[self applicationSupportDirectory] stringByAppendingPathComponent:@"Clusters.xml"]
-					   error:&err];
-		if (!rc) {
-			NSLog(@"Failed to remove Clusters.xml");
-			[NSApp presentError:err];
-			[err release];
-		}
-		
-		rc = [fm removeItemAtPath:[[self applicationSupportDirectory] stringByAppendingPathComponent:@"Settings.xml"]
-								 error:&err];
-		if (!rc) {
-			NSLog(@"Failed to remove Settings.xml");
-			[NSApp presentError:err];
-			[err release];
-		}
-		
-		NSLog(@"Data files were cleaup up.");
-	}
-	
 	//show clusters browser
 	[[self clustersBrowserWindow] orderFront:self];
 	[[self clustersBrowser] setMessage:@"Application started."];

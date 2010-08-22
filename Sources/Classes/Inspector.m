@@ -17,20 +17,8 @@
 @synthesize healthBar;
 @synthesize comments;
 
-@synthesize dfsControl;
-@synthesize hmasterControl;
-@synthesize hrangeControl;
-@synthesize spaceControl;
-@synthesize thriftControl;
-
 - (void) dealloc
 {
-	[dfsControl release];
-	[hmasterControl release];
-	[hrangeControl release];
-	[spaceControl release];
-	[thriftControl release];
-	
 	[objectTitle release];
 	[hostname release];
 	[healthPercentage release];
@@ -38,6 +26,16 @@
 	[comments release];
 	
 	[super dealloc];
+}
+
+- (id) init
+{
+	if (self = [super init]) {
+		runningImage = [[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ServiceStatusRunning" ofType:@"png"]];
+		stoppedImage = [[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ServiceStatusStopped" ofType:@"png"]];
+	}
+	
+	return self;
 }
 
 - (IBAction) operateService:(id)sender
@@ -72,43 +70,20 @@
 
 
 - (IBAction) refresh:(id)sender;
-{
-	[dfsControl setEnabled:NO];
-	[spaceControl setEnabled:NO];
-	[hmasterControl setEnabled:NO];
-	[hrangeControl setEnabled:NO];
-	[thriftControl setEnabled:NO];
-	
-	id selectedMember = [[[NSApp delegate] clusterManager] selectedMember];
-	if (selectedMember) {
-		[selectedMember retain];
-		NSLog(@"Inspector: Member %@ is selected.", [selectedMember valueForKey:@"name"]);
+{	
+	id selectedServer = [[[NSApp delegate] clustersBrowser] selectedServer];
+	if (selectedServer) {
+		NSLog(@"Inspector: \"%@\" is selected.", [selectedServer valueForKey:@"name"]);
 		
-		[objectTitle setStringValue:[selectedMember valueForKey:@"name"]];
-		[hostname setStringValue:[selectedMember valueForKey:@"ipAddress"]];
-		int health = [[selectedMember valueForKey:@"healthPercent"] intValue];
+		[objectTitle setStringValue:[selectedServer valueForKey:@"name"]];
+		[hostname setStringValue:[selectedServer valueForKey:@"ipAddress"]];
+		int health = [[selectedServer valueForKey:@"healthPercent"] intValue];
+		[healthBar setIntValue:health];
 		[healthPercentage setStringValue:[NSString stringWithFormat:@"%d %%", health]];
-		[comments setStringValue:[selectedMember valueForKey:@"comment"]];
-		
-		if ([[selectedMember valueForKey:@"hasDfsBroker"] intValue]) {
-			[dfsControl setEnabled:YES];
-		}
-		if ([[selectedMember valueForKey:@"hasHyperspace"] intValue]) {
-			[spaceControl setEnabled:YES];
-		}
-		if ([[selectedMember valueForKey:@"hasRangeServer"] intValue]) {
-			[hrangeControl setEnabled:YES];
-		}
-		if ([[selectedMember valueForKey:@"hasMaster"] intValue]) {
-			[hmasterControl setEnabled:YES];
-		}
-		if ([[selectedMember valueForKey:@"hasThriftBroker"] intValue]) {
-			[thriftControl setEnabled:YES];
-		}
-		[selectedMember release];
+		[comments setStringValue:[selectedServer valueForKey:@"comment"]];
 	}
 	else {
-		NSLog(@"Inspector: No object selected.");
+		NSLog(@"Inspector: Nothing selected.");
 	}
 
 }
@@ -120,8 +95,61 @@
 {
 	
 	
-	NSLog(@"Inspector observed selection.");
+	NSLog(@"Inspector: Observed selection.");
 	[self refresh:object];
+}
+
+// --- Service listing
+
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
+{
+	NSManagedObject * selected = [[[NSApp delegate] clustersBrowser] selectedServer];
+	if (selected) {
+		int servicesCount = [[[[NSApp delegate] clusterManager] servicesOnServer:selected] count];
+		return servicesCount;
+	}
+	
+	return 0;
+}
+
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn 
+			row:(NSInteger)rowIndex
+{
+	
+	NSManagedObject * selectedServer = [[[NSApp delegate] clustersBrowser] selectedServer];
+	if (selectedServer) {
+		NSArray * services = [[[NSApp delegate] clusterManager] servicesOnServer:selectedServer];
+		
+		if (!services) {
+			return [NSArray arrayWithObjects:@"Not Available", nil];
+		}
+		
+		id cellValue = nil;
+		if ([[aTableColumn identifier] isEqual:@"name"]) {
+			NSString * serviceName = [[services objectAtIndex:rowIndex] valueForKey:@"serviceName"];
+			cellValue = serviceName;
+		}
+		else if ( [[aTableColumn identifier] isEqual:@"control"] ) {
+			int processID = [[[services objectAtIndex:rowIndex] valueForKey:@"processID"] intValue];
+			if (processID) {
+				cellValue = [NSArray arrayWithObjects:@"Running", @"Initiate Stop...", nil];
+			}
+			else {
+				cellValue = [NSArray arrayWithObjects:@"Stopped", @"Initiate Start...", nil];
+			}
+		}
+
+		return cellValue;
+	}
+	
+	return nil;
+}
+
+// Sevices selection
+- (void)tableViewSelectionDidChange:(NSNotification *)aNotification
+{
+	selectedServiceIndex = [[aNotification object] selectedRow];
+	NSLog(@"Inspector: selected service at index %d", selectedServiceIndex);
 }
 
 @end

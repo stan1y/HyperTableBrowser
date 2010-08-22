@@ -34,7 +34,10 @@
 		76400E00122125D70020DB2C /* NewTableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76400DFE122125D70020DB2C /* NewTableController.m */; };
 		76400E05122125F30020DB2C /* HqlController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76400E02122125F30020DB2C /* HqlController.m */; };
 		76400E06122125F30020DB2C /* PageSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 76400E04122125F30020DB2C /* PageSource.m */; };
-		76400E091221261C0020DB2C /* ObjectsPageSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 76400E081221261C0020DB2C /* ObjectsPageSource.m */; };
+		76400ED712213BEE0020DB2C /* KnownServices.m in Sources */ = {isa = PBXBuildFile; fileRef = 76400ED612213BEE0020DB2C /* KnownServices.m */; };
+		76400F8312216DA40020DB2C /* ServiceStatusError.png in Resources */ = {isa = PBXBuildFile; fileRef = 76400F8012216DA40020DB2C /* ServiceStatusError.png */; };
+		76400F8412216DA40020DB2C /* ServiceStatusRunning.png in Resources */ = {isa = PBXBuildFile; fileRef = 76400F8112216DA40020DB2C /* ServiceStatusRunning.png */; };
+		76400F8512216DA40020DB2C /* ServiceStatusStopped.png in Resources */ = {isa = PBXBuildFile; fileRef = 76400F8212216DA40020DB2C /* ServiceStatusStopped.png */; };
 		766A3E7A1162268C00176B42 /* MBPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 766A3E791162268C00176B42 /* MBPreferencesController.m */; };
 		766F24D810D7935100AB059D /* HyperThriftHql.h in Headers */ = {isa = PBXBuildFile; fileRef = 766F24D610D7935100AB059D /* HyperThriftHql.h */; };
 		766F24D910D7935100AB059D /* HyperThriftHql.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 766F24D710D7935100AB059D /* HyperThriftHql.cpp */; };
@@ -271,8 +274,11 @@
 		76400E02122125F30020DB2C /* HqlController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HqlController.m; path = Sources/Classes/HqlController.m; sourceTree = "<group>"; };
 		76400E03122125F30020DB2C /* PageSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PageSource.h; path = Sources/Classes/PageSource.h; sourceTree = "<group>"; };
 		76400E04122125F30020DB2C /* PageSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PageSource.m; path = Sources/Classes/PageSource.m; sourceTree = "<group>"; };
-		76400E071221261C0020DB2C /* ObjectsPageSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ObjectsPageSource.h; path = Sources/Classes/ObjectsPageSource.h; sourceTree = "<group>"; };
-		76400E081221261C0020DB2C /* ObjectsPageSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ObjectsPageSource.m; path = Sources/Classes/ObjectsPageSource.m; sourceTree = "<group>"; };
+		76400ED512213BEE0020DB2C /* KnownServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KnownServices.h; sourceTree = "<group>"; };
+		76400ED612213BEE0020DB2C /* KnownServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KnownServices.m; sourceTree = "<group>"; };
+		76400F8012216DA40020DB2C /* ServiceStatusError.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ServiceStatusError.png; path = Icons/ServiceStatusError.png; sourceTree = "<group>"; };
+		76400F8112216DA40020DB2C /* ServiceStatusRunning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ServiceStatusRunning.png; path = Icons/ServiceStatusRunning.png; sourceTree = "<group>"; };
+		76400F8212216DA40020DB2C /* ServiceStatusStopped.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ServiceStatusStopped.png; path = Icons/ServiceStatusStopped.png; sourceTree = "<group>"; };
 		766A3E781162268C00176B42 /* MBPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBPreferencesController.h; path = Sources/Classes/MBPreferencesController.h; sourceTree = "<group>"; };
 		766A3E791162268C00176B42 /* MBPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBPreferencesController.m; path = Sources/Classes/MBPreferencesController.m; sourceTree = "<group>"; };
 		766F24D610D7935100AB059D /* HyperThriftHql.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyperThriftHql.h; sourceTree = "<group>"; };
@@ -497,6 +503,8 @@
 				76E94B36121A8A3200370F01 /* SSHClient.m */,
 				76400D6C122115840020DB2C /* Utility.h */,
 				76400D6D122115840020DB2C /* Utility.m */,
+				76400ED512213BEE0020DB2C /* KnownServices.h */,
+				76400ED612213BEE0020DB2C /* KnownServices.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -634,8 +642,6 @@
 		76967B2D120FF430000FD196 /* Tables Browser */ = {
 			isa = PBXGroup;
 			children = (
-				76400E071221261C0020DB2C /* ObjectsPageSource.h */,
-				76400E081221261C0020DB2C /* ObjectsPageSource.m */,
 				76400DFB122125D70020DB2C /* InsertNewRowController.h */,
 				76400DFC122125D70020DB2C /* InsertNewRowController.m */,
 				76400DFD122125D70020DB2C /* NewTableController.h */,
@@ -741,6 +747,9 @@
 		76E950F7121D771200370F01 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				76400F8012216DA40020DB2C /* ServiceStatusError.png */,
+				76400F8112216DA40020DB2C /* ServiceStatusRunning.png */,
+				76400F8212216DA40020DB2C /* ServiceStatusStopped.png */,
 				76E95104121D77E200370F01 /* RefreshTables.icns */,
 				76E950F8121D772600370F01 /* AddServer.icns */,
 				76E950F9121D772600370F01 /* DropTable.icns */,
@@ -1110,6 +1119,9 @@
 				76E95102121D772600370F01 /* RefreshServers.icns in Resources */,
 				76E95103121D772600370F01 /* ShowHQL.icns in Resources */,
 				76E95105121D77E200370F01 /* RefreshTables.icns in Resources */,
+				76400F8312216DA40020DB2C /* ServiceStatusError.png in Resources */,
+				76400F8412216DA40020DB2C /* ServiceStatusRunning.png in Resources */,
+				76400F8512216DA40020DB2C /* ServiceStatusStopped.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1227,7 +1239,7 @@
 				76400E00122125D70020DB2C /* NewTableController.m in Sources */,
 				76400E05122125F30020DB2C /* HqlController.m in Sources */,
 				76400E06122125F30020DB2C /* PageSource.m in Sources */,
-				76400E091221261C0020DB2C /* ObjectsPageSource.m in Sources */,
+				76400ED712213BEE0020DB2C /* KnownServices.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

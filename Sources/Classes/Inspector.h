@@ -15,11 +15,10 @@
 	NSLevelIndicator * healthBar; 
 	NSTextField * comments;
 	
-	NSPopUpButton * dfsControl;
-	NSPopUpButton * spaceControl;
-	NSPopUpButton * hmasterControl;
-	NSPopUpButton * hrangeControl;
-	NSPopUpButton * thriftControl;
+	int selectedServiceIndex;
+	
+	NSImage * runningImage;
+	NSImage * stoppedImage;
 }
 
 @property (nonatomic, retain) IBOutlet NSTextField * objectTitle;
@@ -28,11 +27,6 @@
 @property (nonatomic, retain) IBOutlet NSTextField * hostname;
 @property (nonatomic, retain) IBOutlet NSTextField * comments;
 
-@property (nonatomic, retain) IBOutlet NSPopUpButton * dfsControl;
-@property (nonatomic, retain) IBOutlet NSPopUpButton * spaceControl;
-@property (nonatomic, retain) IBOutlet NSPopUpButton * hmasterControl;
-@property (nonatomic, retain) IBOutlet NSPopUpButton * hrangeControl;
-@property (nonatomic, retain) IBOutlet NSPopUpButton * thriftControl;
 
 - (IBAction) operateService:(id)sender;
 - (IBAction) closeInspector:(id)sender;
@@ -42,5 +36,14 @@
 					  ofObject:(id)object 
 						change:(NSDictionary *)change 
 					   context:(void *)context;
+
+// tableview datasource for services list
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView;
+- (id)tableView:(NSTableView *)aTableView 
+objectValueForTableColumn:(NSTableColumn *)aTableColumn 
+			row:(NSInteger)rowIndex;
+
+// tableview delegate selection of service in table
+- (void)tableViewSelectionDidChange:(NSNotification *)aNotification;
 
 @end

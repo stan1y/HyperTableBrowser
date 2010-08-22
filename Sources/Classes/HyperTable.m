@@ -22,13 +22,13 @@
 - (NSArray *)tables
 {
 	if (!tables) {
-		NSLog(@"Tables were not updated ever yet.");
 		return [NSArray array];
 	}
+	
 	//make sure tables were updated right after conenction
 	[connectionLock lock];
 	NSArray * copy = [NSArray arrayWithArray:tables];
-	[copy retain];
+	//[copy retain];
 	[connectionLock unlock];
 	return copy;
 }

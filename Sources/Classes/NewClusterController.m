@@ -107,8 +107,7 @@
 		[hadoop setValue:@"HDFS Broker" forKey:@"name"];
 		[hadoop setValue:@"" forKey:@"comment"];
 		//status
-		[hadoop setValue:@"Pending..." forKey:@"status"];
-		[hadoop setValue:[NSNumber numberWithInt:0] forKey:@"statusInt"];		
+		[hadoop setValue:[NSNumber numberWithInt:0] forKey:@"status"];		
 		[hadoop setValue:[NSNumber numberWithInt:0] forKey:@"health"];
 		//network
 		[hadoop setValue:[hadoopBroker stringValue] forKey:@"ipAddress"];
@@ -140,8 +139,7 @@
 		[hypertable setValue:@"Hypertable Broker" forKey:@"name"];
 		[hypertable setValue:@"" forKey:@"comment"];
 		//status
-		[hypertable setValue:@"Pending..." forKey:@"status"];
-		[hypertable setValue:[NSNumber numberWithInt:0] forKey:@"statusInt"];		
+		[hypertable setValue:[NSNumber numberWithInt:0] forKey:@"status"];		
 		[hypertable setValue:[NSNumber numberWithInt:0] forKey:@"health"];
 		//network
 		[hypertable setValue:[hypertableBroker stringValue] forKey:@"ipAddress"];

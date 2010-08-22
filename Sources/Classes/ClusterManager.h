@@ -26,17 +26,15 @@
 - (ClusterManager *) init;
 
 - (NSArray *)clusters;
-- (id)serversInCluster:(NSManagedObject *)cluster;
+- (NSSet *)serversInCluster:(NSManagedObject *)cluster;
 
 - (HyperTable *)hypertableOnServer:(NSManagedObject *)server;
 - (SSHClient *)remoteShellOnServer:(NSManagedObject *)server;
 
-- (NSManagedObject *) selectedCluster;
-- (NSManagedObject *) selectedMember;
-
 - (NSArray *)allHypertableBrokers;
 - (NSArray *)allHadoopBrokers;
 
+- (NSArray *)servicesOnServer:(NSManagedObject *)server;
 - (NSManagedObject *)serviceOnServer:(NSManagedObject *)server withName:(NSString *)name;
 
 @end
