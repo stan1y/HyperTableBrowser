@@ -18,12 +18,17 @@
 @synthesize newClusterMenuItem;
 @synthesize newClusterPanel;
 
+@synthesize membersTable;
+
 - (void) dealloc
 {
 	[statusMessageField release];
 	[statusIndicator release];
 	[newClusterMenuItem release];
 	[newClusterPanel release];
+	
+	[membersTable release];
+	
 	[super dealloc];
 }
 
@@ -51,6 +56,12 @@
 		id members = [[[NSApp delegate] clusterManager] serversInCluster:selectedCluster];
 		for (NSManagedObject * server in members) {
 			SSHClient * client = [[[NSApp delegate] clusterManager] remoteShellOnServer:server];
+			if ( !client ) {
+				[self indicateDone];
+				[self setMessage:[NSString stringWithFormat:@"Failed to create ssh client."]];
+				return;
+			}
+			
 			GetStatusOperation * op = [GetStatusOperation getStatusFrom:client
 															  forServer:server];
 			[op setCompletionBlock: ^ {
@@ -64,11 +75,12 @@
 					[NSApp presentError:error];			
 				}
 			}];
+			
 			[[[NSApp delegate] operations] addOperation:op];
 			[op release];
 			[client release];
 		}
-		[selectedCluster release];
+		//[selectedCluster release];
 	}
 }
 
@@ -156,6 +168,12 @@
 {
 	[[[NSApp delegate] hqlController] updateConnections:sender];
 	[[[NSApp delegate] hqlWindow] orderFront:sender];
+}
+
+- (IBAction)showInspector:(id)sender
+{
+	[[[NSApp delegate] inspector] refresh:sender];
+	[[[NSApp delegate] inspectorPanel] orderFront:sender];
 }
 
 @end

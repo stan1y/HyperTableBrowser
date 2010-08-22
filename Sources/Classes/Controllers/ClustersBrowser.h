@@ -18,7 +18,11 @@
 	
 	NSMenuItem * newClusterMenuItem;
 	NSPanel * newClusterPanel;
+	
+	NSTableView * membersTable;
 }
+
+@property (nonatomic, retain) IBOutlet NSTableView * membersTable;
 
 @property (nonatomic, retain) IBOutlet NSTextField * statusMessageField;
 @property (nonatomic, retain) IBOutlet NSProgressIndicator * statusIndicator;
