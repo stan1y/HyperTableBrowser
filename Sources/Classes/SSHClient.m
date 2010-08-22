@@ -24,15 +24,14 @@
 	[stderrPipe release];
 	
 	if (sshOutput) {
-		NSLog(@"removing ssh output at dealloc");
 		[sshOutput release];
 	}
 	
 	if (sshError) {
-		NSLog(@"removing ssh error at dealloc");
 		[sshError release];
 	}
 	
+	NSLog(@"Deallocating ssh client.");
 	[super dealloc];
 }
 
@@ -107,6 +106,15 @@
 		[ssh release];
 		ssh = nil;
 	}
+}
+
+- (int)lastExitCode
+{
+	if (ssh) {
+		return [ssh terminationStatus];
+	}
+	NSLog(@"/usr/bin/ssh was not executed. No terminationStatus available.");
+	return 0;
 }
 
 - (int)runCommand:(NSString*)command
