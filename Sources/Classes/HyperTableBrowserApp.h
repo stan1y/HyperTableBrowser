@@ -13,11 +13,7 @@
 
 #import <ClusterManager.h>
 #import <SettingsManager.h>
-
-@interface StatusValueTransformer : NSValueTransformer {	
-
-}
-@end
+#import <Inspector.h>
 
 @interface HyperTableBrowserApp : NSObject {
 	ClusterManager * clusterManager;
@@ -32,8 +28,14 @@
 	NSWindow * hqlWindow;
 	HqlController * hqlController;
 	
+	NSPanel * inspectorPanel;
+	Inspector * inspector;
+	
 	NSOperationQueue * operations;
 }
+
+@property (nonatomic, retain) IBOutlet NSPanel * inspectorPanel;
+@property (nonatomic, retain) IBOutlet Inspector * inspector;
 
 @property (nonatomic, retain) IBOutlet SettingsManager * settingsManager;
 @property (nonatomic, retain) IBOutlet ClusterManager * clusterManager;

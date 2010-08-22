@@ -7,36 +7,7 @@
 //
 
 #import "HyperTableBrowserApp.h"
-
-// ---------------------- Utility for status ---------------- //
-
-@implementation StatusValueTransformer
-
-+ (Class)transformedValueClass { return [NSString class]; }
-+ (BOOL)allowsReverseTransformation { return YES; }
-- (id)transformedValue:(id)value 
-{
-	int intStatus = [value intValue];
-	NSString * status;
-	
-	switch (intStatus) {
-		case 0:
-			status = @"Operational";
-			break;
-		case 1:
-			status = @"Error";
-			break;
-		default:
-			status = @"Pending...";
-			break;
-	}
-	
-	return status;
-}
-
-@end
-
-// ---------------------- Application Delegate ---------------- //
+#import <Utility.h>
 
 @implementation HyperTableBrowserApp
 
@@ -51,6 +22,9 @@
 
 @synthesize clusterManager;
 @synthesize settingsManager;
+
+@synthesize inspector;
+@synthesize inspectorPanel;
 
 @synthesize operations;
 
@@ -92,6 +66,12 @@
 	if ( ![clusters count] ) {
 		[[self clustersBrowser] showNewClusterDialog:application];
 	}
+	//register inspector's observer
+	[[[self clusterManager] membersController] addObserver:inspector
+			  forKeyPath:@"selection"
+                 options:(NSKeyValueObservingOptionNew |
+						  NSKeyValueObservingOptionOld)
+				 context:NULL];
 }
 /**
     Returns the support directory for the application, used to store the Core Data
@@ -206,10 +186,15 @@
 {
 	[hqlWindow release];
 	[hqlController release];
+	
 	[tablesBrowserWindow release];
 	[tablesBrowser release];
+	
 	[clustersBrowserWindow release];
 	[clustersBrowser release];
+	
+	[inspectorPanel release];
+	[inspector release];
 	
 	[operations release];
 	
