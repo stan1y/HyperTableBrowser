@@ -21,7 +21,7 @@
 		hypertableCache = [[NSMutableDictionary alloc] init];
 		hadoopCache = [[NSMutableDictionary alloc] init];
 		sshCache = [[NSMutableDictionary alloc] init];
-		[self setDataFileName:@"Clusters.xml"];
+		dataFileName =  @"Clusters.xml";
 	}
 	return self;
 }

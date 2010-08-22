@@ -13,11 +13,6 @@
 
 @synthesize dataFileName;
 
-/**
- Creates, retains, and returns the managed object model for the application 
- by merging all of the models found in the application bundle.
- */
-
 - (NSManagedObjectModel *)managedObjectModel {
 	
     if (managedObjectModel) return managedObjectModel;
@@ -25,14 +20,6 @@
     managedObjectModel = [[NSManagedObjectModel mergedModelFromBundles:nil] retain];    
     return managedObjectModel;
 }
-
-
-/**
- Returns the persistent store coordinator for the application.  This 
- implementation will create and return a coordinator, having added the 
- store for the application to it.  (The directory for the store is created, 
- if necessary.)
- */
 
 - (NSPersistentStoreCoordinator *) persistentStoreCoordinator {
 	
@@ -53,6 +40,7 @@
 		if (![fileManager createDirectoryAtPath:applicationSupportDirectory withIntermediateDirectories:NO attributes:nil error:&error]) {
             NSAssert(NO, ([NSString stringWithFormat:@"Failed to create App Support directory %@ : %@", applicationSupportDirectory,error]));
             NSLog(@"Error creating application support directory at %@ : %@", applicationSupportDirectory,error);
+			[self setIsActive:NO];
             return nil;
 		}
     }
@@ -66,6 +54,7 @@
 														options:nil 
 														  error:&error]){
         [[NSApplication sharedApplication] presentError:error];
+		[self setIsActive:NO];
         [persistentStoreCoordinator release], persistentStoreCoordinator = nil;
         return nil;
     }    
@@ -73,22 +62,13 @@
     return persistentStoreCoordinator;
 }
 
-/**
- Returns the managed object context for the application (which is already
- bound to the persistent store coordinator for the application.) 
- */
-
 - (NSManagedObjectContext *) managedObjectContext {
 	
     if (managedObjectContext) return managedObjectContext;
 	
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
     if (!coordinator) {
-        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-        [dict setValue:@"Failed to initialize the data file." forKey:NSLocalizedDescriptionKey];
-        [dict setValue:@"There was an error building up the data file." forKey:NSLocalizedFailureReasonErrorKey];
-        NSError *error = [NSError errorWithDomain:@"" code:9999 userInfo:dict];
-        [[NSApplication sharedApplication] presentError:error];
+		[self setIsActive:NO];
         return nil;
     }
     managedObjectContext = [[NSManagedObjectContext alloc] init];

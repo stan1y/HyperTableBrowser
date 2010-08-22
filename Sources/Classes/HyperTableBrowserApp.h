@@ -56,4 +56,7 @@
 - (void) showErrorDialog:(int)errorCode
 			 message:(NSString *)description 
 		  withReason:(NSString *)reason;
+
+- (NSString *)applicationSupportDirectory;
+
 @end

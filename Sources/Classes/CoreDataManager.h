@@ -16,9 +16,9 @@
 	NSString * dataFileName;
 }
 
-@property (nonatomic, retain) NSString * dataFileName;
-@property (nonatomic, retain) IBOutlet NSPersistentStoreCoordinator *persistentStoreCoordinator;
-@property (nonatomic, retain) IBOutlet NSManagedObjectModel *managedObjectModel;
-@property (nonatomic, retain) IBOutlet NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, retain, readonly) NSString * dataFileName;
+@property (nonatomic, retain, readonly) IBOutlet NSPersistentStoreCoordinator *persistentStoreCoordinator;
+@property (nonatomic, retain, readonly) IBOutlet NSManagedObjectModel *managedObjectModel;
+@property (nonatomic, retain, readonly) IBOutlet NSManagedObjectContext *managedObjectContext;
 
 @end

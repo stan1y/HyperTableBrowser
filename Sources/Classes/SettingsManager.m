@@ -22,7 +22,7 @@
 - (SettingsManager *) init
 {
 	if (self = [super init]) {
-		[self setDataFileName:@"Settings.xml"];
+		dataFileName = @"Settings.xml";
 	}
 	return self;
 }
