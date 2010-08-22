@@ -37,4 +37,6 @@
 - (NSArray *)allHypertableBrokers;
 - (NSArray *)allHadoopBrokers;
 
+- (NSManagedObject *)serviceOnServer:(NSManagedObject *)server withName:(NSString *)name;
+
 @end

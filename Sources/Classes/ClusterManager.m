@@ -57,10 +57,14 @@
 
 - (id)serversInCluster:(NSManagedObject *)cluster
 {
-	NSLog(@"Reading members of %s...", [[cluster valueForKey:@"name"] UTF8String]);
-	id members = [cluster mutableSetValueForKey:@"members"];
-	NSLog(@"There are %d members in %s", [members count], [[cluster valueForKey:@"name"] UTF8String]);
-	return members;
+	if (cluster) {
+		NSLog(@"Reading members of %s...", [[cluster valueForKey:@"name"] UTF8String]);
+		id members = [cluster mutableSetValueForKey:@"members"];
+		NSLog(@"There are %d members in %s", [members count], [[cluster valueForKey:@"name"] UTF8String]);
+		return members;
+	}
+	NSLog(@"Error: nil cluster specified for searching...");
+	return nil;
 }
 
 - (HyperTable *)hypertableOnServer:(NSManagedObject *)server
@@ -104,12 +108,34 @@
 		if (rc) {
 			NSLog(@"Failed to open remote shell on server. Code %d", rc);
 			NSLog(@"Error: %s", [[ssh error] UTF8String]);
+			[ssh release];
 			return nil;
 		}
 		NSLog(@"Connected to server:\n%s", [[ssh output] UTF8String]);
 		[sshCache setObject:ssh forKey:ipAddress];
 		return ssh;
 	}
+}
+
+- (NSManagedObject *)serviceOnServer:(NSManagedObject *)server withName:(NSString *)name
+{
+	NSFetchRequest * r = [[NSFetchRequest alloc] init];
+	[r setEntity:[NSEntityDescription entityForName:@"Cluster" 
+							 inManagedObjectContext:[self managedObjectContext]]];
+	[r setIncludesPendingChanges:YES];
+	[r setPredicate:[NSPredicate predicateWithFormat:@"runsOnServer.name == %@", [server valueForKey:@"name"]]];
+	
+	NSError * err = nil;
+	NSArray * servicesArray = [[self managedObjectContext] executeFetchRequest:r error:&err];
+	if (err) {
+		NSLog(@"Error: Failed to get services on server %@.", [server valueForKey:@"name"]);
+		[err release];
+		[r release];
+		return nil;
+	}
+	[err release];
+	[r release];
+	return [servicesArray retain];
 }
 
 - (void) dealloc
