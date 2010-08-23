@@ -19,6 +19,99 @@
 @synthesize ipAddress;
 @synthesize port;
 
++ (NSString *)errorFromCode:(int)code {
+	switch (code) {
+		case T_ERR_CLIENT:
+			return @"Failed to execute. Check syntax.";
+			break;
+		case T_ERR_TRANSPORT:
+			return @"Connection failed. Check Thrift broker is running.";
+			break;
+		case T_ERR_NODATA:
+			return @"No data returned from query, where is was expected to.";
+			break;
+		case T_ERR_TIMEOUT:
+			return @"Operation timeout. Check HyperTable is running correctly.";
+			break;
+		case T_ERR_APPLICATION:
+			return @"System error occured. Either your HyperTable server is incompatible with this client application or it had experienced problem service the request";
+			break;
+			
+		case T_OK:
+		default:
+			return @"Executed successfuly.";
+			break;
+	}
+}
+
+#pragma mark Initialization
+- (void) awakeFromFetch
+{
+}
+
++ (NSEntityDescription *) hypertableDescription
+{
+	return [NSEntityDescription entityForName:@"HyperTable" 
+					   inManagedObjectContext:[[NSApp delegate] managedObjectContext]];
+}
+
++ (NSEntityDescription *) tableSchemaDescription
+{
+	return [NSEntityDescription entityForName:@"TableSchema" 
+					   inManagedObjectContext:[[NSApp delegate] managedObjectContext]];
+}
+
+- (id) init
+{
+	if (self = [super init] ) {
+		connectionLock = [[NSLock alloc] init];
+	}
+	return self;
+}
+
+- (void) dealloc
+{
+	[tables release];
+	[connectionLock release];
+	
+	if (thriftClient) {
+		free(thriftClient);
+		thriftClient = nil;
+	}
+	
+	if (hqlClient) {
+		free(hqlClient);
+		hqlClient = nil;
+	}
+	[super dealloc];
+}
+
+#pragma mark HyperTable API
+
++ (NSArray *) allHypertables
+{
+	NSLog(@"Reading HyperTables...");
+	NSFetchRequest * r = [[NSFetchRequest alloc] init];
+	[r setEntity:[HyperTable hypertableDescription]];
+	[r setIncludesPendingChanges:YES];
+	NSSortDescriptor * sort = [[[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES] autorelease];
+	[r setSortDescriptors:[NSArray arrayWithObjects:sort, nil]];
+	
+	NSError * err = nil;
+	NSArray * array = [[[NSApp delegate] managedObjectContext] executeFetchRequest:r error:&err];
+	if (err) {
+		NSLog(@"Error: Failed to fetch HyperTables.");
+		[err release];
+		[r release];
+		return nil;
+	}
+	[err release];
+	[r release];
+	NSLog(@"%d brokers(s) defined.", [array count]);
+	return array;
+}
+
+
 - (NSArray *)tables
 {
 	if (!tables) {
@@ -44,21 +137,7 @@
 	[tables retain];
 }
 
-+ (HyperTable *) hypertableAt:(NSString *)addr onPort:(int)aPort
-{
-	HyperTable * ht = [[HyperTable alloc] init];
-	[ht setIpAddress:addr];
-	[ht setPort:aPort];
-	return ht;
-}
-
-- (id) init
-{
-	if (self = [super init] ) {
-		connectionLock = [[NSLock alloc] init];
-	}
-	return self;
-}
+#pragma mark Connection API
 
 - (void) disconnect
 {
@@ -112,50 +191,49 @@
 	}
 }
 
-- (void) dealloc
-{
-	[tables release];
-	[connectionLock release];
-	
-	if (thriftClient) {
-		free(thriftClient);
-		thriftClient = nil;
-	}
-	
-	if (hqlClient) {
-		free(hqlClient);
-		hqlClient = nil;
-	}
-	[super dealloc];
-}
-
-+ (NSString *)errorFromCode:(int)code {
-	switch (code) {
-		case T_ERR_CLIENT:
-			return @"Failed to execute. Check syntax.";
-			break;
-		case T_ERR_TRANSPORT:
-			return @"Connection failed. Check Thrift broker is running.";
-			break;
-		case T_ERR_NODATA:
-			return @"No data returned from query, where is was expected to.";
-			break;
-		case T_ERR_TIMEOUT:
-			return @"Operation timeout. Check HyperTable is running correctly.";
-			break;
-		case T_ERR_APPLICATION:
-			return @"System error occured. Either your HyperTable server is incompatible with this client application or it had experienced problem service the request";
-			break;
-			
-		case T_OK:
-		default:
-			return @"Executed successfuly.";
-			break;
-	}
-}
-
 - (BOOL)isConnected {
 	return ( (thriftClient != nil) && (hqlClient != nil) );
+}
+
+#pragma mark Table Schema API
+
++ (NSArray *)listSchemes
+{
+	NSLog(@"Listing table schemes\n");
+	NSFetchRequest * r = [[NSFetchRequest alloc] init];
+	[r setEntity:[HyperTable tableSchemaDescription]];
+	[r setIncludesPendingChanges:YES];
+	NSError * err = nil;
+	NSManagedObjectContext * context = [[NSApp delegate] managedObjectContext];
+	NSArray * schemesArray = [context executeFetchRequest:r error:&err];
+	if (err) {
+		NSString * msg = @"listSchemes : Failed to get schemes from datastore";
+		NSLog(@"Error: %s", [msg UTF8String]);
+		[err release];
+		[r release];
+		return nil;
+	}
+	[err release];
+	[r release];
+	[context release];
+	NSLog(@"There are %d scheme(s)", [schemesArray count]);
+	return schemesArray;
+}
+
++ (NSManagedObject *)getSchemaByName:(NSString *)name
+{
+	NSArray * schemes = [self listSchemes];
+	for (NSManagedObject * schema in schemes) {
+		if ( [schema valueForKey:@"name"] == name) {
+			return schema;
+		}
+	}
+	return nil;
+}
+
+- (NSArray *) describeColumns:(NSManagedObject *)schema
+{
+	return [NSArray array];
 }
 
 @end

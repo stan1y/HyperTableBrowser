@@ -15,21 +15,15 @@
 	NSMutableDictionary * hypertableCache;
 	NSMutableDictionary * hadoopCache;
 	NSMutableDictionary * sshCache;
-	
-	NSArrayController * clustersController;
-	NSArrayController * membersController;
 }
-
-@property (nonatomic, retain) IBOutlet NSArrayController * clustersController;
-@property (nonatomic, retain) IBOutlet NSArrayController * membersController;
 
 - (ClusterManager *) init;
 
 - (NSArray *)clusters;
 - (NSSet *)serversInCluster:(NSManagedObject *)cluster;
 
-- (HyperTable *)hypertableOnServer:(NSManagedObject *)server;
-- (SSHClient *)remoteShellOnServer:(NSManagedObject *)server;
+//- (HyperTable *)hypertableOnServer:(NSManagedObject *)server;
+//- (SSHClient *)remoteShellOnServer:(NSManagedObject *)server;
 
 - (NSArray *)allHypertableBrokers;
 - (NSArray *)allHadoopBrokers;

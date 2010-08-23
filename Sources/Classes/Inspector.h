@@ -16,9 +16,8 @@
 	NSTextField * comments;
 	
 	int selectedServiceIndex;
-	
-	NSImage * runningImage;
-	NSImage * stoppedImage;
+	NSArray * serviceRunningValues;
+	NSArray * serviceStoppedValues;
 }
 
 @property (nonatomic, retain) IBOutlet NSTextField * objectTitle;
@@ -27,23 +26,9 @@
 @property (nonatomic, retain) IBOutlet NSTextField * hostname;
 @property (nonatomic, retain) IBOutlet NSTextField * comments;
 
-
 - (IBAction) operateService:(id)sender;
 - (IBAction) closeInspector:(id)sender;
 - (IBAction) refresh:(id)sender;
 
-- (void)observeValueForKeyPath:(NSString *)keyPath 
-					  ofObject:(id)object 
-						change:(NSDictionary *)change 
-					   context:(void *)context;
-
-// tableview datasource for services list
-- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView;
-- (id)tableView:(NSTableView *)aTableView 
-objectValueForTableColumn:(NSTableColumn *)aTableColumn 
-			row:(NSInteger)rowIndex;
-
-// tableview delegate selection of service in table
-- (void)tableViewSelectionDidChange:(NSNotification *)aNotification;
 
 @end

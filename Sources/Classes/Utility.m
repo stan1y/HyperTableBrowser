@@ -39,15 +39,14 @@
 + (BOOL)allowsReverseTransformation { return YES; }
 - (id)transformedValue:(id)value 
 {
-	id services = [[[NSApp delegate] clusterManager] servicesOnServer:value];
 	int runningServices = 0;
-	for (id service in services) {
+	for (id service in [value services]) {
 		if ([[service valueForKey:@"processID"] intValue] > 0) {
 			runningServices++;
 		}
 	}
 	return [NSString stringWithFormat:@"%d of %d services running", 
-			runningServices, [services count]];
+			runningServices, [[value services] count]];
 }
 @end
 

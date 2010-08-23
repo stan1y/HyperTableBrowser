@@ -29,8 +29,8 @@
 	[self indicateBusy];
 	
 	//populate selector
-	id brokersList = [[[NSApp delegate] clusterManager] allHypertableBrokers];
 	[serverSelector removeAllItems];
+	id brokersList = [HyperTable allHypertables];
 	for (id hypertable in brokersList) {
 		if ( ![hypertable isConnected]) {
 			[hypertable reconnect:^ {
@@ -66,7 +66,7 @@
 		return nil;
 	}
 	
-	for (HyperTable * hypertable in [[[NSApp delegate] clusterManager] allHypertableBrokers]) {
+	for (HyperTable * hypertable in [HyperTable allHypertables]) {
 		if ([[hypertable ipAddress] isEqual: [[serverSelector selectedItem] title]]) {
 			return hypertable;
 		}

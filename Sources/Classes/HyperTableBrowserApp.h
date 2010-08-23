@@ -10,15 +10,9 @@
 #import <HqlController.h>
 #import <ClustersBrowser.h>
 #import <TablesBrowser.h>
-
-#import <ClusterManager.h>
-#import <SettingsManager.h>
 #import <Inspector.h>
 
 @interface HyperTableBrowserApp : NSObject {
-	
-	ClusterManager * clusterManager;
-	SettingsManager * settingsManager;
 	
 	NSWindow * clustersBrowserWindow;
 	ClustersBrowser * clustersBrowser;
@@ -33,13 +27,18 @@
 	Inspector * inspector;
 	
 	NSOperationQueue * operations;
+	
+	NSPersistentStoreCoordinator *persistentStoreCoordinator;
+    NSManagedObjectModel *managedObjectModel;
+    NSManagedObjectContext *managedObjectContext;
 }
+
+@property (nonatomic, retain, readonly) IBOutlet NSPersistentStoreCoordinator *persistentStoreCoordinator;
+@property (nonatomic, retain, readonly) IBOutlet NSManagedObjectModel *managedObjectModel;
+@property (nonatomic, retain, readonly) IBOutlet NSManagedObjectContext *managedObjectContext;
 
 @property (nonatomic, retain) IBOutlet NSPanel * inspectorPanel;
 @property (nonatomic, retain) IBOutlet Inspector * inspector;
-
-@property (nonatomic, retain) IBOutlet SettingsManager * settingsManager;
-@property (nonatomic, retain) IBOutlet ClusterManager * clusterManager;
 
 @property (nonatomic, retain) IBOutlet  NSWindow * clustersBrowserWindow;
 @property (nonatomic, retain) IBOutlet ClustersBrowser * clustersBrowser;
@@ -55,7 +54,7 @@
 - (void) showErrorDialog:(int)errorCode
 			 message:(NSString *)description 
 		  withReason:(NSString *)reason;
-
 - (NSString *)applicationSupportDirectory;
+- (id) getSettingsByName:(NSString *)name;
 
 @end

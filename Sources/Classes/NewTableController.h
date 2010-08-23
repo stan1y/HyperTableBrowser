@@ -8,10 +8,10 @@
 
 #import <Cocoa/Cocoa.h>
 #import <HyperTable.h>
-#import <TableSchema.h>
+#import <HyperTableOperationController.h>
 #import <FetchTablesOperation.h>
 
-@interface NewTableController : NSViewController {
+@interface NewTableController : HyperTableOperationController {
 
 	NSTextField * tableNameField;
 	NSTextField * schemaContents;

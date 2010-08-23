@@ -7,21 +7,20 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <Server.h>
 #import <SSHClient.h>
 
 @interface GetStatusOperation : NSOperation {
-	SSHClient * sshClient;
-	NSManagedObject * server;
+	Server * server;
 	
 	int errorCode;
 	NSString * errorMessage;
 }
 @property (nonatomic, retain) NSString * errorMessage;
-@property (nonatomic, retain) SSHClient * sshClient;
 @property (nonatomic, retain) NSManagedObject * server;
 @property (assign) int errorCode;
 
-+ getStatusFrom:(SSHClient *)client forServer:(NSManagedObject *)server;
++ getStatusOfServer:(Server *)server;
 
 - (void)main;
 

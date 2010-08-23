@@ -7,7 +7,7 @@
 //
 
 #import "Inspector.h"
-
+#import <Server.h>
 
 @implementation Inspector
 
@@ -17,6 +17,8 @@
 @synthesize healthBar;
 @synthesize comments;
 
+#pragma mark Initialization
+
 - (void) dealloc
 {
 	[objectTitle release];
@@ -25,49 +27,28 @@
 	[healthBar release];
 	[comments release];
 	
+	[serviceRunningValues release];
+	[serviceStoppedValues release];
+	
 	[super dealloc];
 }
 
 - (id) init
 {
 	if (self = [super init]) {
-		runningImage = [[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ServiceStatusRunning" ofType:@"png"]];
-		stoppedImage = [[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ServiceStatusStopped" ofType:@"png"]];
+		serviceRunningValues = [NSArray arrayWithObjects:@"Service running.", @"Stop the service.", nil];
+		serviceStoppedValues = [NSArray arrayWithObjects:@"Service stopped.", @"Start the service.", nil];
 	}
 	
 	return self;
 }
 
-- (IBAction) operateService:(id)sender
-{
-	NSLog(@"Operating tag: %d.", [[sender tag] intValue]);
-	switch ([[sender tag] intValue]) {
-		case 0:
-			NSLog(@"DFS Broker Service");
-			break;
-		case 1:
-			NSLog(@"Hyperspace Service");
-			break;
-		case 2:
-			NSLog(@"RangeServer Service");
-			break;
-		case 3:
-			NSLog(@"Master Service");
-			break;
-		case 4:
-			NSLog(@"Thrift API Broker Service.");
-			break;
-		default:
-			NSLog(@"Unknown service tag.");
-			break;
-	}
-}
+#pragma mark Operations
 
 - (IBAction) closeInspector:(id)sender
 {
 	[[self window] orderOut:sender];
 }
-
 
 - (IBAction) refresh:(id)sender;
 {	
@@ -84,29 +65,22 @@
 	}
 	else {
 		NSLog(@"Inspector: Nothing selected.");
+		
+		[objectTitle setStringValue:@"Nothing selected"];
+		[hostname setStringValue:@"--"];
+		[healthBar setIntValue:0];
+		[healthPercentage setStringValue:@"-- %%"];
+		[comments setStringValue:@""];
 	}
-
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath 
-					  ofObject:(id)object 
-						change:(NSDictionary *)change 
-					   context:(void *)context
-{
-	
-	
-	NSLog(@"Inspector: Observed selection.");
-	[self refresh:object];
-}
-
-// --- Service listing
+#pragma mark Services Tables Delegate
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
-	NSManagedObject * selected = [[[NSApp delegate] clustersBrowser] selectedServer];
+	Server * selected = [[[NSApp delegate] clustersBrowser] selectedServer];
 	if (selected) {
-		int servicesCount = [[[[NSApp delegate] clusterManager] servicesOnServer:selected] count];
-		return servicesCount;
+		return [[selected services] count];
 	}
 	
 	return 0;
@@ -116,40 +90,84 @@
 			row:(NSInteger)rowIndex
 {
 	
-	NSManagedObject * selectedServer = [[[NSApp delegate] clustersBrowser] selectedServer];
+	Server * selectedServer = [[[NSApp delegate] clustersBrowser] selectedServer];
 	if (selectedServer) {
-		NSArray * services = [[[NSApp delegate] clusterManager] servicesOnServer:selectedServer];
+		NSArray * services = [selectedServer services];
 		
 		if (!services) {
-			return [NSArray arrayWithObjects:@"Not Available", nil];
+			return @"Not Available";
 		}
 		
-		id cellValue = nil;
 		if ([[aTableColumn identifier] isEqual:@"name"]) {
-			NSString * serviceName = [[services objectAtIndex:rowIndex] valueForKey:@"serviceName"];
-			cellValue = serviceName;
+			return [[services objectAtIndex:rowIndex] valueForKey:@"serviceName"];
 		}
-		else if ( [[aTableColumn identifier] isEqual:@"control"] ) {
-			int processID = [[[services objectAtIndex:rowIndex] valueForKey:@"processID"] intValue];
-			if (processID) {
-				cellValue = [NSArray arrayWithObjects:@"Running", @"Initiate Stop...", nil];
-			}
-			else {
-				cellValue = [NSArray arrayWithObjects:@"Stopped", @"Initiate Start...", nil];
-			}
-		}
-
-		return cellValue;
 	}
 	
 	return nil;
 }
 
-// Sevices selection
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification
 {
 	selectedServiceIndex = [[aNotification object] selectedRow];
 	NSLog(@"Inspector: selected service at index %d", selectedServiceIndex);
+}
+
+- (void) tableView:(NSTableView*)tableView willDisplayCell:(id)cell 
+  forTableColumn:(NSTableColumn*)tableColumn 
+			 row:(int)index
+{
+	if([[tableColumn identifier] isEqual:@"control"] && [cell isKindOfClass:[NSComboBoxCell class]])
+	{
+		Server * selectedServer = [[[NSApp delegate] clustersBrowser] selectedServer];
+		if (selectedServer) {
+			NSArray * services = [selectedServer services];
+			[cell setRepresentedObject:[services objectAtIndex:index]];
+			[cell reloadData];
+			[cell selectItemAtIndex:0];
+		}
+	}
+}
+
+- (void) tableView:(NSTableView*)tableView 
+	setObjectValue:(id)value 
+	forTableColumn:(NSTableColumn*)tableColumn 
+			   row:(int)index
+{
+	if([[tableColumn identifier] isEqual:@"control"]) {
+		Server * selectedServer = [[[NSApp delegate] clustersBrowser] selectedServer];
+		if (selectedServer) {
+			Service * selectedService = [[selectedServer services] objectAtIndex:index];
+			NSLog(@"Inspector: Service \"%@\" received command: \"%@\"",
+				  [selectedService valueForKey:@"serviceName"],
+				  value);
+		}
+	}
+}
+
+#pragma mark Service Control ComboBox Delegate
+
+-(id)comboBoxCell:(NSComboBoxCell*)cell objectValueForItemAtIndex:(int)index
+{
+	Service * srv = [cell representedObject];
+	if(srv == nil)
+		return @"Error";
+	else {
+		if ([[srv valueForKey:@"processID"] intValue] > 0) {
+			return [serviceRunningValues objectAtIndex:index];
+		}
+		else {
+			return [serviceStoppedValues objectAtIndex:index];
+		}
+	}
+}
+
+-(int)numberOfItemsInComboBoxCell:(NSComboBoxCell*)cell
+{
+	Service * srv = [cell representedObject];
+	if(srv == nil)
+		return 0;
+	else
+		return 2; // two positions in combo
 }
 
 @end

@@ -24,6 +24,16 @@
 @synthesize selectedClusterIndex;
 @synthesize selectedServerIndex;
 
+#pragma mark Initialization
+
+- (void)awakeFromNib
+{
+	NSLog(@"Initializing Clusters Browser.");	
+	selectedServerIndex = 0;
+	selectedClusterIndex = 0;
+	[[NSApp delegate] saveAction:self];
+}
+
 - (void) dealloc
 {
 	[statusMessageField release];
@@ -36,120 +46,35 @@
 	[super dealloc];
 }
 
-- (NSManagedObject *) selectedCluster
+#pragma mark Selections
+
+- (Cluster *) selectedCluster
 {
-	NSArray * clusters = [[[NSApp delegate] clusterManager] clusters];
-	if (clusters) {
-		return [clusters objectAtIndex:selectedClusterIndex];
-	}
-	return nil;
+	return [[Cluster clusters] objectAtIndex:selectedClusterIndex];
 }
 
-- (NSManagedObject *) selectedServer
+- (Server *) selectedServer
 {
-	if ([self selectedCluster]) {
-		NSArray * servers = [[[NSApp delegate] clusterManager] serversInCluster:[self selectedCluster]];
-		if (servers && [servers count] > selectedServerIndex) {
-			return [[servers allObjects] objectAtIndex:selectedServerIndex];
+	Cluster * cl = [self selectedCluster];
+	if (cl) {
+		if ([[cl servers] count] > selectedServerIndex) {
+			return [[[cl servers] allObjects] objectAtIndex:selectedServerIndex];
 		}
 	}
 	return nil;
 }
 
-- (void)awakeFromNib
-{
-	NSLog(@"Initializing Clusters Browser.");
-	// try to fetch each settings resulting in defaults creation if none
-	id dummy = [[[NSApp delegate] settingsManager] getSettingsByName:@"TablesBrowserPrefs"];
-	[dummy release];
-	dummy = [[[NSApp delegate] settingsManager] getSettingsByName:@"ClustersBrowserPrefs"];
-	[dummy release];
-	dummy = [[[NSApp delegate] settingsManager] getSettingsByName:@"UpdatesPrefs"];
-	[dummy release];
-	
-	selectedServerIndex = 0;
-	selectedClusterIndex = 0;
-
-	[[NSApp delegate] saveAction:self];
-}
-
-// Servers table selection
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification
 {
 	selectedServerIndex = [[aNotification object] selectedRow];
-	NSLog(@"Selected server at index %d", selectedServerIndex);
-	NSManagedObject * selectedCluster = [[[NSApp delegate] clustersBrowser] selectedCluster];
-	NSSet * servers = [[[NSApp delegate] clusterManager] serversInCluster:selectedCluster];
-	if ([servers count] > index) {
-		selectedServer = [[servers allObjects] objectAtIndex:index];
+	if ([[[self selectedCluster] servers] count] > selectedServerIndex) {
+		selectedServer = [[[[self selectedCluster] servers] allObjects] objectAtIndex:selectedServerIndex];
 		NSLog(@"Selected server: %@", selectedServer);
+		[[[NSApp delegate] inspector] refresh:nil];
 	}
 }
 
-- (IBAction) refresh:(id)sender
-{
-	id selectedCluster = [[[NSApp delegate] clustersBrowser] selectedCluster];
-	if ( selectedCluster ){
-		[self indicateBusy];
-		[self setMessage:@"Updating cluster members..."];
-		
-		//update cluster members
-		id members = [[[NSApp delegate] clusterManager] serversInCluster:selectedCluster];
-		for (NSManagedObject * server in members) {
-			SSHClient * client = [[[NSApp delegate] clusterManager] remoteShellOnServer:server];
-			if ( !client ) {
-				[self indicateDone];
-				[self setMessage:[NSString stringWithFormat:@"Failed to create ssh client."]];
-				return;
-			}
-			
-			GetStatusOperation * op = [GetStatusOperation getStatusFrom:client
-															  forServer:server];
-			[op setCompletionBlock: ^ {
-				[self indicateDone];
-				if ([op errorCode]) {
-					[self setMessage:@"Operation failed."];
-					NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-					[dict setValue:[op errorMessage] forKey:NSLocalizedDescriptionKey];
-					[dict setValue:[op errorMessage] forKey:NSLocalizedFailureReasonErrorKey];
-					NSError *error = [NSError errorWithDomain:@"" code:[op errorCode] userInfo:dict];
-					[NSApp presentError:error];			
-				}
-				[self setMessage:@"Updated successfuly."];
-			}];
-			
-			[[[NSApp delegate] operations] addOperation:op];
-			[op release];
-			[client release];
-		}
-		//[selectedCluster release];
-	}
-}
-
-- (void)showNewClusterDialog:(id)sender
-{
-	[NSApp beginSheet:[self newClusterPanel] 
-	   modalForWindow:[self window]
-        modalDelegate:self didEndSelector:nil contextInfo:nil];
-}
-
-- (void)setMessage:(NSString*)message 
-{
-	NSLog(@"Clusters Browser: %s\n", [message UTF8String]);
-	[statusMessageField setTitleWithMnemonic:message];
-}
-
-- (void)indicateBusy 
-{
-	[statusIndicator setHidden:NO];
-	[statusIndicator startAnimation:self];
-}
-
-- (void)indicateDone 
-{
-	[statusIndicator stopAnimation:self];
-	[statusIndicator setHidden:YES];
-}
+#pragma mark Clusters Window Callbacks
 
 - (BOOL)windowShouldClose:(id)sender
 {
@@ -174,6 +99,64 @@
 {
 	NSLog(@"Clusters browser closed\n");
 	[[NSApp delegate] saveAction:self];
+}
+
+#pragma mark UI Activity API
+
+- (void)setMessage:(NSString*)message 
+{
+	NSLog(@"Clusters Browser: %s\n", [message UTF8String]);
+	[statusMessageField setTitleWithMnemonic:message];
+}
+
+- (void)indicateBusy 
+{
+	[statusIndicator setHidden:NO];
+	[statusIndicator startAnimation:self];
+}
+
+- (void)indicateDone 
+{
+	[statusIndicator stopAnimation:self];
+	[statusIndicator setHidden:YES];
+}
+
+#pragma mark Toolbar callbacks
+
+- (IBAction)showNewClusterDialog:(id)sender;
+{
+	[NSApp beginSheet:[self newClusterPanel] 
+	   modalForWindow:[self window]
+        modalDelegate:self didEndSelector:nil contextInfo:nil];
+}
+
+- (IBAction) refresh:(id)sender
+{
+	id cl = [self selectedCluster];
+	if ( cl ){
+		[self indicateBusy];
+		[self setMessage:@"Updating cluster members..."];
+		
+		//update cluster members
+		for (Server * server in [cl servers]) {
+			GetStatusOperation * op = [GetStatusOperation getStatusOfServer:server];
+			[op setCompletionBlock: ^ {
+				[self indicateDone];
+				if ([op errorCode]) {
+					[self setMessage:@"Operation failed."];
+					NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+					[dict setValue:[op errorMessage] forKey:NSLocalizedDescriptionKey];
+					[dict setValue:[op errorMessage] forKey:NSLocalizedFailureReasonErrorKey];
+					NSError *error = [NSError errorWithDomain:@"" code:[op errorCode] userInfo:dict];
+					[NSApp presentError:error];			
+				}
+				[self setMessage:@"Updated successfuly."];
+			}];
+			
+			[[[NSApp delegate] operations] addOperation:op];
+			[op release];
+		}
+	}
 }
 
 - (IBAction)showPreferences:(id)sender

@@ -7,6 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <Cluster.h>
+#import <Server.h>
 #import <TablesBrowserSettings.h>
 #import <ClustersBrowserSettings.h>
 #import <UpdateSettings.h>
@@ -23,20 +25,22 @@
 	NSPopUpButton * clustersSelector;
 
 	int selectedClusterIndex;
-	NSManagedObject * selectedCluster;
+	Cluster * selectedCluster;
 	
 	int selectedServerIndex;
-	NSManagedObject * selectedServer;
+	Server * selectedServer;
 }
-@property (nonatomic, retain) IBOutlet NSPopUpButton * clustersSelector;
+
+// Selection properties
 
 @property (readonly) int selectedServerIndex;
-@property (nonatomic, retain, readonly) NSManagedObject * selectedServer;
-
+@property (nonatomic, retain, readonly) Server * selectedServer;
 @property (readonly) int selectedClusterIndex;
-@property (nonatomic, retain, readonly) NSManagedObject * selectedCluster;
+@property (nonatomic, retain, readonly) Cluster * selectedCluster;
 
+// UI Outlets
 
+@property (nonatomic, retain) IBOutlet NSPopUpButton * clustersSelector;
 @property (nonatomic, retain) IBOutlet NSTableView * membersTable;
 
 @property (nonatomic, retain) IBOutlet NSTextField * statusMessageField;
@@ -45,26 +49,30 @@
 @property (nonatomic, retain) IBOutlet NSMenuItem * newClusterMenuItem;
 @property (nonatomic, retain) IBOutlet NSPanel * newClusterPanel;
 
-//show status message on the bottom
-- (void) setMessage:(NSString*)message;
-//start operation indicator
-- (void) indicateBusy;
-//stop operation indicator
-- (void) indicateDone;
-//called when objects browser windows is about to close
-- (void)windowWillClose:(NSNotification *)notification;
-//show new cluster definion dialog
-- (IBAction)showNewClusterDialog:(id)sender;
-//update memebers when cluster is selected
-- (IBAction)refresh:(id)sender;
-- (IBAction)showTablesBrowser:(id)sender;
-- (IBAction)showHqlInterpreter:(id)sender;
-- (IBAction)showInspector:(id)sender;
-- (IBAction)showUserGroupManager:(id)sender;
-- (IBAction)showPreferences:(id)sender;
-- (IBAction)addServer:(id)sender;
+// Activity indication
 
-//selection events
-- (void)tableViewSelectionDidChange:(NSNotification *)aNotification;
+- (void) setMessage:(NSString*)message;
+- (void) indicateBusy;
+- (void) indicateDone;
+
+// Clusters Windows Callbacks
+
+- (BOOL) windowShouldClose:(id)sender;
+- (void) windowWillClose:(NSNotification *)notification;
+
+// Toolbar Callbacks
+
+- (IBAction) showNewClusterDialog:(id)sender;
+- (IBAction) refresh:(id)sender;
+- (IBAction) showTablesBrowser:(id)sender;
+- (IBAction) showHqlInterpreter:(id)sender;
+- (IBAction) showInspector:(id)sender;
+- (IBAction) showUserGroupManager:(id)sender;
+- (IBAction) showPreferences:(id)sender;
+- (IBAction) addServer:(id)sender;
+
+// Servers table callbacks
+
+- (void) tableViewSelectionDidChange:(NSNotification *)aNotification;
 
 @end

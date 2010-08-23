@@ -7,13 +7,12 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <Hadoop.h>
 #import <HyperThriftWrapper.h>
 #import <HyperThriftHql.h>
 
-@interface HyperTable : NSObject {
-	NSString * ipAddress;
+@interface HyperTable : Hadoop {
 	NSString * hypertableConfContent;
-	int port;
 	
 	HTHRIFT thriftClient;
 	HTHRIFT_HQL hqlClient;
@@ -32,7 +31,13 @@
 @property (assign) HTHRIFT thriftClient;
 @property (assign) HTHRIFT_HQL hqlClient;
 
-+ (HyperTable *) hypertableAt:(NSString *)addr onPort:(int)aPort;
+//initialization
++ (HyperTable *) newHypertable;
++ (NSEntityDescription *) hypertableDescription;
++ (NSEntityDescription *) tableSchemaDescription;
+
+//enumeration
++ (NSArray *) allHypertables;
 
 //sync operation
 - (void) disconnect;
@@ -42,5 +47,11 @@
 - (void) reconnect:(void (^)(void)) codeBlock;
 - (void) refresh:(void (^)(void)) codeBlock;
 
+//table schemas
++ (NSArray *)listSchemes;
++ (NSManagedObject *)getSchemaByName:(NSString *)name;
+- (NSArray *) describeColumns:(NSManagedObject *)schema;
+
+//error code to error message
 + (NSString *)errorFromCode:(int)code;
 @end

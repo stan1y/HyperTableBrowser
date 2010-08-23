@@ -11,9 +11,6 @@
 
 @implementation ClusterManager
 
-@synthesize clustersController;
-@synthesize membersController;
-
 - (ClusterManager *) init
 {
 	if (self = [super init]){
@@ -26,38 +23,14 @@
 	return self;
 }
 
-- (NSArray *)clusters
-{
-	NSLog(@"Reading clusters...");
-	NSFetchRequest * r = [[NSFetchRequest alloc] init];
-	[r setEntity:[NSEntityDescription entityForName:@"Cluster" 
-							 inManagedObjectContext:[self managedObjectContext]]];
-	[r setIncludesPendingChanges:YES];
-	NSError * err = nil;
-	NSArray * clustersArray = [[self managedObjectContext] executeFetchRequest:r error:&err];
-	if (err) {
-		NSLog(@"Error: Failed to get clusters from data file.");
-		[err release];
-		[r release];
-		return nil;
-	}
-	[err release];
-	[r release];
-	return [clustersArray retain];
-}
+
 
 - (NSSet *)serversInCluster:(NSManagedObject *)cluster
 {
-	if (cluster) {
-		NSLog(@"Reading members of %s...", [[cluster valueForKey:@"name"] UTF8String]);
-		NSSet * members = [cluster mutableSetValueForKey:@"members"];
-		NSLog(@"There are %d members in %s", [members count], [[cluster valueForKey:@"name"] UTF8String]);
-		return members;
-	}
-	NSLog(@"Error: nil cluster specified for searching...");
-	return nil;
+	
 }
 
+/*
 - (HyperTable *)hypertableOnServer:(NSManagedObject *)server
 {
 	NSString * ipAddress = [server valueForKey:@"ipAddress"];
@@ -75,6 +48,7 @@
 		
 	}	
 }
+*/
 
 - (SSHClient *)remoteShellOnServer:(NSManagedObject *)server
 {
@@ -108,65 +82,7 @@
 	}
 }
 
-- (NSManagedObject *)serviceOnServer:(NSManagedObject *)server withName:(NSString *)name
-{
-	NSLog(@"Quering service %@ on server %@.", name, [server valueForKey:@"name"]);
-	NSFetchRequest * r = [[NSFetchRequest alloc] init];
-	[r setEntity:[NSEntityDescription entityForName:@"Service" 
-							 inManagedObjectContext:[self managedObjectContext]]];
-	[r setIncludesPendingChanges:YES];
-	[r setPredicate:[NSPredicate predicateWithFormat:@"runsOnServer = %@ && name = %@", 
-					 server, 
-					 name] ];
-	
-	NSError * err = nil;
-	NSArray * servicesArray = [[self managedObjectContext] executeFetchRequest:r error:&err];
-	if (err) {
-		NSLog(@"Error: Failed to get services on server %@.", [server valueForKey:@"name"]);
-		[err release];
-		[r release];
-		return nil;
-	}
-	[err release];
-	[r release];
-	if (![servicesArray count]) {
-		NSLog(@"No service \"%@\" found on server \"%@\"",
-			  name, [server valueForKey:@"name"]);
-		return nil;
-	}
-	else if ([servicesArray count] > 1) {
-		NSLog(@"Multiple (%d) services with name \"%@\" found on server \"%@\"",
-			  [servicesArray count], name, [server valueForKey:@"name"]);
-	}
-	return [servicesArray objectAtIndex:0];
-}
 
-- (NSArray *)servicesOnServer:(NSManagedObject *)server
-{
-	NSLog(@"Enumerating services on server %@.", [server valueForKey:@"name"]);
-	NSFetchRequest * r = [[NSFetchRequest alloc] init];
-	[r setEntity:[NSEntityDescription entityForName:@"Service" 
-							 inManagedObjectContext:[self managedObjectContext]]];
-	[r setIncludesPendingChanges:YES];
-	[r setPredicate:[NSPredicate predicateWithFormat:@"runsOnServer == %@", server]];
-	
-	NSError * err = nil;
-	NSArray * servicesArray = [[self managedObjectContext] executeFetchRequest:r error:&err];
-	if (err) {
-		NSLog(@"Error: Failed to get services on server %@.", [server valueForKey:@"name"]);
-		[err release];
-		[r release];
-		return nil;
-	}
-	[err release];
-	[r release];
-	if (![servicesArray count]) {
-		NSLog(@"No services found on server \"%@\"", [server valueForKey:@"name"]);
-		return nil;
-	}
-	NSLog(@"%d services found.", [servicesArray count]);
-	return [servicesArray retain];
-}
 
 - (void) dealloc
 {
@@ -174,21 +90,9 @@
 	[hypertableCache release];
 	[hadoopCache release];
 	
-	[clustersController release];
-	[membersController release];
-	
 	[super dealloc];
 }
 
-- (NSArray *)allHypertableBrokers
-{
-	NSMutableArray * found = [[NSMutableArray alloc] init];
-	for (id cluster in [self clusters]) {
-		id server = [cluster valueForKey:@"hypertableThriftBroker"];
-		HyperTable * hypertable = [self hypertableOnServer:server];
-		[found addObject:hypertable];
-	}
-	return found;
-}
+
 
 @end

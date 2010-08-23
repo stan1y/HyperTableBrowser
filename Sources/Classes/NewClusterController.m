@@ -7,6 +7,7 @@
 //
 
 #import "NewClusterController.h"
+#import <HyperTable.h>
 
 @implementation NewClusterController
 
@@ -29,6 +30,8 @@
 	[privateKeyPath release];
 	[hadoopBroker release];
 	[hypertableBroker release];
+	
+	[super dealloc];
 }
 
 - (IBAction) cancel:(id)sender
@@ -37,7 +40,7 @@
 	[[[self view] window] orderOut:sender];
 	
 	//quit app if no clusters
-	if ( ![[[[NSApp delegate] clusterManager] clusters] count] ) {
+	if ( ![[Cluster clusters] count] ) {
 		NSLog(@"Quiting application, new cluster dialog was canceled with no defined clusters");
 		[NSApp terminate:nil];
 	}
@@ -64,17 +67,18 @@
 	[errorMessage setHidden:YES];
 	
 	NSLog(@"Saving new cluster");
-	NSManagedObjectContext * context = [[[NSApp delegate] clusterManager] managedObjectContext];
+	NSManagedObjectContext * context = [[NSApp delegate] managedObjectContext];
 	
 	//new cluster entry
-	NSManagedObject * cluster = [NSEntityDescription insertNewObjectForEntityForName:@"Cluster" 
-															  inManagedObjectContext:context ];
+	Cluster * cluster = [[Cluster alloc] initWithEntity:[Cluster clusterDescription]
+						 insertIntoManagedObjectContext:context];
+															  
 	[cluster setValue:[clusterName stringValue] forKey:@"name"];
 	
 	
 	//new master for cluster
-	NSManagedObject * master = [NSEntityDescription insertNewObjectForEntityForName:@"HyperTable" 
-															 inManagedObjectContext:context ];
+	HyperTable * master = [[HyperTable alloc] initWithEntity:[HyperTable hypertableDescription]
+							  insertIntoManagedObjectContext:context];
 	NSMutableSet * members = [cluster mutableSetValueForKey:@"members"];
 	
 	//name
@@ -98,11 +102,11 @@
 	[cluster setValue:master forKey:@"master"];
 	
 	//hadoop settings
-	NSManagedObject * hadoop = nil;
+	Server * hadoop = nil;
 	if ([[hadoopBroker stringValue] length] > 0) {
 		//define new server as hadoop broker
-		hadoop = [NSEntityDescription insertNewObjectForEntityForName:@"Hadoop" 
-																 inManagedObjectContext:context ];
+		hadoop = [[Server alloc] initWithEntity:[Server serverDescription]
+				 insertIntoManagedObjectContext:context];
 		//name
 		[hadoop setValue:@"HDFS Broker" forKey:@"name"];
 		[hadoop setValue:@"" forKey:@"comment"];
@@ -129,11 +133,11 @@
 	}
 
 	//hypertable settings
-	NSManagedObject * hypertable = nil;
+	HyperTable * hypertable = nil;
 	if ([[hypertableBroker stringValue] length] > 0) {
 		//define new server as hypertable broker
-		hypertable = [NSEntityDescription insertNewObjectForEntityForName:@"HyperTable" 
-																 inManagedObjectContext:context ];
+		hypertable = [[HyperTable alloc] initWithEntity:[HyperTable hypertableDescription]
+						 insertIntoManagedObjectContext:context];
 		
 		//name
 		[hypertable setValue:@"Hypertable Broker" forKey:@"name"];
@@ -175,9 +179,7 @@
 	[[[self view] window] orderOut:sender];
 	
 	//get status for master
-	SSHClient * sshMaster = [[[NSApp delegate] clusterManager] remoteShellOnServer:master];
-	GetStatusOperation * masterStatus = [GetStatusOperation getStatusFrom:sshMaster
-														forServer:master ];
+	GetStatusOperation * masterStatus = [GetStatusOperation getStatusOfServer:master ];
 	[masterStatus setCompletionBlock: ^ {
 		if ([masterStatus errorCode]) {
 			NSMutableDictionary *dict = [NSMutableDictionary dictionary];
@@ -189,13 +191,10 @@
 	}];
 	[[[NSApp delegate] operations] addOperation:masterStatus];
 	[masterStatus release];
-	[sshMaster release];
 	
 	//get status for hypertable
 	if (hypertable) {
-		SSHClient * sshHypertable = [[[NSApp delegate] clusterManager] remoteShellOnServer:hypertable];
-		GetStatusOperation * hypertableStatus = [GetStatusOperation getStatusFrom:sshHypertable
-																	forServer:hypertable ];
+		GetStatusOperation * hypertableStatus = [GetStatusOperation getStatusOfServer:hypertable ];
 		[hypertableStatus setCompletionBlock: ^ {
 			if ([hypertableStatus errorCode]) {
 				NSMutableDictionary *dict = [NSMutableDictionary dictionary];
@@ -208,13 +207,10 @@
 		
 		[[[NSApp delegate] operations] addOperation:hypertableStatus];
 		[hypertableStatus release];
-		[sshHypertable release];
 	}
 	//get status for hadoop
 	if (hadoop) {
-		SSHClient * sshHadoop = [[[NSApp delegate] clusterManager] remoteShellOnServer:hadoop];
-		GetStatusOperation * hadoopStatus = [GetStatusOperation getStatusFrom:sshHadoop
-																		forServer:hadoop ];
+		GetStatusOperation * hadoopStatus = [GetStatusOperation getStatusOfServer:hadoop ];
 		[hadoopStatus setCompletionBlock: ^ {
 			if ([hadoopStatus errorCode]) {
 				NSMutableDictionary *dict = [NSMutableDictionary dictionary];
@@ -226,7 +222,6 @@
 		}];
 		[[[NSApp delegate] operations] addOperation:hadoopStatus];
 		[hadoopStatus release];
-		[sshHadoop release];
 	}
 }
 

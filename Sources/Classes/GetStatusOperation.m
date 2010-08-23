@@ -11,29 +11,32 @@
 
 @implementation GetStatusOperation
 
-@synthesize sshClient;
 @synthesize server;
 @synthesize errorCode;
 @synthesize errorMessage;
 
 - (void) dealloc
 {
-	[sshClient release];
 	[server release];
 	[errorMessage release];
 	[super dealloc];
 }
 
-+ getStatusFrom:(SSHClient *)client forServer:(NSManagedObject *)server
++ getStatusOfServer:(Server *)server;
 {
 	GetStatusOperation * op = [[GetStatusOperation alloc] init];
-	[op setSshClient:client];
 	[op setServer:server];
 	return op;
 }
 
 - (void)main
 {
+	SSHClient * sshClient = [server remoteShell];
+	if (!sshClient) {
+		[self setErrorCode:255];
+		[self setErrorMessage:@"Failed to establish ssh connection."];
+		return;
+	}
 	[[sshClient sshLock] lock];
 	
 	NSLog(@"Fetching status from %@ [%@]", [sshClient targetIpAddress], [server class]);
@@ -49,7 +52,7 @@
 		return;
 	}
 	
-	NSManagedObjectContext * context = [[[NSApp delegate] clusterManager] managedObjectContext];
+	NSManagedObjectContext * context = [[NSApp delegate] managedObjectContext];
 	NSManagedObject * masterService;
 	NSManagedObject * rangeService;
 	NSManagedObject * hyperspaceService;
