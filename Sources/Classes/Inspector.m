@@ -16,6 +16,7 @@
 @synthesize healthPercentage;
 @synthesize healthBar;
 @synthesize comments;
+@synthesize remoteShell;
 
 #pragma mark Initialization
 
@@ -26,6 +27,7 @@
 	[healthPercentage release];
 	[healthBar release];
 	[comments release];
+	[remoteShell release];
 	
 	[serviceRunningValues release];
 	[serviceStoppedValues release];
@@ -57,7 +59,12 @@
 		NSLog(@"Inspector: \"%@\" is selected.", [selectedServer valueForKey:@"name"]);
 		
 		[objectTitle setStringValue:[selectedServer valueForKey:@"name"]];
-		[hostname setStringValue:[selectedServer valueForKey:@"ipAddress"]];
+		[hostname setStringValue:[selectedServer valueForKey:@"hostname"]];
+		NSString * remoteShellValue = [NSString stringWithFormat:@"%@@%@:%d",
+									   [selectedServer valueForKey:@"sshUserName"],
+									   [selectedServer valueForKey:@"ipAddress"],
+									   [[selectedServer valueForKey:@"sshPort"] intValue]];
+		[remoteShell setStringValue:remoteShellValue];
 		int health = [[selectedServer valueForKey:@"healthPercent"] intValue];
 		[healthBar setIntValue:health];
 		[healthPercentage setStringValue:[NSString stringWithFormat:@"%d %%", health]];
@@ -97,9 +104,20 @@
 		if (!services) {
 			return @"Not Available";
 		}
-		
+		Service * selectedService = [services objectAtIndex:rowIndex];
 		if ([[aTableColumn identifier] isEqual:@"name"]) {
-			return [[services objectAtIndex:rowIndex] valueForKey:@"serviceName"];
+			return [selectedService valueForKey:@"serviceName"];
+		}
+		if ([[aTableColumn identifier] isEqual:@"image"]) {
+			int pid = [[selectedService valueForKey:@"processID"] intValue];
+			if (pid > 0) {
+				return [[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] 
+																pathForResource:@"ServiceStatusRunning" ofType:@"png"]];
+			}
+			else {
+				return [[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] 
+																pathForResource:@"ServiceStatusStopped" ofType:@"png"]];
+			}
 		}
 	}
 	

@@ -11,6 +11,7 @@
 @interface Inspector : NSWindowController {
 	NSTextField * objectTitle;
 	NSTextField * healthPercentage;
+	NSTextField * remoteShell;
 	NSTextField * hostname;
 	NSLevelIndicator * healthBar; 
 	NSTextField * comments;
@@ -20,6 +21,7 @@
 	NSArray * serviceStoppedValues;
 }
 
+@property (nonatomic, retain) IBOutlet NSTextField * remoteShell;
 @property (nonatomic, retain) IBOutlet NSTextField * objectTitle;
 @property (nonatomic, retain) IBOutlet NSTextField * healthPercentage;
 @property (nonatomic, retain) IBOutlet NSLevelIndicator * healthBar;
