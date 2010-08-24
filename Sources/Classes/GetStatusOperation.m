@@ -7,7 +7,7 @@
 //
 
 #import "GetStatusOperation.h"
-#import <KnownServices.h>
+#import "Service.h"
 
 @implementation GetStatusOperation
 
@@ -79,23 +79,23 @@
 		
 		if ([line rangeOfString:@"ThriftBroker"].location != NSNotFound) {
 			NSLog(@"Found Thrift Broker.");
-			thriftService = [KnownServices newThriftService:context onServer:server];
+			thriftService = [Service thriftService:context onServer:server];
 		}
 		if ([line rangeOfString:@"start-dfsbroker.sh"].location != NSNotFound) {
 			NSLog(@"Found DFS Broker.");
-			dfsService = [KnownServices newDfsBrokerService:context onServer:server withDfs:@"local"];
+			dfsService = [Service dfsBrokerService:context onServer:server withDfs:@"local"];
 		}
 		if ([line rangeOfString:@"start-hyperspace.sh"].location != NSNotFound) {
 			NSLog(@"Found HyperSpace Service.");
-			hyperspaceService = [KnownServices newHyperspaceService:context onServer:server];
+			hyperspaceService = [Service hyperspaceService:context onServer:server];
 		}
 		if ([line rangeOfString:@"start-rangeserver.sh"].location != NSNotFound) {
 			NSLog(@"Found Range Server.");
-			rangeService = [KnownServices newRangerService:context onServer:server];
+			rangeService = [Service rangerService:context onServer:server];
 		}
 		if ([line rangeOfString:@"start-master.sh"].location != NSNotFound) {
 			NSLog(@"Found Master Service.");
-			masterService = [KnownServices newMasterService:context onServer:server];
+			masterService = [Service masterService:context onServer:server];
 		}
 	}
 	
