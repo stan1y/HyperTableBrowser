@@ -15,4 +15,20 @@
 + (NSEntityDescription *) serviceDescription;
 - (id) runsOnServer;
 
++ (NSManagedObject *) masterService:(NSManagedObjectContext *)inContent 
+						   onServer:(NSManagedObject *)server;
+
++ (NSManagedObject *) rangerService:(NSManagedObjectContext *)inContent
+						   onServer:(NSManagedObject *)server;
+
++ (NSManagedObject *) dfsBrokerService:(NSManagedObjectContext *)inContent
+							  onServer:(NSManagedObject *)server
+							   withDfs:(NSString *)dfs;
+
++ (NSManagedObject *) hyperspaceService:(NSManagedObjectContext *)inContent
+							   onServer:(NSManagedObject *)server;
+
++ (NSManagedObject *) thriftService:(NSManagedObjectContext *)inContent
+						   onServer:(NSManagedObject *)server;
+
 @end
