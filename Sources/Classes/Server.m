@@ -66,7 +66,7 @@
 	NSFetchRequest * r = [[NSFetchRequest alloc] init];
 	[r setEntity:[Service serviceDescription]];
 	[r setIncludesPendingChanges:YES];
-	[r setPredicate:[NSPredicate predicateWithFormat:@"runsOnServer = %@ && name = %@", 
+	[r setPredicate:[NSPredicate predicateWithFormat:@"runsOnServer = %@ && serviceName = %@", 
 					 self, 
 					 name] ];
 	NSSortDescriptor * sort = [[[NSSortDescriptor alloc] initWithKey:@"serviceName" ascending:YES] autorelease];
@@ -83,8 +83,6 @@
 	[err release];
 	[r release];
 	if (![servicesArray count]) {
-		NSLog(@"No service \"%@\" found on server \"%@\"",
-			  name, [self valueForKey:@"name"]);
 		return nil;
 	}
 	else if ([servicesArray count] > 1) {
