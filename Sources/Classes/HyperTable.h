@@ -22,9 +22,6 @@
 	NSLock * connectionLock;
 }
 
-@property (nonatomic, retain) NSString * ipAddress;
-@property (assign) int port;
-
 @property (nonatomic, retain) NSLock * connectionLock;
 @property (nonatomic, retain) NSArray * tables;
 
@@ -32,7 +29,6 @@
 @property (assign) HTHRIFT_HQL hqlClient;
 
 //initialization
-+ (HyperTable *) newHypertable;
 + (NSEntityDescription *) hypertableDescription;
 + (NSEntityDescription *) tableSchemaDescription;
 

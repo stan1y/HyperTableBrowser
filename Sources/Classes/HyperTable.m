@@ -16,8 +16,6 @@
 @synthesize hqlClient;
 @synthesize connectionLock;
 
-@synthesize ipAddress;
-@synthesize port;
 
 + (NSString *)errorFromCode:(int)code {
 	switch (code) {
@@ -90,7 +88,6 @@
 
 + (NSArray *) allHypertables
 {
-	NSLog(@"Reading HyperTables...");
 	NSFetchRequest * r = [[NSFetchRequest alloc] init];
 	[r setEntity:[HyperTable hypertableDescription]];
 	[r setIncludesPendingChanges:YES];
@@ -107,7 +104,7 @@
 	}
 	[err release];
 	[r release];
-	NSLog(@"%d brokers(s) defined.", [array count]);
+
 	return array;
 }
 
@@ -142,7 +139,8 @@
 - (void) disconnect
 {
 	if ( ![self isConnected] ) {
-		NSLog(@"disconnect: Not connected to %s:%d.", [ipAddress UTF8String], port);
+		NSLog(@"disconnect: Not connected to %@:%d.", [self valueForKey:@"ipAddress"],
+			  [[self valueForKey:@"thriftPort"] intValue]);
 		return;
 	}
 	destroy_thrift_client(thriftClient);
@@ -163,11 +161,12 @@
 - (void) reconnect:(void (^)(void))codeBlock
 {
 	if ( [self isConnected] ) {
-		NSLog(@"reconnect: Already connected to %s:%d.", [ipAddress UTF8String], port);
+		NSLog(@"Already connected to %@:%d.", [self valueForKey:@"ipAddress"],
+			  [[self valueForKey:@"thriftPort"] intValue]);
 		return;
 	}
 	// check if auto reconnect enabled
-	id tbrowserPrefs = [[[NSApp delegate] settingsManager] getSettingsByName:@"TablesBrowserPrefs"];
+	id tbrowserPrefs = [[NSApp delegate] getSettingsByName:@"TablesBrowserPrefs"];
 	if (!tbrowserPrefs) {
 		[[NSApp delegate] showErrorDialog:1 
 								  message:@"Failed to read Tabales Browser settings from storage." 
@@ -179,15 +178,19 @@
 	
 	if ( autoReconnectBroker ) {
 		//reconnect server with saved values
-		NSLog(@"Automatic reconnect: Opening connection to HyperTable at %s:%d...", [ipAddress UTF8String], port);		
-		ConnectOperation * connectOp = [ConnectOperation connect:self toBroker:ipAddress onPort:port];
+		NSLog(@"Opening connection to HyperTable at %@:%d...",
+			  [self valueForKey:@"ipAddress"],
+			  [[self valueForKey:@"thriftPort"] intValue]);		
+		ConnectOperation * connectOp = [ConnectOperation connect:self 
+														toBroker:[self valueForKey:@"ipAddress"]
+														  onPort:[[self valueForKey:@"thriftPort"] intValue]];
 		[connectOp setCompletionBlock:codeBlock];
 		//add operation to queue
 		[[[NSApp delegate] operations] addOperation: connectOp];
 		[connectOp release];
 	}
 	else {
-		NSLog(@"Automatic reconnect: Disabled.");
+		NSLog(@"Automatic reconnect is disabled.");
 	}
 }
 
@@ -199,7 +202,6 @@
 
 + (NSArray *)listSchemes
 {
-	NSLog(@"Listing table schemes\n");
 	NSFetchRequest * r = [[NSFetchRequest alloc] init];
 	[r setEntity:[HyperTable tableSchemaDescription]];
 	[r setIncludesPendingChanges:YES];
@@ -216,7 +218,7 @@
 	[err release];
 	[r release];
 	[context release];
-	NSLog(@"There are %d scheme(s)", [schemesArray count]);
+
 	return schemesArray;
 }
 
