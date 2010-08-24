@@ -7,7 +7,8 @@
 //
 
 #import "Inspector.h"
-#import <Server.h>
+#import "Server.h"
+#import "HyperTable.h"
 
 @implementation Inspector
 
@@ -17,6 +18,8 @@
 @synthesize healthBar;
 @synthesize comments;
 @synthesize remoteShell;
+@synthesize servicesTable;
+@synthesize dfsProvider;
 
 #pragma mark Initialization
 
@@ -28,9 +31,12 @@
 	[healthBar release];
 	[comments release];
 	[remoteShell release];
+	[servicesTable release];
+	[dfsProvider release];
 	
 	[serviceRunningValues release];
 	[serviceStoppedValues release];
+	[pendingServicesLock release];
 	
 	[super dealloc];
 }
@@ -38,14 +44,104 @@
 - (id) init
 {
 	if (self = [super init]) {
-		serviceRunningValues = [NSArray arrayWithObjects:@"Service running.", @"Stop the service.", nil];
-		serviceStoppedValues = [NSArray arrayWithObjects:@"Service stopped.", @"Start the service.", nil];
+		serviceRunningValues = [[NSArray alloc] initWithObjects:@"Service running.", @"Stop the service.", nil];
+		serviceStoppedValues = [[NSArray alloc] initWithObjects:@"Service stopped.", @"Start the service.", nil];
+		pendingServiceIndexes = [[NSMutableArray alloc] init];
+		pendingServicesLock = [[NSLock alloc] init];
 	}
 	
 	return self;
 }
 
+#pragma mark Pending services list
+
+- (void) addServiceToPending:(int)serviceIndex
+{
+	[pendingServicesLock lock];
+	[pendingServiceIndexes addObject:[NSNumber numberWithInt:serviceIndex]];
+	[pendingServicesLock unlock];
+}
+
+- (void) removeServiceFromPending:(int)serviceIndex
+{
+	[pendingServicesLock lock];
+	[pendingServiceIndexes removeObject:[NSNumber numberWithInt:serviceIndex]];
+	[pendingServicesLock unlock];
+}
+
+- (BOOL) isCurrentServicePending
+{
+	[pendingServicesLock lock];
+	BOOL b = NO;
+	if ([pendingServiceIndexes indexOfObject:[NSNumber numberWithInt:selectedServiceIndex]] != NSNotFound) b = YES;
+	[pendingServicesLock unlock];
+	return b;
+}
+
 #pragma mark Operations
+
+- (IBAction) operateService:(id)sender
+{
+	Server * selectedServer = [[[NSApp delegate] clustersBrowser] selectedServer];
+	if (selectedServer) {
+		NSArray * services = [selectedServer services];
+		
+		if (!services) {
+			NSLog(@"Inspector: No services on %@, nothing to operate.", [selectedServer valueForKey:@"name"]);
+			return;
+		}
+		
+		int selectedIndex = selectedServiceIndex;
+		Service * selectedService = [services objectAtIndex:selectedIndex];
+
+		//set as pending
+		[self addServiceToPending:selectedIndex];
+		//if running -> stop it, otherwise start it
+		if ([[selectedService valueForKey:@"processID"] intValue] > 0) {
+			
+			[[[NSApp delegate] clustersBrowser] setMessage:@"Stopping service..."];
+			[[[NSApp delegate] clustersBrowser] indicateBusy];
+			
+			NSLog(@"Inspector: stopping service %@", [selectedService valueForKey:@"serviceName"]);
+			[selectedService stop: ^{
+				
+				[[[NSApp delegate] clustersBrowser] indicateDone];
+				if (![selectedService isRunning]) {
+					[[[NSApp delegate] clustersBrowser] setMessage:@"Service stopped sucessfuly."];
+				}
+				else {
+					[[[NSApp delegate] clustersBrowser] setMessage:@"Failed to stop service."];
+				}
+				
+				//finish pending
+				[self removeServiceFromPending:selectedIndex];
+				[servicesTable reloadData];
+			}];
+		}
+		else {
+			[[[NSApp delegate] clustersBrowser] setMessage:@"Starting service..."];
+			[[[NSApp delegate] clustersBrowser] indicateBusy];
+			
+			NSLog(@"Inspector: starting service %@", [selectedService valueForKey:@"serviceName"]);
+			[selectedService start: ^{
+				
+				[[[NSApp delegate] clustersBrowser] indicateDone];
+				if ([selectedService isRunning]) {
+					[[[NSApp delegate] clustersBrowser] setMessage:@"Service started sucessfuly."];
+				}
+				else {
+					[[[NSApp delegate] clustersBrowser] setMessage:@"Failed to start service."];
+				}
+				
+				//finish pending
+				[self removeServiceFromPending:selectedIndex];
+				[servicesTable reloadData];
+			}];
+			
+		}
+		
+	}
+}
 
 - (IBAction) closeInspector:(id)sender
 {
@@ -60,6 +156,15 @@
 		
 		[objectTitle setStringValue:[selectedServer valueForKey:@"name"]];
 		[hostname setStringValue:[selectedServer valueForKey:@"hostname"]];
+		if ([[selectedServer class] isEqual:[HyperTable class]]) {
+			[dfsProvider setHidden:NO];
+			[dfsProvider setStringValue:[selectedServer valueForKey:@"currentDfs"]];
+		}
+		else {
+			NSLog(@"Inspector: Non-HyperTable Server selected");
+			[dfsProvider setHidden:YES];
+		}
+
 		NSString * remoteShellValue = [NSString stringWithFormat:@"%@@%@:%d",
 									   [selectedServer valueForKey:@"sshUserName"],
 									   [selectedServer valueForKey:@"ipAddress"],
@@ -75,6 +180,7 @@
 		
 		[objectTitle setStringValue:@"Nothing selected"];
 		[hostname setStringValue:@"--"];
+		[dfsProvider setStringValue:@"--"];
 		[healthBar setIntValue:0];
 		[healthPercentage setStringValue:@"-- %%"];
 		[comments setStringValue:@""];
@@ -124,10 +230,14 @@
 	return nil;
 }
 
-- (void)tableViewSelectionDidChange:(NSNotification *)aNotification
+- (void)tableViewSelectionIsChanging:(NSNotification *)aNotification
 {
-	selectedServiceIndex = [[aNotification object] selectedRow];
-	NSLog(@"Inspector: selected service at index %d", selectedServiceIndex);
+	int selection = [[aNotification object] selectedRow];
+	if (selection >= 0) {
+		selectedServiceIndex = selection;
+		NSLog(@"Inspector: selected service at index %d", selectedServiceIndex);
+	}
+	
 }
 
 - (void) tableView:(NSTableView*)tableView willDisplayCell:(id)cell 
@@ -146,26 +256,15 @@
 	}
 }
 
-- (void) tableView:(NSTableView*)tableView 
-	setObjectValue:(id)value 
-	forTableColumn:(NSTableColumn*)tableColumn 
-			   row:(int)index
-{
-	if([[tableColumn identifier] isEqual:@"control"]) {
-		Server * selectedServer = [[[NSApp delegate] clustersBrowser] selectedServer];
-		if (selectedServer) {
-			Service * selectedService = [[selectedServer services] objectAtIndex:index];
-			NSLog(@"Inspector: Service \"%@\" received command: \"%@\"",
-				  [selectedService valueForKey:@"serviceName"],
-				  value);
-		}
-	}
-}
-
 #pragma mark Service Control ComboBox Delegate
 
 -(id)comboBoxCell:(NSComboBoxCell*)cell objectValueForItemAtIndex:(int)index
 {
+	if ([self isCurrentServicePending]) {
+		NSLog(@"Service at index %d is in pending state...", selectedServiceIndex);
+		return @"Pending...";
+	}
+	
 	Service * srv = [cell representedObject];
 	if(srv == nil)
 		return @"Error";
@@ -181,9 +280,8 @@
 
 -(int)numberOfItemsInComboBoxCell:(NSComboBoxCell*)cell
 {
-	Service * srv = [cell representedObject];
-	if(srv == nil)
-		return 0;
+	if ([self isCurrentServicePending])
+		return 1;
 	else
 		return 2; // two positions in combo
 }

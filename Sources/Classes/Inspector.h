@@ -13,14 +13,22 @@
 	NSTextField * healthPercentage;
 	NSTextField * remoteShell;
 	NSTextField * hostname;
+	NSTextField * dfsProvider;
 	NSLevelIndicator * healthBar; 
 	NSTextField * comments;
 	
 	int selectedServiceIndex;
 	NSArray * serviceRunningValues;
 	NSArray * serviceStoppedValues;
+	
+	NSLock * pendingServicesLock;
+	NSMutableArray * pendingServiceIndexes;
+	
+	NSTableView * servicesTable;
 }
 
+@property (nonatomic, retain) IBOutlet NSTextField * dfsProvider;
+@property (nonatomic, retain) IBOutlet NSTableView * servicesTable;
 @property (nonatomic, retain) IBOutlet NSTextField * remoteShell;
 @property (nonatomic, retain) IBOutlet NSTextField * objectTitle;
 @property (nonatomic, retain) IBOutlet NSTextField * healthPercentage;
