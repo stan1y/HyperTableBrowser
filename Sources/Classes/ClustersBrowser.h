@@ -34,9 +34,9 @@
 // Selection properties
 
 @property (readonly) int selectedServerIndex;
-@property (nonatomic, retain, readonly) Server * selectedServer;
+@property (nonatomic, retain) Server * selectedServer;
 @property (readonly) int selectedClusterIndex;
-@property (nonatomic, retain, readonly) Cluster * selectedCluster;
+@property (nonatomic, retain) Cluster * selectedCluster;
 
 // UI Outlets
 
@@ -62,13 +62,8 @@
 
 // Toolbar Callbacks
 
-- (IBAction) showNewClusterDialog:(id)sender;
 - (IBAction) refresh:(id)sender;
-- (IBAction) showTablesBrowser:(id)sender;
-- (IBAction) showHqlInterpreter:(id)sender;
 - (IBAction) showInspector:(id)sender;
-- (IBAction) showUserGroupManager:(id)sender;
-- (IBAction) showPreferences:(id)sender;
 - (IBAction) addServer:(id)sender;
 
 // Servers table callbacks

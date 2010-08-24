@@ -51,14 +51,18 @@
 
 @property (nonatomic, readonly) NSOperationQueue * operations;
 
-- (void) showErrorDialog:(int)errorCode
-			 message:(NSString *)description 
-		  withReason:(NSString *)reason;
+- (void) showErrorDialog:(int)errorCode message:(NSString *)description;
 
 - (NSString *)applicationSupportDirectory;
 
 - (id) getSettingsByName:(NSString *)name;
 
 - (BOOL) recreateDataFiles;
+
+/* Main menu handlers */
+
+- (IBAction) showClustersBrowser:(id)sender;
+- (IBAction) showHqlInterpreter:(id)sender;
+- (IBAction) showTablesBrowser:(id)sender;
 
 @end

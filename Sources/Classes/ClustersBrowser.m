@@ -78,7 +78,7 @@
 
 - (BOOL)windowShouldClose:(id)sender
 {
-	NSLog(@"Checking running threads...\n");
+	NSLog(@"Checking background operations in progress...\n");
 	
     NSInteger numOperationsRunning = [[[[NSApp delegate] operations] operations] count];
     if (numOperationsRunning > 0)
@@ -121,13 +121,6 @@
 
 #pragma mark Toolbar callbacks
 
-- (IBAction)showNewClusterDialog:(id)sender;
-{
-	[NSApp beginSheet:[self newClusterPanel] 
-	   modalForWindow:[self window]
-        modalDelegate:self didEndSelector:nil contextInfo:nil];
-}
-
 - (IBAction) refresh:(id)sender
 {
 	id cl = [self selectedCluster];
@@ -157,46 +150,14 @@
 	}
 }
 
-- (IBAction)showPreferences:(id)sender
-{	
-	NSLog(@"Initializing preferences controllers.");
-	//prepare preferences windows
-	TablesBrowserSettings * tables = [[TablesBrowserSettings alloc] initWithNibName:@"TablesBrowserPreferences" 
-																			 bundle:nil];
-	ClustersBrowserSettings * clusters = [[ClustersBrowserSettings alloc] initWithNibName:@"ClustersBrowserPreferences" 
-																				   bundle:nil];
-	UpdateSettings * updates = [[UpdateSettings alloc] initWithNibName:@"UpdatesPreferences" 
-																bundle:nil];
-	
-	
-	[[MBPreferencesController sharedController] setModules:[NSArray arrayWithObjects:tables,
-															clusters,
-															updates,
-															nil]];
-	[tables release];
-	[clusters release];
-	[updates release];
-	
-	[[MBPreferencesController sharedController] showWindow:sender];
-}
-
-- (IBAction)showTablesBrowser:(id)sender
-{
-	[[[NSApp delegate] tablesBrowser] updateConnections:sender];
-	[[[NSApp delegate] tablesBrowser] refreshTables:sender];
-	[[[NSApp delegate] tablesBrowserWindow] orderFront:sender];
-}
-
-- (IBAction)showHqlInterpreter:(id)sender
-{
-	[[[NSApp delegate] hqlController] updateConnections:sender];
-	[[[NSApp delegate] hqlWindow] orderFront:sender];
-}
-
 - (IBAction)showInspector:(id)sender
 {
 	[[[NSApp delegate] inspector] refresh:sender];
 	[[[NSApp delegate] inspectorPanel] orderFront:sender];
+}
+
+- (IBAction) addServer:(id)sender
+{
 }
 
 @end

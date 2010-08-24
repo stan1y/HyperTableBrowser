@@ -36,6 +36,20 @@
 	[NSValueTransformer setValueTransformer:summaryTransformer forName:@"ServerSummaryTransformer"];
 }
 
+- (void)applicationDidFinishLaunching:(NSApplication *)application 
+{
+	//show clusters browser
+	[[self clustersBrowserWindow] orderFront:self];
+	[[self clustersBrowser] setMessage:@"Application started."];
+	[[[self clustersBrowser] statusMessageField] setHidden:NO];
+	
+	//define cluster if none
+	if ( ![[Cluster clusters] count] ) {
+		[[self clustersBrowser] showNewClusterDialog:application];
+	}
+}
+
+
 - (id)init
 {
 	if (self = [super init]) {
@@ -79,11 +93,9 @@
 
 - (void) showErrorDialog:(int)errorCode
 			 message:(NSString *)description 
-		  withReason:(NSString *)reason
 {
 	NSMutableDictionary * dict = [NSMutableDictionary dictionary];
 	[dict setValue:description forKey:NSLocalizedDescriptionKey];
-	[dict setValue:reason forKey:NSLocalizedFailureReasonErrorKey];
 	NSError * error = [NSError errorWithDomain:@"HyperTableBrowser" code:errorCode userInfo:dict];
 	[[NSApplication sharedApplication] presentError:error];
 }
@@ -123,24 +135,35 @@
 
 #pragma mark Application Callbacks
 
-- (void)applicationDidFinishLaunching:(NSApplication *)application 
+- (IBAction) defineNewCluster:(id)sender;
 {
-	//show clusters browser
-	[[self clustersBrowserWindow] orderFront:self];
-	[[self clustersBrowser] setMessage:@"Application started."];
-	[[[self clustersBrowser] statusMessageField] setHidden:NO];
+	//browser window in front
+	[self showClustersBrowser:sender];
 	
-	//define cluster if none
-	id clusters = [Cluster clusters];
-	if ( ![clusters count] ) {
-		[[self clustersBrowser] showNewClusterDialog:application];
-	}
+	//show dialog
+	[NSApp beginSheet:[[self clustersBrowser] newClusterPanel] 
+	   modalForWindow:[[self clustersBrowser] window]
+        modalDelegate:self didEndSelector:nil contextInfo:nil];
+}
+- (IBAction)showTablesBrowser:(id)sender
+{
+	[[self tablesBrowser] updateBrokers:sender withCompletionBlock:^{
+		[[self tablesBrowser] refreshTables:nil];
+	}];
+	[[[NSApp delegate] tablesBrowserWindow] orderFront:sender];
 }
 
-- (NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)window {
-    return [[self managedObjectContext] undoManager];
+- (IBAction)showHqlInterpreter:(id)sender
+{
+	[[self hqlController] updateBrokers:sender];
+	[[self hqlWindow] orderFront:sender];
 }
 
+- (IBAction) showClustersBrowser:(id)sender
+{
+	[[self clustersBrowser] refresh:sender];
+	[[self clustersBrowserWindow] orderFront:sender];
+}
  
 - (IBAction) saveAction:(id)sender {
 
@@ -153,9 +176,9 @@
     if (![[self managedObjectContext] save:&error]) {
         [[NSApplication sharedApplication] presentError:error];
     }
-	
+	NSLog(@"Updating memebers.");
+	[[[self clustersBrowser] membersTable] reloadData];
 }
-
  
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
 
