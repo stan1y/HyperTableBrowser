@@ -26,7 +26,6 @@
 		7615175811FDA23F00485438 /* FetchTablesOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7615175711FDA23F00485438 /* FetchTablesOperation.m */; };
 		761518DE11FDBF5E00485438 /* HqlQueryOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 761518DD11FDBF5E00485438 /* HqlQueryOperation.m */; };
 		7624565F122264B700925812 /* Cluster.m in Sources */ = {isa = PBXBuildFile; fileRef = 7624565E122264B700925812 /* Cluster.m */; };
-		76245662122264EE00925812 /* KnownServices.m in Sources */ = {isa = PBXBuildFile; fileRef = 76245661122264EE00925812 /* KnownServices.m */; };
 		762456651222653300925812 /* Server.m in Sources */ = {isa = PBXBuildFile; fileRef = 762456641222653300925812 /* Server.m */; };
 		762456AF1222710F00925812 /* Service.m in Sources */ = {isa = PBXBuildFile; fileRef = 762456AE1222710F00925812 /* Service.m */; };
 		7624576212227BEC00925812 /* Hadoop.m in Sources */ = {isa = PBXBuildFile; fileRef = 7624576112227BEC00925812 /* Hadoop.m */; };
@@ -256,8 +255,6 @@
 		761518DD11FDBF5E00485438 /* HqlQueryOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HqlQueryOperation.m; path = Sources/Classes/HqlQueryOperation.m; sourceTree = "<group>"; };
 		7624565D122264B700925812 /* Cluster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Cluster.h; path = Sources/Classes/Cluster.h; sourceTree = "<group>"; };
 		7624565E122264B700925812 /* Cluster.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Cluster.m; path = Sources/Classes/Cluster.m; sourceTree = "<group>"; };
-		76245660122264EE00925812 /* KnownServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnownServices.h; path = Sources/Classes/KnownServices.h; sourceTree = "<group>"; };
-		76245661122264EE00925812 /* KnownServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnownServices.m; path = Sources/Classes/KnownServices.m; sourceTree = "<group>"; };
 		762456631222653300925812 /* Server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Server.h; path = Sources/Classes/Server.h; sourceTree = "<group>"; };
 		762456641222653300925812 /* Server.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Server.m; path = Sources/Classes/Server.m; sourceTree = "<group>"; };
 		762456AD1222710F00925812 /* Service.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Service.h; path = Sources/Classes/Service.h; sourceTree = "<group>"; };
@@ -484,8 +481,6 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				76245660122264EE00925812 /* KnownServices.h */,
-				76245661122264EE00925812 /* KnownServices.m */,
 				7624564C1222629600925812 /* Accessors */,
 				76400DEF122125900020DB2C /* HyperTableOperationController.h */,
 				76400DF0122125900020DB2C /* HyperTableOperationController.m */,
@@ -1238,7 +1233,6 @@
 				76400E05122125F30020DB2C /* HqlController.m in Sources */,
 				76400E06122125F30020DB2C /* PageSource.m in Sources */,
 				7624565F122264B700925812 /* Cluster.m in Sources */,
-				76245662122264EE00925812 /* KnownServices.m in Sources */,
 				762456651222653300925812 /* Server.m in Sources */,
 				762456AF1222710F00925812 /* Service.m in Sources */,
 				7624576212227BEC00925812 /* Hadoop.m in Sources */,
