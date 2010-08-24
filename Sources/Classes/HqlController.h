@@ -7,11 +7,11 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <HyperTableOperationController.h>
+#import <Utility.h>
 #import <PageSource.h>
 #import <HqlQueryOperation.h>
 
-@interface HqlController : HyperTableOperationController {
+@interface HqlController : HyperTableBrokersCntrl {
 	NSTextView * hqlQuery;
 	NSButton * goButton;
 	
