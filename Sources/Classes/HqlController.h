@@ -30,4 +30,6 @@
 - (IBAction)go:(id)sender;
 - (IBAction)done:(id)sender;
 
+- (void)runQuery:(NSString *)query withConnection:(id)connection;
+
 @end

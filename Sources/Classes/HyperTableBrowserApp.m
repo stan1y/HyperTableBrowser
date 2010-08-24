@@ -100,7 +100,6 @@
 	NSError * err = nil;
 	NSArray * result = [[self managedObjectContext] executeFetchRequest:request error:&err];
 	if (err) {
-		NSString * msg = @"Failed to get servers from datastore";
 		[[NSApplication sharedApplication] presentError:err];
 		[err release];
 		return nil;
@@ -146,7 +145,7 @@
 - (IBAction) saveAction:(id)sender {
 
     NSError *error = nil;
-    
+    NSLog(@"Saving state.");
     if (![[self managedObjectContext] commitEditing]) {
         NSLog(@"%@:%s unable to commit editing before saving", [self class], _cmd);
     }

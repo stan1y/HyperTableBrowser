@@ -54,7 +54,11 @@
 - (void) showErrorDialog:(int)errorCode
 			 message:(NSString *)description 
 		  withReason:(NSString *)reason;
+
 - (NSString *)applicationSupportDirectory;
+
 - (id) getSettingsByName:(NSString *)name;
+
+- (BOOL) recreateDataFiles;
 
 @end
