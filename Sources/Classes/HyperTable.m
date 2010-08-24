@@ -169,8 +169,7 @@
 	id tbrowserPrefs = [[NSApp delegate] getSettingsByName:@"TablesBrowserPrefs"];
 	if (!tbrowserPrefs) {
 		[[NSApp delegate] showErrorDialog:1 
-								  message:@"Failed to read Tabales Browser settings from storage." 
-							   withReason:@"Please recreate DataBase.xml"];
+								  message:@"Failed to read Tabales Browser settings from storage."];
 		return;
 	}
 	int autoReconnectBroker =  [[tbrowserPrefs valueForKey:@"autoReconnectBroker"] intValue];
