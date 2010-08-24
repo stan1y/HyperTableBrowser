@@ -49,6 +49,8 @@
 - (void) main
 {
 	[[connection connectionLock] lock];
+	errorCode = T_OK;
+	
 	NSLog(@"Fetching keys...\n");
 	[self setTotalRows:0];
 
@@ -63,7 +65,6 @@
 	}
 	
 	if (keys->cellsCount <= 0) {
-		errorCode = T_ERR_NODATA;
 		NSLog(@"Zero keys returned.\n");
 		free(keys);
 		return;
