@@ -31,12 +31,14 @@
 	[[NSApp delegate] saveAction:self];
 }
 
-- (IBAction)done:(id)sender {
+- (IBAction)done:(id)sender 
+{
 	if([[self window] isVisible] )
         [[self window] orderOut:sender];
 }
 
-- (IBAction)go:(id)sender {	
+- (IBAction)go:(id)sender 
+{	
 	NSString * hqlQueryText = [[hqlQuery textStorage] string];
 	if ([hqlQueryText length] <= 0) {
 		[self setMessage:@"Empty query!"];
