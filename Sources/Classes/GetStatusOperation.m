@@ -94,81 +94,78 @@
 		if ([line rangeOfString:@"ThriftBroker"].location != NSNotFound) {
 			NSLog(@"Found Thrift Broker.");
 			thriftService = [Service thriftService:context onServer:server];
+			[thriftService setValue:[NSNumber numberWithInt:-1] forKey:@"processID"];
 		}
 		if ([line rangeOfString:@"start-dfsbroker.sh"].location != NSNotFound) {
 			NSLog(@"Found DFS Broker.");
 			dfsService = [Service dfsBrokerService:context onServer:server withDfs:@"local"];
+			[dfsService setValue:[NSNumber numberWithInt:-1] forKey:@"processID"];
 		}
 		if ([line rangeOfString:@"start-hyperspace.sh"].location != NSNotFound) {
 			NSLog(@"Found HyperSpace Service.");
 			hyperspaceService = [Service hyperspaceService:context onServer:server];
+			[hyperspaceService setValue:[NSNumber numberWithInt:-1] forKey:@"processID"];
 		}
 		if ([line rangeOfString:@"start-rangeserver.sh"].location != NSNotFound) {
 			NSLog(@"Found Range Server.");
 			rangeService = [Service rangerService:context onServer:server];
+			[rangeService setValue:[NSNumber numberWithInt:-1] forKey:@"processID"];
 		}
 		if ([line rangeOfString:@"start-master.sh"].location != NSNotFound) {
 			NSLog(@"Found Master Service.");
 			masterService = [Service masterService:context onServer:server];
+			[masterService setValue:[NSNumber numberWithInt:-1] forKey:@"processID"];
 		}
 	}
 	
 	//get running services
 	errorCode = [sshClient runCommand:@"ls -l /opt/hypertable/current/run/*.pid"];
-	if (errorCode) {
-		NSLog(@"Failed to list running services. Code: %d, Error: %s", errorCode,
-			  [[sshClient error] UTF8String]);
-		[self setErrorMessage:[sshClient error]];
-		[server setValue:[NSNumber numberWithInt:1] forKey:@"status"];
-		[[sshClient sshLock] unlock];
-		[context release];
-		return;
+	if (errorCode == 0) {
+		//parse running services pids
+		[[sshClient output] enumerateLinesUsingBlock: ^(NSString *line, BOOL *stop){
+			if ([line rangeOfString:@"DfsBroker"].location != NSNotFound) {
+				errorCode = [sshClient runCommand:[dfsService valueForKey:@"getPid"]];
+				if (errorCode == 0) {
+					int pid = [[sshClient output] intValue];
+					[dfsService setValue:[NSNumber numberWithInt:pid] forKey:@"processID"];
+					NSLog(@"DFS Broker is running with pid %d", pid);
+				}
+			}
+			if ([line rangeOfString:@"Hyperspace"].location != NSNotFound) {
+				errorCode = [sshClient runCommand:[hyperspaceService valueForKey:@"getPid"]];
+				if (errorCode == 0) {
+					int pid = [[sshClient output] intValue];
+					[hyperspaceService setValue:[NSNumber numberWithInt:pid] forKey:@"processID"];
+					NSLog(@"Hyperspace is running with pid %d", pid);
+				}
+			}
+			if ([line rangeOfString:@"Hypertable.Master"].location != NSNotFound) {
+				errorCode = [sshClient runCommand:[masterService valueForKey:@"getPid"]];
+				if (errorCode == 0) {
+					int pid = [[sshClient output] intValue];
+					[masterService setValue:[NSNumber numberWithInt:pid] forKey:@"processID"];
+					NSLog(@"HyperTable.Master is running with pid %d", pid);
+				}
+			}
+			if ([line rangeOfString:@"Hypertable.RangeServer"].location != NSNotFound) {
+				errorCode = [sshClient runCommand:[rangeService valueForKey:@"getPid"]];
+				if (errorCode == 0) {
+					int pid = [[sshClient output] intValue];
+					[rangeService setValue:[NSNumber numberWithInt:pid] forKey:@"processID"];
+					NSLog(@"HyperTable.RangeServer is running with pid %d", pid);
+				}
+			}
+			if ([line rangeOfString:@"ThriftBroker"].location != NSNotFound) {
+				errorCode = [sshClient runCommand:[thriftService valueForKey:@"getPid"]];
+				if (errorCode == 0) {
+					int pid = [[sshClient output] intValue];
+					[thriftService setValue:[NSNumber numberWithInt:pid] forKey:@"processID"];
+					NSLog(@"ThriftBroker is running with pid %d", pid);
+				}
+			}
+			
+		}];
 	}
-	
-	//parse running services pids
-	[[sshClient output] enumerateLinesUsingBlock: ^(NSString *line, BOOL *stop){
-		if ([line rangeOfString:@"DfsBroker"].location != NSNotFound) {
-			errorCode = [sshClient runCommand:[dfsService valueForKey:@"getPid"]];
-			if (errorCode == 0) {
-				int pid = [[sshClient output] intValue];
-				[dfsService setValue:[NSNumber numberWithInt:pid] forKey:@"processID"];
-				NSLog(@"DFS Broker is running with pid %d", pid);
-			}
-		}
-		if ([line rangeOfString:@"Hyperspace"].location != NSNotFound) {
-			errorCode = [sshClient runCommand:[hyperspaceService valueForKey:@"getPid"]];
-			if (errorCode == 0) {
-				int pid = [[sshClient output] intValue];
-				[hyperspaceService setValue:[NSNumber numberWithInt:pid] forKey:@"processID"];
-				NSLog(@"Hyperspace is running with pid %d", pid);
-			}
-		}
-		if ([line rangeOfString:@"Hypertable.Master"].location != NSNotFound) {
-			errorCode = [sshClient runCommand:[masterService valueForKey:@"getPid"]];
-			if (errorCode == 0) {
-				int pid = [[sshClient output] intValue];
-				[masterService setValue:[NSNumber numberWithInt:pid] forKey:@"processID"];
-				NSLog(@"HyperTable.Master is running with pid %d", pid);
-			}
-		}
-		if ([line rangeOfString:@"Hypertable.RangeServer"].location != NSNotFound) {
-			errorCode = [sshClient runCommand:[rangeService valueForKey:@"getPid"]];
-			if (errorCode == 0) {
-				int pid = [[sshClient output] intValue];
-				[rangeService setValue:[NSNumber numberWithInt:pid] forKey:@"processID"];
-				NSLog(@"HyperTable.RangeServer is running with pid %d", pid);
-			}
-		}
-		if ([line rangeOfString:@"ThriftBroker"].location != NSNotFound) {
-			errorCode = [sshClient runCommand:[thriftService valueForKey:@"getPid"]];
-			if (errorCode == 0) {
-				int pid = [[sshClient output] intValue];
-				[thriftService setValue:[NSNumber numberWithInt:pid] forKey:@"processID"];
-				NSLog(@"ThriftBroker is running with pid %d", pid);
-			}
-		}
-		
-	}];
 	
 	//get load
 	errorCode = [sshClient runCommand:@"cat /proc/loadavg"];
