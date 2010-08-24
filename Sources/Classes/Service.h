@@ -13,7 +13,11 @@
 }
 
 + (NSEntityDescription *) serviceDescription;
-- (id) runsOnServer;
+- (void) start:(void (^)(void)) codeBlock;
+- (void) stop:(void (^)(void)) codeBlock;
+- (BOOL) isRunning;
+
+/* Defined services */
 
 + (NSManagedObject *) masterService:(NSManagedObjectContext *)inContent 
 						   onServer:(NSManagedObject *)server;
