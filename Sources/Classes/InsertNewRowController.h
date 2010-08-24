@@ -10,7 +10,7 @@
 #import <HyperTableOperationController.h>
 #import <HyperTable.h>
 
-@interface InsertNewRowController : NSViewController {
+@interface InsertNewRowController : HyperTableOperationController {
 	NSPopUpButton * tableSelector;
 	HyperTable * connection;
 }
