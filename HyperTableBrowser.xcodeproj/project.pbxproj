@@ -30,7 +30,6 @@
 		762456AF1222710F00925812 /* Service.m in Sources */ = {isa = PBXBuildFile; fileRef = 762456AE1222710F00925812 /* Service.m */; };
 		7624576212227BEC00925812 /* Hadoop.m in Sources */ = {isa = PBXBuildFile; fileRef = 7624576112227BEC00925812 /* Hadoop.m */; };
 		76400D6E122115840020DB2C /* Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 76400D6D122115840020DB2C /* Utility.m */; };
-		76400DF1122125900020DB2C /* HyperTableOperationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76400DF0122125900020DB2C /* HyperTableOperationController.m */; };
 		76400DF6122125A70020DB2C /* ClustersBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 76400DF3122125A70020DB2C /* ClustersBrowser.m */; };
 		76400DFA122125BA0020DB2C /* Inspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 76400DF9122125BA0020DB2C /* Inspector.m */; };
 		76400DFF122125D70020DB2C /* InsertNewRowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76400DFC122125D70020DB2C /* InsertNewRowController.m */; };
@@ -86,6 +85,7 @@
 		7696D7F7120592BF00DA46B8 /* zutil.c in Sources */ = {isa = PBXBuildFile; fileRef = 7696D7DC120592BF00DA46B8 /* zutil.c */; };
 		7696D7F8120592BF00DA46B8 /* zutil.h in Headers */ = {isa = PBXBuildFile; fileRef = 7696D7DD120592BF00DA46B8 /* zutil.h */; };
 		7696D8051205943D00DA46B8 /* libz.1.2.5.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7696D7BA1205917C00DA46B8 /* libz.1.2.5.dylib */; };
+		76A66BCD122416AE00C3AB14 /* ServiceOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A66BCC122416AE00C3AB14 /* ServiceOperation.m */; };
 		76B02666115CFA9E003854D2 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 76B02665115CFA9E003854D2 /* Credits.rtf */; };
 		76B3C5C010DA328100078742 /* DataPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 76B3C5BE10DA328100078742 /* DataPage.h */; };
 		76B3C5C110DA328200078742 /* DataPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76B3C5BF10DA328100078742 /* DataPage.cpp */; };
@@ -263,8 +263,6 @@
 		7624576112227BEC00925812 /* Hadoop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Hadoop.m; path = Sources/Classes/Hadoop.m; sourceTree = "<group>"; };
 		76400D6C122115840020DB2C /* Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Utility.h; path = Sources/Classes/Utility.h; sourceTree = "<group>"; };
 		76400D6D122115840020DB2C /* Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Utility.m; path = Sources/Classes/Utility.m; sourceTree = "<group>"; };
-		76400DEF122125900020DB2C /* HyperTableOperationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HyperTableOperationController.h; path = Sources/Classes/HyperTableOperationController.h; sourceTree = "<group>"; };
-		76400DF0122125900020DB2C /* HyperTableOperationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HyperTableOperationController.m; path = Sources/Classes/HyperTableOperationController.m; sourceTree = "<group>"; };
 		76400DF2122125A70020DB2C /* ClustersBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ClustersBrowser.h; path = Sources/Classes/ClustersBrowser.h; sourceTree = "<group>"; };
 		76400DF3122125A70020DB2C /* ClustersBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ClustersBrowser.m; path = Sources/Classes/ClustersBrowser.m; sourceTree = "<group>"; };
 		76400DF8122125BA0020DB2C /* Inspector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Inspector.h; path = Sources/Classes/Inspector.h; sourceTree = "<group>"; };
@@ -332,6 +330,8 @@
 		7696D7DB120592BF00DA46B8 /* zlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = zlib.h; path = "Sources/zlib-1.2.5/zlib.h"; sourceTree = "<group>"; };
 		7696D7DC120592BF00DA46B8 /* zutil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = zutil.c; path = "Sources/zlib-1.2.5/zutil.c"; sourceTree = "<group>"; };
 		7696D7DD120592BF00DA46B8 /* zutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = zutil.h; path = "Sources/zlib-1.2.5/zutil.h"; sourceTree = "<group>"; };
+		76A66BCB122416AE00C3AB14 /* ServiceOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServiceOperation.h; path = Sources/Classes/ServiceOperation.h; sourceTree = "<group>"; };
+		76A66BCC122416AE00C3AB14 /* ServiceOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServiceOperation.m; path = Sources/Classes/ServiceOperation.m; sourceTree = "<group>"; };
 		76B02665115CFA9E003854D2 /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		76B3C5BE10DA328100078742 /* DataPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataPage.h; sourceTree = "<group>"; };
 		76B3C5BF10DA328100078742 /* DataPage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataPage.cpp; sourceTree = "<group>"; };
@@ -482,8 +482,6 @@
 			isa = PBXGroup;
 			children = (
 				7624564C1222629600925812 /* Accessors */,
-				76400DEF122125900020DB2C /* HyperTableOperationController.h */,
-				76400DF0122125900020DB2C /* HyperTableOperationController.m */,
 				76C854AA121294C900525B28 /* Settings Controllers */,
 				76B42B961210620800CAC6A8 /* Managers */,
 				76967BEE121009E1000FD196 /* HQL Interpreter */,
@@ -778,6 +776,8 @@
 				76967C08121010D6000FD196 /* DeleteRowOperation.m */,
 				76E94B39121A8A7400370F01 /* GetStatusOperation.h */,
 				76E94B3A121A8A7400370F01 /* GetStatusOperation.m */,
+				76A66BCB122416AE00C3AB14 /* ServiceOperation.h */,
+				76A66BCC122416AE00C3AB14 /* ServiceOperation.m */,
 			);
 			name = Operations;
 			sourceTree = "<group>";
@@ -1225,7 +1225,6 @@
 				76E94B37121A8A3200370F01 /* SSHClient.m in Sources */,
 				76E94B3B121A8A7400370F01 /* GetStatusOperation.m in Sources */,
 				76400D6E122115840020DB2C /* Utility.m in Sources */,
-				76400DF1122125900020DB2C /* HyperTableOperationController.m in Sources */,
 				76400DF6122125A70020DB2C /* ClustersBrowser.m in Sources */,
 				76400DFA122125BA0020DB2C /* Inspector.m in Sources */,
 				76400DFF122125D70020DB2C /* InsertNewRowController.m in Sources */,
@@ -1236,6 +1235,7 @@
 				762456651222653300925812 /* Server.m in Sources */,
 				762456AF1222710F00925812 /* Service.m in Sources */,
 				7624576212227BEC00925812 /* Hadoop.m in Sources */,
+				76A66BCD122416AE00C3AB14 /* ServiceOperation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
