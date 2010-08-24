@@ -7,6 +7,29 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "HyperTable.h"
+/*
+	Class provides listing and selection of available HyperTable
+	brokers in NSPopUpButton.
+ */
+
+@interface HyperTableBrokersCntrl : NSWindowController
+{
+	NSPopUpButton * brokerSelector;
+}
+
+@property (nonatomic, retain) IBOutlet NSPopUpButton * brokerSelector;
+
+- (IBAction) updateBrokers:(id)sender;
+- (void) updateBrokers:(id)sender withCompletionBlock:(void (^)(void)) codeBlock;
+- (void) addAndReconnect:(id)hypertable withCompletionBlock:(void (^)(void)) codeBlock;
+													   
+- (HyperTable *) selectedBroker;
+
+@end
+
+
+/*	CoreData bindings transforming utilities	*/
 
 @interface StatusValueTransformer : NSValueTransformer {	
 	
@@ -16,5 +39,4 @@
 @interface ServerSummaryTransformer : NSValueTransformer {	
 	
 }
-
 @end
