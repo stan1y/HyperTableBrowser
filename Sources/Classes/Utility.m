@@ -49,19 +49,3 @@
 			runningServices, [[value services] count]];
 }
 @end
-
-@implementation ServiceStatusTransformer
-
-+ (Class)transformedValueClass { return [NSImage class]; }
-+ (BOOL)allowsReverseTransformation { return YES; }
-- (id)transformedValue:(id)value 
-{
-	if (value > 0) {
-		return [[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ServiceStatusRunning" ofType:@"png"]];
-	}
-	else {
-		return [[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ServiceStatusStopped" ofType:@"png"]];
-	}
-
-}
-@end

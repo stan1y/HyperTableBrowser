@@ -66,7 +66,10 @@
 	
 	[errorMessage setHidden:YES];
 	
-	NSLog(@"Saving new cluster");
+	[[[NSApp delegate] clustersBrowser] indicateBusy];
+	[[[NSApp delegate] clustersBrowser] setMessage:
+		[NSString stringWithFormat:@"Saveing cluster %@", [clusterName stringValue]]];
+
 	NSManagedObjectContext * context = [[NSApp delegate] managedObjectContext];
 	
 	//new cluster entry
@@ -167,13 +170,17 @@
 	//commit
 	NSError * error = nil;
 	if (![context commitEditing]) {
-        NSLog(@"%@:%s unable to commit editing before saving", [self class], _cmd);
+		[[[NSApp delegate] clustersBrowser] indicateDone];
+		[[[NSApp delegate] clustersBrowser] setMessage:
+			[NSString stringWithFormat:@"%@:%s unable to commit editing before saving", [self class], _cmd]];
     }
     if (![context save:&error]) {
         [[NSApplication sharedApplication] presentError:error];
     }
 	[context release];
-	NSLog(@"Cluster with master %s was saved.", [[masterAddress stringValue] UTF8String]);
+
+	[[[NSApp delegate] clustersBrowser] setMessage:
+	 [NSString stringWithFormat:@"Cluster with master %s was saved.", [masterAddress stringValue]]];
 	
 	//close dialog
 	[[[self view] window] orderOut:sender];
@@ -188,6 +195,7 @@
 			NSError *error = [NSError errorWithDomain:@"" code:[masterStatus errorCode] userInfo:dict];
 			[NSApp presentError:error];			
 		}
+		[[[NSApp delegate] clustersBrowser] indicateDone];
 	}];
 	[[[NSApp delegate] operations] addOperation:masterStatus];
 	[masterStatus release];
@@ -196,6 +204,7 @@
 	if (hypertable) {
 		GetStatusOperation * hypertableStatus = [GetStatusOperation getStatusOfServer:hypertable ];
 		[hypertableStatus setCompletionBlock: ^ {
+			[[[NSApp delegate] clustersBrowser] indicateDone];
 			if ([hypertableStatus errorCode]) {
 				NSMutableDictionary *dict = [NSMutableDictionary dictionary];
 				[dict setValue:[hypertableStatus errorMessage] forKey:NSLocalizedDescriptionKey];
@@ -213,6 +222,7 @@
 		GetStatusOperation * hadoopStatus = [GetStatusOperation getStatusOfServer:hadoop ];
 		[hadoopStatus setCompletionBlock: ^ {
 			if ([hadoopStatus errorCode]) {
+				[[[NSApp delegate] clustersBrowser] indicateDone];
 				NSMutableDictionary *dict = [NSMutableDictionary dictionary];
 				[dict setValue:[hadoopStatus errorMessage] forKey:NSLocalizedDescriptionKey];
 				[dict setValue:[hadoopStatus errorMessage] forKey:NSLocalizedFailureReasonErrorKey];

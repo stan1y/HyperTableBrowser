@@ -31,33 +31,42 @@
 	//populate selector
 	[serverSelector removeAllItems];
 	id brokersList = [HyperTable allHypertables];
+	BOOL didReconnect = NO;
 	for (id hypertable in brokersList) {
 		if ( ![hypertable isConnected]) {
+			didReconnect = YES;
 			[hypertable reconnect:^ {
 				NSLog(@"Automatic reconnect: Operation complete.\n");
 				[self indicateDone];
 				
 				if ( ![hypertable isConnected] ) {
 					[self setMessage:@"Failed to reconnect to HyperTable thrift broker."];
+					NSString * reason = [NSString stringWithFormat:@"Please make sure that Thrift API service is running on %@",
+										 [hypertable valueForKey:@"name"]];
+					[[NSApp delegate] showErrorDialog:1 
+											  message:reason 
+										   withReason:nil];		
 				}
 				else {
 					[self setMessage:@"Connected to HyperTable broker successfuly."];
+					
+					[serverSelector addItemWithTitle:[hypertable ipAddress]];
+					[self setMessage:[NSString stringWithFormat:@"%d server(s) available", 
+									  [[serverSelector itemArray] count]] ];
 				}
 			}];
 		}
-		
-		[serverSelector addItemWithTitle:[hypertable ipAddress]];
+		else {
+			//already connected
+			[serverSelector addItemWithTitle:[hypertable ipAddress]];
+		}		
 	}
-	if ([brokersList count] <= 0) {
-		[self setMessage:@"No servers available. Please connect to at least one server."];
-		[serverSelector setEnabled:NO];
+	//is operation was started, do not indicate end
+	if (!didReconnect) {
+		[self setMessage:[NSString stringWithFormat:@"%d server(s) available", 
+						  [[serverSelector itemArray] count]] ];
+		[self indicateDone];
 	}
-	else {
-		[serverSelector setEnabled:YES];
-		[self setMessage:[NSString stringWithFormat:@"%d server(s) available", [brokersList count]] ];
-	}
-	[self indicateDone];
-	[brokersList release];
 }
 
 - (id) getSelectedConnection {

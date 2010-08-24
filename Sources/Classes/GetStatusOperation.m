@@ -41,6 +41,20 @@
 	
 	NSLog(@"Fetching status from %@ [%@]", [sshClient targetIpAddress], [server class]);
 	errorCode = 0;
+	//get hostname
+	errorCode = [sshClient runCommand:@"hostname"];
+	if (errorCode) {
+		NSLog(@"Failed to get hostname. Code: %d, Error: %s", errorCode,
+			  [[sshClient error] UTF8String]);
+		[self setErrorMessage:[sshClient error]];
+		[server setValue:[NSNumber numberWithInt:1] forKey:@"status"];
+		[[sshClient sshLock] unlock];
+		return;
+	}
+	NSString * hostname = [sshClient output];
+	NSLog(@"Server hostname: %@", hostname);
+	[server setValue:hostname forKey:@"hostname"];
+	
 	//check hypertable
 	errorCode = [sshClient runCommand:@"stat /opt/hypertable/current"];
 	if (errorCode) {

@@ -106,7 +106,6 @@
 		//refresh tables on connection
 		FetchTablesOperation * fetchTablesOp = [FetchTablesOperation fetchTablesFromConnection:connection];
 		[fetchTablesOp setCompletionBlock: ^ {
-			NSLog(@"Refreshing tables on \"%s\"\n", [[connection ipAddress] UTF8String] );
 			[tablesList reloadColumn:0];
 			[self setMessage:msg];
 			[self indicateDone];

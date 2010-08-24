@@ -170,7 +170,7 @@
 	if (!tbrowserPrefs) {
 		[[NSApp delegate] showErrorDialog:1 
 								  message:@"Failed to read Tabales Browser settings from storage." 
-							   withReason:@"Please recreate HyperTableBrowser.xml"];
+							   withReason:@"Please recreate DataBase.xml"];
 		return;
 	}
 	int autoReconnectBroker =  [[tbrowserPrefs valueForKey:@"autoReconnectBroker"] intValue];
