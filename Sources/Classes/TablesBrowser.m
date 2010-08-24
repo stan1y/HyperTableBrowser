@@ -7,8 +7,8 @@
 //
 
 #import "TablesBrowser.h"
-#import <DeleteRowOperation.h>
-#import <HyperTable.h>
+#import "DeleteRowOperation.h"
+#import "HyperTable.h"
 
 @implementation TablesBrowser
 
@@ -35,22 +35,7 @@
 @synthesize allowInsertRow;
 @synthesize allowDeleteRow;
 
-- (BOOL)validateToolbarItem:(NSToolbarItem *)toolbarItem
-{
-    if ([toolbarItem isEqual:newTableBtn]) {
-		return [[self getSelectedConnection] isConnected];
-    } else if ( [toolbarItem isEqual:dropTableBtn]) {
-		return [tablesList selectedRowInColumn:0] >= 0;
-    } else if ( [toolbarItem isEqual:refreshBtn]) {
-		return [[self getSelectedConnection] isConnected];
-	} else if ( [toolbarItem isEqual:newRowBtn]) {
-		return [tablesList selectedRowInColumn:0] >= 0;
-	} else if ( [toolbarItem isEqual:dropRowBtn]) {
-		return ([pageSource selectedRowKeyValue] != nil) && ([[pageSource selectedRowKeyValue] length] > 0);
-	}
-	
-	return YES;
-}
+#pragma mark Initialization
 
 - (void) dealloc
 {
@@ -59,7 +44,6 @@
 	[newTableController release];
 	[insertNewRowPnl release];
 	[newRowController release];
-	
 	[refreshBtn release];
 	[newTableBtn release];
 	[dropTableBtn release];
@@ -70,9 +54,23 @@
 	[super dealloc];
 }
 
-- (void)windowWillClose:(NSNotification *)notification
+#pragma mark Toolbar Controller callbacks
+
+- (BOOL)validateToolbarItem:(NSToolbarItem *)toolbarItem
 {
-	NSLog(@"Tables Browser closed\n");
+    if ([toolbarItem isEqual:newTableBtn]) {
+		return [[self selectedBroker] isConnected];
+    } else if ( [toolbarItem isEqual:dropTableBtn]) {
+		return [tablesList selectedRowInColumn:0] >= 0;
+    } else if ( [toolbarItem isEqual:refreshBtn]) {
+		return [[self selectedBroker] isConnected];
+	} else if ( [toolbarItem isEqual:newRowBtn]) {
+		return [tablesList selectedRowInColumn:0] >= 0;
+	} else if ( [toolbarItem isEqual:dropRowBtn]) {
+		return ([pageSource selectedRowKeyValue] != nil) && ([[pageSource selectedRowKeyValue] length] > 0);
+	}
+	
+	return YES;
 }
 
 - (IBAction)newTable:(id)sender
@@ -84,9 +82,9 @@
 
 - (IBAction)dropTable:(id)sender
 {
-	id connection = [self getSelectedConnection];
+	id connection = [self selectedBroker];
 	if (!connection) {
-		[self setMessage:@"Cannot drop table. Server is NOT connected."];
+		[[NSApp delegate] showErrorDialog:-1 message:@"Cannot drop table. Server is NOT connected."];
 		return;
 	}
 	
@@ -94,7 +92,7 @@
 	int rc = drop_table([connection thriftClient], [[[tablesList selectedCellInColumn:0] stringValue] UTF8String]);
 	
 	if (rc != T_OK) {
-		[self setMessage:[NSString stringWithFormat:@"Failed to drop table \"%s\". %s",
+		[[NSApp delegate] showErrorDialog:-1 message:[NSString stringWithFormat:@"Failed to drop table \"%s\". %s",
 													  [[[tablesList selectedCellInColumn:0] stringValue]  UTF8String],
 													  [[HyperTable errorFromCode:rc] UTF8String]]];
 		[self indicateDone];
@@ -107,8 +105,7 @@
 		FetchTablesOperation * fetchTablesOp = [FetchTablesOperation fetchTablesFromConnection:connection];
 		[fetchTablesOp setCompletionBlock: ^ {
 			[tablesList reloadColumn:0];
-			[self setMessage:msg];
-			[self indicateDone];
+			[[NSApp delegate] showErrorDialog:-1 message:msg];
 		}];
 		
 		//start fetching tables
@@ -119,27 +116,23 @@
 
 - (IBAction)refreshTables:(id)sender
 {
-	id hypertable = [self getSelectedConnection];
-	if (!hypertable) {
-		[self setMessage:@"No connection is available"];
-		return;
+	id hypertable = [self selectedBroker];
+	if (hypertable)  {
+		NSLog(@"Refreshing tables...");
+		[hypertable refresh:^ {
+			[tablesList loadColumnZero];
+			[hypertable release];
+		}];
 	}
-	[self setMessage:@"Reloading tables list items..."];
-	[self indicateBusy];
-	[hypertable refresh:^ {
-		[self setMessage:@"Tables updated sucessfuly."];
-		[tablesList loadColumnZero];
-		[self indicateDone];
-	}];
 }
 
 - (IBAction)insertNewRow:(id)sender
 {
-	id connection = [self getSelectedConnection];
-	[[self newRowController] setConnection:connection];
+	id broker = [self selectedBroker];
+	[[self newRowController] setConnection:broker];
 	[NSApp beginSheet:[self insertNewRowPnl] modalForWindow:[self window]
         modalDelegate:self didEndSelector:nil contextInfo:nil];
-	[connection release];
+	[broker release];
 }
 
 - (IBAction)deleteSelectedRow:(id)sender
@@ -160,9 +153,9 @@
 		   [[self selectedRowKeyValue] UTF8String],
 		   [selectedTable UTF8String]]);
 	
-	id connection = [self getSelectedConnection];
+	id connection = [self selectedBroker];
 	if (!connection) {
-		[self setMessage:@"Cannot delete selected row. Server is NOT connected."];
+		[[NSApp delegate] showErrorDialog:-1 message:@"Cannot delete selected row. Server is NOT connected."];
 		return;
 	}
 	
@@ -180,6 +173,8 @@
 	[connection release];
 }
 
+#pragma mark Servers List (NSBrowser) delegate callbacks
+
 - (BOOL)browser:(NSBrowser *)browser shouldEditItem:(id)item
 { 
 	//edit not supported yet
@@ -188,7 +183,7 @@
 
 - (BOOL)browser:(NSBrowser *)sender isColumnValid:(NSInteger)column
 {
-	return [[[self getSelectedConnection] tables] count] > 0;
+	return [[[self selectedBroker] tables] count] > 0;
 }
 
 //yes means non-expandable
@@ -202,13 +197,13 @@
 
 - (id)rootItemForBrowser:(NSBrowser *)browser
 {
-	return [self getSelectedConnection];
+	return [self selectedBroker];
 }
 
 - (id)browser:(NSBrowser *)browser objectValueForItem:(id)item
 {
 	if ([item class] == [HyperTable class])
-		return [item ipAddress];
+		return [item valueForKey:@"name"];
 	else {
 		return item;
 	}
@@ -218,7 +213,7 @@
 {
 	if ([item class] == [HyperTable class])
 	{
-		id table = [[[self getSelectedConnection] tables] objectAtIndex:index];
+		id table = [[[self selectedBroker] tables] objectAtIndex:index];
 		return table;
 	}
 	return nil;
@@ -227,7 +222,7 @@
 - (NSInteger)browser:(NSBrowser *)browser numberOfChildrenOfItem:(id)item
 {
 	if ([item class] == [HyperTable class]) {
-		return [[[self getSelectedConnection] tables] count];
+		return [[[self selectedBroker] tables] count];
 	}
 	return 0;
 }
@@ -235,7 +230,7 @@
 - (IBAction)tableSelectionChanged:(id)sender
 {
 	[pageSource showFirstPageFor:[[tablesList selectedCellInColumn:0] stringValue]
-				  fromConnection:[self getSelectedConnection]];
+				  fromConnection:[self selectedBroker]];
 }
 
 @end

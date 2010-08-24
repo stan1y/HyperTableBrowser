@@ -7,12 +7,13 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <NewTableController.h>
-#import <InsertNewRowController.h>
-#import <HyperTableOperationController.h>
-#import <TablesBrowserPageSource.h>
 
-@interface TablesBrowser : HyperTableOperationController {
+#import "NewTableController.h"
+#import "InsertNewRowController.h"
+#import "TablesBrowserPageSource.h"
+#import "Utility.h"
+
+@interface TablesBrowser : HyperTableBrokersCntrl {
 	
 	//panel controls
 	NewTableController * newTableController;
@@ -24,9 +25,9 @@
 	
 	TablesBrowserPageSource * pageSource;
 	
+	NSButton * newTableBtn;
+	NSButton * dropTableBtn;
 	//toolbar controls
-	NSToolbarItem * newTableBtn;
-	NSToolbarItem * dropTableBtn;
 	NSToolbarItem * refreshBtn;
 	NSToolbarItem * newRowBtn;
 	NSToolbarItem * dropRowBtn;
@@ -36,14 +37,14 @@
 	int allowDropTable;
 	int allowRefresh;
 	int allowInsertRow;
-	int allowDeleteRow;	
+	int allowDeleteRow;
 }
 
 //toolbar properties 
 @property (nonatomic, retain) IBOutlet NSBrowser * tablesList;
 @property (nonatomic, retain) IBOutlet NSToolbarItem * refreshBtn;
-@property (nonatomic, retain) IBOutlet NSToolbarItem * newTableBtn;
-@property (nonatomic, retain) IBOutlet NSToolbarItem * dropTableBtn;
+@property (nonatomic, retain) IBOutlet NSButton * newTableBtn;
+@property (nonatomic, retain) IBOutlet NSButton * dropTableBtn;
 @property (nonatomic, retain) IBOutlet NSToolbarItem * newRowBtn;
 @property (nonatomic, retain) IBOutlet NSToolbarItem * dropRowBtn;
 
