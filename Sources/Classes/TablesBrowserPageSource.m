@@ -38,6 +38,7 @@
 	[refreshButton release];
 	[nextPageButton release];
 	[prevPageButton release];
+	
 	[super dealloc];
 }
 
@@ -76,7 +77,9 @@
 	 fromConnection:(HyperTable *)connection
 	 withPageNumber:(int)number andPageSize:(int)size
 {
-	NSLog(@"Preparing to fetch page\n");
+	NSLog(@"Tables Browser: Fetching page %d of %d rows from table %@.",
+		  number, size, tableName);
+	
 	//save received values
 	[pageSizeTextField setIntValue:size];
 	[self setLastDisplayedPageNumber:number];
@@ -88,7 +91,6 @@
 																	   atIndex:number
 																	   andSize:size];
 	[fpageOp setCompletionBlock: ^ {
-		[[[NSApp delegate] tablesBrowser] indicateDone];
 		if (fpageOp.errorCode == T_OK) {
 			
 			//unlock controls for page switching
@@ -109,20 +111,16 @@
 			//display received page
 			DataPage * receivedPage = [fpageOp page];
 			if (receivedPage) {
-				[[[NSApp delegate] tablesBrowser] setMessage:[NSString stringWithFormat:@"Received %d rows.\n", receivedPage->rowsCount]];
+				NSLog(@"Tables Browser: Received page with %d rows.", receivedPage->rowsCount);
 				
 				//update page info
-				NSString * pageInfo = [NSString stringWithFormat:@"Page %d with %d (of %d requested) row(s) %s",
+				NSString * pageInfo = [NSString stringWithFormat:@"Page #%d. %d row(s).",
 									   number,
-									   receivedPage->rowsCount,
-									   size,
-									   [[self lastDisplayedTableName] UTF8String]];
-				[pageInfoField setTitleWithMnemonic:pageInfo];
+									   receivedPage->rowsCount];
+				[pageInfoField setStringValue:pageInfo];
 			}
 			else {
-				[[[NSApp delegate] tablesBrowser] setMessage:[NSString stringWithFormat:
-											 @"No rows were found in table \"%s\".\n",
-											 [[fpageOp tableName] UTF8String] ]];
+				NSLog(@"Tables Browser: Table %@ is empty.", tableName);
 				receivedPage = page_new();
 				DataRow * emptyRow = row_new("dummy");
 				page_append(receivedPage, emptyRow);
@@ -136,20 +134,19 @@
 			[refreshButton setEnabled:YES];
 		}
 		else {
-			[[[NSApp delegate] tablesBrowser] setMessage:[HyperTable errorFromCode:fpageOp.errorCode]];
+			NSLog(@"Tables Browser: Failed to fetch page.");
+			
 			//disabled controls
 			[refreshButton setEnabled:NO];
 			[nextPageButton setEnabled:NO];
 			[prevPageButton setEnabled:NO];
+			
+			[[NSApp delegate] showErrorDialog:-1 message:[HyperTable errorFromCode:[fpageOp errorCode]]];
 		}
 		
 	} ];
 	
 	//start async operation
-	[[[NSApp delegate] tablesBrowser] indicateBusy];
-	[[[NSApp delegate] tablesBrowser] setMessage:[NSString stringWithFormat:@"Fetching page from table \"%s\"\n", 
-								  [tableName UTF8String] ]];
-	
 	[[[NSApp delegate] operations] addOperation: fpageOp];
 	[fpageOp release];
 }
@@ -185,8 +182,7 @@
 		NSArray *types = [NSArray arrayWithObjects:NSStringPboardType, nil];
 		[pb declareTypes:types owner:self];
 		[pb setString:[self selectedRowKeyValue] forType:NSStringPboardType];
-		[[[NSApp delegate] tablesBrowser] setMessage:[NSString stringWithFormat:@"Row key \"%s\" was copied to clipboard",
-									  [[self selectedRowKeyValue] UTF8String]]];
+		NSLog(@"Row key \"%@\" was copied to clipboard", [self selectedRowKeyValue]);
 	}
 }
 
