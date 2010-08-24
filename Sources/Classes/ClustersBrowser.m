@@ -111,14 +111,12 @@
 
 - (void)indicateBusy 
 {
-	[statusIndicator setHidden:NO];
 	[statusIndicator startAnimation:self];
 }
 
 - (void)indicateDone 
 {
 	[statusIndicator stopAnimation:self];
-	[statusIndicator setHidden:YES];
 }
 
 #pragma mark Toolbar callbacks
