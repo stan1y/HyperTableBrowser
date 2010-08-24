@@ -46,7 +46,7 @@
 	DataCellIterator * ci = cell_iter_new(row);
 	DataCell * cell = NULL;
 	//filter out METADATA if specified
-	id prefs = [[[NSApp delegate] settingsManager] getSettingsByName:@"TablesBrowserPrefs"];
+	id prefs = [[NSApp delegate] getSettingsByName:@"TablesBrowserPrefs"];
 	if (!prefs) {
 		NSLog(@"There is no settings found!");
 		return;
