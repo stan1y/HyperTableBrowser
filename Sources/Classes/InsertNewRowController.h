@@ -7,10 +7,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <HyperTableOperationController.h>
-#import <HyperTable.h>
+#import "Utility.h"
 
-@interface InsertNewRowController : HyperTableOperationController {
+@interface InsertNewRowController : HyperTableBrokersCntrl {
 	NSPopUpButton * tableSelector;
 	HyperTable * connection;
 }

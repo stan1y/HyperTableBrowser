@@ -7,11 +7,11 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <HyperTable.h>
-#import <HyperTableOperationController.h>
-#import <FetchTablesOperation.h>
 
-@interface NewTableController : HyperTableOperationController {
+#import "Utility.h"
+#import "FetchTablesOperation.h"
+
+@interface NewTableController : HyperTableBrokersCntrl {
 
 	NSTextField * tableNameField;
 	NSTextField * schemaContents;
