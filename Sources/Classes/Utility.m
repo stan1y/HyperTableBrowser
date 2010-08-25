@@ -25,7 +25,7 @@
 - (void) updateBrokers:(id)sender withCompletionBlock:(void (^)(void)) codeBlock
 {
 	[brokerSelector removeAllItems];
-	id brokersList = [HyperTable allHypertables];
+	id brokersList = [HyperTable hyperTableBrokersInCurrentCluster];
 	for (id hypertable in brokersList) {
 		[self addAndReconnect:hypertable withCompletionBlock:codeBlock];
 	}
@@ -36,7 +36,7 @@
 	NSLog(@"Updating available brokers...");
 	//populate selector
 	[brokerSelector removeAllItems];
-	id brokersList = [HyperTable allHypertables];
+	id brokersList = [HyperTable hyperTableBrokersInCurrentCluster];
 	for (id hypertable in brokersList) {
 		//connect or add each available broker
 		[self addAndReconnect:hypertable withCompletionBlock:^ {
@@ -57,15 +57,15 @@
 - (HyperTable *) selectedBroker {
 	if ( ![[[brokerSelector selectedItem] title] length] ) {
 		//return first available one if none selected
-		if ([[HyperTable allHypertables] count] > 0) {
-			return [[HyperTable allHypertables] objectAtIndex:0];
+		if ([[HyperTable hyperTableBrokersInCurrentCluster] count] > 0) {
+			return [[HyperTable hyperTableBrokersInCurrentCluster] objectAtIndex:0];
 		}
 		
 		//or nil if none available
 		return nil;
 	}
 	
-	for (HyperTable * hypertable in [HyperTable allHypertables]) {
+	for (HyperTable * hypertable in [HyperTable hyperTableBrokersInCurrentCluster]) {
 		if ([[brokerSelector selectedItem] title] == [hypertable valueForKey:@"name"]) {
 			return hypertable;
 		}
