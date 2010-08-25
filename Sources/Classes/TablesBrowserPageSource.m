@@ -12,7 +12,7 @@
 @implementation TablesBrowserPageSource
 
 @synthesize pageInfoField;
-@synthesize rowsPageView;
+@synthesize pageTableView;
 @synthesize	lastDisplayedTableName;
 @synthesize lastUsedConnection;
 @synthesize lastDisplayedPageNumber;
@@ -24,11 +24,13 @@
 @synthesize	nextPageButton;
 @synthesize prevPageButton;
 @synthesize selectedRowIndex;
+@synthesize indicator;
 
 - (void)dealloc
 {
+	[indicator release];
 	[pageInfoField release];
-	[rowsPageView release];
+	[pageTableView release];
 	[lastDisplayedTableName release];
 	[lastUsedConnection release];
 	[pageSizeTextField release];
@@ -42,14 +44,21 @@
 	[super dealloc];
 }
 
+- (IBAction) deselectRow:(id)sender
+{
+	[selectedRowKey setStringValue:@"Nothing selected"];
+	[selectedRowKey setEnabled:NO];
+	[copyRowKeyButton setEnabled:NO];	
+}
+
 - (BOOL)tableView:(NSTableView *)aTableView 
   shouldSelectRow:(NSInteger)rowIndex {
 	if (![self page]) {
-		[selectedRowKey setTitleWithMnemonic:@"Nothing selected"];
-		[selectedRowKeyValue release];
-		[copyRowKeyButton setEnabled:NO];
+		[self deselectRow:nil];
 		return NO;
 	}
+	//enable controls
+	[selectedRowKey setEnabled:YES];
 	[copyRowKeyButton setEnabled:YES];
 	
 	DataRow * row = page_row_at_index([self page], rowIndex);
@@ -57,7 +66,7 @@
 	//show row key
 	[self setSelectedRowKeyValue:[NSString stringWithUTF8String:row->rowKey]];
 	[self setSelectedRowIndex:rowIndex];
-	[selectedRowKey setTitleWithMnemonic:[NSString stringWithFormat:@"Selected: %s",
+	[selectedRowKey setStringValue:[NSString stringWithFormat:@"%s",
 										  row->rowKey]];
 	
 	//do selection
@@ -91,6 +100,8 @@
 																	   atIndex:number
 																	   andSize:size];
 	[fpageOp setCompletionBlock: ^ {
+		
+		[indicator stopAnimation:self];
 		if (fpageOp.errorCode == T_OK) {
 			
 			//unlock controls for page switching
@@ -114,13 +125,19 @@
 				NSLog(@"Tables Browser: Received page with %d rows.", receivedPage->rowsCount);
 				
 				//update page info
-				NSString * pageInfo = [NSString stringWithFormat:@"Page #%d. %d row(s).",
+				int totalPages = [fpageOp totalRows] / size;
+				if (totalPages == 0) {
+					totalPages = 1;
+				}
+				NSString * pageInfo = [NSString stringWithFormat:@"Page %d of %d with %d row(s).",
 									   number,
+									   totalPages,
 									   receivedPage->rowsCount];
 				[pageInfoField setStringValue:pageInfo];
 			}
 			else {
 				NSLog(@"Tables Browser: Table %@ is empty.", tableName);
+				[pageInfoField setStringValue:[NSString stringWithFormat:@"Table %@ is empty.", tableName]];
 				receivedPage = page_new();
 				DataRow * emptyRow = row_new("dummy");
 				page_append(receivedPage, emptyRow);
@@ -128,7 +145,7 @@
 			
 			//display received page with PageSource:setPage/reloadDataForView
 			[self setPage:receivedPage withTitle:tableName];
-			[self reloadDataForView:rowsPageView];
+			[self reloadDataForView:pageTableView];
 			
 			//allow refresh control
 			[refreshButton setEnabled:YES];
@@ -147,6 +164,8 @@
 	} ];
 	
 	//start async operation
+	[indicator startAnimation:self];
+	[pageInfoField setStringValue:@"Fething data..."];
 	[[[NSApp delegate] operations] addOperation: fpageOp];
 	[fpageOp release];
 }

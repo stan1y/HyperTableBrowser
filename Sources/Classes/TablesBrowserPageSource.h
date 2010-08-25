@@ -13,7 +13,7 @@
 
 @interface TablesBrowserPageSource : PageSource {
 	//view used to display source
-	NSTableView * rowsPageView;
+	NSTableView * pageTableView;
 	
 	//last used args for showPageFor
 	NSString * lastDisplayedTableName;
@@ -34,16 +34,22 @@
 	NSTextField * selectedRowKey;
 	NSString * selectedRowKeyValue;
 	int selectedRowIndex;
+	
+	//activity indicator
+	NSProgressIndicator * indicator;
 }
 @property (assign) int lastDisplayedPageNumber;
+
 @property (nonatomic, retain) NSString * lastDisplayedTableName;
 @property (nonatomic, retain) HyperTable * lastUsedConnection;
+
+@property (nonatomic, retain) IBOutlet NSProgressIndicator * indicator;
 @property (nonatomic, retain) IBOutlet NSButton * refreshButton;
 @property (nonatomic, retain) IBOutlet NSButton * nextPageButton;
 @property (nonatomic, retain) IBOutlet NSButton * prevPageButton;
 @property (nonatomic, retain) IBOutlet NSTextField * pageSizeTextField;
 
-@property (nonatomic, retain) IBOutlet NSTableView * rowsPageView;
+@property (nonatomic, retain) IBOutlet NSTableView * pageTableView;
 @property (nonatomic, retain) IBOutlet NSTextField * pageInfoField;
 @property (nonatomic, retain) IBOutlet NSButton * copyRowKeyButton;
 @property (nonatomic, retain) IBOutlet NSTextField * selectedRowKey;
@@ -62,4 +68,5 @@
 - (IBAction)prevPage:(id)sender;
 - (IBAction)refresh:(id)sender;
 - (IBAction)copySelectedRowKey:(id)sender;
+- (IBAction)deselectRow:(id)sender;
 @end

@@ -65,10 +65,12 @@
 @property (nonatomic, retain) IBOutlet NewTableController * newTableController;
 @property (nonatomic, retain) IBOutlet InsertNewRowController * newRowController;
 
+//tables list opertions
 - (IBAction)newTable:(id)sender;
 - (IBAction)dropTable:(id)sender;
-- (IBAction)refreshTables:(id)sender;
 
+//toolbar operations
+- (IBAction)refreshTables:(id)sender;
 - (IBAction)insertNewRow:(id)sender;
 - (IBAction)deleteSelectedRow:(id)sender;
 

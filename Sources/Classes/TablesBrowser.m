@@ -229,6 +229,9 @@
 
 - (IBAction)tableSelectionChanged:(id)sender
 {
+	[[[self pageSource] pageTableView] deselectAll:sender];
+	[[self pageSource] deselectRow:sender];
+	
 	[pageSource showFirstPageFor:[[tablesList selectedCellInColumn:0] stringValue]
 				  fromConnection:[self selectedBroker]];
 }
