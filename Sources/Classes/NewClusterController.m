@@ -85,7 +85,7 @@
 	NSMutableSet * members = [cluster mutableSetValueForKey:@"members"];
 	
 	//name
-	[master setValue:@"Master" forKey:@"name"];
+	[master setValue:[NSString stringWithFormat:@"Master of %@", [clusterName stringValue]] forKey:@"name"];
 	[master setValue:@"" forKey:@"comment"];
 	//status
 	[master setValue:[NSNumber numberWithInt:0] forKey:@"status"];		
@@ -111,7 +111,7 @@
 		hadoop = [[Server alloc] initWithEntity:[Server serverDescription]
 				 insertIntoManagedObjectContext:context];
 		//name
-		[hadoop setValue:@"HDFS Broker" forKey:@"name"];
+		[hadoop setValue:[NSString stringWithFormat:@"%@ HDFS", [clusterName stringValue]] forKey:@"name"];
 		[hadoop setValue:@"" forKey:@"comment"];
 		//status
 		[hadoop setValue:[NSNumber numberWithInt:0] forKey:@"status"];		
@@ -128,11 +128,6 @@
 		//add to cluster
 		[hadoop setValue:cluster forKey:@"belongsTo"];
 		[members addObject:hadoop];
-		[cluster setValue:hadoop forKey:@"hadoopThriftBroker"];
-	}
-	else {
-		//set master as hadoop broker
-		[cluster setValue:master forKey:@"hadoopThriftBroker"];
 	}
 
 	//hypertable settings
@@ -143,7 +138,7 @@
 						 insertIntoManagedObjectContext:context];
 		
 		//name
-		[hypertable setValue:@"Hypertable Broker" forKey:@"name"];
+		[hypertable setValue:[NSString stringWithFormat:@"%@ Thrift API", [clusterName stringValue]] forKey:@"name"];
 		[hypertable setValue:@"" forKey:@"comment"];
 		//status
 		[hypertable setValue:[NSNumber numberWithInt:0] forKey:@"status"];		
@@ -160,11 +155,6 @@
 		//add to cluster
 		[hypertable setValue:cluster forKey:@"belongsTo"];
 		[members addObject:hypertable];
-		[cluster setValue:hypertable forKey:@"hypertableThriftBroker"];
-	}
-	else {
-		//set master as hypertable broker
-		[cluster setValue:master forKey:@"hypertableThriftBroker"];
 	}
 	
 	//commit
@@ -172,7 +162,7 @@
 	if (![context commitEditing]) {
 		[[[NSApp delegate] clustersBrowser] indicateDone];
 		[[[NSApp delegate] clustersBrowser] setMessage:
-			[NSString stringWithFormat:@"%@:%s unable to commit editing before saving", [self class], _cmd]];
+			[NSString stringWithFormat:@"%@:%@ unable to commit editing before saving", [self class], _cmd]];
     }
     if (![context save:&error]) {
         [[NSApplication sharedApplication] presentError:error];
@@ -180,13 +170,15 @@
 	[context release];
 
 	[[[NSApp delegate] clustersBrowser] setMessage:
-	 [NSString stringWithFormat:@"Cluster with master %s was saved.", [masterAddress stringValue]]];
+	 [NSString stringWithFormat:@"Cluster %@ with master %@ was saved.", 
+	  [clusterName stringValue],
+	  [masterAddress stringValue]]];
 	
 	//close dialog
 	[[[self view] window] orderOut:sender];
 	
 	//get status for master
-	GetStatusOperation * masterStatus = [GetStatusOperation getStatusOfServer:master ];
+	HyperTableStatusOperation * masterStatus = [HyperTableStatusOperation getStatusOfHyperTable:master ];
 	[masterStatus setCompletionBlock: ^ {
 		if ([masterStatus errorCode]) {
 			NSMutableDictionary *dict = [NSMutableDictionary dictionary];
@@ -202,7 +194,7 @@
 	
 	//get status for hypertable
 	if (hypertable) {
-		GetStatusOperation * hypertableStatus = [GetStatusOperation getStatusOfServer:hypertable ];
+		HyperTableStatusOperation * hypertableStatus = [HyperTableStatusOperation getStatusOfHyperTable:hypertable ];
 		[hypertableStatus setCompletionBlock: ^ {
 			[[[NSApp delegate] clustersBrowser] indicateDone];
 			if ([hypertableStatus errorCode]) {
@@ -219,19 +211,9 @@
 	}
 	//get status for hadoop
 	if (hadoop) {
-		GetStatusOperation * hadoopStatus = [GetStatusOperation getStatusOfServer:hadoop ];
-		[hadoopStatus setCompletionBlock: ^ {
-			if ([hadoopStatus errorCode]) {
-				[[[NSApp delegate] clustersBrowser] indicateDone];
-				NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-				[dict setValue:[hadoopStatus errorMessage] forKey:NSLocalizedDescriptionKey];
-				[dict setValue:[hadoopStatus errorMessage] forKey:NSLocalizedFailureReasonErrorKey];
-				NSError *error = [NSError errorWithDomain:@"" code:[hadoopStatus errorCode] userInfo:dict];
-				[NSApp presentError:error];			
-			}
-		}];
-		[[[NSApp delegate] operations] addOperation:hadoopStatus];
-		[hadoopStatus release];
+		/*
+		 FIXME!
+		 */
 	}
 }
 
