@@ -10,14 +10,14 @@
 #import <HyperTable.h>
 
 @interface FetchTablesOperation : NSOperation {
-	HyperTable * connection;
+	HyperTable * hypertable;
 	int errorCode;
 }
 
-@property (retain) HyperTable * connection;
+@property (retain) HyperTable * hypertable;
 @property (assign) int errorCode;
 
-+ fetchTablesFromConnection:(HyperTable *)conn;
++ fetchTablesFrom:(HyperTable *)hypertable;
 - (void)main;
 
 @end

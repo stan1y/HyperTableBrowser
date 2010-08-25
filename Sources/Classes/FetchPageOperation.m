@@ -16,26 +16,26 @@
 @synthesize errorCode;
 @synthesize startIndex;
 @synthesize stopIndex;
-@synthesize connection;
+@synthesize hypertable;
 @synthesize totalRows;
 @synthesize page;
 
-+ fetchPageFromConnection:(HyperTable *)conn
-				 withName:(NSString *)tableName 
-				  atIndex:(int)pageIndex 
-				  andSize:(int)pageSize
++ fetchPageFrom:(HyperTable *)hypertable
+	   withName:(NSString *)tableName 
+		atIndex:(int)pageIndex
+		andSize:(int)pageSize
 {
 	FetchPageOperation * fpOp = [[FetchPageOperation alloc] init];
 	[fpOp setTableName:tableName];
 	[fpOp setPageIndex:pageIndex];
 	[fpOp setPageSize:pageSize];
-	[fpOp setConnection:conn];
+	[fpOp setHypertable:hypertable];
 	return fpOp;
 }
 
 - (void) dealloc
 {
-	[connection release];
+	[hypertable release];
 	[tableName release];
 	if (page) {
 		page_clear(page);
@@ -48,14 +48,14 @@
 
 - (void) main
 {
-	[[connection connectionLock] lock];
+	[[hypertable connectionLock] lock];
 	errorCode = T_OK;
 	
 	NSLog(@"Fetching keys...\n");
 	[self setTotalRows:0];
 
 	DataRow * keys = row_new([tableName UTF8String]);
-	int rc = get_keys([connection thriftClient], keys, [tableName UTF8String]);
+	int rc = get_keys([hypertable thriftClient], keys, [tableName UTF8String]);
 	[self setErrorCode:rc];
 	if ( rc != T_OK) {
 		NSLog(@"Failed to fetch keys with code %d, %s\n", rc,
@@ -106,7 +106,7 @@
 	page = page_new();
 	NSLog(@"Fetching page from %s to %s.\n", startRow, stopRow);
 	
-	rc = get_page([connection thriftClient], page, [tableName UTF8String], startRow, stopRow);
+	rc = get_page([hypertable thriftClient], page, [tableName UTF8String], startRow, stopRow);
 	
 	[self setErrorCode:rc];
 	if ( rc != T_OK) {
@@ -121,7 +121,7 @@
 	free(keys);
 	free(startRow);
 	free(stopRow);
-	[[connection connectionLock] unlock];
+	[[hypertable connectionLock] unlock];
 }
 
 @end

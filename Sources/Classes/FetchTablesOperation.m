@@ -11,27 +11,27 @@
 
 @implementation FetchTablesOperation
 
-@synthesize connection;
+@synthesize hypertable;
 @synthesize errorCode;
 
-+ fetchTablesFromConnection:(HyperTable *)conn
++ fetchTablesFrom:(HyperTable *)hypertable
 {
 	FetchTablesOperation * ftOp = [[FetchTablesOperation alloc] init];
-	[ftOp setConnection:conn];
+	[ftOp setHypertable:hypertable];
 	return ftOp;
 }
 
 - (void) dealloc
 {
-	[connection release];
+	[hypertable release];
 	[super dealloc];
 }
 
 - (void)main
 {
-	[[connection connectionLock] lock];
+	[[hypertable connectionLock] lock];
 	DataRow * row = row_new("tables");
-	int rc = get_tables_list([connection thriftClient], row);
+	int rc = get_tables_list([hypertable thriftClient], row);
 	[self setErrorCode:rc];
 	if ( rc != T_OK ) {
 		free(row);
@@ -71,9 +71,8 @@
 	row_clear(row);
 	free(row);
 	NSLog(@"%d tables found.", [tables count]);
-	[tables retain];
-	[connection setTables:tables];
-	[[connection connectionLock] unlock];
+	[hypertable setTables:tables];
+	[[hypertable connectionLock] unlock];
 }
 
 @end

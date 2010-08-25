@@ -95,7 +95,7 @@
 	[self setLastDisplayedTableName:tableName];
 	[self setLastUsedConnection:connection];
 	
-	FetchPageOperation * fpageOp = [FetchPageOperation fetchPageFromConnection:connection
+	FetchPageOperation * fpageOp = [FetchPageOperation fetchPageFrom:connection
 																	  withName:tableName
 																	   atIndex:number
 																	   andSize:size];

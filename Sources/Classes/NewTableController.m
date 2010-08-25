@@ -68,7 +68,7 @@
 	[self setMessage:[NSString stringWithFormat:@"New table %s was successfully created",
 					  [tableName UTF8String]]];
 	//refresh tables on connection
-	FetchTablesOperation * fetchTablesOp = [FetchTablesOperation fetchTablesFromConnection:connection];
+	FetchTablesOperation * fetchTablesOp = [FetchTablesOperation fetchTablesFrom:connection];
 	[fetchTablesOp setCompletionBlock: ^ {
 		NSLog(@"Refreshing tables on \"%s\"\n", [[[connection connInfo] address] UTF8String] );
 		

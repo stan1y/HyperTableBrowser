@@ -131,7 +131,7 @@
 		[self setMessage:@"Updating cluster members..."];
 		
 		//update cluster members
-		for (Server * server in [HyperTable hypertablesInCurrentCluster]) {
+		for (HyperTable * server in [HyperTable hypertablesInCurrentCluster]) {
 			HyperTableStatusOperation * op = [HyperTableStatusOperation getStatusOfHyperTable:server];
 			[op setCompletionBlock: ^ {
 				[self indicateDone];

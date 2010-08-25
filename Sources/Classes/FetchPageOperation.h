@@ -10,7 +10,7 @@
 #import <HyperTable.h>
 
 @interface FetchPageOperation : NSOperation {
-	HyperTable * connection;
+	HyperTable * hypertable;
 	DataPage * page;
 	int errorCode;
 	
@@ -23,7 +23,7 @@
 	int stopIndex;
 }
 
-@property (nonatomic, retain) HyperTable * connection;
+@property (nonatomic, retain) HyperTable * hypertable;
 @property (assign) int totalRows;
 @property (assign) int errorCode;
 @property (assign) int pageIndex;
@@ -34,10 +34,10 @@
 
 @property (assign, readonly) DataPage * page;
 
-+ fetchPageFromConnection:(HyperTable *)conn
-				 withName:(NSString *)tableName 
-				atIndex:(int)pageIndex 
-				  andSize:(int)pageSize;
++ fetchPageFrom:(HyperTable *)hypertable
+	   withName:(NSString *)tableName 
+		atIndex:(int)pageIndex 
+		andSize:(int)pageSize;
 
 - (void)main;
 
