@@ -94,7 +94,10 @@
 			 onPort:(int)port 
 			 asUser:(NSString *)user
 {
-	return [self initClientTo:address onPort:port asUser:user withKey:@"~/.ssh/id_dsa"];
+	return [self initClientTo:address 
+					   onPort:port 
+					   asUser:user 
+					  withKey:[[NSString stringWithString:@"~/.ssh/id_dsa"] stringByExpandingTildeInPath]];
 }
 
 - (void) close
@@ -131,14 +134,14 @@
 	
 	if (stdoutPipe) {
 		[stdoutPipe release];
+		stdoutPipe = nil;
 	}
+	stdoutPipe = [[NSPipe alloc] init];
 	if (stderrPipe) {
 		[stderrPipe release];
+		stderrPipe = nil;
 	}
-	
-	stdoutPipe = [[NSPipe alloc] init];
 	stderrPipe = [[NSPipe alloc] init];
-	
 	if (sshOutput) {
 		[sshOutput release];
 		sshOutput = nil;
@@ -166,6 +169,7 @@
 			NSLog(@"Error: ssh child process failed with code %d", rc);
 		}
 	}
+	[ssh release];
 	
 	return rc;
 }
@@ -178,6 +182,8 @@
 		NSData *theOutput = [[stdoutPipe fileHandleForReading] readDataToEndOfFile];
 		sshOutput = [[NSString alloc] initWithData:theOutput encoding:NSUTF8StringEncoding];
 		[sshOutput retain];
+		[stdoutPipe release];
+		stdoutPipe = nil;
 	}
 	return sshOutput;
 }
@@ -189,6 +195,8 @@
 		NSData *theOutput = [[stderrPipe fileHandleForReading] readDataToEndOfFile];
 		sshError = [[NSString alloc] initWithData:theOutput encoding:NSUTF8StringEncoding];
 		[sshError retain];
+		[stderrPipe release];
+		stderrPipe = nil;
 	}
 	return sshError;
 }
