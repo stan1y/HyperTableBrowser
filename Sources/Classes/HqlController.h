@@ -7,29 +7,44 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <Utility.h>
-#import <PageSource.h>
-#import <HqlQueryOperation.h>
+#import "Utility.h"
+#import "PageSource.h"
 
 @interface HqlController : HyperTableBrokersCntrl {
 	NSTextView * hqlQuery;
 	NSButton * goButton;
 	
-	//source for hql page
-	PageSource * pageSource;
+	//activity indication
+	NSProgressIndicator * indicator;
+	NSTextField * queryStatus;
 	
-	//view used to display source
+	//HQL page display
+	PageSource * pageSource;
 	NSTableView * pageView;
+	
+	//Scripts selector
+	NSPopUpButton * scriptSelector;
+	NSString * loadedScriptFilePath;
+	BOOL scriptModified;
 }
 
+@property (nonatomic, retain) IBOutlet NSPopUpButton * scriptSelector;
+@property (nonatomic, retain) IBOutlet NSProgressIndicator * indicator;
+@property (nonatomic, retain) IBOutlet NSTextField * queryStatus;
 @property (nonatomic, retain) IBOutlet NSTextView * hqlQuery;
 @property (nonatomic, retain) IBOutlet NSButton * goButton;
 @property (nonatomic, retain) IBOutlet PageSource * pageSource;
 @property (nonatomic, retain) IBOutlet NSTableView * pageView;
 
-- (IBAction)go:(id)sender;
-- (IBAction)done:(id)sender;
+//UI callbacks
+- (IBAction) runQuery:(id)sender;
+- (IBAction) updateScripts:(id)sender;
 
-- (void)runQuery:(NSString *)query withConnection:(id)connection;
+//script execution
+- (void) runQuery:(NSString *)query onServer:(id)server;
+
+//script storage
+- (NSString *) currentScriptFileName;
+- (BOOL) isScriptSaved;
 
 @end
