@@ -32,8 +32,10 @@
 	//register value transformers
 	NSValueTransformer * statusTransformer = [[StatusValueTransformer alloc] init];
 	[NSValueTransformer setValueTransformer:statusTransformer forName:@"StatusValueTransformer"];
+	[statusTransformer release];
 	NSValueTransformer * summaryTransformer = [[ServerSummaryTransformer alloc] init];
 	[NSValueTransformer setValueTransformer:summaryTransformer forName:@"ServerSummaryTransformer"];
+	[summaryTransformer release];
 }
 
 - (void)applicationDidFinishLaunching:(NSApplication *)application 

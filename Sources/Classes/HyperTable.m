@@ -122,7 +122,7 @@
 	[r release];
 	
 	//get servers from services
-	NSMutableArray * serversArray = [[NSMutableArray alloc] init];
+	NSMutableArray * serversArray = [NSMutableArray array];
 	for (id service in servicesArray) {
 		[serversArray addObject:[service valueForKey:@"runsOnServer"]];
 	}
@@ -198,7 +198,7 @@
 
 - (void) refresh:(void (^)(void))codeBlock
 {
-	FetchTablesOperation * fetchTablesOp = [FetchTablesOperation fetchTablesFromConnection:self];
+	FetchTablesOperation * fetchTablesOp = [FetchTablesOperation fetchTablesFrom:self];
 	[fetchTablesOp setCompletionBlock:codeBlock];
 	
 	NSLog(@"Refreshing tables...\n");
