@@ -71,7 +71,7 @@
 	if (flag == SERVICE_START) {
 		[self executeCmd:[service valueForKey:@"startService"]];
 		if (errorCode) return;
-		[self executeCmd:[service valueForKey:@"getPid"]];
+		[self executeCmd:[NSString stringWithFormat:@"cat %@", [service valueForKey:@"getPid"]]];
 		if (errorCode) {
 			NSLog(@"Service is not runing after attempt to start");
 			//mark as stopped
@@ -86,14 +86,17 @@
 	else if (flag == SERVICE_STOP){
 		[self executeCmd:[service valueForKey:@"stopService"]];
 		if (errorCode) return;
-		[self executeCmd:[service valueForKey:@"getPid"]];
-		if (errorCode == 0) {
-			NSLog(@"Service is running (%d) after attempt to stop", [[service valueForKey:@"processID"] intValue]);
-			return;
+		else {
+			//remove pid file
+			[self executeCmd:[NSString stringWithFormat:@"rm -f %@", [service valueForKey:@"getPid"]] ];
+			if (errorCode) {
+				NSLog(@"Failed to remove pid file of service.");
+				return;
+			}
+			//mark as stopped running
+			[service setValue:[NSNumber numberWithInt:-1] forKey:@"processID"];
+			NSLog(@"Service stopped.");
 		}
-		//mark as stopped running
-		[service setValue:[NSNumber numberWithInt:-1] forKey:@"processID"];
-		NSLog(@"Service stopped.");
 	}
 	//commit changes
 	[[NSApp delegate] saveAction:nil];
