@@ -69,8 +69,8 @@
 		[service setValue:server forKey:@"runsOnServer"];
 		[service setValue:@"Master" forKey:@"serviceName"];
 		[service setValue:@"/opt/hypertable/current/bin/start-master.sh" forKey:@"startService"];
-		[service setValue:@"kill `cat /opt/hypertable/current/run/Hypertable.Master.pid`" forKey:@"stopService"];
-		[service setValue:@"cat /opt/hypertable/current/run/Hypertable.Master.pid" forKey:@"getPid"];
+		[service setValue:@"kill -9 `cat /opt/hypertable/current/run/Hypertable.Master.pid`" forKey:@"stopService"];
+		[service setValue:@"/opt/hypertable/current/run/Hypertable.Master.pid" forKey:@"getPid"];
 	}
 	return service;
 }
@@ -85,8 +85,8 @@
 		[service setValue:server forKey:@"runsOnServer"];
 		[service setValue:@"Range Server" forKey:@"serviceName"];
 		[service setValue:@"/opt/hypertable/current/bin/start-rangeserver.sh" forKey:@"startService"];
-		[service setValue:@"kill `cat /opt/hypertable/current/run/Hypertable.RangeServer.pid`" forKey:@"stopService"];
-		[service setValue:@"cat /opt/hypertable/current/run/Hypertable.RangeServer.pid" forKey:@"getPid"];
+		[service setValue:@"kill -9 `cat /opt/hypertable/current/run/Hypertable.RangeServer.pid`" forKey:@"stopService"];
+		[service setValue:@"/opt/hypertable/current/run/Hypertable.RangeServer.pid" forKey:@"getPid"];
 	}
 	return service;
 }
@@ -95,17 +95,17 @@
 							  onServer:(NSManagedObject *)server
 							   withDfs:(NSString *)dfs
 {
-	NSManagedObject * service = [server serviceWithName:@"DFS Broker"];
+	Service * service = [server serviceWithName:[NSString stringWithFormat:@"%@ DFS", [dfs capitalizedString]]];
 	if (!service) {
 		service = [NSEntityDescription insertNewObjectForEntityForName:@"Service" 
 												inManagedObjectContext:inContent ];
 		[service setValue:server forKey:@"runsOnServer"];
-		[service setValue:@"DFS Broker" forKey:@"serviceName"];
+		[service setValue:[NSString stringWithFormat:@"%@ DFS", [dfs capitalizedString]] forKey:@"serviceName"];
 		[service setValue:[NSString stringWithFormat:@"/opt/hypertable/current/bin/start-dfsbroker.sh %@", dfs]
 				   forKey:@"startService"];
-		[service setValue:[NSString stringWithFormat:@"kill `cat /opt/hypertable/current/run/DfsBroker.%@.pid`", dfs]
+		[service setValue:[NSString stringWithFormat:@"kill -9 `cat /opt/hypertable/current/run/DfsBroker.%@.pid`", dfs]
 				   forKey:@"stopService"];
-		[service setValue:[NSString stringWithFormat:@"cat /opt/hypertable/current/run/DfsBroker.%@.pid", dfs]
+		[service setValue:[NSString stringWithFormat:@"/opt/hypertable/current/run/DfsBroker.%@.pid", dfs]
 				   forKey:@"getPid"];
 	}
 	return service;
@@ -122,7 +122,7 @@
 		[service setValue:@"Hyperspace" forKey:@"serviceName"];
 		[service setValue:@"/opt/hypertable/current/bin/start-hyperspace.sh" forKey:@"startService"];
 		[service setValue:@"/opt/hypertable/current/bin/stop-hyperspace.sh" forKey:@"stopService"];
-		[service setValue:@"cat /opt/hypertable/current/run/Hyperspace.pid" forKey:@"getPid"];
+		[service setValue:@"/opt/hypertable/current/run/Hyperspace.pid" forKey:@"getPid"];
 	}
 	return service;
 }
@@ -137,8 +137,8 @@
 		[service setValue:server forKey:@"runsOnServer"];
 		[service setValue:@"Thrift API" forKey:@"serviceName"];
 		[service setValue:@"/opt/hypertable/current/bin/start-thriftbroker.sh" forKey:@"startService"];
-		[service setValue:@"kill `cat /opt/hypertable/current/run/ThriftBroker.pid`" forKey:@"stopService"];
-		[service setValue:@"cat /opt/hypertable/current/run/ThriftBroker.pid" forKey:@"getPid"];
+		[service setValue:@"kill -9 `cat /opt/hypertable/current/run/ThriftBroker.pid`" forKey:@"stopService"];
+		[service setValue:@"/opt/hypertable/current/run/ThriftBroker.pid" forKey:@"getPid"];
 	}
 	return service;
 }
