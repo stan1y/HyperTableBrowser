@@ -185,6 +185,7 @@
 		[healthPercentage setStringValue:@"-- %%"];
 		[comments setStringValue:@""];
 	}
+	[servicesTable reloadData];
 }
 
 #pragma mark Services Tables Delegate

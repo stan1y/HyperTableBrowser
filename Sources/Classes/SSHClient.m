@@ -60,7 +60,7 @@
 		
 		//private key path
 		[arguments addObject:@"-i"];
-		[arguments addObject:privateKeyPath];
+		[arguments addObject:[privateKeyPath stringByExpandingTildeInPath]];
 		
 		//port
 		[arguments addObject:@"-p"];

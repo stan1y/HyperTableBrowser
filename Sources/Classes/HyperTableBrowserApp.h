@@ -60,7 +60,7 @@
 - (BOOL) recreateDataFiles;
 
 /* Main menu handlers */
-
+- (IBAction) defineNewCluster:(id)sender;
 - (IBAction) showClustersBrowser:(id)sender;
 - (IBAction) showHqlInterpreter:(id)sender;
 - (IBAction) showTablesBrowser:(id)sender;
