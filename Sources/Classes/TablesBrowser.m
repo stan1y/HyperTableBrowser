@@ -102,7 +102,7 @@
 						  [[[tablesList selectedCellInColumn:0] stringValue]  UTF8String]];
 		
 		//refresh tables on connection
-		FetchTablesOperation * fetchTablesOp = [FetchTablesOperation fetchTablesFromConnection:connection];
+		FetchTablesOperation * fetchTablesOp = [FetchTablesOperation fetchTablesFrom:connection];
 		[fetchTablesOp setCompletionBlock: ^ {
 			[tablesList reloadColumn:0];
 			[[NSApp delegate] showErrorDialog:-1 message:msg];
@@ -137,40 +137,30 @@
 
 - (IBAction)deleteSelectedRow:(id)sender
 {
-	NSString * selectedRowKeyValue = [[self pageSource] selectedRowKeyValue];
-	if (!selectedRowKeyValue || [selectedRowKeyValue length] <= 0 ) {
-		NSLog(@"No row selected for delete");
-		return;
+	if ([[self pageSource] selectedRowIndex] >= 0) {
+		NSLog([NSString stringWithFormat:@"Deleteing row with key \"%@\" from table \"%@\".", 
+			   [[self pageSource] selectedRowKeyValue], 
+			   [[tablesList selectedCellInColumn:0] stringValue]]);
+		
+		id broker = [self selectedBroker];
+		if (!broker) {
+			[[NSApp delegate] showErrorDialog:-1 message:@"Cannot delete selected row. No broker is selected"];
+			return;
+		}
+		
+		//drop row
+		DataPage * currentPage = [[self pageSource] page];
+		DataRow * selectedRow = page_row_at_index(currentPage, [[self pageSource] selectedRowIndex]);
+		DeleteRowOperation * delOp = [DeleteRowOperation deleteRow:selectedRow
+														   inTable:[[tablesList selectedCellInColumn:0] stringValue]
+														  onServer:broker];
+		
+		[[[NSApp delegate] operations] addOperation:delOp];
+		[delOp release];
 	}
-	
-	NSString * selectedTable = [[self tablesList] selectedTable];
-	if (!selectedTable) {
-		NSLog(@"No table is selected to insert row");
-		return;
+	else {
+		NSLog(@"No row selected to delete");
 	}
-	
-	NSLog([NSString stringWithFormat:@"Deleteing row with key \"%s\" from table \"%s\".", 
-		   [[self selectedRowKeyValue] UTF8String],
-		   [selectedTable UTF8String]]);
-	
-	id connection = [self selectedBroker];
-	if (!connection) {
-		[[NSApp delegate] showErrorDialog:-1 message:@"Cannot delete selected row. Server is NOT connected."];
-		return;
-	}
-	
-	//drop row
-	DataPage * currentPage = [[self pageSource] page];
-	int selectedRowIndex = [[self pageSource] selectedRowIndex];
-	DataRow * selectedRow = page_row_at_index(currentPage, selectedRowIndex);
-	DeleteRowOperation * delOp = [DeleteRowOperation deleteRow:selectedRow
-													   inTable:selectedTable
-												withConnection:connection];
-	
-	[[[NSApp delegate] operations] addOperation:delOp];
-	[selectedRowKeyValue release];
-	[delOp release];
-	[connection release];
 }
 
 #pragma mark Servers List (NSBrowser) delegate callbacks

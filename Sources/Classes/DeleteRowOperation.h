@@ -10,18 +10,18 @@
 #import <HyperTable.h>
 
 @interface DeleteRowOperation : NSOperation {
-	//HyperTable * connection;
+	HyperTable * hypertable;
 	DataRow * row;
 	NSString * tableName;
 	int errorCode;
 }
 
 @property (nonatomic, retain) NSString * tableName;
-//@property (nonatomic, retain) HyperTable * connection;
+@property (nonatomic, retain) HyperTable * hypertable;
 @property (assign) int errorCode;
 @property (assign) DataRow * row;
 
-//+ deleteRow:(DataRow *)row inTable:(NSString*)tableName withConnection:(HyperTable *)con;
++ deleteRow:(DataRow *)row inTable:(NSString*)tableName onServer:(HyperTable *)hypertable;
 
 - (void)main;
 
