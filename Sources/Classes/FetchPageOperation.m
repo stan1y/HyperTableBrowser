@@ -67,6 +67,7 @@
 	if (keys->cellsCount <= 0) {
 		NSLog(@"Zero keys returned.\n");
 		free(keys);
+		[self setTotalRows:0];
 		return;
 	}
 	
