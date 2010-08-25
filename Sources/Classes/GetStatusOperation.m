@@ -9,37 +9,39 @@
 #import "GetStatusOperation.h"
 #import "Service.h"
 
-@implementation GetStatusOperation
+@implementation HyperTableStatusOperation
 
-@synthesize server;
+@synthesize hypertable;
 @synthesize errorCode;
 @synthesize errorMessage;
 
 - (void) dealloc
 {
-	[server release];
+	[hypertable release];
 	[errorMessage release];
 	[super dealloc];
 }
 
-+ getStatusOfServer:(Server *)server;
++ getStatusOfHyperTable:(HyperTable *)hypertable;
 {
-	GetStatusOperation * op = [[GetStatusOperation alloc] init];
-	[op setServer:server];
+	HyperTableStatusOperation * op = [[HyperTableStatusOperation alloc] init];
+	[op setHypertable:hypertable];
 	return op;
 }
 
 - (void)main
 {
-	SSHClient * sshClient = [server remoteShell];
+	SSHClient * sshClient = [hypertable remoteShell];
 	if (!sshClient) {
 		[self setErrorCode:255];
-		[self setErrorMessage:@"Failed to establish ssh connection."];
+		[self setErrorMessage:
+		 [NSString stringWithFormat:@"Failed to establish ssh connection to server at %@.", 
+		  [hypertable valueForKey:@"name"]] ];
 		return;
 	}
 	[[sshClient sshLock] lock];
 	
-	NSLog(@"Fetching status from %@ [%@]", [sshClient targetIpAddress], [server class]);
+	NSLog(@"Fetching status from %@ [%@]", [sshClient targetIpAddress], [hypertable class]);
 	errorCode = 0;
 	//get hostname
 	errorCode = [sshClient runCommand:@"hostname"];
@@ -47,13 +49,14 @@
 		NSLog(@"Failed to get hostname. Code: %d, Error: %s", errorCode,
 			  [[sshClient error] UTF8String]);
 		[self setErrorMessage:[sshClient error]];
-		[server setValue:[NSNumber numberWithInt:1] forKey:@"status"];
+		[hypertable setValue:[NSNumber numberWithInt:1] forKey:@"status"];
 		[[sshClient sshLock] unlock];
 		return;
 	}
-	NSString * hostname = [sshClient output];
+	NSString * hostname = [[sshClient output] stringByTrimmingCharactersInSet:
+						   [NSCharacterSet whitespaceAndNewlineCharacterSet]];
 	NSLog(@"Server hostname: %@", hostname);
-	[server setValue:hostname forKey:@"hostname"];
+	[hypertable setValue:hostname forKey:@"hostname"];
 	
 	//check hypertable
 	errorCode = [sshClient runCommand:@"stat /opt/hypertable/current"];
@@ -61,9 +64,22 @@
 		NSLog(@"Failed to stat /opt/hypertable/current. Code: %d, Error: %s", errorCode,
 			  [[sshClient error] UTF8String]);
 		[self setErrorMessage:[sshClient error]];
-		[server setValue:[NSNumber numberWithInt:1] forKey:@"status"];
+		[hypertable setValue:[NSNumber numberWithInt:1] forKey:@"status"];
 		[[sshClient sshLock] unlock];
 		return;
+	}
+	
+	//get current dfs
+	errorCode = [sshClient runCommand:@"cat /opt/hypertable/current/run/last-dfs"];
+	if (errorCode) {
+		NSLog(@"Failed to get /opt/hypertable/current/run/last-dfs. Code: %d, Error: %s", errorCode,
+			  [[sshClient error] UTF8String]);
+	}
+	else {
+		NSString * currentDfs = [[sshClient output] stringByTrimmingCharactersInSet:
+								 [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+		NSLog(@"Current DFS: %@", currentDfs);
+		[hypertable setValue:currentDfs forKey:@"currentDfs"];
 	}
 	
 	NSManagedObjectContext * context = [[NSApp delegate] managedObjectContext];
@@ -72,7 +88,6 @@
 	NSManagedObject * hyperspaceService;
 	NSManagedObject * dfsService;
 	NSManagedObject * thriftService;
-	//NSManagedObject * hdfsbrkService;
 	
 	//get available services
 	errorCode = [sshClient runCommand:@"ls -l /opt/hypertable/current/bin"];
@@ -80,7 +95,7 @@
 		NSLog(@"Failed to list available services. Code: %d, Error: %s", errorCode,
 			  [[sshClient error] UTF8String]);
 		[self setErrorMessage:[sshClient error]];
-		[server setValue:[NSNumber numberWithInt:1] forKey:@"status"];
+		[hypertable setValue:[NSNumber numberWithInt:1] forKey:@"status"];
 		[[sshClient sshLock] unlock];
 		[context release];
 		return;
@@ -93,27 +108,29 @@
 		
 		if ([line rangeOfString:@"ThriftBroker"].location != NSNotFound) {
 			NSLog(@"Found Thrift Broker.");
-			thriftService = [Service thriftService:context onServer:server];
+			thriftService = [Service thriftService:context onServer:hypertable];
 			[thriftService setValue:[NSNumber numberWithInt:-1] forKey:@"processID"];
 		}
 		if ([line rangeOfString:@"start-dfsbroker.sh"].location != NSNotFound) {
-			NSLog(@"Found DFS Broker.");
-			dfsService = [Service dfsBrokerService:context onServer:server withDfs:@"local"];
+			//if there was another dfs broker used before, set it up too
+			dfsService = [Service dfsBrokerService:context onServer:hypertable 
+										   withDfs:[hypertable valueForKey:@"currentDfs"]];
 			[dfsService setValue:[NSNumber numberWithInt:-1] forKey:@"processID"];
+			NSLog(@"Found DFS Broker (%@).", [hypertable valueForKey:@"currentDfs"]);
 		}
 		if ([line rangeOfString:@"start-hyperspace.sh"].location != NSNotFound) {
 			NSLog(@"Found HyperSpace Service.");
-			hyperspaceService = [Service hyperspaceService:context onServer:server];
+			hyperspaceService = [Service hyperspaceService:context onServer:hypertable];
 			[hyperspaceService setValue:[NSNumber numberWithInt:-1] forKey:@"processID"];
 		}
 		if ([line rangeOfString:@"start-rangeserver.sh"].location != NSNotFound) {
 			NSLog(@"Found Range Server.");
-			rangeService = [Service rangerService:context onServer:server];
+			rangeService = [Service rangerService:context onServer:hypertable];
 			[rangeService setValue:[NSNumber numberWithInt:-1] forKey:@"processID"];
 		}
 		if ([line rangeOfString:@"start-master.sh"].location != NSNotFound) {
 			NSLog(@"Found Master Service.");
-			masterService = [Service masterService:context onServer:server];
+			masterService = [Service masterService:context onServer:hypertable];
 			[masterService setValue:[NSNumber numberWithInt:-1] forKey:@"processID"];
 		}
 	}
@@ -124,7 +141,7 @@
 		//parse running services pids
 		[[sshClient output] enumerateLinesUsingBlock: ^(NSString *line, BOOL *stop){
 			if ([line rangeOfString:@"DfsBroker"].location != NSNotFound) {
-				errorCode = [sshClient runCommand:[dfsService valueForKey:@"getPid"]];
+				errorCode = [sshClient runCommand:[NSString stringWithFormat:@"cat %@", [dfsService valueForKey:@"getPid"]]];
 				if (errorCode == 0) {
 					int pid = [[sshClient output] intValue];
 					[dfsService setValue:[NSNumber numberWithInt:pid] forKey:@"processID"];
@@ -132,7 +149,7 @@
 				}
 			}
 			if ([line rangeOfString:@"Hyperspace"].location != NSNotFound) {
-				errorCode = [sshClient runCommand:[hyperspaceService valueForKey:@"getPid"]];
+				errorCode = [sshClient runCommand:[NSString stringWithFormat:@"cat %@", [hyperspaceService valueForKey:@"getPid"]]];
 				if (errorCode == 0) {
 					int pid = [[sshClient output] intValue];
 					[hyperspaceService setValue:[NSNumber numberWithInt:pid] forKey:@"processID"];
@@ -140,7 +157,7 @@
 				}
 			}
 			if ([line rangeOfString:@"Hypertable.Master"].location != NSNotFound) {
-				errorCode = [sshClient runCommand:[masterService valueForKey:@"getPid"]];
+				errorCode = [sshClient runCommand:[NSString stringWithFormat:@"cat %@", [masterService valueForKey:@"getPid"]]];
 				if (errorCode == 0) {
 					int pid = [[sshClient output] intValue];
 					[masterService setValue:[NSNumber numberWithInt:pid] forKey:@"processID"];
@@ -148,7 +165,7 @@
 				}
 			}
 			if ([line rangeOfString:@"Hypertable.RangeServer"].location != NSNotFound) {
-				errorCode = [sshClient runCommand:[rangeService valueForKey:@"getPid"]];
+				errorCode = [sshClient runCommand:[NSString stringWithFormat:@"cat %@", [rangeService valueForKey:@"getPid"]]];
 				if (errorCode == 0) {
 					int pid = [[sshClient output] intValue];
 					[rangeService setValue:[NSNumber numberWithInt:pid] forKey:@"processID"];
@@ -156,7 +173,7 @@
 				}
 			}
 			if ([line rangeOfString:@"ThriftBroker"].location != NSNotFound) {
-				errorCode = [sshClient runCommand:[thriftService valueForKey:@"getPid"]];
+				errorCode = [sshClient runCommand:[NSString stringWithFormat:@"cat %@", [thriftService valueForKey:@"getPid"]]];
 				if (errorCode == 0) {
 					int pid = [[sshClient output] intValue];
 					[thriftService setValue:[NSNumber numberWithInt:pid] forKey:@"processID"];
@@ -173,7 +190,7 @@
 		NSLog(@"Failed to get /proc/loadavg. Code: %d, Error: %s", errorCode,
 			  [[sshClient error] UTF8String]);
 		[self setErrorMessage:[sshClient error]];
-		[server setValue:[NSNumber numberWithInt:1] forKey:@"status"];
+		[hypertable setValue:[NSNumber numberWithInt:1] forKey:@"status"];
 		[[sshClient sshLock] unlock];
 		return;
 	}
@@ -194,12 +211,12 @@
 	else if (healthPercent > 20)
 		healthLevel = 1;
 	
-	[server setValue:[NSNumber numberWithInt:healthLevel] forKey:@"health"];
-	[server setValue:[NSNumber numberWithInt:healthPercent] forKey:@"healthPercent"];
+	[hypertable setValue:[NSNumber numberWithInt:healthLevel] forKey:@"health"];
+	[hypertable setValue:[NSNumber numberWithInt:healthPercent] forKey:@"healthPercent"];
 	NSLog(@"Server health: %d %%. Level: %d", healthPercent, healthLevel);
 	
 	//set status to 0 == Operational
-	[server setValue:[NSNumber numberWithInt:0] forKey:@"status"];
+	[hypertable setValue:[NSNumber numberWithInt:0] forKey:@"status"];
 	[[NSApp delegate] saveAction:nil];
 	
 	[[sshClient sshLock] unlock];

@@ -50,7 +50,9 @@
 
 - (Cluster *) selectedCluster
 {
-	return [[Cluster clusters] objectAtIndex:selectedClusterIndex];
+	if ([[Cluster clusters] count]) {
+		return [[Cluster clusters] objectAtIndex:selectedClusterIndex];
+	}
 }
 
 - (Server *) selectedServer
@@ -129,8 +131,8 @@
 		[self setMessage:@"Updating cluster members..."];
 		
 		//update cluster members
-		for (Server * server in [cl servers]) {
-			GetStatusOperation * op = [GetStatusOperation getStatusOfServer:server];
+		for (Server * server in [HyperTable hypertablesInCurrentCluster]) {
+			HyperTableStatusOperation * op = [HyperTableStatusOperation getStatusOfHyperTable:server];
 			[op setCompletionBlock: ^ {
 				[self indicateDone];
 				if ([op errorCode]) {
@@ -142,6 +144,7 @@
 					[NSApp presentError:error];			
 				}
 				[self setMessage:@"Updated successfuly."];
+				[[[NSApp delegate] inspector] refresh:nil];
 			}];
 			
 			[[[NSApp delegate] operations] addOperation:op];

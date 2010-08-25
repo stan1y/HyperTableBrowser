@@ -7,11 +7,28 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <Server.h>
+#import <HyperTable.h>
+#import <Hadoop.h>
 #import <SSHClient.h>
 
-@interface GetStatusOperation : NSOperation {
-	Server * server;
+@interface HyperTableStatusOperation : NSOperation {
+	HyperTable * hypertable;
+	
+	int errorCode;
+	NSString * errorMessage;
+}
+@property (nonatomic, retain) NSString * errorMessage;
+@property (nonatomic, retain) HyperTable * hypertable;
+@property (assign) int errorCode;
+
++ getStatusOfHyperTable:(HyperTable *)hypertable;
+
+- (void)main;
+
+@end
+/*
+@interface HadoopStatusOperation : NSOperation {
+	Hadoop * hadoop;
 	
 	int errorCode;
 	NSString * errorMessage;
@@ -20,8 +37,9 @@
 @property (nonatomic, retain) NSManagedObject * server;
 @property (assign) int errorCode;
 
-+ getStatusOfServer:(Server *)server;
++ getStatusOfHadoop:(Hadoop *)hadoop;
 
 - (void)main;
 
 @end
+*/

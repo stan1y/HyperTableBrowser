@@ -33,7 +33,10 @@
 + (NSEntityDescription *) tableSchemaDescription;
 
 //enumeration
-+ (NSArray *) allHypertables;
++ (NSArray *) hyperTableBrokersInCluster:(id)cluster;
++ (NSArray *) hyperTableBrokersInCurrentCluster;
++ (NSArray *) hypertablesInCluster:(id)cluster;
++ (NSArray *) hypertablesInCurrentCluster;
 
 //sync operation
 - (void) disconnect;

@@ -7,8 +7,9 @@
 //
 
 #import "HyperTable.h"
-#import <FetchTablesOperation.h>
-#import <ConnectOperation.h>
+#import "FetchTablesOperation.h"
+#import "ConnectOperation.h"
+#import "Service.h"
 
 @implementation HyperTable
 
@@ -86,11 +87,59 @@
 
 #pragma mark HyperTable API
 
-+ (NSArray *) allHypertables
++ (NSArray *) hyperTableBrokersInCurrentCluster;
 {
+	return [HyperTable hyperTableBrokersInCluster:[[[NSApp delegate] clustersBrowser] selectedCluster]];
+}
+
++ (NSArray *) hypertablesInCurrentCluster
+{
+	return [HyperTable hypertablesInCluster:[[[NSApp delegate] clustersBrowser] selectedCluster]];
+}
+
++ (NSArray *) hyperTableBrokersInCluster:(id)cluster
+{
+	if (!cluster) {
+		return nil;
+	}
+	
+	NSFetchRequest * r = [[NSFetchRequest alloc] init];
+	[r setEntity:[Service serviceDescription]];
+	[r setIncludesPendingChanges:YES];
+	[r setPredicate:[NSPredicate predicateWithFormat:@"serviceName == \"Thrift API\" && runsOnServer.belongsTo = %@", cluster]];
+	NSSortDescriptor * sort = [[[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES] autorelease];
+	[r setSortDescriptors:[NSArray arrayWithObjects:sort, nil]];
+	 
+	NSError * err = nil;
+	NSArray * servicesArray = [[[NSApp delegate] managedObjectContext] executeFetchRequest:r error:&err];
+	if (err) {
+		NSLog(@"Error: Failed to fetch HyperTable brokers.");
+		[err release];
+		[r release];
+		return nil;
+	}
+	[err release];
+	[r release];
+	
+	//get servers from services
+	NSMutableArray * serversArray = [[NSMutableArray alloc] init];
+	for (id service in servicesArray) {
+		[serversArray addObject:[service valueForKey:@"runsOnServer"]];
+	}
+	
+	return serversArray;
+}
+
++ (NSArray *) hypertablesInCluster:(id)cluster
+{
+	if (!cluster) {
+		return nil;
+	}
+	
 	NSFetchRequest * r = [[NSFetchRequest alloc] init];
 	[r setEntity:[HyperTable hypertableDescription]];
 	[r setIncludesPendingChanges:YES];
+	[r setPredicate:[NSPredicate predicateWithFormat:@"belongsTo = %@", cluster]];
 	NSSortDescriptor * sort = [[[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES] autorelease];
 	[r setSortDescriptors:[NSArray arrayWithObjects:sort, nil]];
 	
