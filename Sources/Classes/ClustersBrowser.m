@@ -16,7 +16,8 @@
 @synthesize statusIndicator;
 
 @synthesize newClusterMenuItem;
-@synthesize newClusterPanel;
+@synthesize newServerPnl;
+@synthesize newServerController;
 
 @synthesize membersTable;
 @synthesize clustersSelector;
@@ -39,7 +40,8 @@
 	[statusMessageField release];
 	[statusIndicator release];
 	[newClusterMenuItem release];
-	[newClusterPanel release];
+	[newServerPnl release];
+	[newServerController release];
 	
 	[membersTable release];
 	
@@ -135,16 +137,19 @@
 			HyperTableStatusOperation * op = [HyperTableStatusOperation getStatusOfHyperTable:server];
 			[op setCompletionBlock: ^ {
 				[self indicateDone];
+				
 				if ([op errorCode]) {
-					[self setMessage:@"Operation failed."];
+					NSLog(@"Failed to update %@", [server valueForKey:@"name"]);
 					NSMutableDictionary *dict = [NSMutableDictionary dictionary];
 					[dict setValue:[op errorMessage] forKey:NSLocalizedDescriptionKey];
 					[dict setValue:[op errorMessage] forKey:NSLocalizedFailureReasonErrorKey];
 					NSError *error = [NSError errorWithDomain:@"" code:[op errorCode] userInfo:dict];
-					[NSApp presentError:error];			
+					[NSApp presentError:error];		
 				}
-				[self setMessage:@"Updated successfuly."];
-				[[[NSApp delegate] inspector] refresh:nil];
+				else {
+					NSLog(@"Server %@ was updated successfully", [server valueForKey:@"name"]);
+					[[[NSApp delegate] inspector] refresh:nil];
+				}
 			}];
 			
 			[[[NSApp delegate] operations] addOperation:op];
@@ -161,6 +166,19 @@
 
 - (IBAction) addServer:(id)sender
 {
+	[[self newServerController] modeAddToCluser:[self selectedCluster]];
+	[NSApp beginSheet:[self newServerPnl] 
+	   modalForWindow:[[NSApp delegate] clustersBrowserWindow]
+        modalDelegate:self didEndSelector:nil contextInfo:nil];
+	
+}
+
+- (IBAction) defineNewCluster:(id)sender
+{
+	[[self newServerController] modeCreateNewCluser];
+	[NSApp beginSheet:[self newServerPnl] 
+	   modalForWindow:[[NSApp delegate] clustersBrowserWindow]
+        modalDelegate:self didEndSelector:nil contextInfo:nil];
 }
 
 @end

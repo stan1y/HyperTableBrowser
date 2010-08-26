@@ -47,7 +47,7 @@
 	
 	//define cluster if none
 	if ( ![[Cluster clusters] count] ) {
-		[self defineNewCluster:self];
+		[[[NSApp delegate] clustersBrowser] defineNewCluster:self];
 	}
 }
 
@@ -137,13 +137,6 @@
 
 #pragma mark Application Callbacks
 
-- (IBAction) defineNewCluster:(id)sender
-{
-	//show dialog
-	[NSApp beginSheet:[[self clustersBrowser] newClusterPanel] 
-	   modalForWindow:[self clustersBrowserWindow]
-        modalDelegate:self didEndSelector:nil contextInfo:nil];
-}
 - (IBAction)showTablesBrowser:(id)sender
 {
 	[[self tablesBrowser] updateBrokers:sender withCompletionBlock:^{

@@ -7,16 +7,20 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <Cluster.h>
-#import <Server.h>
+#import "Cluster.h"
+#import "Server.h"
+#import "NewServerController.h"
 
 @interface ClustersBrowser : NSWindowController {
+	
+	NSPanel * newServerPnl;
+	NewServerController * newServerController;
 
 	NSTextField * statusMessageField;
 	NSProgressIndicator * statusIndicator;
 	
 	NSMenuItem * newClusterMenuItem;
-	NSPanel * newClusterPanel;
+	
 	
 	NSTableView * membersTable;
 	NSPopUpButton * clustersSelector;
@@ -44,7 +48,11 @@
 @property (nonatomic, retain) IBOutlet NSProgressIndicator * statusIndicator;
 
 @property (nonatomic, retain) IBOutlet NSMenuItem * newClusterMenuItem;
-@property (nonatomic, retain) IBOutlet NSPanel * newClusterPanel;
+
+// New Cluster or Server dialog Outlets
+
+@property (nonatomic, retain) IBOutlet NSPanel * newServerPnl;
+@property (nonatomic, retain) IBOutlet NewServerController * newServerController;
 
 // Activity indication
 
@@ -62,6 +70,7 @@
 - (IBAction) refresh:(id)sender;
 - (IBAction) showInspector:(id)sender;
 - (IBAction) addServer:(id)sender;
+- (IBAction) defineNewCluster:(id)sender;
 
 // Servers table callbacks
 
