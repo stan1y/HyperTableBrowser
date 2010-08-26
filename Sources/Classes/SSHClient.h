@@ -25,8 +25,6 @@
 
 - (id) initClientTo:(NSString *)address onPort:(int)port asUser:(NSString *)user withKey:(NSString *)privateKeyPath;
 
-- (void) close;
-
 - (int)runCommand:(NSString*)command;
 - (NSString *) output;
 - (NSString *) error;

@@ -15,8 +15,6 @@
 
 - (void) dealloc
 {
-	[self close];
-	
 	[sshLock release];
 	[targetIpAddress release];
 	[arguments release];
@@ -98,17 +96,6 @@
 					   onPort:port 
 					   asUser:user 
 					  withKey:[[NSString stringWithString:@"~/.ssh/id_dsa"] stringByExpandingTildeInPath]];
-}
-
-- (void) close
-{
-	if (ssh) {
-		if([ssh isRunning]) {
-			[ssh terminate];
-		}
-		[ssh release];
-		ssh = nil;
-	}
 }
 
 - (int)lastExitCode
