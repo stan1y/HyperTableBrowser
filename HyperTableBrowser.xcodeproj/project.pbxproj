@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		76081DA710E255DB005F668F /* HyperTableBrowserApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 76081DA610E255DB005F668F /* HyperTableBrowserApp.m */; };
 		76081DAA10E255F6005F668F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 76081DA910E255F6005F668F /* main.m */; };
+		76103AFF1226BC7600593677 /* NewServerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76103AFE1226BC7600593677 /* NewServerController.m */; };
 		761515E011FD851400485438 /* Client_constants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 761515D211FD851400485438 /* Client_constants.cpp */; };
 		761515E111FD851400485438 /* Client_constants.h in Headers */ = {isa = PBXBuildFile; fileRef = 761515D311FD851400485438 /* Client_constants.h */; };
 		761515E211FD851400485438 /* Client_types.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 761515D411FD851400485438 /* Client_types.cpp */; };
@@ -89,7 +90,6 @@
 		76B3C5C010DA328100078742 /* DataPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 76B3C5BE10DA328100078742 /* DataPage.h */; };
 		76B3C5C110DA328200078742 /* DataPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76B3C5BF10DA328100078742 /* DataPage.cpp */; };
 		76B42BC6121069A300CAC6A8 /* HyperTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B42BC5121069A300CAC6A8 /* HyperTable.m */; };
-		76B42C441210976800CAC6A8 /* NewClusterController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B42C431210976800CAC6A8 /* NewClusterController.m */; };
 		76C855321212A19A00525B28 /* ClustersBrowserPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76C8552C1212A19A00525B28 /* ClustersBrowserPreferences.xib */; };
 		76C855331212A19A00525B28 /* TablesBrowserPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76C8552E1212A19A00525B28 /* TablesBrowserPreferences.xib */; };
 		76C855341212A19A00525B28 /* UpdatesPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76C855301212A19A00525B28 /* UpdatesPreferences.xib */; };
@@ -229,6 +229,8 @@
 		76081DA610E255DB005F668F /* HyperTableBrowserApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HyperTableBrowserApp.m; path = Sources/Classes/HyperTableBrowserApp.m; sourceTree = "<group>"; };
 		76081DA910E255F6005F668F /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Sources/main.m; sourceTree = "<group>"; };
 		76081DC310E257E9005F668F /* HyperTableBrowser_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyperTableBrowser_Prefix.pch; sourceTree = "<group>"; };
+		76103AFD1226BC7600593677 /* NewServerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewServerController.h; path = Sources/Classes/NewServerController.h; sourceTree = "<group>"; };
+		76103AFE1226BC7600593677 /* NewServerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewServerController.m; path = Sources/Classes/NewServerController.m; sourceTree = "<group>"; };
 		761515D211FD851400485438 /* Client_constants.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Client_constants.cpp; sourceTree = "<group>"; };
 		761515D311FD851400485438 /* Client_constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client_constants.h; sourceTree = "<group>"; };
 		761515D411FD851400485438 /* Client_types.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Client_types.cpp; sourceTree = "<group>"; };
@@ -331,8 +333,6 @@
 		76B3C5BF10DA328100078742 /* DataPage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataPage.cpp; sourceTree = "<group>"; };
 		76B42BC4121069A300CAC6A8 /* HyperTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HyperTable.h; path = Sources/Classes/HyperTable.h; sourceTree = "<group>"; };
 		76B42BC5121069A300CAC6A8 /* HyperTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HyperTable.m; path = Sources/Classes/HyperTable.m; sourceTree = "<group>"; };
-		76B42C421210976800CAC6A8 /* NewClusterController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewClusterController.h; path = Sources/Classes/NewClusterController.h; sourceTree = "<group>"; };
-		76B42C431210976800CAC6A8 /* NewClusterController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewClusterController.m; path = Sources/Classes/NewClusterController.m; sourceTree = "<group>"; };
 		76C8552D1212A19A00525B28 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ClustersBrowserPreferences.xib; sourceTree = "<group>"; };
 		76C8552F1212A19A00525B28 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/TablesBrowserPreferences.xib; sourceTree = "<group>"; };
 		76C855311212A19A00525B28 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/UpdatesPreferences.xib; sourceTree = "<group>"; };
@@ -478,8 +478,6 @@
 				76400DF9122125BA0020DB2C /* Inspector.m */,
 				76400DF2122125A70020DB2C /* ClustersBrowser.h */,
 				76400DF3122125A70020DB2C /* ClustersBrowser.m */,
-				76B42C421210976800CAC6A8 /* NewClusterController.h */,
-				76B42C431210976800CAC6A8 /* NewClusterController.m */,
 				76400E01122125F30020DB2C /* HqlController.h */,
 				76400E02122125F30020DB2C /* HqlController.m */,
 				76400E03122125F30020DB2C /* PageSource.h */,
@@ -577,6 +575,8 @@
 		760EEE291225214B00F8650B /* Dialogs */ = {
 			isa = PBXGroup;
 			children = (
+				76103AFD1226BC7600593677 /* NewServerController.h */,
+				76103AFE1226BC7600593677 /* NewServerController.m */,
 				76400DFD122125D70020DB2C /* NewTableController.h */,
 				76400DFE122125D70020DB2C /* NewTableController.m */,
 				76400DFB122125D70020DB2C /* InsertNewRowController.h */,
@@ -1161,7 +1161,6 @@
 				76967C09121010D6000FD196 /* DeleteRowOperation.m in Sources */,
 				76967D7912104BD0000FD196 /* ClusterInformation.xcdatamodel in Sources */,
 				76B42BC6121069A300CAC6A8 /* HyperTable.m in Sources */,
-				76B42C441210976800CAC6A8 /* NewClusterController.m in Sources */,
 				76E94B37121A8A3200370F01 /* SSHClient.m in Sources */,
 				76E94B3B121A8A7400370F01 /* GetStatusOperation.m in Sources */,
 				76400D6E122115840020DB2C /* Utility.m in Sources */,
@@ -1176,6 +1175,7 @@
 				762456AF1222710F00925812 /* Service.m in Sources */,
 				7624576212227BEC00925812 /* Hadoop.m in Sources */,
 				76A66BCD122416AE00C3AB14 /* ServiceOperation.m in Sources */,
+				76103AFF1226BC7600593677 /* NewServerController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
