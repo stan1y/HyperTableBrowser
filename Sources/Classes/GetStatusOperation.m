@@ -31,12 +31,18 @@
 
 - (void)main
 {
+	//set status to pending
+	[hypertable setValue:[NSNumber numberWithInt:2] forKey:@"status"];
+	
+	//access over ssh
 	SSHClient * sshClient = [hypertable remoteShell];
 	if (!sshClient) {
 		[self setErrorCode:255];
 		[self setErrorMessage:
 		 [NSString stringWithFormat:@"Failed to establish ssh connection to server at %@.", 
 		  [hypertable valueForKey:@"name"]] ];
+		//set status to error
+		[hypertable setValue:[NSNumber numberWithInt:1] forKey:@"status"];
 		return;
 	}
 	[[sshClient sshLock] lock];
