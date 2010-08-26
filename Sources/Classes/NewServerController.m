@@ -6,7 +6,7 @@
 //  Copyright 2010 AwesomeStanly Lab. All rights reserved.
 //
 
-#import "NewClusterController.h"
+#import "NewServerController.h"
 #import "GetStatusOperation.h"
 
 @implementation NewServerController
