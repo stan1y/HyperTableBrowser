@@ -9,13 +9,18 @@
 #import <Cocoa/Cocoa.h>
 #import <Server.h>
 
-@interface Cluster : NSManagedObject {
+// Cluster itself implements the same protocol
+// as used by members of it.
+// update:WithCompletitionBlock simply being called
+// for each memeber of the cluster.
+@interface Cluster : NSManagedObject <ClusterMemberProtocol> {
 
 }
 
 + (NSEntityDescription *) clusterDescription;
-+ (NSArray *) clusters;
 
-- (NSSet *) servers;
++ (Cluster *) clusterWithName:(NSString *)name;
++ (NSArray *) clusters;
+- (NSArray *) members;
 
 @end

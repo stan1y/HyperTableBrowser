@@ -9,17 +9,20 @@
 #import "Inspector.h"
 #import "Server.h"
 #import "HyperTable.h"
+#import "ClustersBrowser.h"
 
 @implementation Inspector
 
-@synthesize objectTitle;
 @synthesize hostname;
 @synthesize healthPercentage;
 @synthesize healthBar;
-@synthesize comments;
-@synthesize remoteShell;
 @synthesize servicesTable;
 @synthesize dfsProvider;
+
+@synthesize objectTitle;
+@synthesize comments;
+@synthesize sshUserName;
+@synthesize ipAddressAndSshPort;
 
 #pragma mark Initialization
 
@@ -30,7 +33,7 @@
 	[healthPercentage release];
 	[healthBar release];
 	[comments release];
-	[remoteShell release];
+	[ipAddressAndSshPort release];
 	[servicesTable release];
 	[dfsProvider release];
 	
@@ -82,7 +85,7 @@
 
 - (IBAction) operateService:(id)sender
 {
-	Server * selectedServer = [[[NSApp delegate] clustersBrowser] selectedServer];
+	Server * selectedServer = [[ClustersBrowser sharedInstance] selectedServer];
 	if (selectedServer) {
 		NSArray * services = [selectedServer services];
 		
@@ -99,18 +102,14 @@
 		//if running -> stop it, otherwise start it
 		if ([[selectedService valueForKey:@"processID"] intValue] > 0) {
 			
-			[[[NSApp delegate] clustersBrowser] setMessage:@"Stopping service..."];
-			[[[NSApp delegate] clustersBrowser] indicateBusy];
-			
 			NSLog(@"Inspector: stopping service %@", [selectedService valueForKey:@"serviceName"]);
 			[selectedService stop: ^{
 				
-				[[[NSApp delegate] clustersBrowser] indicateDone];
-				if (![selectedService isRunning]) {
-					[[[NSApp delegate] clustersBrowser] setMessage:@"Service stopped sucessfuly."];
-				}
-				else {
-					[[[NSApp delegate] clustersBrowser] setMessage:@"Failed to stop service."];
+				if ([selectedService isRunning]) {
+					NSMutableDictionary * dict = [NSMutableDictionary dictionary];
+					[dict setValue:[NSString stringWithFormat:@"Failed to stop service %@", [selectedService valueForKey:@"serviceName"]] forKey:NSLocalizedDescriptionKey];
+					NSError * error = [NSError errorWithDomain:@"Inspector" code:3 userInfo:dict];
+					[[NSApplication sharedApplication] presentError:error];
 				}
 				
 				//finish pending
@@ -119,18 +118,15 @@
 			}];
 		}
 		else {
-			[[[NSApp delegate] clustersBrowser] setMessage:@"Starting service..."];
-			[[[NSApp delegate] clustersBrowser] indicateBusy];
-			
 			NSLog(@"Inspector: starting service %@", [selectedService valueForKey:@"serviceName"]);
 			[selectedService start: ^{
 				
-				[[[NSApp delegate] clustersBrowser] indicateDone];
-				if ([selectedService isRunning]) {
-					[[[NSApp delegate] clustersBrowser] setMessage:@"Service started sucessfuly."];
-				}
-				else {
-					[[[NSApp delegate] clustersBrowser] setMessage:@"Failed to start service."];
+				[[ClustersBrowser sharedInstance] indicateDone];
+				if (![selectedService isRunning]) {
+					NSMutableDictionary * dict = [NSMutableDictionary dictionary];
+					[dict setValue:[NSString stringWithFormat:@"Failed to start service %@", [selectedService valueForKey:@"serviceName"]] forKey:NSLocalizedDescriptionKey];
+					NSError * error = [NSError errorWithDomain:@"Inspector" code:4 userInfo:dict];
+					[[NSApplication sharedApplication] presentError:error];
 				}
 				
 				//finish pending
@@ -150,7 +146,7 @@
 
 - (IBAction) refresh:(id)sender;
 {	
-	id selectedServer = [[[NSApp delegate] clustersBrowser] selectedServer];
+	id selectedServer = [[ClustersBrowser sharedInstance] selectedServer];
 	if (selectedServer) {
 		NSLog(@"Inspector: \"%@\" is selected.", [selectedServer valueForKey:@"name"]);
 		
@@ -165,11 +161,9 @@
 			[dfsProvider setHidden:YES];
 		}
 
-		NSString * remoteShellValue = [NSString stringWithFormat:@"%@@%@:%d",
-									   [selectedServer valueForKey:@"sshUserName"],
-									   [selectedServer valueForKey:@"ipAddress"],
-									   [[selectedServer valueForKey:@"sshPort"] intValue]];
-		[remoteShell setStringValue:remoteShellValue];
+		[ipAddressAndSshPort setStringValue:[NSString stringWithFormat:@"%@:%d", [selectedServer valueForKey:@"ipAddress"], [[selectedServer valueForKey:@"sshPort"] intValue]] ];
+		[sshUserName setStringValue:[selectedServer valueForKey:@"sshUserName"]];
+		
 		int health = [[selectedServer valueForKey:@"healthPercent"] intValue];
 		[healthBar setIntValue:health];
 		[healthPercentage setStringValue:[NSString stringWithFormat:@"%d %%", health]];
@@ -192,7 +186,7 @@
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
-	Server * selected = [[[NSApp delegate] clustersBrowser] selectedServer];
+	Server * selected = [[ClustersBrowser sharedInstance] selectedServer];
 	if (selected) {
 		return [[selected services] count];
 	}
@@ -204,7 +198,7 @@
 			row:(NSInteger)rowIndex
 {
 	
-	Server * selectedServer = [[[NSApp delegate] clustersBrowser] selectedServer];
+	Server * selectedServer = [[ClustersBrowser sharedInstance] selectedServer];
 	if (selectedServer) {
 		NSArray * services = [selectedServer services];
 		
@@ -247,7 +241,7 @@
 {
 	if([[tableColumn identifier] isEqual:@"control"] && [cell isKindOfClass:[NSComboBoxCell class]])
 	{
-		Server * selectedServer = [[[NSApp delegate] clustersBrowser] selectedServer];
+		Server * selectedServer = [[ClustersBrowser sharedInstance] selectedServer];
 		if (selectedServer) {
 			NSArray * services = [selectedServer services];
 			[cell setRepresentedObject:[services objectAtIndex:index]];
@@ -282,9 +276,94 @@
 -(int)numberOfItemsInComboBoxCell:(NSComboBoxCell*)cell
 {
 	if ([self isCurrentServicePending])
-		return 1;
+		return 1; // only one position for pending
 	else
 		return 2; // two positions in combo
+}
+
+#pragma mark Server Properties Text Fields Delegate
+
+- (BOOL)control:(NSControl *)control textShouldEndEditing:(NSText *)fieldEditor
+{
+	if (![[fieldEditor string] length]) {
+		NSLog(@"Inspector: Can't set empty string");
+		return NO;
+	}
+	
+	Server * selectedServer = [[ClustersBrowser sharedInstance] selectedServer] ;
+	if ([control isEqual:objectTitle]) {
+		NSLog(@"Inspector: Modifying server %@(%@).name = %@", 
+			  [selectedServer class],
+			  [selectedServer valueForKey:@"name" ],
+			  [fieldEditor string]);
+		
+		[selectedServer setValue:[fieldEditor string] forKey:@"name"];
+	}
+	else if ([control isEqual:ipAddressAndSshPort]) {
+		
+		//all string is ip by default
+		NSString * ipAddress = [fieldEditor string];
+		
+		//look for ":" to cut port if any
+		NSRange portRange = [[fieldEditor string] rangeOfString:@":"];
+		if (portRange.location != NSNotFound) {
+			//ip address is only the rest of it
+			ipAddress = [[fieldEditor string] substringWithRange:NSMakeRange(0, portRange.location)];
+			
+			//substring till the end
+			portRange.length = [[fieldEditor string] length] - portRange.location - 1;
+			portRange.location += 1;
+			NSString * portAsString = [[fieldEditor string] substringWithRange:portRange];
+			
+			if ([portAsString length]) {
+				int portAsInt = [portAsString intValue];
+				if (portAsInt > 0 && portAsInt < 1024) {
+					NSLog(@"Inspector: Modifying server %@(%@).sshPort = %d", 
+						  [selectedServer class],
+						  [selectedServer valueForKey:@"name" ],
+						  portAsInt);
+					
+					[selectedServer setValue:[NSNumber numberWithInt:portAsInt] forKey:@"sshPort"];
+				}
+			}
+		}
+		else {
+			//set port to default 22
+			NSLog(@"Inspector: Modifying server %@(%@).sshPort = 22", 
+				  [selectedServer class],
+				  [selectedServer valueForKey:@"name" ]);
+			[selectedServer setValue:[NSNumber numberWithInt:22] forKey:@"sshPort"];
+		}
+
+		//set ip address
+		//all string is an ip then
+		NSLog(@"Inspector: Modifying server %@(%@).ipAddress = %@", 
+			  [selectedServer class],
+			  [selectedServer valueForKey:@"name" ],
+			  ipAddress);
+		
+		[selectedServer setValue:ipAddress forKey:@"ipAddress"];
+	}
+	else if ([control isEqual:sshUserName]) {
+		NSLog(@"Inspector: Modifying server %@(%@).sshUserName = %@", 
+			  [selectedServer class],
+			  [selectedServer valueForKey:@"name" ],
+			  [fieldEditor string]);
+		
+		[selectedServer setValue:[fieldEditor string] forKey:@"sshUserName"];
+	}
+	else if ([control isEqual:comments]) {
+		NSLog(@"Inspector: Modifying server %@(%@).comment = %@", 
+			  [selectedServer class],
+			  [selectedServer valueForKey:@"name" ],
+			  [fieldEditor string]);
+		
+		[selectedServer setValue:[fieldEditor string] forKey:@"comment"];
+	}
+	
+	[[NSApp delegate] saveAction:nil];
+	[[[ClustersBrowser sharedInstance] membersTable] reloadData];
+	return YES;
 }
 
 @end

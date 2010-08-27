@@ -9,9 +9,9 @@
 #import <Cocoa/Cocoa.h>
 
 #import "Utility.h"
-#import "FetchTablesOperation.h"
+#import "ModalDialog.h"
 
-@interface NewTableController : HyperTableBrokersCntrl {
+@interface NewTableController : ModalDialog {
 
 	NSTextField * tableNameField;
 	NSTextField * schemaContents;

@@ -13,19 +13,6 @@
 #import <Inspector.h>
 
 @interface HyperTableBrowserApp : NSObject {
-	
-	NSWindow * clustersBrowserWindow;
-	ClustersBrowser * clustersBrowser;
-	
-	NSWindow * tablesBrowserWindow;
-	TablesBrowser * tablesBrowser;
-	
-	NSWindow * hqlWindow;
-	HqlController * hqlController;
-	
-	NSPanel * inspectorPanel;
-	Inspector * inspector;
-	
 	NSOperationQueue * operations;
 	
 	NSPersistentStoreCoordinator *persistentStoreCoordinator;
@@ -37,31 +24,9 @@
 @property (nonatomic, retain, readonly) IBOutlet NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, retain, readonly) IBOutlet NSManagedObjectContext *managedObjectContext;
 
-@property (nonatomic, retain) IBOutlet NSPanel * inspectorPanel;
-@property (nonatomic, retain) IBOutlet Inspector * inspector;
-
-@property (nonatomic, retain) IBOutlet  NSWindow * clustersBrowserWindow;
-@property (nonatomic, retain) IBOutlet ClustersBrowser * clustersBrowser;
-
-@property (nonatomic, retain) IBOutlet NSWindow * tablesBrowserWindow;
-@property (nonatomic, retain) IBOutlet TablesBrowser * tablesBrowser;
-
-@property (nonatomic, retain) IBOutlet NSWindow * hqlWindow;
-@property (nonatomic, retain) IBOutlet HqlController * hqlController;
-
 @property (nonatomic, readonly) NSOperationQueue * operations;
 
-- (void) showErrorDialog:(int)errorCode message:(NSString *)description;
-
 - (NSString *)applicationSupportDirectory;
-
-- (id) getSettingsByName:(NSString *)name;
-
 - (BOOL) recreateDataFiles;
-
-/* Main menu handlers */
-- (IBAction) showClustersBrowser:(id)sender;
-- (IBAction) showHqlInterpreter:(id)sender;
-- (IBAction) showTablesBrowser:(id)sender;
 
 @end

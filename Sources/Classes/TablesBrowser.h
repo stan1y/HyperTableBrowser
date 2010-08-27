@@ -8,25 +8,20 @@
 
 #import <Cocoa/Cocoa.h>
 
-#import "NewTableController.h"
-#import "InsertNewRowController.h"
 #import "TablesBrowserPageSource.h"
+#import "ModalDialog.h"
 #import "Utility.h"
 
 @interface TablesBrowser : HyperTableBrokersCntrl {
-	
-	//panel controls
-	NewTableController * newTableController;
-	InsertNewRowController * newRowController;
-	
-	NSPanel * newTablePnl;
-	NSPanel * insertNewRowPnl;
+	ModalDialog * createNewTableDialog;
+	ModalDialog * insertNewRowDialog;
+
 	NSBrowser * tablesList;
-	
 	TablesBrowserPageSource * pageSource;
 	
 	NSButton * newTableBtn;
 	NSButton * dropTableBtn;
+	
 	//toolbar controls
 	NSToolbarItem * refreshBtn;
 	NSToolbarItem * newRowBtn;
@@ -39,6 +34,9 @@
 	int allowInsertRow;
 	int allowDeleteRow;
 }
+
+@property (nonatomic, retain) IBOutlet ModalDialog * insertNewRowDialog;
+@property (nonatomic, retain) IBOutlet ModalDialog * createNewTableDialog;
 
 //toolbar properties 
 @property (nonatomic, retain) IBOutlet NSBrowser * tablesList;
@@ -59,20 +57,17 @@
 //panel properties
 @property (nonatomic, retain) IBOutlet TablesBrowserPageSource * pageSource;
 
-@property (nonatomic, retain) IBOutlet NSPanel * newTablePnl;
-@property (nonatomic, retain) IBOutlet NSPanel * insertNewRowPnl;
+//singleton
++ (TablesBrowser *) sharedInstance;
 
-@property (nonatomic, retain) IBOutlet NewTableController * newTableController;
-@property (nonatomic, retain) IBOutlet InsertNewRowController * newRowController;
-
-//tables list opertions
-- (IBAction)newTable:(id)sender;
-- (IBAction)dropTable:(id)sender;
+//dialog operations
+- (IBAction)createNewTable:(id)sender;
+- (IBAction)insertNewRow:(id)sender;
 
 //toolbar operations
-- (IBAction)refreshTables:(id)sender;
-- (IBAction)insertNewRow:(id)sender;
 - (IBAction)deleteSelectedRow:(id)sender;
+- (IBAction)refreshTables:(id)sender;
+- (IBAction)dropSelectedTable:(id)sender;
 
 //tool bar validation
 - (BOOL)validateToolbarItem:(NSToolbarItem *)toolbarItem;

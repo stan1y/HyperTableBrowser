@@ -7,7 +7,7 @@
 //
 
 #import "PageSource.h"
-
+#import "ClustersBrowser.h"
 
 @implementation PageSource
 
@@ -182,20 +182,13 @@
 	if (page == nil) {
 		return;
 	}
-
-	id serverIpAddress = [[[NSApp delegate] serversDelegate] selectedServer];
-	id connection = [[[NSApp delegate] serversManager] getConnection:serverIpAddress];
-	if (!connection) {
-		NSLog(@"No connection for server with title %s", [serverIpAddress UTF8String]);
-		return;
-	}
 	
 	SetRowOperation * setRowOp = [SetRowOperation setCellValue:newValue
 													fromPage:page 
 													 inTable:pageTitle 
 													   atRow:rowIndex 
 												   andColumn:[aTableColumn identifier] 
-											  withConnection:connection];
+											  onServer:[[ClustersBrowser sharedInstance] selectedServer]];
 	[[[NSApp delegate] operations] addOperation: setRowOp];
 	[setRowOp release];
 	

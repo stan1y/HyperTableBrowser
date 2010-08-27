@@ -7,7 +7,7 @@
 //
 
 #import "Cluster.h"
-
+#import "ClusterStatusOperation.h"
 
 @implementation Cluster
 
@@ -15,6 +15,32 @@
 {
 	return [NSEntityDescription entityForName:@"Cluster" 
 					   inManagedObjectContext:[[NSApp delegate] managedObjectContext]];
+}
+
++ (Cluster *) clusterWithName:(NSString *)name
+{
+	NSFetchRequest * r = [[NSFetchRequest alloc] init];
+	[r setEntity:[Cluster clusterDescription]];
+	[r setIncludesPendingChanges:YES];
+	[r setPredicate:[NSPredicate predicateWithFormat:@"name = %@", name]];
+	
+	NSError * err = nil;
+	NSArray * clustersArray = [[[NSApp delegate] managedObjectContext] executeFetchRequest:r error:&err];
+	if (err) {
+		NSLog(@"Error: Failed to find cluster with name %@", name);
+		[err release];
+		[r release];
+		return nil;
+	}
+	[err release];
+	[r release];
+	
+	if (![clustersArray count]) {
+		NSLog(@"Cluster with name %@ not found", name);
+		return nil;
+	}
+	
+	return [clustersArray objectAtIndex:0];
 }
 
 + (NSArray *) clusters
@@ -28,7 +54,7 @@
 	NSError * err = nil;
 	NSArray * clustersArray = [[[NSApp delegate] managedObjectContext] executeFetchRequest:r error:&err];
 	if (err) {
-		NSLog(@"Error: Failed to fetch defined clusters.");
+		NSLog(@"Error: Failed to fetch clusters list.");
 		[err release];
 		[r release];
 		return nil;
@@ -38,9 +64,39 @@
 	return clustersArray;
 }
 
-- (NSSet *) servers
+- (NSArray *) members
 {
-	return [self mutableSetValueForKey:@"members"];
+	//return [[self mutableSetValueForKey:@"members"] allObjects];
+	NSFetchRequest * r = [[NSFetchRequest alloc] init];
+	[r setEntity:[Server serverDescription]];
+	[r setIncludesPendingChanges:YES];
+	NSSortDescriptor * sort = [[[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES] autorelease];
+	[r setPredicate:[NSPredicate predicateWithFormat:@"belongsTo = %@", self]];
+	[r setSortDescriptors:[NSArray arrayWithObjects:sort, nil]];
+	
+	NSError * err = nil;
+	NSArray * membersArray = [[[NSApp delegate] managedObjectContext] executeFetchRequest:r error:&err];
+	if (err) {
+		NSLog(@"Error: Failed to fetch cluster %@ members.", [self valueForKey:@"name"]);
+		[err release];
+		[r release];
+		return nil;
+	}
+	[err release];
+	[r release];
+	return membersArray;
 }
+
+- (void) updateWithCompletionBlock:(void (^)(void)) codeBlock
+{
+	ClusterStatusOperation * op = [ClusterStatusOperation getStatusOfCluster:self];
+	[op setCompletionBlock:codeBlock];
+	[[[NSApp delegate] operations] addOperation:op];
+	[op release];
+}
+
+- (void) disconnect {}
+- (void) reconnectWithCompletionBlock:(void (^)(void)) codeBlock {}
+- (BOOL) isConnected { return YES; }
 
 @end

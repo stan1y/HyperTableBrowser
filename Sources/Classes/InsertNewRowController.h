@@ -7,16 +7,32 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "Utility.h"
+#import "ModalDialog.h"
 
-@interface InsertNewRowController : HyperTableBrokersCntrl {
+@interface InsertNewRowController : ModalDialog {
+	NSTextField * errorMessage;
+	
+	NSTextField * rowKey;
+	NSTableView * rowCellsTable;
 	NSPopUpButton * tableSelector;
-	HyperTable * connection;
+	
+	// Internal array of dictionaries.
+	// Each dict is expected to have values for 
+	// "family" and "qualifier" keys. Later "value"
+	// will be setup
+	NSMutableArray * rowCells;
+	int errorCode;
 }
 
-@property (nonatomic, retain) HyperTable * connection;
+@property (assign) int errorCode;
 @property (nonatomic, retain) IBOutlet NSPopUpButton * tableSelector;
+@property (nonatomic, retain) IBOutlet NSTextField * rowKey;
+@property (nonatomic, retain) IBOutlet NSTableView * rowCellsTable;
+@property (nonatomic, retain) IBOutlet NSTextField * errorMessage;
 
-- (IBAction)updateTables:(id)sender;
+//get & set known cells
+@property (nonatomic, retain) NSMutableArray * rowCells;
+
+- (IBAction)createNewRow:(id)sender;
 
 @end

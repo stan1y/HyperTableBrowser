@@ -27,16 +27,3 @@
 - (HyperTable *) selectedBroker;
 
 @end
-
-
-/*	CoreData bindings transforming utilities	*/
-
-@interface StatusValueTransformer : NSValueTransformer {	
-	
-}
-@end
-
-@interface ServerSummaryTransformer : NSValueTransformer {	
-	
-}
-@end

@@ -7,9 +7,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "Cluster.h"
+#import "ModalDialog.h"
 
-@interface NewServerController : NSViewController {
+@interface NewServerController : ModalDialog {
 	//UI properties
 	NSTextField * dialogTitle;
 	NSTextField * errorMessage;
@@ -21,10 +21,8 @@
 	NSTextField * userName;
 	NSTextField * privateKeyPath;
 	
-	Cluster * cluster;
+	BOOL createNewCluster;
 }
-
-@property (nonatomic, retain) Cluster * cluster;
 
 @property (nonatomic, retain) IBOutlet NSTextField * errorMessage;
 @property (nonatomic, retain) IBOutlet NSTextField * dialogTitle;
@@ -35,11 +33,8 @@
 @property (nonatomic, retain) IBOutlet NSTextField * userName;
 @property (nonatomic, retain) IBOutlet NSTextField * privateKeyPath;
 
-
 - (IBAction) saveServer:(id)sender;
 - (IBAction) cancel:(id)sender;
-
-- (void) modeAddToCluser:(Cluster *)cluster;
-- (void) modeCreateNewCluser;
+- (void) setCreateNewCluster:(BOOL)flag;
 
 @end

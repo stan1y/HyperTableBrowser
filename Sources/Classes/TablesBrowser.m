@@ -15,12 +15,6 @@
 @synthesize pageSource;
 @synthesize tablesList;
 
-@synthesize newTablePnl;
-@synthesize insertNewRowPnl;
-
-@synthesize newTableController;
-@synthesize newRowController;
-
 @synthesize newTableBtn;
 @synthesize dropTableBtn;
 @synthesize refreshBtn;
@@ -35,15 +29,35 @@
 @synthesize allowInsertRow;
 @synthesize allowDeleteRow;
 
-#pragma mark Initialization
+@synthesize createNewTableDialog;
+@synthesize insertNewRowDialog;
+
+static TablesBrowser * sharedBrowser = nil;
++ (TablesBrowser *) sharedInstance {
+    if(sharedBrowser == nil) {
+        sharedBrowser = [[TablesBrowser alloc] _init];
+    }
+    return sharedBrowser;
+}
+
+- (id) _init
+{
+	if (!(self = [super init]))
+		return nil;
+	
+	NSLog(@"Initializing Tables Browser.");	
+	return self;
+}
+
+- (id) init 
+{
+	return [TablesBrowser sharedInstance];
+}
+
 
 - (void) dealloc
 {
 	[pageSource release];
-	[newTablePnl release];
-	[newTableController release];
-	[insertNewRowPnl release];
-	[newRowController release];
 	[refreshBtn release];
 	[newTableBtn release];
 	[dropTableBtn release];
@@ -51,10 +65,11 @@
 	[dropRowBtn release];
 	[toolBar release];
 	
+	[createNewTableDialog release];
+	[insertNewRowDialog release];
+	
 	[super dealloc];
 }
-
-#pragma mark Toolbar Controller callbacks
 
 - (BOOL)validateToolbarItem:(NSToolbarItem *)toolbarItem
 {
@@ -73,66 +88,23 @@
 	return YES;
 }
 
-- (IBAction)newTable:(id)sender
+- (IBAction) showWindow:(id)sender
 {
-	[NSApp beginSheet:[[[NSApp delegate] tablesBrowser] newTablePnl] 
-	   modalForWindow:[[[NSApp delegate] tablesBrowser] window]
-        modalDelegate:self didEndSelector:nil contextInfo:nil];
-}
-
-- (IBAction)dropTable:(id)sender
-{
-	id connection = [self selectedBroker];
-	if (!connection) {
-		[[NSApp delegate] showErrorDialog:-1 message:@"Cannot drop table. Server is NOT connected."];
-		return;
-	}
-	
-	[self indicateBusy];
-	int rc = drop_table([connection thriftClient], [[[tablesList selectedCellInColumn:0] stringValue] UTF8String]);
-	
-	if (rc != T_OK) {
-		[[NSApp delegate] showErrorDialog:-1 message:[NSString stringWithFormat:@"Failed to drop table \"%s\". %s",
-													  [[[tablesList selectedCellInColumn:0] stringValue]  UTF8String],
-													  [[HyperTable errorFromCode:rc] UTF8String]]];
-		[self indicateDone];
-	}
-	else {
-		NSString * msg = [NSString stringWithFormat:@"Table \"%s\" was dropped.",
-						  [[[tablesList selectedCellInColumn:0] stringValue]  UTF8String]];
-		
-		//refresh tables on connection
-		FetchTablesOperation * fetchTablesOp = [FetchTablesOperation fetchTablesFrom:connection];
-		[fetchTablesOp setCompletionBlock: ^ {
-			[tablesList reloadColumn:0];
-			[[NSApp delegate] showErrorDialog:-1 message:msg];
-		}];
-		
-		//start fetching tables
-		[[[NSApp delegate] operations] addOperation: fetchTablesOp];
-		[fetchTablesOp release];
-	}
+	[super showWindow:sender];
+	[self updateBrokers:sender];
+	[self refreshTables:sender];
 }
 
 - (IBAction)refreshTables:(id)sender
 {
-	id hypertable = [self selectedBroker];
+	HyperTable * hypertable = [self selectedBroker];
 	if (hypertable)  {
 		NSLog(@"Refreshing tables...");
-		[hypertable refresh:^ {
+		[hypertable updateTablesWithCompletionBlock:^ {
 			[tablesList loadColumnZero];
 			[hypertable release];
 		}];
 	}
-}
-
-- (IBAction)insertNewRow:(id)sender
-{
-	id broker = [self selectedBroker];
-	[[self newRowController] setConnection:broker];
-	[NSApp beginSheet:[self insertNewRowPnl] modalForWindow:[self window]
-        modalDelegate:self didEndSelector:nil contextInfo:nil];
-	[broker release];
 }
 
 - (IBAction)deleteSelectedRow:(id)sender
@@ -144,7 +116,6 @@
 		
 		id broker = [self selectedBroker];
 		if (!broker) {
-			[[NSApp delegate] showErrorDialog:-1 message:@"Cannot delete selected row. No broker is selected"];
 			return;
 		}
 		
@@ -155,6 +126,16 @@
 														   inTable:[[tablesList selectedCellInColumn:0] stringValue]
 														  onServer:broker];
 		
+		[delOp setCompletionBlock: ^{
+			if ([delOp errorCode]) {
+				NSMutableDictionary * dict = [NSMutableDictionary dictionary];
+				[dict setValue:[HyperTable errorFromCode:[delOp errorCode]] forKey:NSLocalizedDescriptionKey];
+				NSError * error = [NSError errorWithDomain:@"HyperTableBrowser" code:1 userInfo:dict];
+				[[NSApplication sharedApplication] presentError:error];
+			}
+		}];
+		
+		//start async delete
 		[[[NSApp delegate] operations] addOperation:delOp];
 		[delOp release];
 	}
@@ -163,11 +144,25 @@
 	}
 }
 
-#pragma mark Servers List (NSBrowser) delegate callbacks
+- (IBAction) createNewTable:(id)sender
+{
+	[createNewTableDialog showModalForWindow:[self window]];
+}
+
+- (IBAction) insertNewRow:(id)sender
+{
+	[insertNewRowDialog showModalForWindow:[self window]];
+}
+
+- (IBAction)dropSelectedTable:(id)sender
+{
+	// FIXME: Not implemented 
+}
+
 
 - (BOOL)browser:(NSBrowser *)browser shouldEditItem:(id)item
 { 
-	//edit not supported yet
+	// FIXME: Not implemented 
 	return NO; 
 }
 
@@ -176,13 +171,9 @@
 	return [[[self selectedBroker] tables] count] > 0;
 }
 
-//yes means non-expandable
 - (BOOL)browser:(NSBrowser *)browser isLeafItem:(id)item 
 {
-	if ([item class] == [HyperTable class]) {
-		return NO;
-	}
-	return YES;
+	return YES; //yes means non-expandable
 }
 
 - (id)rootItemForBrowser:(NSBrowser *)browser
@@ -216,6 +207,7 @@
 	}
 	return 0;
 }
+
 
 - (IBAction)tableSelectionChanged:(id)sender
 {

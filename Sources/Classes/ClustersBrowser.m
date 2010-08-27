@@ -7,7 +7,8 @@
 //
 
 #import "ClustersBrowser.h"
-#import "GetStatusOperation.h"
+#import "TablesBrowser.h"
+#import "HyperTableOperation.h"
 #import "SSHClient.h"
 
 @implementation ClustersBrowser
@@ -15,170 +16,209 @@
 @synthesize statusMessageField;
 @synthesize statusIndicator;
 
-@synthesize newClusterMenuItem;
-@synthesize newServerPnl;
-@synthesize newServerController;
+@synthesize newServerOrClusterDialog;
 
 @synthesize membersTable;
 @synthesize clustersSelector;
 
-@synthesize selectedClusterIndex;
-@synthesize selectedServerIndex;
+@synthesize inspector;
 
-#pragma mark Initialization
-
-- (void)awakeFromNib
+- (id) _init
 {
+	if (!(self = [super init]))
+		return nil;
+	
 	NSLog(@"Initializing Clusters Browser.");	
 	selectedServerIndex = 0;
-	selectedClusterIndex = 0;
-	[[NSApp delegate] saveAction:self];
+	return self;
+}
+
+- (id) init 
+{
+	return [ClustersBrowser sharedInstance];
+}
+
+static ClustersBrowser * sharedBrowser = nil;
++ (ClustersBrowser *) sharedInstance {
+    if(sharedBrowser == nil) {
+        sharedBrowser = [[ClustersBrowser alloc] _init];
+    }
+    return sharedBrowser;
 }
 
 - (void) dealloc
 {
 	[statusMessageField release];
 	[statusIndicator release];
-	[newClusterMenuItem release];
-	[newServerPnl release];
-	[newServerController release];
+	[newServerOrClusterDialog release];
 	
+	[inspector release];
 	[membersTable release];
 	
 	[super dealloc];
 }
 
-#pragma mark Selections
+- (void) populateClustersCombo
+{
+	[clustersSelector removeAllItems];
+	for (Cluster * c in [Cluster clusters]) {
+		[clustersSelector addItemWithTitle:[c valueForKey:@"name"]];
+	}
+}
+
+- (void) awakeFromNib
+{
+	//define cluster if none
+	if ( ![[Cluster clusters] count] ) {
+		[self defineNewCluster:nil];
+	}
+	
+	[self populateClustersCombo];
+	[membersTable reloadData];
+	[[self inspector] refresh:nil];
+}
 
 - (Cluster *) selectedCluster
 {
-	if ([[Cluster clusters] count]) {
-		return [[Cluster clusters] objectAtIndex:selectedClusterIndex];
+	if ([clustersSelector selectedItem]) {
+		return [Cluster clusterWithName:[[clustersSelector selectedItem] title]];
 	}
+	return nil;
 }
 
 - (Server *) selectedServer
 {
 	Cluster * cl = [self selectedCluster];
 	if (cl) {
-		if ([[cl servers] count] > selectedServerIndex) {
-			return [[[cl servers] allObjects] objectAtIndex:selectedServerIndex];
+		if ([[cl members] count] > selectedServerIndex) {
+			return [[cl members] objectAtIndex:selectedServerIndex];
 		}
 	}
 	return nil;
 }
 
-- (void)tableViewSelectionDidChange:(NSNotification *)aNotification
+- (IBAction) clusterSelectionChanged:(id)sender
 {
-	selectedServerIndex = [[aNotification object] selectedRow];
-	if ([[[self selectedCluster] servers] count] > selectedServerIndex) {
-		selectedServer = [[[[self selectedCluster] servers] allObjects] objectAtIndex:selectedServerIndex];
-		NSLog(@"Selected server: %@", selectedServer);
-		[[[NSApp delegate] inspector] refresh:nil];
+	//first item by default
+	selectedServerIndex = 0;
+	
+	//reload table and update inspector
+	[membersTable reloadData];
+	[[self inspector] refresh:nil];
+	
+	if ([[[TablesBrowser sharedInstance] window] isVisible]) {
+		//make sure tables browser uses current cluster's brokers
+		[[TablesBrowser sharedInstance] updateBrokers:sender];
+	}
+	
+}
+
+- (void)tableViewSelectionIsChanging:(NSNotification *)aNotification
+{
+	int index = [[aNotification object] selectedRow];
+	if (index < [[[self selectedCluster] members] count]) {
+		selectedServerIndex = index;
+		[[self inspector] refresh:nil];
 	}
 }
 
-#pragma mark Clusters Window Callbacks
-
-- (BOOL)windowShouldClose:(id)sender
+- (IBAction) updateCurrentServer:(id)sender
 {
-	NSLog(@"Checking background operations in progress...\n");
-	
-    NSInteger numOperationsRunning = [[[[NSApp delegate] operations] operations] count];
-    if (numOperationsRunning > 0)
-    {
-		id msg = [NSString stringWithFormat:@"There are %d background operations in progress.", numOperationsRunning];
-        NSAlert *alert = [NSAlert alertWithMessageText: msg 
-										 defaultButton: @"OK"
-									   alternateButton: nil
-										   otherButton: nil
-							 informativeTextWithFormat: @"Please click the \"Stop\" button before closing."];
-        [alert beginSheetModalForWindow: [self window] modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];
-    }
-	
-    return numOperationsRunning == 0;
+	Server * currentServer = [self selectedServer];
+	if (currentServer) {		
+		[currentServer updateWithCompletionBlock:^ {
+			if ( [[currentServer valueForKey:@"status"] intValue] != 0) {
+				NSString * message = [NSString stringWithFormat:@"Failed to update %@", [currentServer valueForKey:@"name"]];
+				NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+				[dict setValue:message forKey:NSLocalizedDescriptionKey];
+				
+				NSError *error = [NSError errorWithDomain:@"ClustersBrowser" code:1 userInfo:dict];
+				[NSApp presentError:error];		
+			}
+			else {
+				[membersTable reloadData];
+				[[self inspector] refresh:nil];
+			}
+		}];
+	}
 }
 
-- (void)windowWillClose:(NSNotification *)notification
-{
-	NSLog(@"Clusters browser closed\n");
-	[[NSApp delegate] saveAction:self];
-}
-
-#pragma mark UI Activity API
-
-- (void)setMessage:(NSString*)message 
-{
-	NSLog(@"Clusters Browser: %s\n", [message UTF8String]);
-	[statusMessageField setTitleWithMnemonic:message];
-}
-
-- (void)indicateBusy 
-{
-	[statusIndicator startAnimation:self];
-}
-
-- (void)indicateDone 
-{
-	[statusIndicator stopAnimation:self];
-}
-
-#pragma mark Toolbar callbacks
-
-- (IBAction) refresh:(id)sender
+- (IBAction) updateCluster:(id)sender
 {
 	id cl = [self selectedCluster];
 	if ( cl ){
-		[self indicateBusy];
-		[self setMessage:@"Updating cluster members..."];
+		//reload first with old data
+		[membersTable reloadData];
+		[[self inspector] refresh:nil];
 		
-		//update cluster members
-		for (HyperTable * server in [HyperTable hypertablesInCurrentCluster]) {
-			HyperTableStatusOperation * op = [HyperTableStatusOperation getStatusOfHyperTable:server];
-			[op setCompletionBlock: ^ {
-				[self indicateDone];
-				
-				if ([op errorCode]) {
-					NSLog(@"Failed to update %@", [server valueForKey:@"name"]);
-					NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-					[dict setValue:[op errorMessage] forKey:NSLocalizedDescriptionKey];
-					[dict setValue:[op errorMessage] forKey:NSLocalizedFailureReasonErrorKey];
-					NSError *error = [NSError errorWithDomain:@"" code:[op errorCode] userInfo:dict];
-					[NSApp presentError:error];		
-				}
-				else {
-					NSLog(@"Server %@ was updated successfully", [server valueForKey:@"name"]);
-					[[[NSApp delegate] inspector] refresh:nil];
-				}
-			}];
-			
-			[[[NSApp delegate] operations] addOperation:op];
-			[op release];
-		}
+		[cl updateWithCompletionBlock: ^{
+			//now reload with updated data
+			[membersTable reloadData];
+			[[self inspector] refresh:nil];
+		}];
 	}
-}
-
-- (IBAction)showInspector:(id)sender
-{
-	[[[NSApp delegate] inspector] refresh:sender];
-	[[[NSApp delegate] inspectorPanel] orderFront:sender];
 }
 
 - (IBAction) addServer:(id)sender
 {
-	[[self newServerController] modeAddToCluser:[self selectedCluster]];
-	[NSApp beginSheet:[self newServerPnl] 
-	   modalForWindow:[[NSApp delegate] clustersBrowserWindow]
-        modalDelegate:self didEndSelector:nil contextInfo:nil];
-	
+	[[self newServerOrClusterDialog] setCreateNewCluster:NO];
+	[[self newServerOrClusterDialog] showModalForWindow:[self window]];
 }
 
 - (IBAction) defineNewCluster:(id)sender
 {
-	[[self newServerController] modeCreateNewCluser];
-	[NSApp beginSheet:[self newServerPnl] 
-	   modalForWindow:[[NSApp delegate] clustersBrowserWindow]
-        modalDelegate:self didEndSelector:nil contextInfo:nil];
+	[[self newServerOrClusterDialog] setCreateNewCluster:YES];
+	[[self newServerOrClusterDialog] showModalForWindow:[self window]];
+}
+
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
+{
+	if ( [self selectedCluster] ) {
+		return [[[self selectedCluster] members] count];
+	}
+	else {
+		return 0;
+	}
+}
+
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn 
+			row:(NSInteger)rowIndex
+{
+	NSArray * members = [[self selectedCluster] members];
+	if (rowIndex + 1 > [members count]) {
+		NSLog(@"Member index [%d] is bigger that list of members [%d]", rowIndex, [[[self selectedCluster] members] count]);
+		return nil;
+	}
+	if ([[aTableColumn identifier] isEqual:@"summary"]) {
+		int runningServices = 0;
+		for (id service in [[members objectAtIndex:rowIndex] services]) {
+			if ([[service valueForKey:@"processID"] intValue] > 0) {
+				runningServices++;
+			}
+		}
+		return [NSString stringWithFormat:@"%d of %d services running", 
+				runningServices, [[[members objectAtIndex:rowIndex] services] count]];
+	}
+	else if ([[aTableColumn identifier] isEqual:@"status"]) {
+		int intStatus = [[[members objectAtIndex:rowIndex] valueForKey:@"status"] intValue];
+		NSString * status;
+		
+		switch (intStatus) {
+			case 0:
+				status = @"Operational";
+				break;
+			case 1:
+				status = @"Error";
+				break;
+			default:
+				status = @"Pending...";
+				break;
+		}
+		
+		return status;
+	}
+	else
+		return [[members objectAtIndex:rowIndex] valueForKey:[aTableColumn identifier]];
 }
 
 @end

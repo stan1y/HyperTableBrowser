@@ -1,12 +1,12 @@
 //
-//  GetStatusOperation.m
+//  HyperTableOperation.m
 //  HyperTableBrowser
 //
 //  Created by Stanislav Yudin on 17/8/2010.
 //  Copyright 2010 AwesomeStanly Lab. All rights reserved.
 //
 
-#import "GetStatusOperation.h"
+#import "HyperTableOperation.h"
 #import "Service.h"
 
 @implementation HyperTableStatusOperation

@@ -7,10 +7,11 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <SSHClient.h>
-#import <Service.h>
+#import "SSHClient.h"
+#import "Service.h"
+#import "ClusterMemberProtocol.h"
 
-@interface Server : NSManagedObject {
+@interface Server : NSManagedObject <ClusterMemberProtocol>  {
 	SSHClient * sshClient;
 }
 

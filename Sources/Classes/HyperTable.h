@@ -32,19 +32,21 @@
 + (NSEntityDescription *) hypertableDescription;
 + (NSEntityDescription *) tableSchemaDescription;
 
-//enumeration
-+ (NSArray *) hyperTableBrokersInCluster:(id)cluster;
-+ (NSArray *) hyperTableBrokersInCurrentCluster;
-+ (NSArray *) hypertablesInCluster:(id)cluster;
-+ (NSArray *) hypertablesInCurrentCluster;
-
-//sync operation
+// ClusterMemberProtocol implementation
+- (void) updateWithCompletionBlock:(void (^)(void)) codeBlock;
+- (void) reconnectWithCompletionBlock:(void (^)(void)) codeBlock;
 - (void) disconnect;
 - (BOOL) isConnected;
 
-//async operations
-- (void) reconnect:(void (^)(void)) codeBlock;
-- (void) refresh:(void (^)(void)) codeBlock;
+- (void) updateTablesWithCompletionBlock:(void (^)(void))codeBlock;
+
+// HyperTable objects with Thrift Broker serice
++ (NSArray *) hyperTableBrokersInCluster:(id)cluster;
++ (NSArray *) hyperTableBrokersInCurrentCluster;
+
+// All HyperTable objects
++ (NSArray *) hypertablesInCluster:(id)cluster;
++ (NSArray *) hypertablesInCurrentCluster;
 
 //table schemas
 + (NSArray *)listSchemes;
@@ -53,4 +55,5 @@
 
 //error code to error message
 + (NSString *)errorFromCode:(int)code;
+
 @end

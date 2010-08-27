@@ -7,8 +7,8 @@
 //
 
 #import "Utility.h"
-
-#pragma mark HyperTable Brokers Controller
+#import "HyperTable.h"
+#import "ClustersBrowser.h"
 
 @implementation HyperTableBrokersCntrl
 
@@ -17,7 +17,7 @@
 - (void) addAndReconnect:(id)hypertable withCompletionBlock:(void (^)(void)) codeBlock
 {
 	if ( ![hypertable isConnected]) {
-		[hypertable reconnect:codeBlock];
+		[hypertable reconnectWithCompletionBlock:codeBlock];
 	}
 	[brokerSelector addItemWithTitle:[hypertable valueForKey:@"name"]];
 }
@@ -36,14 +36,27 @@
 	NSLog(@"Updating available brokers...");
 	//populate selector
 	[brokerSelector removeAllItems];
-	id brokersList = [HyperTable hyperTableBrokersInCurrentCluster];
-	for (id hypertable in brokersList) {
+	NSArray * brokersList = [HyperTable hyperTableBrokersInCurrentCluster];
+	if (![brokersList count]) {
+		NSMutableDictionary * dict = [NSMutableDictionary dictionary];
+		[dict setValue:[NSString stringWithFormat:@"No Thrift API Brokers were found in cluster %@",
+						[[[ClustersBrowser sharedInstance] selectedCluster] valueForKey:@"name"]] 
+				forKey:NSLocalizedDescriptionKey];
+		NSError * error = [NSError errorWithDomain:@"Thrift API" code:1 userInfo:dict];
+		[[NSApplication sharedApplication] presentError:error];
+		return;
+	}
+	
+	for (HyperTable * hypertable in brokersList) {
 		//connect or add each available broker
 		[self addAndReconnect:hypertable withCompletionBlock:^ {
 			if ( ![hypertable isConnected] ) {
-				[[NSApp delegate] showErrorDialog:1 
-										  message:[NSString stringWithFormat:@"Please make sure that Thrift API service is running on %@",
-												   [hypertable valueForKey:@"name"]]];		
+				NSMutableDictionary * dict = [NSMutableDictionary dictionary];
+				[dict setValue:[NSString stringWithFormat:@"Please make sure that Thrift API service is running on %@",
+								[hypertable valueForKey:@"name"]] 
+						forKey:NSLocalizedDescriptionKey];
+				NSError * error = [NSError errorWithDomain:@"Thrift API" code:1 userInfo:dict];
+				[[NSApplication sharedApplication] presentError:error];
 			}
 			else {
 				NSLog(@"Reconnected to thrift broker at %@ successfuly.",
@@ -74,48 +87,4 @@
 	return nil;
 }
 
-@end
-
-#pragma mark Value Transformers
-
-@implementation StatusValueTransformer
-
-+ (Class)transformedValueClass { return [NSString class]; }
-+ (BOOL)allowsReverseTransformation { return YES; }
-- (id)transformedValue:(id)value 
-{
-	int intStatus = [value intValue];
-	NSString * status;
-	
-	switch (intStatus) {
-		case 0:
-			status = @"Operational";
-			break;
-		case 1:
-			status = @"Error";
-			break;
-		default:
-			status = @"Pending...";
-			break;
-	}
-	
-	return status;
-}
-@end
-
-@implementation ServerSummaryTransformer
-
-+ (Class)transformedValueClass { return [NSString class]; }
-+ (BOOL)allowsReverseTransformation { return YES; }
-- (id)transformedValue:(id)value 
-{
-	int runningServices = 0;
-	for (id service in [value services]) {
-		if ([[service valueForKey:@"processID"] intValue] > 0) {
-			runningServices++;
-		}
-	}
-	return [NSString stringWithFormat:@"%d of %d services running", 
-			runningServices, [[value services] count]];
-}
 @end

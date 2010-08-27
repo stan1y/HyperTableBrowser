@@ -1,5 +1,5 @@
 //
-//  GetStatusOperation.h
+//  HyperTableOperation.h
 //  HyperTableBrowser
 //
 //  Created by Stanislav Yudin on 17/8/2010.
@@ -26,6 +26,7 @@
 - (void)main;
 
 @end
+
 /*
 @interface HadoopStatusOperation : NSOperation {
 	Hadoop * hadoop;

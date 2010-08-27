@@ -41,18 +41,13 @@
 	}
 	
 	//success
-	NSLog(@"Received %d tables\n", row->cellsCount);
 	NSMutableArray * tables = [NSMutableArray arrayWithCapacity:row->cellsCount];
 	DataCellIterator * ci = cell_iter_new(row);
 	DataCell * cell = NULL;
-	//filter out METADATA if specified
-	id prefs = [[NSApp delegate] getSettingsByName:@"TablesBrowserPrefs"];
-	if (!prefs) {
-		NSLog(@"There is no settings found!");
-		return;
-	}
-	int skipMetadata = [[prefs valueForKey:@"skipMetadata"] intValue];
-	[prefs release];
+	
+	//FIXME : Settings
+	int skipMetadata = 0;
+	
 	int index = 0;
 	do {
 		cell = cell_iter_next_cell(ci);

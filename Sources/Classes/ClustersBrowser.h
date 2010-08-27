@@ -9,35 +9,24 @@
 #import <Cocoa/Cocoa.h>
 #import "Cluster.h"
 #import "Server.h"
-#import "NewServerController.h"
+#import "ModalDialog.h"
+#import "Inspector.h"
 
 @interface ClustersBrowser : NSWindowController {
-	
-	NSPanel * newServerPnl;
-	NewServerController * newServerController;
+	ModalDialog * newServerOrClusterDialog;
+	Inspector * inspector;
 
-	NSTextField * statusMessageField;
-	NSProgressIndicator * statusIndicator;
-	
-	NSMenuItem * newClusterMenuItem;
-	
-	
 	NSTableView * membersTable;
 	NSPopUpButton * clustersSelector;
-
-	int selectedClusterIndex;
-	Cluster * selectedCluster;
 	
 	int selectedServerIndex;
-	Server * selectedServer;
 }
 
-// Selection properties
+@property (nonatomic, retain) IBOutlet Inspector * inspector;
 
-@property (readonly) int selectedServerIndex;
-@property (nonatomic, retain) Server * selectedServer;
-@property (readonly) int selectedClusterIndex;
-@property (nonatomic, retain) Cluster * selectedCluster;
+// New Cluster or Server dialog
+
+@property (nonatomic, retain) IBOutlet ModalDialog * newServerOrClusterDialog;
 
 // UI Outlets
 
@@ -47,33 +36,23 @@
 @property (nonatomic, retain) IBOutlet NSTextField * statusMessageField;
 @property (nonatomic, retain) IBOutlet NSProgressIndicator * statusIndicator;
 
-@property (nonatomic, retain) IBOutlet NSMenuItem * newClusterMenuItem;
+// Selections
 
-// New Cluster or Server dialog Outlets
+- (Server *) selectedServer;
+- (Cluster *) selectedCluster;
+- (IBAction) clusterSelectionChanged:(id)sender;
 
-@property (nonatomic, retain) IBOutlet NSPanel * newServerPnl;
-@property (nonatomic, retain) IBOutlet NewServerController * newServerController;
+// Singleton
 
-// Activity indication
-
-- (void) setMessage:(NSString*)message;
-- (void) indicateBusy;
-- (void) indicateDone;
-
-// Clusters Windows Callbacks
-
-- (BOOL) windowShouldClose:(id)sender;
-- (void) windowWillClose:(NSNotification *)notification;
++ (ClustersBrowser *) sharedInstance;
 
 // Toolbar Callbacks
 
-- (IBAction) refresh:(id)sender;
-- (IBAction) showInspector:(id)sender;
+- (IBAction) updateCluster:(id)sender;
+- (IBAction) updateCurrentServer:(id)sender;
+
 - (IBAction) addServer:(id)sender;
 - (IBAction) defineNewCluster:(id)sender;
 
-// Servers table callbacks
-
-- (void) tableViewSelectionDidChange:(NSNotification *)aNotification;
 
 @end

@@ -7,7 +7,8 @@
 //
 
 #import "NewServerController.h"
-#import "GetStatusOperation.h"
+#import "HyperTableOperation.h"
+#import "ClustersBrowser.h"
 
 @implementation NewServerController
 
@@ -18,7 +19,6 @@
 @synthesize userName;
 @synthesize privateKeyPath;
 @synthesize dialogTitle;
-@synthesize cluster;
 
 - (void) dealloc
 {
@@ -29,40 +29,32 @@
 	[userName release];
 	[privateKeyPath release];
 	[dialogTitle release];
-	if (cluster) {
-		[cluster release];
-	}
 	
 	[super dealloc];
 }
 
-- (void) modeAddToCluser:(Cluster *)toCluster
+- (void) setCreateNewCluster:(BOOL)flag
 {
-	if (toCluster) {
-		[dialogTitle setStringValue:[NSString stringWithFormat:@"Add Server to %@",
-									 [toCluster valueForKey:@"name"]]];
-		 [self setCluster:toCluster];
+	createNewCluster = flag;
+	if (createNewCluster) {
+		[dialogTitle setStringValue:[NSString stringWithFormat:@"Define New Cluster"]];
 	}
-}
+	else {
+		[dialogTitle setStringValue:[NSString stringWithFormat:@"Add Server to %@",
+									 [[[ClustersBrowser sharedInstance] selectedCluster] valueForKey:@"name"]]];
+	}
 
-- (void) modeCreateNewCluser
-{
-	[dialogTitle setStringValue:[NSString stringWithFormat:@"Define New Cluster"]];
-	[self setCluster:nil];
 }
 
 - (IBAction) cancel:(id)sender
 {
-	NSLog(@"New server dialog canceled");
-	//close dialog
-	[NSApp endSheet:[[self view] window]];
-	[[[self view] window] orderOut:sender];
-	
 	//quit app if no clusters
 	if ( ![[Cluster clusters] count] ) {
 		NSLog(@"Quiting application, New Server Dialog was canceled with no defined clusters");
 		[NSApp terminate:nil];
 	}
+	
+	[self hideModalForUsedWindow];
 }
 
 - (IBAction) saveServer:(id)sender
@@ -83,12 +75,7 @@
 		return;
 	}
 	
-	[errorMessage setHidden:YES];
-	
-	[[[NSApp delegate] clustersBrowser] indicateBusy];
-	[[[NSApp delegate] clustersBrowser] setMessage:
-	 [NSString stringWithFormat:@"Saving %@", [name stringValue]]];
-	
+	[errorMessage setHidden:YES];	
 	NSManagedObjectContext * context = [[NSApp delegate] managedObjectContext];
 	
 	//define new server for cluser
@@ -111,10 +98,6 @@
 	HyperTableStatusOperation * newServerStatus = [HyperTableStatusOperation getStatusOfHyperTable:newServer ];
 	[newServerStatus setCompletionBlock: ^ {
 		
-		[[[NSApp delegate] clustersBrowser] indicateDone];
-		[[[NSApp delegate] clustersBrowser] setMessage:
-		 [NSString stringWithFormat:@"%@ was saved.", [name stringValue]]];
-		
 		if ([newServerStatus errorCode]) {
 			NSMutableDictionary *dict = [NSMutableDictionary dictionary];
 			[dict setValue:[newServerStatus errorMessage] forKey:NSLocalizedDescriptionKey];
@@ -126,16 +109,21 @@
 	[[[NSApp delegate] operations] addOperation:newServerStatus];
 	[newServerStatus release];
 	
-	if ( !cluster ) {
+	Cluster * cluster = nil;
+	if ( createNewCluster ) {
 		//define new cluster
-		[self setCluster:[[Cluster alloc] initWithEntity:[Cluster clusterDescription]
-						 insertIntoManagedObjectContext:context]];
+		cluster = [[Cluster alloc] initWithEntity:[Cluster clusterDescription]
+						 insertIntoManagedObjectContext:context];
 		//set name to cluster's name, change name of server to master[AT]cluster
 		[cluster setValue:[name stringValue] forKey:@"name"];
 		[newServer setValue:[NSString stringWithFormat:@"master@%@", [name stringValue]] forKey:@"name"];
 		//set new server as master
 		[cluster setValue:newServer forKey:@"master"];
 	}
+	else {
+		cluster = [[ClustersBrowser sharedInstance] selectedCluster];
+	}
+
 	
 	//add to cluster
 	[newServer setValue:cluster forKey:@"belongsTo"];
@@ -143,10 +131,10 @@
 	
 	//commit
 	NSError * error = nil;
-	if (![context commitEditing]) {
-		[[[NSApp delegate] clustersBrowser] indicateDone];
-		[[[NSApp delegate] clustersBrowser] setMessage:
-		 [NSString stringWithFormat:@"%@:%@ unable to commit editing before saving", [self class], _cmd]];
+	if (![context commitEditing]) 
+	{
+		//FIXME: Show error dialog
+		//[NSString stringWithFormat:@"%@:%@ unable to commit editing before saving", [self class], _cmd]
     }
     if (![context save:&error]) {
         [[NSApplication sharedApplication] presentError:error];
@@ -154,6 +142,7 @@
 	[context release];
 	
 	//close dialog
+	[NSApp endSheet:[[self view] window]];
 	[[[self view] window] orderOut:sender];
 }
 

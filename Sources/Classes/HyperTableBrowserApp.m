@@ -7,48 +7,18 @@
 //
 
 #import "HyperTableBrowserApp.h"
-#import <Utility.h>
+#import "Utility.h"
+#import "ClustersBrowser.h"
 
 @implementation HyperTableBrowserApp
-
-@synthesize hqlWindow;
-@synthesize hqlController;
-
-@synthesize tablesBrowserWindow;
-@synthesize tablesBrowser;
-
-@synthesize clustersBrowserWindow;
-@synthesize clustersBrowser;
-
-@synthesize inspector;
-@synthesize inspectorPanel;
 
 @synthesize operations;
 
 #pragma mark Initialization
 
-+ (void) initialize
-{
-	//register value transformers
-	NSValueTransformer * statusTransformer = [[StatusValueTransformer alloc] init];
-	[NSValueTransformer setValueTransformer:statusTransformer forName:@"StatusValueTransformer"];
-	[statusTransformer release];
-	NSValueTransformer * summaryTransformer = [[ServerSummaryTransformer alloc] init];
-	[NSValueTransformer setValueTransformer:summaryTransformer forName:@"ServerSummaryTransformer"];
-	[summaryTransformer release];
-}
-
 - (void)applicationDidFinishLaunching:(NSApplication *)application 
 {
-	//show clusters browser
-	[[self clustersBrowserWindow] orderFront:self];
-	[[self clustersBrowser] setMessage:@"Application started."];
-	[[[self clustersBrowser] statusMessageField] setHidden:NO];
-	
-	//define cluster if none
-	if ( ![[Cluster clusters] count] ) {
-		[[[NSApp delegate] clustersBrowser] defineNewCluster:self];
-	}
+	//FIXME : Create all new folders
 }
 
 
@@ -62,19 +32,7 @@
 }
 
 - (void)dealloc 
-{
-	[hqlWindow release];
-	[hqlController release];
-	
-	[tablesBrowserWindow release];
-	[tablesBrowser release];
-	
-	[clustersBrowserWindow release];
-	[clustersBrowser release];
-	
-	[inspectorPanel release];
-	[inspector release];
-	
+{	
 	[operations release];
 	
 	[managedObjectContext release];
@@ -93,74 +51,11 @@
     return [basePath stringByAppendingPathComponent:@"HyperTableBrowser"];
 }
 
-- (void) showErrorDialog:(int)errorCode
-			 message:(NSString *)description 
-{
-	NSMutableDictionary * dict = [NSMutableDictionary dictionary];
-	[dict setValue:description forKey:NSLocalizedDescriptionKey];
-	NSError * error = [NSError errorWithDomain:@"HyperTableBrowser" code:errorCode userInfo:dict];
-	[[NSApplication sharedApplication] presentError:error];
-}
-
-- (id) getSettingsByName:(NSString *)name
-{
-	NSFetchRequest * request = [[NSFetchRequest alloc] init];
-	
-	NSEntityDescription * entity = [NSEntityDescription entityForName:name
-											   inManagedObjectContext:[self managedObjectContext] ];
-	
-	[request setEntity:entity];
-	[request setIncludesPendingChanges:YES];
-	NSError * err = nil;
-	NSArray * result = [[self managedObjectContext] executeFetchRequest:request error:&err];
-	if (err) {
-		[[NSApplication sharedApplication] presentError:err];
-		[err release];
-		return nil;
-	}
-	[request release];
-	
-	if ( [result count] <= 0 ) {
-		NSLog(@"Creating default preferences for %s", [name UTF8String]);
-		
-		id defaults = [NSEntityDescription insertNewObjectForEntityForName:name
-													inManagedObjectContext:[self managedObjectContext] ];
-		return defaults;
-	}
-	else if ([result count] > 1) {
-		return [result objectAtIndex:0];
-	}
-	[result retain];
-	id settings = [result objectAtIndex:0];
-	return settings;
-}
-
 #pragma mark Application Callbacks
-
-- (IBAction)showTablesBrowser:(id)sender
-{
-	[[self tablesBrowser] updateBrokers:sender withCompletionBlock:^{
-		[[self tablesBrowser] refreshTables:nil];
-	}];
-	[[[NSApp delegate] tablesBrowserWindow] orderFront:sender];
-}
-
-- (IBAction)showHqlInterpreter:(id)sender
-{
-	[[self hqlController] updateBrokers:sender];
-	[[self hqlWindow] orderFront:sender];
-}
-
-- (IBAction) showClustersBrowser:(id)sender
-{
-	[[self clustersBrowser] refresh:sender];
-	[[self clustersBrowserWindow] orderFront:sender];
-}
  
 - (IBAction) saveAction:(id)sender {
 
     NSError *error = nil;
-    NSLog(@"Saving state.");
     if (![[self managedObjectContext] commitEditing]) {
         NSLog(@"%@:%s unable to commit editing before saving", [self class], _cmd);
     }
@@ -168,13 +63,20 @@
     if (![[self managedObjectContext] save:&error]) {
         [[NSApplication sharedApplication] presentError:error];
     }
-	NSLog(@"Updating memebers.");
-	[[[self clustersBrowser] membersTable] reloadData];
 }
  
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
 
     if (![self managedObjectContext]) return NSTerminateNow;
+	
+	NSLog(@"Checking background operations in progress...\n");
+	
+    NSInteger numOperationsRunning = [[[self operations] operations] count];
+    if (numOperationsRunning > 0)
+    {
+		//FIXME: Ask user what to do
+		return NSTerminateCancel;
+    }
 
     if (![[self managedObjectContext] commitEditing]) {
         NSLog(@"%@:%s unable to commit editing to terminate", [self class], _cmd);

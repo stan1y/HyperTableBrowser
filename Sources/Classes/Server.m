@@ -113,7 +113,6 @@
 	[err release];
 	[r release];
 	if (![servicesArray count]) {
-		NSLog(@"No services found on server \"%@\"", [self valueForKey:@"name"]);
 		return nil;
 	}
 

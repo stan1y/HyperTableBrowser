@@ -7,8 +7,11 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <Server.h>
+#import "Server.h"
 
+// Hadoop services controller supposed to be 
+// a base class for HyperTable. But its not
+// implemented at all. Still some day...
 @interface Hadoop : Server {
 
 }

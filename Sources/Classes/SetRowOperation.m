@@ -8,10 +8,9 @@
 
 #import "SetRowOperation.h"
 
-
 @implementation SetRowOperation
-/*
-@synthesize connection;
+
+@synthesize hypertable;
 @synthesize row;
 @synthesize cellValue;
 @synthesize rowIndex;
@@ -20,12 +19,16 @@
 @synthesize tableName;
 @synthesize page;
 
-+ setRow:(DataRow *)row inTable:(NSString*)tableName withConnection:(HyperTable *)con
++ setRow:(DataRow *)row
+fromPage:(DataPage *)page
+ inTable:(NSString*)tableName 
+onServer:(HyperTable *)onHypertable
 {
 	SetRowOperation * op = [[SetRowOperation alloc] init];
-	[op setConnection:con];
+	[op setHypertable:onHypertable];
 	[op setTableName:tableName];
 	[op setRow:row];
+	[op setPage:page];
 	return op;
 }
 
@@ -34,10 +37,10 @@
 	   inTable:(NSString *)tableName 
 		 atRow:(NSInteger)rowIndex
 	 andColumn:(NSString *)columnName
-withConnection:(HyperTable *)con;
+	  onServer:(HyperTable *)onHypertable
 {
 	SetRowOperation * op = [[SetRowOperation alloc] init];
-	[op setConnection:con];
+	[op setHypertable:onHypertable];
 	[op setTableName:tableName];
 	[op setRowIndex:rowIndex];
 	[op setColumnName:columnName];
@@ -48,7 +51,7 @@ withConnection:(HyperTable *)con;
 
 - (void) dealloc
 {
-	[connection release];
+	[hypertable release];
 	[tableName release];
 	[cellValue release];
 	[columnName release];
@@ -70,8 +73,9 @@ withConnection:(HyperTable *)con;
 
 - (void)main
 {
-	[[connection connectionLock] lock];
+	[[hypertable connectionLock] lock];
 	[self setErrorCode:0];
+	
 	//construct row with one cell from
 	//data we have or just set specified row
 	if ( ![self row]) {
@@ -117,9 +121,9 @@ withConnection:(HyperTable *)con;
 	}
 	
 	//set row
-	int rc = set_row([connection thriftClient], row, [tableName UTF8String]);
+	int rc = set_row([hypertable thriftClient], row, [tableName UTF8String]);
 	[self setErrorCode:rc];
-	[[connection connectionLock] unlock];
+	[[hypertable connectionLock] unlock];
 }
-*/
+
 @end

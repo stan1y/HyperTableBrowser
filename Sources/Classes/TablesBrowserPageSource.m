@@ -158,7 +158,10 @@
 			[nextPageButton setEnabled:NO];
 			[prevPageButton setEnabled:NO];
 			
-			[[NSApp delegate] showErrorDialog:-1 message:[HyperTable errorFromCode:[fpageOp errorCode]]];
+			NSMutableDictionary * dict = [NSMutableDictionary dictionary];
+			[dict setValue:[HyperTable errorFromCode:[fpageOp errorCode]] forKey:NSLocalizedDescriptionKey];
+			NSError * error = [NSError errorWithDomain:@"HyperTableBrowser" code:1 userInfo:dict];
+			[[NSApplication sharedApplication] presentError:error];
 		}
 		
 	} ];

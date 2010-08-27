@@ -7,10 +7,10 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <HyperTable.h>
+#import "HyperTable.h"
 
 @interface SetRowOperation : NSOperation {
-	//HyperTable * connection;
+	HyperTable * hypertable;
 	DataRow * row;
 	DataPage * page;
 	NSString * tableName;
@@ -25,22 +25,22 @@
 @property (nonatomic, retain) NSString * tableName;
 @property (nonatomic, retain) NSString * cellValue;
 @property (nonatomic, retain) NSString * columnName;
-//@property (nonatomic, retain) HyperTable * connection;
+@property (nonatomic, retain) HyperTable * hypertable;
 @property (assign) int rowIndex;
 @property (assign) int errorCode;
 @property (assign) DataRow * row;
 @property (assign) DataPage * page;
 
-/*
+
 + setCellValue:(NSString *)newValue
 	  fromPage:(DataPage *)page
 	   inTable:(NSString *)tableName 
 		 atRow:(NSInteger)rowIndex
 	 andColumn:(NSString *)columnName
-withConnection:(HyperTable *)con;
+	  onServer:(HyperTable *)onHypertable;
 
-+ setRow:(DataRow *)row inTable:(NSString*)tableName withConnection:(HyperTable *)con;
-*/
++ setRow:(DataRow *)row fromPage:(DataPage *)page inTable:(NSString*)tableName onServer:(HyperTable *)onHypertable;
+
 - (void)main;
 
 @end

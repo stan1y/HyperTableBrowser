@@ -45,6 +45,8 @@
 		766F24E510D794F600AB059D /* Convert.h in Headers */ = {isa = PBXBuildFile; fileRef = 766F24E310D794F600AB059D /* Convert.h */; };
 		766F24E610D794F600AB059D /* Convert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 766F24E410D794F600AB059D /* Convert.cpp */; };
 		766F252310D7995700AB059D /* libHyperThriftWrapper.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 767A3CB310D5AA6500BAE46E /* libHyperThriftWrapper.dylib */; };
+		7672FAC21227AACA0057693E /* ClusterStatusOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7672FAC11227AACA0057693E /* ClusterStatusOperation.m */; };
+		7672FBE31227D2070057693E /* ModalDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 7672FBE21227D2070057693E /* ModalDialog.m */; };
 		7677371710CE93D100DDDCC6 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7677371610CE93D100DDDCC6 /* CoreServices.framework */; };
 		767A3C5410D5A8A700BAE46E /* HyperTableBrowser.icns in Resources */ = {isa = PBXBuildFile; fileRef = 767A3C5310D5A8A700BAE46E /* HyperTableBrowser.icns */; };
 		767A3CBD10D5AA9800BAE46E /* HyperThriftWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 767A3C8310D5A97600BAE46E /* HyperThriftWrapper.cpp */; };
@@ -95,7 +97,7 @@
 		76C855341212A19A00525B28 /* UpdatesPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76C855301212A19A00525B28 /* UpdatesPreferences.xib */; };
 		76DC6A3C11FCC24C00E14519 /* HyperTableBrowser.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76DC6A3A11FCC24C00E14519 /* HyperTableBrowser.xib */; };
 		76E94B37121A8A3200370F01 /* SSHClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 76E94B36121A8A3200370F01 /* SSHClient.m */; };
-		76E94B3B121A8A7400370F01 /* GetStatusOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 76E94B3A121A8A7400370F01 /* GetStatusOperation.m */; };
+		76E94B3B121A8A7400370F01 /* HyperTableOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 76E94B3A121A8A7400370F01 /* HyperTableOperation.m */; };
 		76E950FE121D772600370F01 /* AddServer.icns in Resources */ = {isa = PBXBuildFile; fileRef = 76E950F8121D772600370F01 /* AddServer.icns */; };
 		76E950FF121D772600370F01 /* DropTable.icns in Resources */ = {isa = PBXBuildFile; fileRef = 76E950F9121D772600370F01 /* DropTable.icns */; };
 		76E95100121D772600370F01 /* NewTable.icns in Resources */ = {isa = PBXBuildFile; fileRef = 76E950FA121D772600370F01 /* NewTable.icns */; };
@@ -280,6 +282,11 @@
 		766F24D710D7935100AB059D /* HyperThriftHql.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HyperThriftHql.cpp; sourceTree = "<group>"; };
 		766F24E310D794F600AB059D /* Convert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Convert.h; sourceTree = "<group>"; };
 		766F24E410D794F600AB059D /* Convert.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Convert.cpp; sourceTree = "<group>"; };
+		7672FAAE1227A8870057693E /* ClusterMemberProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ClusterMemberProtocol.h; path = Sources/Classes/ClusterMemberProtocol.h; sourceTree = "<group>"; };
+		7672FAC01227AACA0057693E /* ClusterStatusOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ClusterStatusOperation.h; path = Sources/Classes/ClusterStatusOperation.h; sourceTree = "<group>"; };
+		7672FAC11227AACA0057693E /* ClusterStatusOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ClusterStatusOperation.m; path = Sources/Classes/ClusterStatusOperation.m; sourceTree = "<group>"; };
+		7672FBE11227D2070057693E /* ModalDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModalDialog.h; path = Sources/Classes/ModalDialog.h; sourceTree = "<group>"; };
+		7672FBE21227D2070057693E /* ModalDialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ModalDialog.m; path = Sources/Classes/ModalDialog.m; sourceTree = "<group>"; };
 		7677371610CE93D100DDDCC6 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = /System/Library/Frameworks/CoreServices.framework; sourceTree = "<absolute>"; };
 		767A3C5310D5A8A700BAE46E /* HyperTableBrowser.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = HyperTableBrowser.icns; sourceTree = "<group>"; };
 		767A3C7510D5A97500BAE46E /* Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client.h; sourceTree = "<group>"; };
@@ -339,8 +346,8 @@
 		76DC6A3B11FCC24C00E14519 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/HyperTableBrowser.xib; sourceTree = "<group>"; };
 		76E94B35121A8A3200370F01 /* SSHClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSHClient.h; path = Sources/Classes/SSHClient.h; sourceTree = "<group>"; };
 		76E94B36121A8A3200370F01 /* SSHClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSHClient.m; path = Sources/Classes/SSHClient.m; sourceTree = "<group>"; };
-		76E94B39121A8A7400370F01 /* GetStatusOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetStatusOperation.h; path = Sources/Classes/GetStatusOperation.h; sourceTree = "<group>"; };
-		76E94B3A121A8A7400370F01 /* GetStatusOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetStatusOperation.m; path = Sources/Classes/GetStatusOperation.m; sourceTree = "<group>"; };
+		76E94B39121A8A7400370F01 /* HyperTableOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HyperTableOperation.h; path = Sources/Classes/HyperTableOperation.h; sourceTree = "<group>"; };
+		76E94B3A121A8A7400370F01 /* HyperTableOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HyperTableOperation.m; path = Sources/Classes/HyperTableOperation.m; sourceTree = "<group>"; };
 		76E950F8121D772600370F01 /* AddServer.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = AddServer.icns; path = Icons/AddServer.icns; sourceTree = "<group>"; };
 		76E950F9121D772600370F01 /* DropTable.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = DropTable.icns; path = Icons/DropTable.icns; sourceTree = "<group>"; };
 		76E950FA121D772600370F01 /* NewTable.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = NewTable.icns; path = Icons/NewTable.icns; sourceTree = "<group>"; };
@@ -581,6 +588,8 @@
 				76400DFE122125D70020DB2C /* NewTableController.m */,
 				76400DFB122125D70020DB2C /* InsertNewRowController.h */,
 				76400DFC122125D70020DB2C /* InsertNewRowController.m */,
+				7672FBE11227D2070057693E /* ModalDialog.h */,
+				7672FBE21227D2070057693E /* ModalDialog.m */,
 			);
 			name = Dialogs;
 			sourceTree = "<group>";
@@ -619,6 +628,7 @@
 				762456AE1222710F00925812 /* Service.m */,
 				7624576012227BEC00925812 /* Hadoop.h */,
 				7624576112227BEC00925812 /* Hadoop.m */,
+				7672FAAE1227A8870057693E /* ClusterMemberProtocol.h */,
 			);
 			name = Accessors;
 			sourceTree = "<group>";
@@ -718,10 +728,12 @@
 				76EDF0D711FF40FA00D5A6B5 /* SetRowOperation.m */,
 				76967C07121010D6000FD196 /* DeleteRowOperation.h */,
 				76967C08121010D6000FD196 /* DeleteRowOperation.m */,
-				76E94B39121A8A7400370F01 /* GetStatusOperation.h */,
-				76E94B3A121A8A7400370F01 /* GetStatusOperation.m */,
+				76E94B39121A8A7400370F01 /* HyperTableOperation.h */,
+				76E94B3A121A8A7400370F01 /* HyperTableOperation.m */,
 				76A66BCB122416AE00C3AB14 /* ServiceOperation.h */,
 				76A66BCC122416AE00C3AB14 /* ServiceOperation.m */,
+				7672FAC01227AACA0057693E /* ClusterStatusOperation.h */,
+				7672FAC11227AACA0057693E /* ClusterStatusOperation.m */,
 			);
 			name = Operations;
 			sourceTree = "<group>";
@@ -1162,7 +1174,7 @@
 				76967D7912104BD0000FD196 /* ClusterInformation.xcdatamodel in Sources */,
 				76B42BC6121069A300CAC6A8 /* HyperTable.m in Sources */,
 				76E94B37121A8A3200370F01 /* SSHClient.m in Sources */,
-				76E94B3B121A8A7400370F01 /* GetStatusOperation.m in Sources */,
+				76E94B3B121A8A7400370F01 /* HyperTableOperation.m in Sources */,
 				76400D6E122115840020DB2C /* Utility.m in Sources */,
 				76400DF6122125A70020DB2C /* ClustersBrowser.m in Sources */,
 				76400DFA122125BA0020DB2C /* Inspector.m in Sources */,
@@ -1176,6 +1188,8 @@
 				7624576212227BEC00925812 /* Hadoop.m in Sources */,
 				76A66BCD122416AE00C3AB14 /* ServiceOperation.m in Sources */,
 				76103AFF1226BC7600593677 /* NewServerController.m in Sources */,
+				7672FAC21227AACA0057693E /* ClusterStatusOperation.m in Sources */,
+				7672FBE31227D2070057693E /* ModalDialog.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

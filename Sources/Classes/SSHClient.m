@@ -144,6 +144,28 @@
 	
 	int rc = 0;
 	[ssh launch];
+	
+	//wait for ssh with timeout
+	int secondsToWait = 2;
+	int totalWaited = 0;
+	while (YES) {
+		if ([ssh isRunning]) {
+			sleep(secondsToWait);
+			totalWaited += secondsToWait;
+			
+			if (totalWaited >= 14) {
+				NSLog(@"Error: ssh command timed out!");
+				
+				[ssh terminate];
+				[ssh release];
+				return 254;
+			}
+		}
+		else
+			break;
+		
+	}
+	
 	[ssh waitUntilExit];
 	
 	if ([ssh terminationReason] != NSTaskTerminationReasonExit) {

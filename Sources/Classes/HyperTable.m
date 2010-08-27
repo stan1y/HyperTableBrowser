@@ -8,8 +8,10 @@
 
 #import "HyperTable.h"
 #import "FetchTablesOperation.h"
+#import "HyperTableOperation.h"
 #import "ConnectOperation.h"
 #import "Service.h"
+#import "ClustersBrowser.h"
 
 @implementation HyperTable
 
@@ -89,12 +91,12 @@
 
 + (NSArray *) hyperTableBrokersInCurrentCluster;
 {
-	return [HyperTable hyperTableBrokersInCluster:[[[NSApp delegate] clustersBrowser] selectedCluster]];
+	return [HyperTable hyperTableBrokersInCluster:[[ClustersBrowser sharedInstance] selectedCluster]];
 }
 
 + (NSArray *) hypertablesInCurrentCluster
 {
-	return [HyperTable hypertablesInCluster:[[[NSApp delegate] clustersBrowser] selectedCluster]];
+	return [HyperTable hypertablesInCluster:[[ClustersBrowser sharedInstance] selectedCluster]];
 }
 
 + (NSArray *) hyperTableBrokersInCluster:(id)cluster
@@ -183,7 +185,7 @@
 	[tables retain];
 }
 
-#pragma mark Connection API
+#pragma mark ClusterMemberProtocol Implementation
 
 - (void) disconnect
 {
@@ -196,53 +198,50 @@
 	destroy_hql_client(hqlClient);
 }
 
-- (void) refresh:(void (^)(void))codeBlock
+- (void) updateWithCompletionBlock:(void (^)(void)) codeBlock;
 {
+	HyperTableStatusOperation * op = [HyperTableStatusOperation getStatusOfHyperTable:self];
+	[op setCompletionBlock: codeBlock];
+	[[[NSApp delegate] operations] addOperation:op];
+	[op release];
+}
+
+- (void) updateTablesWithCompletionBlock:(void (^)(void))codeBlock
+{
+	if ( ![self isConnected]) {
+		NSLog(@"Can't update tables on HyperTable. Not connected to broker!");
+		return;
+	}
+	
 	FetchTablesOperation * fetchTablesOp = [FetchTablesOperation fetchTablesFrom:self];
 	[fetchTablesOp setCompletionBlock:codeBlock];
-	
-	NSLog(@"Refreshing tables...\n");
-	//start fetching tables
 	[[[NSApp delegate] operations] addOperation: fetchTablesOp];
 	[fetchTablesOp release];
 }
 
-- (void) reconnect:(void (^)(void))codeBlock
+- (void) reconnectWithCompletionBlock:(void (^)(void)) codeBlock
 {
 	if ( [self isConnected] ) {
 		NSLog(@"Already connected to %@:%d.", [self valueForKey:@"ipAddress"],
 			  [[self valueForKey:@"thriftPort"] intValue]);
 		return;
 	}
-	// check if auto reconnect enabled
-	id tbrowserPrefs = [[NSApp delegate] getSettingsByName:@"TablesBrowserPrefs"];
-	if (!tbrowserPrefs) {
-		[[NSApp delegate] showErrorDialog:1 
-								  message:@"Failed to read Tabales Browser settings from storage."];
-		return;
-	}
-	int autoReconnectBroker =  [[tbrowserPrefs valueForKey:@"autoReconnectBroker"] intValue];
-	[tbrowserPrefs release];
-	
-	if ( autoReconnectBroker ) {
-		//reconnect server with saved values
-		NSLog(@"Opening connection to HyperTable at %@:%d...",
-			  [self valueForKey:@"ipAddress"],
-			  [[self valueForKey:@"thriftPort"] intValue]);		
-		ConnectOperation * connectOp = [ConnectOperation connect:self 
-														toBroker:[self valueForKey:@"ipAddress"]
-														  onPort:[[self valueForKey:@"thriftPort"] intValue]];
-		[connectOp setCompletionBlock:codeBlock];
-		//add operation to queue
-		[[[NSApp delegate] operations] addOperation: connectOp];
-		[connectOp release];
-	}
-	else {
-		NSLog(@"Automatic reconnect is disabled.");
-	}
+
+	//reconnect server with saved values
+	NSLog(@"Opening connection to HyperTable Thrift Broker at %@:%d...",
+		  [self valueForKey:@"ipAddress"],
+		  [[self valueForKey:@"thriftPort"] intValue]);		
+	ConnectOperation * connectOp = [ConnectOperation connect:self 
+													toBroker:[self valueForKey:@"ipAddress"]
+													  onPort:[[self valueForKey:@"thriftPort"] intValue]];
+	[connectOp setCompletionBlock:codeBlock];
+	//add operation to queue
+	[[[NSApp delegate] operations] addOperation: connectOp];
+	[connectOp release];
 }
 
-- (BOOL)isConnected {
+- (BOOL)isConnected 
+{
 	return ( (thriftClient != nil) && (hqlClient != nil) );
 }
 
