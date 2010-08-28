@@ -25,7 +25,7 @@ enum ServerStatus {
 + (NSString *)stringForStatus:(int)status;
 
 - (SSHClient *) remoteShell;
-- (int) status;
+- (int) statusInt;
 - (NSString *) statusString;
 
 @end

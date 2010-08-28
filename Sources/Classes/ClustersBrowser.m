@@ -130,7 +130,7 @@ static ClustersBrowser * sharedBrowser = nil;
 	if (currentServer) {		
 		[currentServer updateStatusWithCompletionBlock:^(BOOL success) {
 			//reload table on success
-			if (success && [currentServer status] == STATUS_OPERATIONAL) {
+			if (success && [currentServer statusInt] == STATUS_OPERATIONAL) {
 				[membersTable reloadData];
 				[[self inspector] refresh:nil];
 			}

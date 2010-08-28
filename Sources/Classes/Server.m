@@ -41,14 +41,14 @@
 	}
 }
 
-- (int)status
+- (int) statusInt 
 {
 	return [[self valueForKey:@"status"] intValue];
 }
 
 - (NSString *) statusString
 {
-	return [Server stringForStatus:[self status]];
+	return [Server stringForStatus:[self statusInt]];
 }
 
 - (SSHClient *) remoteShell
