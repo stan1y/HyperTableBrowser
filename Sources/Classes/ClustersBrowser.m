@@ -126,11 +126,11 @@ static ClustersBrowser * sharedBrowser = nil;
 
 - (IBAction) updateCurrentServer:(id)sender
 {
-	Server * currentServer = [self selectedServer];
+	Server<ClusterMember> * currentServer = [self selectedServer];
 	if (currentServer) {		
-		[currentServer updateWithCompletionBlock:^ {
+		[currentServer updateStatusWithCompletionBlock:^(BOOL success) {
 			//reload table on success
-			if ( [[currentServer valueForKey:@"status"] intValue] == 0) {
+			if (success && [[currentServer valueForKey:@"status"] intValue] == 0) {
 				[membersTable reloadData];
 				[[self inspector] refresh:nil];
 			}
@@ -195,22 +195,7 @@ static ClustersBrowser * sharedBrowser = nil;
 				runningServices, [[[members objectAtIndex:rowIndex] services] count]];
 	}
 	else if ([[aTableColumn identifier] isEqual:@"status"]) {
-		int intStatus = [[[members objectAtIndex:rowIndex] valueForKey:@"status"] intValue];
-		NSString * status;
-		
-		switch (intStatus) {
-			case 0:
-				status = @"Operational";
-				break;
-			case 1:
-				status = @"Error";
-				break;
-			default:
-				status = @"Pending...";
-				break;
-		}
-		
-		return status;
+		return [[members objectAtIndex:rowIndex] statusString];
 	}
 	else
 		return [[members objectAtIndex:rowIndex] valueForKey:[aTableColumn identifier]];

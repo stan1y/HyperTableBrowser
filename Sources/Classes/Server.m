@@ -25,6 +25,32 @@
 					   inManagedObjectContext:[[NSApp delegate] managedObjectContext]];
 }
 
++ (NSString *)stringForStatus:(int)status
+{
+	switch (status) {
+		case STATUS_ERROR:
+			return @"Error";
+			break;
+		case STATUS_OPERATIONAL:
+			return @"Operational";
+			break;
+		default:
+		case STATUS_PENDING:
+			return @"Pending...";
+			break;
+	}
+}
+
+- (int)status
+{
+	return [[self valueForKey:@"status"] intValue];
+}
+
+- (NSString *) statusString
+{
+	return [Server stringForStatus:[self status]];
+}
+
 - (SSHClient *) remoteShell
 {
 	if (sshClient) {

@@ -11,11 +11,21 @@
 #import "Service.h"
 #import "Protocols.h"
 
+enum ServerStatus {
+	STATUS_OPERATIONAL = 0,
+	STATUS_ERROR = 1,
+	STATUS_PENDING = 2
+};
+
 @interface Server : NSManagedObject  {
 	SSHClient * sshClient;
 }
 
 + (NSEntityDescription *) serverDescription;
++ (NSString *)stringForStatus:(int)status;
+
 - (SSHClient *) remoteShell;
+- (int) status;
+- (NSString *) statusString;
 
 @end
