@@ -27,6 +27,8 @@
 		7615175811FDA23F00485438 /* FetchTablesOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7615175711FDA23F00485438 /* FetchTablesOperation.m */; };
 		761518DE11FDBF5E00485438 /* HqlQueryOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 761518DD11FDBF5E00485438 /* HqlQueryOperation.m */; };
 		761AA93A1228475800BC980C /* Activities.m in Sources */ = {isa = PBXBuildFile; fileRef = 761AA9391228475800BC980C /* Activities.m */; };
+		761AAB4512294AF100BC980C /* HadoopLogo_16.png in Resources */ = {isa = PBXBuildFile; fileRef = 761AAB4312294AF100BC980C /* HadoopLogo_16.png */; };
+		761AAB4612294AF100BC980C /* HyperTableLogo_16.png in Resources */ = {isa = PBXBuildFile; fileRef = 761AAB4412294AF100BC980C /* HyperTableLogo_16.png */; };
 		7624565F122264B700925812 /* Cluster.m in Sources */ = {isa = PBXBuildFile; fileRef = 7624565E122264B700925812 /* Cluster.m */; };
 		762456651222653300925812 /* Server.m in Sources */ = {isa = PBXBuildFile; fileRef = 762456641222653300925812 /* Server.m */; };
 		762456AF1222710F00925812 /* Service.m in Sources */ = {isa = PBXBuildFile; fileRef = 762456AE1222710F00925812 /* Service.m */; };
@@ -255,6 +257,8 @@
 		761518DD11FDBF5E00485438 /* HqlQueryOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HqlQueryOperation.m; path = Sources/Classes/HqlQueryOperation.m; sourceTree = "<group>"; };
 		761AA9381228475800BC980C /* Activities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Activities.h; path = Sources/Classes/Activities.h; sourceTree = "<group>"; };
 		761AA9391228475800BC980C /* Activities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Activities.m; path = Sources/Classes/Activities.m; sourceTree = "<group>"; };
+		761AAB4312294AF100BC980C /* HadoopLogo_16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HadoopLogo_16.png; path = Icons/HadoopLogo_16.png; sourceTree = "<group>"; };
+		761AAB4412294AF100BC980C /* HyperTableLogo_16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HyperTableLogo_16.png; path = Icons/HyperTableLogo_16.png; sourceTree = "<group>"; };
 		7624565D122264B700925812 /* Cluster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Cluster.h; path = Sources/Classes/Cluster.h; sourceTree = "<group>"; };
 		7624565E122264B700925812 /* Cluster.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Cluster.m; path = Sources/Classes/Cluster.m; sourceTree = "<group>"; };
 		762456631222653300925812 /* Server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Server.h; path = Sources/Classes/Server.h; sourceTree = "<group>"; };
@@ -284,7 +288,7 @@
 		766F24D710D7935100AB059D /* HyperThriftHql.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HyperThriftHql.cpp; sourceTree = "<group>"; };
 		766F24E310D794F600AB059D /* Convert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Convert.h; sourceTree = "<group>"; };
 		766F24E410D794F600AB059D /* Convert.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Convert.cpp; sourceTree = "<group>"; };
-		7672FAAE1227A8870057693E /* ClusterMemberProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ClusterMemberProtocol.h; path = Sources/Classes/ClusterMemberProtocol.h; sourceTree = "<group>"; };
+		7672FAAE1227A8870057693E /* Protocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Protocols.h; path = Sources/Classes/Protocols.h; sourceTree = "<group>"; };
 		7672FBE11227D2070057693E /* ModalDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModalDialog.h; path = Sources/Classes/ModalDialog.h; sourceTree = "<group>"; };
 		7672FBE21227D2070057693E /* ModalDialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ModalDialog.m; path = Sources/Classes/ModalDialog.m; sourceTree = "<group>"; };
 		7677371610CE93D100DDDCC6 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = /System/Library/Frameworks/CoreServices.framework; sourceTree = "<absolute>"; };
@@ -474,8 +478,10 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				76EDF0D411FF40D800D5A6B5 /* Operations */,
-				7624564C1222629600925812 /* Accessors */,
+				76E94B35121A8A3200370F01 /* SSHClient.h */,
+				76E94B36121A8A3200370F01 /* SSHClient.m */,
+				76EDF0D411FF40D800D5A6B5 /* HyperTable Operations */,
+				7624564C1222629600925812 /* Models */,
 				760EEE291225214B00F8650B /* Dialogs */,
 				76967B2E120FF467000FD196 /* TablesBrowserPageSource.h */,
 				76967B2F120FF467000FD196 /* TablesBrowserPageSource.m */,
@@ -615,11 +621,9 @@
 			path = "gen-cpp";
 			sourceTree = "<group>";
 		};
-		7624564C1222629600925812 /* Accessors */ = {
+		7624564C1222629600925812 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				76E94B35121A8A3200370F01 /* SSHClient.h */,
-				76E94B36121A8A3200370F01 /* SSHClient.m */,
 				76B42BC4121069A300CAC6A8 /* HyperTable.h */,
 				76B42BC5121069A300CAC6A8 /* HyperTable.m */,
 				7624565D122264B700925812 /* Cluster.h */,
@@ -630,9 +634,9 @@
 				762456AE1222710F00925812 /* Service.m */,
 				7624576012227BEC00925812 /* Hadoop.h */,
 				7624576112227BEC00925812 /* Hadoop.m */,
-				7672FAAE1227A8870057693E /* ClusterMemberProtocol.h */,
+				7672FAAE1227A8870057693E /* Protocols.h */,
 			);
-			name = Accessors;
+			name = Models;
 			sourceTree = "<group>";
 		};
 		767A3C7410D5A97500BAE46E /* HyperThriftWrapper */ = {
@@ -701,6 +705,8 @@
 		76E950F7121D771200370F01 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				761AAB4312294AF100BC980C /* HadoopLogo_16.png */,
+				761AAB4412294AF100BC980C /* HyperTableLogo_16.png */,
 				76400F8012216DA40020DB2C /* ServiceStatusError.png */,
 				76400F8112216DA40020DB2C /* ServiceStatusRunning.png */,
 				76400F8212216DA40020DB2C /* ServiceStatusStopped.png */,
@@ -715,7 +721,7 @@
 			name = Icons;
 			sourceTree = "<group>";
 		};
-		76EDF0D411FF40D800D5A6B5 /* Operations */ = {
+		76EDF0D411FF40D800D5A6B5 /* HyperTable Operations */ = {
 			isa = PBXGroup;
 			children = (
 				7615165011FD8C4800485438 /* ConnectOperation.h */,
@@ -735,7 +741,7 @@
 				76A66BCB122416AE00C3AB14 /* ServiceOperation.h */,
 				76A66BCC122416AE00C3AB14 /* ServiceOperation.m */,
 			);
-			name = Operations;
+			name = "HyperTable Operations";
 			sourceTree = "<group>";
 		};
 		76F8155C11FB88BB001B79C6 /* ThriftLib */ = {
@@ -1077,6 +1083,8 @@
 				76400F8312216DA40020DB2C /* ServiceStatusError.png in Resources */,
 				76400F8412216DA40020DB2C /* ServiceStatusRunning.png in Resources */,
 				76400F8512216DA40020DB2C /* ServiceStatusStopped.png in Resources */,
+				761AAB4512294AF100BC980C /* HadoopLogo_16.png in Resources */,
+				761AAB4612294AF100BC980C /* HyperTableLogo_16.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
