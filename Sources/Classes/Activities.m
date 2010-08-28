@@ -58,6 +58,19 @@ static Activities * sharedMonitor = nil;
 	[opDict setObject:[NSNumber numberWithBool:YES] forKey:@"running"];
 	[opDict setObject:anOperation forKey:@"operation"];
 	
+	if ([[self operations] count] >= 5) {
+		// if there are 5 or more operations in list
+		// remove first finished one before adding any more
+		for (int i=0; i<[[self operations] count]; i++) {
+			NSMutableDictionary * opDict = [[self operations] objectAtIndex:i];
+			if ( ![[opDict valueForKey:@"running"] intValue]){
+				NSLog(@"Removing finished operation '%@' from list", [opDict valueForKey:@"title"]);
+				[[self operations] removeObjectAtIndex:i];
+				break;
+			}
+		}
+	}
+	
 	[[self operations] addObject:opDict];
 	[[self operationsQueue] addOperation:anOperation];
 	[[self activitiesTable] reloadData];
@@ -82,12 +95,6 @@ static Activities * sharedMonitor = nil;
 					//it was finished, so update status and remove from dict
 					[opDict setObject:[NSNumber numberWithBool:NO] forKey:@"running"];
 					[opDict removeObjectForKey:@"operation"];
-					
-					//if operation is at 5 indexes long and finished, remove it from list
-					if (i >= 4) {
-						[[self operations] removeObjectAtIndex:i];
-						i--;
-					}
 				}
 			}
 		}
