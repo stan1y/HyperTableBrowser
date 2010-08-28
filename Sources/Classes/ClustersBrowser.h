@@ -38,9 +38,12 @@
 
 // Selections
 
-- (Server *) selectedServer;
+- (Server<ClusterMember> *) selectedServer;
 - (Cluster *) selectedCluster;
 - (IBAction) clusterSelectionChanged:(id)sender;
+
+- (void) refreshClustersList;
+- (void) refreshMembersList;
 
 // Singleton
 

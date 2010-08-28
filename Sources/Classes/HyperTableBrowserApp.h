@@ -7,24 +7,21 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <HqlController.h>
-#import <ClustersBrowser.h>
-#import <TablesBrowser.h>
-#import <Inspector.h>
+#import "Activities.h"
 
 @interface HyperTableBrowserApp : NSObject {
-	NSOperationQueue * operations;
+	Activities * activitiesView;
 	
 	NSPersistentStoreCoordinator *persistentStoreCoordinator;
     NSManagedObjectModel *managedObjectModel;
     NSManagedObjectContext *managedObjectContext;
 }
 
+@property (nonatomic, retain) IBOutlet Activities * activitiesView;
+
 @property (nonatomic, retain, readonly) IBOutlet NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (nonatomic, retain, readonly) IBOutlet NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, retain, readonly) IBOutlet NSManagedObjectContext *managedObjectContext;
-
-@property (nonatomic, readonly) NSOperationQueue * operations;
 
 - (NSString *)applicationSupportDirectory;
 - (BOOL) recreateDataFiles;

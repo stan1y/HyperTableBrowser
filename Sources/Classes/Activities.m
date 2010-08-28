@@ -15,14 +15,52 @@
 @synthesize operations;
 @synthesize operationsQueue;
 
-- (void) awakeFromNib
+//	Singleton
+static Activities * sharedMonitor = nil;
++ (Activities *) sharedInstance {
+    return sharedMonitor;
+}
+
+- (id) _initWithWindow:(id)window
 {
+	if (!(self = [super initWithWindow:window]))
+		return nil;
+	
 	operations = [[NSMutableArray alloc] init];
 	operationsQueue = [[NSOperationQueue alloc] init];
 	
-	//register for main operations queue updates
+	NSLog(@"Initializing Activities Monitor [%@]", window);	
+	return self;
+}
+
+- (id) initWithWindow:(id)window
+{	
+	if(sharedMonitor == nil) {
+        sharedMonitor = [[Activities alloc] _initWithWindow:window];
+    }
+	return [Activities sharedInstance];
+}
+
+
+- (void) awakeFromNib
+{
+	//register for operations queue updates
 	//when operation completed, this queue is updated
 	[operationsQueue addObserver:self forKeyPath:@"operations" options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:NULL];
+}
+
+- (void) appendOperation:(NSOperation *)anOperation 
+			   withTitle:(NSString *)title
+{
+	NSLog(@"Starting operation '%@'", title);
+	NSMutableDictionary * opDict = [NSMutableDictionary dictionary];
+	[opDict setObject:title forKey:@"title"];
+	[opDict setObject:[NSNumber numberWithBool:YES] forKey:@"running"];
+	[opDict setObject:anOperation forKey:@"operation"];
+	
+	[[self operations] addObject:opDict];
+	[[self operationsQueue] addOperation:anOperation];
+	[[self activitiesTable] reloadData];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath

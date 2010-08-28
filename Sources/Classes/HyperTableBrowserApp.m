@@ -12,28 +12,16 @@
 
 @implementation HyperTableBrowserApp
 
-@synthesize operations;
-
-#pragma mark Initialization
+@synthesize activitiesView;
 
 - (void)applicationDidFinishLaunching:(NSApplication *)application 
 {
 	//FIXME : Create all new folders
 }
 
-
-- (id)init
-{
-	if (self = [super init]) {
-		operations = [[NSOperationQueue alloc] init];
-	}
-	
-    return self;
-}
-
 - (void)dealloc 
 {	
-	[operations release];
+	[activitiesView release];
 	
 	[managedObjectContext release];
     [persistentStoreCoordinator release];
@@ -42,8 +30,6 @@
     [super dealloc];
 }
 
-#pragma mark Application Utilities
-
 - (NSString *)applicationSupportDirectory 
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
@@ -51,8 +37,6 @@
     return [basePath stringByAppendingPathComponent:@"HyperTableBrowser"];
 }
 
-#pragma mark Application Callbacks
- 
 - (IBAction) saveAction:(id)sender {
 
     NSError *error = nil;
@@ -71,7 +55,7 @@
 	
 	NSLog(@"Checking background operations in progress...\n");
 	
-    NSInteger numOperationsRunning = [[[self operations] operations] count];
+    NSInteger numOperationsRunning = [[activitiesView operationsQueue] operationCount];
     if (numOperationsRunning > 0)
     {
 		//FIXME: Ask user what to do
@@ -120,8 +104,6 @@
 
     return NSTerminateNow;
 }
-
-#pragma mark CoreData Access API
 
 - (NSManagedObjectModel *)managedObjectModel {
 	

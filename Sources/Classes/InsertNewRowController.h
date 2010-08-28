@@ -34,5 +34,5 @@
 @property (nonatomic, retain) NSMutableArray * rowCells;
 
 - (IBAction)createNewRow:(id)sender;
-
+- (IBAction) cancel:(id)sender;
 @end

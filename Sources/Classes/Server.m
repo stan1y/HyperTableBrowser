@@ -11,8 +11,6 @@
 
 @implementation Server
 
-#pragma mark Initialization
-
 - (void) dealloc
 {
 	if (sshClient) {
@@ -26,8 +24,6 @@
 	return [NSEntityDescription entityForName:@"Server" 
 					   inManagedObjectContext:[[NSApp delegate] managedObjectContext]];
 }
-
-#pragma mark Server Access and Info 
 
 - (SSHClient *) remoteShell
 {
@@ -49,8 +45,13 @@
 	
 	int rc = [sshClient runCommand:@"lsb_release -a"];
 	if (rc) {
-		NSLog(@"Failed to open remote shell on server. Code %d", rc);
-		NSLog(@"Error: %s", [[sshClient error] UTF8String]);
+		//failed to open ssh, present error
+		NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+		[dict setValue:[NSString stringWithFormat:@"Failed to open ssh connection to server %@. Code %d, Error: %@.", [self valueForKey:@"name"], rc, [sshClient error]] forKey:NSLocalizedDescriptionKey];
+		NSError *error = [NSError errorWithDomain:@"ClustersBrowser" code:1 userInfo:dict];
+		NSLog(@"Failed to open remote shell on server. Code %d, Error: %@", rc, [sshClient error]);
+		[NSApp presentError:error];
+		
 		[sshClient release];
 		sshClient = nil;
 	}
@@ -59,64 +60,6 @@
 	}
 
 	return sshClient;	
-}
-
-- (Service *) serviceWithName:(NSString *)name;
-{
-	NSFetchRequest * r = [[NSFetchRequest alloc] init];
-	[r setEntity:[Service serviceDescription]];
-	[r setIncludesPendingChanges:YES];
-	[r setPredicate:[NSPredicate predicateWithFormat:@"runsOnServer = %@ && serviceName = %@", 
-					 self, 
-					 name] ];
-	NSSortDescriptor * sort = [[[NSSortDescriptor alloc] initWithKey:@"serviceName" ascending:YES] autorelease];
-	[r setSortDescriptors:[NSArray arrayWithObjects:sort, nil]];
-	
-	NSError * err = nil;
-	NSArray * servicesArray = [[self managedObjectContext] executeFetchRequest:r error:&err];
-	if (err) {
-		NSLog(@"Error: Failed to get services on server %@.", [self valueForKey:@"name"]);
-		[err release];
-		[r release];
-		return nil;
-	}
-	[err release];
-	[r release];
-	if (![servicesArray count]) {
-		return nil;
-	}
-	else if ([servicesArray count] > 1) {
-		NSLog(@"Multiple (%d) services with name \"%@\" found on server \"%@\"",
-			  [servicesArray count], name, [self valueForKey:@"name"]);
-	}
-	return [servicesArray objectAtIndex:0];
-}
-
-- (NSArray *)services
-{
-	NSFetchRequest * r = [[NSFetchRequest alloc] init];
-	[r setEntity:[NSEntityDescription entityForName:@"Service" 
-							 inManagedObjectContext:[self managedObjectContext]]];
-	[r setIncludesPendingChanges:YES];
-	[r setPredicate:[NSPredicate predicateWithFormat:@"runsOnServer = %@", self]];
-	NSSortDescriptor * sort = [[[NSSortDescriptor alloc] initWithKey:@"serviceName" ascending:YES] autorelease];
-	[r setSortDescriptors:[NSArray arrayWithObjects:sort, nil]];
-	
-	NSError * err = nil;
-	NSArray * servicesArray = [[self managedObjectContext] executeFetchRequest:r error:&err];
-	if (err) {
-		NSLog(@"Error: Failed to get services on server %@.", [self valueForKey:@"name"]);
-		[err release];
-		[r release];
-		return nil;
-	}
-	[err release];
-	[r release];
-	if (![servicesArray count]) {
-		return nil;
-	}
-
-	return servicesArray;
 }
 
 @end

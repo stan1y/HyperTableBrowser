@@ -15,6 +15,7 @@
 	NSTextField * errorMessage;
 	
 	//Server properties
+	NSPopUpButton * typeSelector;
 	NSTextField * name;
 	NSTextField * ipAddress;
 	NSTextField * sshPort;
@@ -23,7 +24,7 @@
 	
 	BOOL createNewCluster;
 }
-
+@property (nonatomic, retain) IBOutlet NSPopUpButton * typeSelector;
 @property (nonatomic, retain) IBOutlet NSTextField * errorMessage;
 @property (nonatomic, retain) IBOutlet NSTextField * dialogTitle;
 

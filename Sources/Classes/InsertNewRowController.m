@@ -10,6 +10,7 @@
 #import "SetRowOperation.h"
 #import "ClustersBrowser.h"
 #import "TablesBrowser.h"
+#import "Activities.h"
 
 @implementation InsertNewRowController
 
@@ -21,7 +22,6 @@
 
 @synthesize errorCode;
 
-#pragma mark Initialization
 
 - (void) awakeFromNib
 {
@@ -39,8 +39,6 @@
 	[super dealloc];
 }
 
-#pragma mark UI Callbacks
-
 - (IBAction)createNewRow:(id)sender
 {
 	if (!rowCells && ![rowCells count]) {
@@ -53,11 +51,12 @@
 		[errorMessage setHidden:NO];
 		[errorMessage setStringValue:@"Please specify row key to insert."];
 	}
-	
+	/*
 	[errorMessage setHidden:YES];
 	
 	DataPage * newRowPage = page_new();
 	DataRow * newRow = row_new([[rowKey stringValue] UTF8String]);
+	newRow->rowKey = [[rowKey stringValue] UTF8String];
 	page_append(newRowPage, newRow);
 	
 	//populate row with cells
@@ -70,9 +69,10 @@
 	}
 	
 	Server * selectedServer = [[ClustersBrowser sharedInstance] selectedServer];
+	
 	SetRowOperation * setRowOp = [SetRowOperation setRow:newRow
 												fromPage:newRowPage
-												 inTable:[tableName UTF8String]
+												 inTable:tableName
 												onServer:selectedServer];
 	[setRowOp setCompletionBlock: ^{
 		if ([setRowOp errorCode]) {
@@ -93,8 +93,12 @@
 	}];
 	
 	//start async insert
-	[[[NSApp delegate] operations] addOperation:setRowOp];
+	[[Activities sharedInstance] appendOperation:setRowOp withTitle:[NSString stringWithFormat:@"Creating new row with key %@ in table %@ on server %@", [rowKey stringValue], tableName, [selectedServer valueForKey:@"name"]] ];
 	[setRowOp release];
+	 */
+	
+	//close dialog
+	[self hideModalForWindow:[[TablesBrowser sharedInstance] window]];
 }
 
 #pragma mark Row Cells Table DataSource

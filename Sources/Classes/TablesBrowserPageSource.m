@@ -7,14 +7,14 @@
 //
 
 #import "TablesBrowserPageSource.h"
-
+#import "FetchPageOperation.h"
 
 @implementation TablesBrowserPageSource
 
 @synthesize pageInfoField;
 @synthesize pageTableView;
 @synthesize	lastDisplayedTableName;
-@synthesize lastUsedConnection;
+@synthesize lastUsedStorage;
 @synthesize lastDisplayedPageNumber;
 @synthesize pageSizeTextField;
 @synthesize	copyRowKeyButton;
@@ -32,7 +32,7 @@
 	[pageInfoField release];
 	[pageTableView release];
 	[lastDisplayedTableName release];
-	[lastUsedConnection release];
+	[lastUsedStorage release];
 	[pageSizeTextField release];
 	[copyRowKeyButton release];
 	[selectedRowKey release];
@@ -73,17 +73,15 @@
 	return YES;
 }
 
-- (void)showFirstPageFor:(NSString *)tableName
-		  fromConnection:(HyperTable *)connection
+- (void)showFirstPageFor:(NSString *)tableName fromStorage:(NSManagedObject<CellStorage> *)storage
 {
 	[self showPageFor:tableName 
-	   fromConnection:connection
+	   fromStorage:storage
 	   withPageNumber:1 
 		  andPageSize:[pageSizeTextField intValue]];
 }
 
-- (void)showPageFor:(NSString *)tableName 
-	 fromConnection:(HyperTable *)connection
+- (void)showPageFor:(NSString *)tableName fromStorage:(NSManagedObject<CellStorage> *)storage 
 	 withPageNumber:(int)number andPageSize:(int)size
 {
 	NSLog(@"Tables Browser: Fetching page %d of %d rows from table %@.",
@@ -93,17 +91,13 @@
 	[pageSizeTextField setIntValue:size];
 	[self setLastDisplayedPageNumber:number];
 	[self setLastDisplayedTableName:tableName];
-	[self setLastUsedConnection:connection];
+	[self setLastUsedStorage:storage];
 	
-	FetchPageOperation * fpageOp = [FetchPageOperation fetchPageFrom:connection
-																	  withName:tableName
-																	   atIndex:number
-																	   andSize:size];
-	[fpageOp setCompletionBlock: ^ {
-		
+	[storage fetchPageFrom:tableName number:number ofSize:size withCompletionBlock: ^(DATA_PAGE data) {
 		[indicator stopAnimation:self];
-		if (fpageOp.errorCode == T_OK) {
-			
+		//display received page
+		DataPage * receivedPage = (DataPage *)data;
+		if (receivedPage) {
 			//unlock controls for page switching
 			if (number > 1) {
 				[prevPageButton setEnabled:YES];
@@ -112,20 +106,18 @@
 				[prevPageButton setEnabled:NO];
 			}
 			
-			if (fpageOp.stopIndex == fpageOp.totalRows - 1) {
+			if ([storage lastFetchedIndex] == [storage lastFetchedTotalIndexes] - 1) {
 				[nextPageButton setEnabled:NO];
 			}
 			else {
 				[nextPageButton setEnabled:YES];
 			}
 			
-			//display received page
-			DataPage * receivedPage = [fpageOp page];
-			if (receivedPage) {
+			if (receivedPage->rowsCount > 0) {
 				NSLog(@"Tables Browser: Received page with %d rows.", receivedPage->rowsCount);
 				
 				//update page info
-				int totalPages = [fpageOp totalRows] / size;
+				int totalPages = [storage lastFetchedTotalIndexes] / size;
 				if (totalPages == 0) {
 					totalPages = 1;
 				}
@@ -142,7 +134,7 @@
 				DataRow * emptyRow = row_new("dummy");
 				page_append(receivedPage, emptyRow);
 			}
-			
+		
 			//display received page with PageSource:setPage/reloadDataForView
 			[self setPage:receivedPage withTitle:tableName];
 			[self reloadDataForView:pageTableView];
@@ -159,24 +151,18 @@
 			[prevPageButton setEnabled:NO];
 			
 			NSMutableDictionary * dict = [NSMutableDictionary dictionary];
-			[dict setValue:[HyperTable errorFromCode:[fpageOp errorCode]] forKey:NSLocalizedDescriptionKey];
-			NSError * error = [NSError errorWithDomain:@"HyperTableBrowser" code:1 userInfo:dict];
+			[dict setValue:@"Failed to fetch cells page from storage." forKey:NSLocalizedDescriptionKey];
+			NSError * error = [NSError errorWithDomain:@"HyperTable" code:1 userInfo:dict];
 			[[NSApplication sharedApplication] presentError:error];
 		}
 		
 	} ];
-	
-	//start async operation
-	[indicator startAnimation:self];
-	[pageInfoField setStringValue:@"Fething data..."];
-	[[[NSApp delegate] operations] addOperation: fpageOp];
-	[fpageOp release];
 }
 
 - (IBAction)nextPage:(id)sender
 {
 	[self showPageFor:[self lastDisplayedTableName]
-	   fromConnection:[self lastUsedConnection]
+	   fromStorage:[self lastUsedStorage]
 	   withPageNumber:[self lastDisplayedPageNumber] + 1
 		  andPageSize:[pageSizeTextField intValue]];
 }
@@ -184,7 +170,7 @@
 - (IBAction)prevPage:(id)sender
 {
 	[self showPageFor:[self lastDisplayedTableName]
-	   fromConnection:[self lastUsedConnection]
+	   fromStorage:[self lastUsedStorage]
 	   withPageNumber:[self lastDisplayedPageNumber] - 1
 		  andPageSize:[pageSizeTextField intValue]];
 }
@@ -192,7 +178,7 @@
 - (IBAction)refresh:(id)sender
 {
 	[self showPageFor:[self lastDisplayedTableName]
-	   fromConnection:[self lastUsedConnection]
+	   fromStorage:[self lastUsedStorage]
 	   withPageNumber:[self lastDisplayedPageNumber]
 		  andPageSize:[pageSizeTextField intValue]];
 }

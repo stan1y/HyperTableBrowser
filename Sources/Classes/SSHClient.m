@@ -145,28 +145,16 @@
 	int rc = 0;
 	[ssh launch];
 	
-	//wait for ssh with timeout
-	int secondsToWait = 2;
-	int totalWaited = 0;
-	while (YES) {
-		if ([ssh isRunning]) {
-			sleep(secondsToWait);
-			totalWaited += secondsToWait;
-			
-			if (totalWaited >= 14) {
-				NSLog(@"Error: ssh command timed out!");
-				
-				[ssh terminate];
-				[ssh release];
-				return 254;
-			}
-		}
-		else
-			break;
-		
-	}
 	
-	[ssh waitUntilExit];
+	sleep(10);
+	if ([ssh isRunning]) {
+		//timeout need to set error message manually, since
+		//we're gonna kill child ssh
+		[ssh terminate];
+		[ssh release];
+		sshError = @"ssh command execution timed out.";
+		return 255;
+	}
 	
 	if ([ssh terminationReason] != NSTaskTerminationReasonExit) {
 		NSLog(@"Error: ssh child failed with uncaught signal");

@@ -11,12 +11,8 @@
 
 @implementation ModalDialog
 
-@synthesize modalFor;
-
 - (void) showModalForWindow:(NSWindow *)window
 {
-	[self setModalFor:window];
-	
 	[NSApp beginSheet:[[self view] window]
 	   modalForWindow:window
 		modalDelegate:self didEndSelector:nil contextInfo:nil];
@@ -30,14 +26,5 @@
 	[[[self view] window] orderOut:nil];
 }
 
-- (IBAction) hideModalForUsedWindow:(id)sender
-{
-	if ([self modalFor]) {
-		[self hideModalForWindow:[self modalFor]];
-	}
-	else {
-		NSLog(@"Can't hide modal dialog. No window assosiated.");
-	}
-}
 
 @end

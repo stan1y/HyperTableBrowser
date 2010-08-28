@@ -8,6 +8,7 @@
 
 #import "Service.h"
 #import "ServiceOperation.h"
+#import "Activities.h"
 
 @implementation Service
 
@@ -39,7 +40,8 @@
 {
 	ServiceOperation * sOp = [ServiceOperation startService:self];
 	[sOp setCompletionBlock:codeBlock];
-	[[[NSApp delegate] operations] addOperation:sOp];
+	
+	[[Activities sharedInstance] appendOperation:sOp withTitle:[NSString stringWithFormat:@"Stopping service %@ on server %@", [self valueForKey:@"serviceName"], [[self valueForKey:@"runsOnServer"] valueForKey:@"serviceName"]]];
 	[sOp release];
 }
 
@@ -47,7 +49,7 @@
 {
 	ServiceOperation * sOp = [ServiceOperation stopService:self];
 	[sOp setCompletionBlock:codeBlock];
-	[[[NSApp delegate] operations] addOperation:sOp];
+	[[Activities sharedInstance] appendOperation:sOp withTitle:[NSString stringWithFormat:@"Stopping service %@ on server %@", [self valueForKey:@"serviceName"], [[self valueForKey:@"runsOnServer"] valueForKey:@"serviceName"]]];
 	[sOp release];
 }
 
@@ -58,11 +60,11 @@
 
 #pragma mark Known Services
 
-+ (NSManagedObject *) masterService:(NSManagedObjectContext *)inContent
++ (Service *) masterService:(NSManagedObjectContext *)inContent
 						   onServer:(NSManagedObject *)server
 {
 	
-	NSManagedObject * service = [server serviceWithName:@"Master"];
+	Service * service = [server serviceWithName:@"Master"];
 	if (!service) {
 		service = [NSEntityDescription insertNewObjectForEntityForName:@"Service" 
 												inManagedObjectContext:inContent ];
@@ -75,10 +77,10 @@
 	return service;
 }
 
-+ (NSManagedObject *) rangerService:(NSManagedObjectContext *)inContent
++ (Service *) rangerService:(NSManagedObjectContext *)inContent
 						   onServer:(NSManagedObject *)server
 {
-	NSManagedObject * service = [server serviceWithName:@"Range Server"];
+	Service * service = [server serviceWithName:@"Range Server"];
 	if (!service) {
 		service = [NSEntityDescription insertNewObjectForEntityForName:@"Service" 
 												inManagedObjectContext:inContent ];
@@ -91,7 +93,7 @@
 	return service;
 }
 
-+ (NSManagedObject *) dfsBrokerService:(NSManagedObjectContext *)inContent
++ (Service *) dfsBrokerService:(NSManagedObjectContext *)inContent
 							  onServer:(NSManagedObject *)server
 							   withDfs:(NSString *)dfs
 {
@@ -111,10 +113,10 @@
 	return service;
 }
 
-+ (NSManagedObject *) hyperspaceService:(NSManagedObjectContext *)inContent
++ (Service *) hyperspaceService:(NSManagedObjectContext *)inContent
 							   onServer:(NSManagedObject *)server
 {
-	NSManagedObject * service = [server serviceWithName:@"Hyperspace"];
+	Service * service = [server serviceWithName:@"Hyperspace"];
 	if (!service) {
 		service = [NSEntityDescription insertNewObjectForEntityForName:@"Service" 
 												inManagedObjectContext:inContent ];
@@ -127,10 +129,10 @@
 	return service;
 }
 
-+ (NSManagedObject *) thriftService:(NSManagedObjectContext *)inContent
++ (Service *) thriftService:(NSManagedObjectContext *)inContent
 						   onServer:(NSManagedObject *)server
 {
-	NSManagedObject * service = [server serviceWithName:@"Thrift API"];
+	Service * service = [server serviceWithName:@"Thrift API"];
 	if (!service) {
 		service = [NSEntityDescription insertNewObjectForEntityForName:@"Service" 
 												inManagedObjectContext:inContent ];

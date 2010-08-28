@@ -7,9 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <HyperTable.h>
-#include <HyperThriftWrapper.h>
-#include <HyperThriftHql.h>
+#import "HyperTable.h"
 
 @interface ConnectOperation : NSOperation {
 	NSString * ipAddress;

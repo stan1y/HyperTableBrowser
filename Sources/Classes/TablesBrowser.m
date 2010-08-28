@@ -9,6 +9,7 @@
 #import "TablesBrowser.h"
 #import "DeleteRowOperation.h"
 #import "HyperTable.h"
+#import "Activities.h"
 
 @implementation TablesBrowser
 
@@ -32,28 +33,34 @@
 @synthesize createNewTableDialog;
 @synthesize insertNewRowDialog;
 
+//	Singleton
 static TablesBrowser * sharedBrowser = nil;
 + (TablesBrowser *) sharedInstance {
-    if(sharedBrowser == nil) {
-        sharedBrowser = [[TablesBrowser alloc] _init];
-    }
     return sharedBrowser;
 }
 
-- (id) _init
+- (id) _initWithWindow:(id)window
 {
-	if (!(self = [super init]))
+	if (!(self = [super initWithWindow:window]))
 		return nil;
 	
-	NSLog(@"Initializing Tables Browser.");	
+	NSLog(@"Initializing Tables Browser [%@]", window);	
+	allowNewTable = 0;
+	allowDropTable = 0;
+	allowRefresh = 0;
+	allowInsertRow = 0;
+	allowDeleteRow = 0;
+	
 	return self;
 }
 
-- (id) init 
-{
+- (id) initWithWindow:(id)window
+{	
+	if(sharedBrowser == nil) {
+        sharedBrowser = [[TablesBrowser alloc] _initWithWindow:window];
+    }
 	return [TablesBrowser sharedInstance];
 }
-
 
 - (void) dealloc
 {
@@ -110,9 +117,7 @@ static TablesBrowser * sharedBrowser = nil;
 - (IBAction)deleteSelectedRow:(id)sender
 {
 	if ([[self pageSource] selectedRowIndex] >= 0) {
-		NSLog([NSString stringWithFormat:@"Deleteing row with key \"%@\" from table \"%@\".", 
-			   [[self pageSource] selectedRowKeyValue], 
-			   [[tablesList selectedCellInColumn:0] stringValue]]);
+		NSLog(@"Deleteing row with key '%@' from table '%@'.", [[self pageSource] selectedRowKeyValue], [[tablesList selectedCellInColumn:0] stringValue]);
 		
 		id broker = [self selectedBroker];
 		if (!broker) {
@@ -136,7 +141,7 @@ static TablesBrowser * sharedBrowser = nil;
 		}];
 		
 		//start async delete
-		[[[NSApp delegate] operations] addOperation:delOp];
+		[[Activities sharedInstance] appendOperation:delOp withTitle:[NSString stringWithFormat:@"Deleting row with key %@ from table %@ on server %@", [[self pageSource] selectedRowKeyValue], [[tablesList selectedCellInColumn:0] stringValue], [broker valueForKey:@"name"]]];
 		[delOp release];
 	}
 	else {
@@ -215,7 +220,7 @@ static TablesBrowser * sharedBrowser = nil;
 	[[self pageSource] deselectRow:sender];
 	
 	[pageSource showFirstPageFor:[[tablesList selectedCellInColumn:0] stringValue]
-				  fromConnection:[self selectedBroker]];
+				  fromStorage:[self selectedBroker]];
 }
 
 @end

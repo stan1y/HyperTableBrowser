@@ -7,9 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <PageSource.h>
-#import <HyperTable.h>
-#import <FetchPageOperation.h>
+#import "PageSource.h"
 
 @interface TablesBrowserPageSource : PageSource {
 	//view used to display source
@@ -17,7 +15,7 @@
 	
 	//last used args for showPageFor
 	NSString * lastDisplayedTableName;
-	HyperTable * lastUsedConnection;
+	NSManagedObject<CellStorage> * lastUsedStorage;
 	int lastDisplayedPageNumber;
 	
 	//paging controls
@@ -41,7 +39,7 @@
 @property (assign) int lastDisplayedPageNumber;
 
 @property (nonatomic, retain) NSString * lastDisplayedTableName;
-@property (nonatomic, retain) HyperTable * lastUsedConnection;
+@property (nonatomic, retain) NSManagedObject<CellStorage> * lastUsedStorage;
 
 @property (nonatomic, retain) IBOutlet NSProgressIndicator * indicator;
 @property (nonatomic, retain) IBOutlet NSButton * refreshButton;
@@ -57,10 +55,10 @@
 @property (nonatomic) int selectedRowIndex;
 
 - (void)showFirstPageFor:(NSString *)tableName
-		  fromConnection:(HyperTable *)connection;
+			  fromStorage:(NSManagedObject<CellStorage> *)storage;
 
 - (void)showPageFor:(NSString *)tableName 
-	 fromConnection:(HyperTable *)connection
+		 fromStorage:(NSManagedObject<CellStorage> *)storage
 	 withPageNumber:(int)number
 		andPageSize:(int)size;
 

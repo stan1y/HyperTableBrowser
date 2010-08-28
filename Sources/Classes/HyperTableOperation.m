@@ -37,10 +37,6 @@
 	//access over ssh
 	SSHClient * sshClient = [hypertable remoteShell];
 	if (!sshClient) {
-		[self setErrorCode:255];
-		[self setErrorMessage:
-		 [NSString stringWithFormat:@"Failed to establish ssh connection to server at %@.", 
-		  [hypertable valueForKey:@"name"]] ];
 		//set status to error
 		[hypertable setValue:[NSNumber numberWithInt:1] forKey:@"status"];
 		return;
@@ -69,7 +65,6 @@
 	if (errorCode) {
 		NSLog(@"Failed to stat /opt/hypertable/current. Code: %d, Error: %s", errorCode,
 			  [[sshClient error] UTF8String]);
-		[self setErrorMessage:[sshClient error]];
 		[hypertable setValue:[NSNumber numberWithInt:1] forKey:@"status"];
 		[[sshClient sshLock] unlock];
 		return;
@@ -100,10 +95,8 @@
 	if (errorCode) {
 		NSLog(@"Failed to list available services. Code: %d, Error: %s", errorCode,
 			  [[sshClient error] UTF8String]);
-		[self setErrorMessage:[sshClient error]];
 		[hypertable setValue:[NSNumber numberWithInt:1] forKey:@"status"];
 		[[sshClient sshLock] unlock];
-		[context release];
 		return;
 	}
 	

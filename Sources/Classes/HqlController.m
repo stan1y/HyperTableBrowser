@@ -9,6 +9,7 @@
 #import "HqlController.h"
 #import "HyperTable.h"
 #import "HqlQueryOperation.h"
+#import "Activities.h"
 
 @implementation HqlController
 
@@ -91,7 +92,7 @@
 	//start operation
 	[indicator startAnimation:self];
 	[queryStatus setStringValue:@"Executing query..."];
-	[[[NSApp delegate] operations] addOperation: hqlOp];
+	[[Activities sharedInstance] appendOperation: hqlOp withTitle:@"Executing HQL Query..." ];
 	[hqlOp release];
 }
 

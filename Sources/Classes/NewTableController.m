@@ -34,23 +34,17 @@
 
 - (void) createTableWithName:(NSString *)tableName
 				   andSchema:(NSString*)schemaContent
-					onServer:(HyperTable *)connection
+					onServer:(HyperTable *)server
 {
 	NSLog(@"Creating new table \"%s\" on %s\n", [tableName UTF8String],
-		  [[connection ipAddress] UTF8String]);
+		  [[server ipAddress] UTF8String]);
 	
 	int rc = new_table([connection thriftClient], 
 						  [tableName UTF8String], 
 						  [schemaContent UTF8String]);
-	[self indicateDone];
-	
 	if (rc != T_OK) {
-		[self setMessage:[HyperTable errorFromCode:rc]];
 		return;
 	}
-	//success
-	[self setMessage:[NSString stringWithFormat:@"New table %s was successfully created",
-					  [tableName UTF8String]]];
 	
 }
 

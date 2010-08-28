@@ -8,10 +8,12 @@
 
 #import "HyperTable.h"
 #import "FetchTablesOperation.h"
+#import "FetchPageOperation.h"
 #import "HyperTableOperation.h"
 #import "ConnectOperation.h"
 #import "Service.h"
 #import "ClustersBrowser.h"
+#import "Activities.h"
 
 @implementation HyperTable
 
@@ -19,6 +21,10 @@
 @synthesize hqlClient;
 @synthesize connectionLock;
 
+@synthesize lastFetchedIndex;
+@synthesize lastFetchedTotalIndexes;
+
+// Class Methods
 
 + (NSString *)errorFromCode:(int)code {
 	switch (code) {
@@ -45,49 +51,11 @@
 	}
 }
 
-#pragma mark Initialization
-- (void) awakeFromFetch
-{
-}
-
 + (NSEntityDescription *) hypertableDescription
 {
 	return [NSEntityDescription entityForName:@"HyperTable" 
 					   inManagedObjectContext:[[NSApp delegate] managedObjectContext]];
 }
-
-+ (NSEntityDescription *) tableSchemaDescription
-{
-	return [NSEntityDescription entityForName:@"TableSchema" 
-					   inManagedObjectContext:[[NSApp delegate] managedObjectContext]];
-}
-
-- (id) init
-{
-	if (self = [super init] ) {
-		connectionLock = [[NSLock alloc] init];
-	}
-	return self;
-}
-
-- (void) dealloc
-{
-	[tables release];
-	[connectionLock release];
-	
-	if (thriftClient) {
-		free(thriftClient);
-		thriftClient = nil;
-	}
-	
-	if (hqlClient) {
-		free(hqlClient);
-		hqlClient = nil;
-	}
-	[super dealloc];
-}
-
-#pragma mark HyperTable API
 
 + (NSArray *) hyperTableBrokersInCurrentCluster;
 {
@@ -111,7 +79,7 @@
 	[r setPredicate:[NSPredicate predicateWithFormat:@"serviceName == \"Thrift API\" && runsOnServer.belongsTo = %@", cluster]];
 	NSSortDescriptor * sort = [[[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES] autorelease];
 	[r setSortDescriptors:[NSArray arrayWithObjects:sort, nil]];
-	 
+	
 	NSError * err = nil;
 	NSArray * servicesArray = [[[NSApp delegate] managedObjectContext] executeFetchRequest:r error:&err];
 	if (err) {
@@ -155,134 +123,211 @@
 	}
 	[err release];
 	[r release];
-
+	
 	return array;
 }
 
 
-- (NSArray *)tables
+
+//	Initialization
+
+- (id) init
 {
-	if (!tables) {
-		return [NSArray array];
+	if (self = [super init] ) {
+		connectionLock = [[NSLock alloc] init];
+	}
+	return self;
+}
+
+- (void) dealloc
+{
+	[connectionLock release];
+	
+	if (thriftClient) {
+		free(thriftClient);
+		thriftClient = nil;
 	}
 	
-	//make sure tables were updated right after conenction
-	[connectionLock lock];
-	NSArray * copy = [NSArray arrayWithArray:tables];
-	//[copy retain];
-	[connectionLock unlock];
-	return copy;
-}
-
-- (void) setTables:(NSArray *)array
-{
-	if ([connectionLock tryLock]) {
-		NSLog(@"Connection is not locked for tables update!");
-		return;
+	if (hqlClient) {
+		free(hqlClient);
+		hqlClient = nil;
 	}
-	[tables release];
-	tables = [NSMutableArray arrayWithArray:array];
-	[tables retain];
+	[super dealloc];
 }
 
-#pragma mark ClusterMemberProtocol Implementation
+//	ClusterMember implementation
 
-- (void) disconnect
-{
-	if ( ![self isConnected] ) {
-		NSLog(@"disconnect: Not connected to %@:%d.", [self valueForKey:@"ipAddress"],
-			  [[self valueForKey:@"thriftPort"] intValue]);
-		return;
-	}
-	destroy_thrift_client(thriftClient);
-	destroy_hql_client(hqlClient);
-}
-
-- (void) updateWithCompletionBlock:(void (^)(void)) codeBlock;
+- (void) updateStatusWithCompletionBlock:(void (^)(BOOL))codeBlock;
 {
 	HyperTableStatusOperation * op = [HyperTableStatusOperation getStatusOfHyperTable:self];
-	[op setCompletionBlock: codeBlock];
-	[[[NSApp delegate] operations] addOperation:op];
+	[op setCompletionBlock: ^{
+		if ([op errorCode] != 0) {
+			codeBlock(NO);
+		}
+		else {
+			codeBlock(YES);
+		}
+
+	}];
+	[[Activities sharedInstance] appendOperation:op withTitle:[NSString stringWithFormat:@"Updating %@ [%@]", [self valueForKey:@"name"], [self class]]];
 	[op release];
 }
 
-- (void) updateTablesWithCompletionBlock:(void (^)(void))codeBlock
-{
-	if ( ![self isConnected]) {
-		NSLog(@"Can't update tables on HyperTable. Not connected to broker!");
-		return;
-	}
-	
-	FetchTablesOperation * fetchTablesOp = [FetchTablesOperation fetchTablesFrom:self];
-	[fetchTablesOp setCompletionBlock:codeBlock];
-	[[[NSApp delegate] operations] addOperation: fetchTablesOp];
-	[fetchTablesOp release];
-}
-
-- (void) reconnectWithCompletionBlock:(void (^)(void)) codeBlock
-{
-	if ( [self isConnected] ) {
-		NSLog(@"Already connected to %@:%d.", [self valueForKey:@"ipAddress"],
-			  [[self valueForKey:@"thriftPort"] intValue]);
-		return;
-	}
-
-	//reconnect server with saved values
-	NSLog(@"Opening connection to HyperTable Thrift Broker at %@:%d...",
-		  [self valueForKey:@"ipAddress"],
-		  [[self valueForKey:@"thriftPort"] intValue]);		
-	ConnectOperation * connectOp = [ConnectOperation connect:self 
-													toBroker:[self valueForKey:@"ipAddress"]
-													  onPort:[[self valueForKey:@"thriftPort"] intValue]];
-	[connectOp setCompletionBlock:codeBlock];
-	//add operation to queue
-	[[[NSApp delegate] operations] addOperation: connectOp];
-	[connectOp release];
-}
-
-- (BOOL)isConnected 
-{
-	return ( (thriftClient != nil) && (hqlClient != nil) );
-}
-
-#pragma mark Table Schema API
-
-+ (NSArray *)listSchemes
+- (NSArray *)services
 {
 	NSFetchRequest * r = [[NSFetchRequest alloc] init];
-	[r setEntity:[HyperTable tableSchemaDescription]];
+	[r setEntity:[NSEntityDescription entityForName:@"Service" 
+							 inManagedObjectContext:[self managedObjectContext]]];
 	[r setIncludesPendingChanges:YES];
+	[r setPredicate:[NSPredicate predicateWithFormat:@"runsOnServer = %@", self]];
+	NSSortDescriptor * sort = [[[NSSortDescriptor alloc] initWithKey:@"serviceName" ascending:YES] autorelease];
+	[r setSortDescriptors:[NSArray arrayWithObjects:sort, nil]];
+	
 	NSError * err = nil;
-	NSManagedObjectContext * context = [[NSApp delegate] managedObjectContext];
-	NSArray * schemesArray = [context executeFetchRequest:r error:&err];
+	NSArray * servicesArray = [[self managedObjectContext] executeFetchRequest:r error:&err];
 	if (err) {
-		NSString * msg = @"listSchemes : Failed to get schemes from datastore";
-		NSLog(@"Error: %s", [msg UTF8String]);
+		NSLog(@"Error: Failed to get services on server %@.", [self valueForKey:@"name"]);
 		[err release];
 		[r release];
 		return nil;
 	}
 	[err release];
 	[r release];
-	[context release];
-
-	return schemesArray;
-}
-
-+ (NSManagedObject *)getSchemaByName:(NSString *)name
-{
-	NSArray * schemes = [self listSchemes];
-	for (NSManagedObject * schema in schemes) {
-		if ( [schema valueForKey:@"name"] == name) {
-			return schema;
-		}
+	if (![servicesArray count]) {
+		return nil;
 	}
-	return nil;
+	
+	return servicesArray;
 }
 
-- (NSArray *) describeColumns:(NSManagedObject *)schema
+- (Service *) serviceWithName:(NSString *)name;
 {
-	return [NSArray array];
+	NSFetchRequest * r = [[NSFetchRequest alloc] init];
+	[r setEntity:[Service serviceDescription]];
+	[r setIncludesPendingChanges:YES];
+	[r setPredicate:[NSPredicate predicateWithFormat:@"runsOnServer = %@ && serviceName = %@", 
+					 self, 
+					 name] ];
+	NSSortDescriptor * sort = [[[NSSortDescriptor alloc] initWithKey:@"serviceName" ascending:YES] autorelease];
+	[r setSortDescriptors:[NSArray arrayWithObjects:sort, nil]];
+	
+	NSError * err = nil;
+	NSArray * servicesArray = [[self managedObjectContext] executeFetchRequest:r error:&err];
+	if (err) {
+		NSLog(@"Error: Failed to get services on server %@.", [self valueForKey:@"name"]);
+		[err release];
+		[r release];
+		return nil;
+	}
+	[err release];
+	[r release];
+	if (![servicesArray count]) {
+		return nil;
+	}
+	else if ([servicesArray count] > 1) {
+		NSLog(@"Multiple (%d) services with name \"%@\" found on server \"%@\"",
+			  [servicesArray count], name, [self valueForKey:@"name"]);
+	}
+	return [servicesArray objectAtIndex:0];
 }
+
+
+// CellStorage implementation
+
+- (BOOL)isConnected 
+{
+	return ( (thriftClient != nil) && (hqlClient != nil) );
+}
+
+- (void) _updateTablesWithCompletionBlock:(void (^)(void))codeBlock
+{
+	FetchTablesOperation * fetchTablesOp = [FetchTablesOperation fetchTablesFrom:self];
+	[fetchTablesOp setCompletionBlock:codeBlock];
+	[[Activities sharedInstance] appendOperation:fetchTablesOp withTitle:[NSString stringWithFormat:@"Update tables on server %@(%@)", [self valueForKey:@"name"], [self class]]];
+	[fetchTablesOp release];
+}
+
+- (void) updateTablesWithCompletionBlock:(void (^)(void))codeBlock
+{
+	if ( ![self isConnected]) {
+		//reconnect server with saved values
+		NSLog(@"Opening connection to HyperTable Thrift Broker at %@:%d...",
+			  [self valueForKey:@"ipAddress"],
+			  [[self valueForKey:@"thriftPort"] intValue]);		
+		ConnectOperation * connectOp = [ConnectOperation connect:self 
+														toBroker:[self valueForKey:@"ipAddress"]
+														  onPort:[[self valueForKey:@"thriftPort"] intValue]];
+		[connectOp setCompletionBlock: ^{
+			//update after connected
+			if ([self isConnected]) {
+				[self _updateStatusWithCompletionBlock:codeBlock];
+			}
+		}];
+				
+		//add operation to queue
+		[[Activities sharedInstance] appendOperation:connectOp withTitle:[NSString stringWithFormat:@"Reconnecting to server %@(%@)", [self valueForKey:@"name"], [self class]]];
+		[connectOp release];	
+	}
+	else {
+		//it was connected
+		[self _updateTablesWithCompletionBlock:codeBlock];
+	}
+
+}
+
+- (NSArray *) tables
+{
+	NSFetchRequest * r = [[NSFetchRequest alloc] init];
+	[r setEntity:[NSEntityDescription entityForName:@"Table" 
+							 inManagedObjectContext:[self managedObjectContext]]];
+	[r setIncludesPendingChanges:YES];
+	[r setPredicate:[NSPredicate predicateWithFormat:@"onServer = %@", self]];
+	NSSortDescriptor * sort = [[[NSSortDescriptor alloc] initWithKey:@"tableID" ascending:YES] autorelease];
+	[r setSortDescriptors:[NSArray arrayWithObjects:sort, nil]];
+	
+	NSError * err = nil;
+	NSArray * servicesArray = [[self managedObjectContext] executeFetchRequest:r error:&err];
+	if (err) {
+		NSLog(@"Error: Failed to get tables list from server  %@.", [self valueForKey:@"name"]);
+		[err release];
+		[r release];
+		return nil;
+	}
+	[err release];
+	[r release];
+	if (![servicesArray count]) {
+		return nil;
+	}
+	
+	return servicesArray;
+}
+
+- (void)fetchPageFrom:(id)tableID number:(int)number ofSize:(int)size 
+	   withCompletionBlock:(void (^)(DATA_PAGE))codeBlock
+{
+	FetchPageOperation * fpageOp = [FetchPageOperation fetchPageFrom:self
+															withName:tableID
+															 atIndex:number
+															 andSize:size];
+	[fpageOp setCompletionBlock: ^{
+		if ([fpageOp errorCode] == T_OK ) {
+			DataPage * receivedPage = [fpageOp page];
+			if (receivedPage) {
+				//call user's code block with received page
+				codeBlock(receivedPage);
+			}
+		}
+	}];
+	
+	//start async operation
+	[[Activities sharedInstance] appendOperation: fpageOp withTitle:[NSString stringWithFormat:@"Fetching page from server %@", [self valueForKey:@"name"]]];
+	[fpageOp release];
+	
+}
+
+- (void) fetchCellsFrom:(id)tableID forKeys:(NSArray *)keys withCompletionBlock:(void (^)(NSArray *))codeBlock
+{
+}
+
 
 @end

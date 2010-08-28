@@ -7,7 +7,7 @@
 //
 
 #import "Cluster.h"
-#import "ClusterStatusOperation.h"
+#import "ClustersBrowser.h"
 
 @implementation Cluster
 
@@ -89,10 +89,12 @@
 
 - (void) updateWithCompletionBlock:(void (^)(void)) codeBlock
 {
-	ClusterStatusOperation * op = [ClusterStatusOperation getStatusOfCluster:self];
-	[op setCompletionBlock:codeBlock];
-	[[[NSApp delegate] operations] addOperation:op];
-	[op release];
+	for (Server * member in [self members]) {
+		[member updateWithCompletionBlock:^{
+			//update table after status change
+			[[[ClustersBrowser sharedInstance] membersTable] reloadData];
+		}];
+	}
 }
 
 - (void) disconnect {}

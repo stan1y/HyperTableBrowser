@@ -10,14 +10,8 @@
 
 
 @interface ModalDialog : NSViewController {
-	NSWindow * modalFor;
 }
-
-@property (nonatomic, retain) NSWindow * modalFor;
-
 - (void) showModalForWindow:(NSWindow *)window;
 - (void) hideModalForWindow:(NSWindow *)window;
-
-- (IBAction) hideModalForUsedWindow:(id)sender;
 
 @end

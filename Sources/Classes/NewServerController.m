@@ -9,6 +9,7 @@
 #import "NewServerController.h"
 #import "HyperTableOperation.h"
 #import "ClustersBrowser.h"
+#import "Activities.h"
 
 @implementation NewServerController
 
@@ -19,9 +20,11 @@
 @synthesize userName;
 @synthesize privateKeyPath;
 @synthesize dialogTitle;
+@synthesize typeSelector;
 
 - (void) dealloc
 {
+	[typeSelector release];
 	[errorMessage release];
 	[name release];
 	[ipAddress release];
@@ -48,13 +51,7 @@
 
 - (IBAction) cancel:(id)sender
 {
-	//quit app if no clusters
-	if ( ![[Cluster clusters] count] ) {
-		NSLog(@"Quiting application, New Server Dialog was canceled with no defined clusters");
-		[NSApp terminate:nil];
-	}
-	
-	[self hideModalForUsedWindow];
+	[self hideModalForWindow:[[ClustersBrowser sharedInstance] window]];
 }
 
 - (IBAction) saveServer:(id)sender
@@ -79,8 +76,22 @@
 	NSManagedObjectContext * context = [[NSApp delegate] managedObjectContext];
 	
 	//define new server for cluser
-	HyperTable * newServer = [[HyperTable alloc] initWithEntity:[HyperTable hypertableDescription]
-								 insertIntoManagedObjectContext:context];
+	Server<ClusterMember> * newServer = nil;
+	if ([[[typeSelector selectedItem] title] isEqual:@"HyperTable"]) {
+		newServer = [[HyperTable alloc] initWithEntity:[HyperTable hypertableDescription]
+						insertIntoManagedObjectContext:context];
+	}
+	else if ([[[typeSelector selectedItem] title] isEqual:@"HBase"]) {
+		newServer = [[Hadoop alloc] initWithEntity:[Hadoop hadoopDescription]
+						insertIntoManagedObjectContext:context];
+	}
+	else {
+		[errorMessage setHidden:NO];
+		[errorMessage setStringValue:@"Unknown type specified"];
+		return;
+	}
+
+	
 	[newServer setValue:[name stringValue] forKey:@"name"];
 	[newServer setValue:@"" forKey:@"comment"];
 	[newServer setValue:[NSNumber numberWithInt:0] forKey:@"status"];		
@@ -95,21 +106,22 @@
 	}
 	
 	//get status of newServer
-	HyperTableStatusOperation * newServerStatus = [HyperTableStatusOperation getStatusOfHyperTable:newServer ];
-	[newServerStatus setCompletionBlock: ^ {
-		
-		if ([newServerStatus errorCode]) {
+	[newServer updateStatusWithCompletionBlock:^(BOOL success) {
+		if ( !success ) {
 			NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-			[dict setValue:[newServerStatus errorMessage] forKey:NSLocalizedDescriptionKey];
-			[dict setValue:[newServerStatus errorMessage] forKey:NSLocalizedFailureReasonErrorKey];
-			NSError *error = [NSError errorWithDomain:@"" code:[newServerStatus errorCode] userInfo:dict];
+			[dict setValue:@"Failed to update status of a new server." forKey:NSLocalizedDescriptionKey];
+			NSError *error = [NSError errorWithDomain:@"" code:5 userInfo:dict];
 			[NSApp presentError:error];			
 		}
+		else {
+			//status now is error
+			[[ClustersBrowser sharedInstance] refreshMembersList];
+		}
+
 	}];
-	[[[NSApp delegate] operations] addOperation:newServerStatus];
-	[newServerStatus release];
 	
 	Cluster * cluster = nil;
+	
 	if ( createNewCluster ) {
 		//define new cluster
 		cluster = [[Cluster alloc] initWithEntity:[Cluster clusterDescription]
@@ -123,7 +135,6 @@
 	else {
 		cluster = [[ClustersBrowser sharedInstance] selectedCluster];
 	}
-
 	
 	//add to cluster
 	[newServer setValue:cluster forKey:@"belongsTo"];
@@ -133,17 +144,28 @@
 	NSError * error = nil;
 	if (![context commitEditing]) 
 	{
-		//FIXME: Show error dialog
-		//[NSString stringWithFormat:@"%@:%@ unable to commit editing before saving", [self class], _cmd]
+		NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+		[dict setValue:[NSString stringWithFormat:@"%@:%@ unable to commit editing before saving", [self class], _cmd] forKey:NSLocalizedDescriptionKey];
+		NSError *error = [NSError errorWithDomain:@"" code:5 userInfo:dict];
+		[NSApp presentError:error];			
     }
     if (![context save:&error]) {
         [[NSApplication sharedApplication] presentError:error];
     }
-	[context release];
 	
 	//close dialog
-	[NSApp endSheet:[[self view] window]];
-	[[[self view] window] orderOut:sender];
+	[self hideModalForWindow:[[ClustersBrowser sharedInstance] window]];
+	
+	if ( createNewCluster ) {
+		//select newly defined cluster
+		[[ClustersBrowser sharedInstance] refreshClustersList];
+		[[[ClustersBrowser sharedInstance] clustersSelector] selectItemWithTitle:[cluster valueForKey:@"name"]];
+	}
+	else {
+		//update memebers of current cluster
+		[[ClustersBrowser sharedInstance] refreshMembersList];
+	}
+
 }
 
 @end

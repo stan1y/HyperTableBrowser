@@ -85,7 +85,7 @@
 
 - (IBAction) operateService:(id)sender
 {
-	Server * selectedServer = [[ClustersBrowser sharedInstance] selectedServer];
+	Server<ClusterMember> * selectedServer = [[ClustersBrowser sharedInstance] selectedServer];
 	if (selectedServer) {
 		NSArray * services = [selectedServer services];
 		
@@ -121,7 +121,6 @@
 			NSLog(@"Inspector: starting service %@", [selectedService valueForKey:@"serviceName"]);
 			[selectedService start: ^{
 				
-				[[ClustersBrowser sharedInstance] indicateDone];
 				if (![selectedService isRunning]) {
 					NSMutableDictionary * dict = [NSMutableDictionary dictionary];
 					[dict setValue:[NSString stringWithFormat:@"Failed to start service %@", [selectedService valueForKey:@"serviceName"]] forKey:NSLocalizedDescriptionKey];
@@ -186,7 +185,7 @@
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
-	Server * selected = [[ClustersBrowser sharedInstance] selectedServer];
+	Server<ClusterMember> * selected = [[ClustersBrowser sharedInstance] selectedServer];
 	if (selected) {
 		return [[selected services] count];
 	}
@@ -198,7 +197,7 @@
 			row:(NSInteger)rowIndex
 {
 	
-	Server * selectedServer = [[ClustersBrowser sharedInstance] selectedServer];
+	Server<ClusterMember> * selectedServer = [[ClustersBrowser sharedInstance] selectedServer];
 	if (selectedServer) {
 		NSArray * services = [selectedServer services];
 		
@@ -241,7 +240,7 @@
 {
 	if([[tableColumn identifier] isEqual:@"control"] && [cell isKindOfClass:[NSComboBoxCell class]])
 	{
-		Server * selectedServer = [[ClustersBrowser sharedInstance] selectedServer];
+		Server<ClusterMember> * selectedServer = [[ClustersBrowser sharedInstance] selectedServer];
 		if (selectedServer) {
 			NSArray * services = [selectedServer services];
 			[cell setRepresentedObject:[services objectAtIndex:index]];

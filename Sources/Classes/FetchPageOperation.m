@@ -114,6 +114,11 @@
 			  [[HyperTable errorFromCode:rc] UTF8String]);
 	}
 	else {
+		//set CellStorage properties
+		//for hypertable
+		[hypertable setLastFetchedIndex:stopIndex];
+		[hypertable setLastFetchedTotalIndexes:totalRows];
+		
 		NSLog(@"Successfully received page with %d row(s) of %d requested.\n",
 			  page->rowsCount, pageSize);
 	}

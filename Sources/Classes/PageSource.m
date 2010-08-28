@@ -8,6 +8,7 @@
 
 #import "PageSource.h"
 #import "ClustersBrowser.h"
+#import "Activities.h"
 
 @implementation PageSource
 
@@ -189,7 +190,7 @@
 													   atRow:rowIndex 
 												   andColumn:[aTableColumn identifier] 
 											  onServer:[[ClustersBrowser sharedInstance] selectedServer]];
-	[[[NSApp delegate] operations] addOperation: setRowOp];
+	[[Activities sharedInstance] appendOperation: setRowOp withTitle:[NSString stringWithFormat:@"Setting cell value in column %@ at row index %d on server %@", [aTableColumn identifier], [[[ClustersBrowser sharedInstance] selectedServer] valueForKey:@"name"] ]];
 	[setRowOp release];
 	
 }

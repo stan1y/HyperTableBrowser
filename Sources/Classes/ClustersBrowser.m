@@ -23,27 +23,29 @@
 
 @synthesize inspector;
 
-- (id) _init
+// Singleton
+
+static ClustersBrowser * sharedBrowser = nil;
++ (ClustersBrowser *) sharedInstance {
+    return sharedBrowser;
+}
+
+- (id) _initWithWindow:(id)window
 {
-	if (!(self = [super init]))
+	if (!(self = [super initWithWindow:window]))
 		return nil;
 	
-	NSLog(@"Initializing Clusters Browser.");	
+	NSLog(@"Initializing Clusters Browser [%@]", window);	
 	selectedServerIndex = 0;
 	return self;
 }
 
-- (id) init 
-{
-	return [ClustersBrowser sharedInstance];
-}
-
-static ClustersBrowser * sharedBrowser = nil;
-+ (ClustersBrowser *) sharedInstance {
-    if(sharedBrowser == nil) {
-        sharedBrowser = [[ClustersBrowser alloc] _init];
+- (id) initWithWindow:(id)window
+{	
+	if(sharedBrowser == nil) {
+        sharedBrowser = [[ClustersBrowser alloc] _initWithWindow:window];
     }
-    return sharedBrowser;
+	return [ClustersBrowser sharedInstance];
 }
 
 - (void) dealloc
@@ -58,7 +60,7 @@ static ClustersBrowser * sharedBrowser = nil;
 	[super dealloc];
 }
 
-- (void) populateClustersCombo
+- (void) refreshClustersList
 {
 	[clustersSelector removeAllItems];
 	for (Cluster * c in [Cluster clusters]) {
@@ -66,16 +68,16 @@ static ClustersBrowser * sharedBrowser = nil;
 	}
 }
 
-- (void) awakeFromNib
+- (void) refreshMembersList
 {
-	//define cluster if none
-	if ( ![[Cluster clusters] count] ) {
-		[self defineNewCluster:nil];
-	}
-	
-	[self populateClustersCombo];
 	[membersTable reloadData];
 	[[self inspector] refresh:nil];
+}
+
+- (void) awakeFromNib
+{	
+	[self refreshClustersList];
+	[self refreshMembersList];
 }
 
 - (Cluster *) selectedCluster
@@ -86,7 +88,7 @@ static ClustersBrowser * sharedBrowser = nil;
 	return nil;
 }
 
-- (Server *) selectedServer
+- (Server<ClusterMember> *) selectedServer
 {
 	Cluster * cl = [self selectedCluster];
 	if (cl) {
@@ -127,15 +129,8 @@ static ClustersBrowser * sharedBrowser = nil;
 	Server * currentServer = [self selectedServer];
 	if (currentServer) {		
 		[currentServer updateWithCompletionBlock:^ {
-			if ( [[currentServer valueForKey:@"status"] intValue] != 0) {
-				NSString * message = [NSString stringWithFormat:@"Failed to update %@", [currentServer valueForKey:@"name"]];
-				NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-				[dict setValue:message forKey:NSLocalizedDescriptionKey];
-				
-				NSError *error = [NSError errorWithDomain:@"ClustersBrowser" code:1 userInfo:dict];
-				[NSApp presentError:error];		
-			}
-			else {
+			//reload table on success
+			if ( [[currentServer valueForKey:@"status"] intValue] == 0) {
 				[membersTable reloadData];
 				[[self inspector] refresh:nil];
 			}

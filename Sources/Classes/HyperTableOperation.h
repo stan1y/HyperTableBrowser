@@ -13,9 +13,6 @@
 
 @interface HyperTableStatusOperation : NSOperation {
 	HyperTable * hypertable;
-	
-	int errorCode;
-	NSString * errorMessage;
 }
 @property (nonatomic, retain) NSString * errorMessage;
 @property (nonatomic, retain) HyperTable * hypertable;

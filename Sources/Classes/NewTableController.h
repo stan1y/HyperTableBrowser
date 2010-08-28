@@ -24,7 +24,6 @@
 @property (nonatomic, retain) HyperTable * connection;
 @property (nonatomic, retain) IBOutlet NSTextField * schemaContents;
 @property (nonatomic, retain) IBOutlet NSButton * createButton;
-@property (nonatomic, retain) IBOutlet NSPopUpButton * serverSelector;
 @property (nonatomic, retain) IBOutlet NSTableView * schemasView;
 @property (nonatomic, retain) IBOutlet NSTextField * tableNameField;
 

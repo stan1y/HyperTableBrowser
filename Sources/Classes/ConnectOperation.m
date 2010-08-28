@@ -7,6 +7,8 @@
 //
 
 #import "ConnectOperation.h"
+#include <HyperThriftWrapper.h>
+#include <HyperThriftHql.h>
 
 @implementation ConnectOperation
 

@@ -18,7 +18,12 @@
 @property (nonatomic, retain) NSMutableArray * operations;
 @property (nonatomic, retain) IBOutlet NSTableView * activitiesTable;
 
+// Singleton
++ (Activities *) sharedInstance;
+
 - (IBAction) terminateSelected:(id)sender;
 - (NSDictionary *) selectedActivity;
+- (void) appendOperation:(NSOperation *)anOperation 
+			   withTitle:(NSString *)title;
 
 @end

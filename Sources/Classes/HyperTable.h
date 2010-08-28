@@ -7,38 +7,28 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <Hadoop.h>
+#import "Server.h"
 #import <HyperThriftWrapper.h>
 #import <HyperThriftHql.h>
 
-@interface HyperTable : Hadoop {
+@interface HyperTable : Server<ClusterMember, CellStorage> {
 	NSString * hypertableConfContent;
 	
 	HTHRIFT thriftClient;
 	HTHRIFT_HQL hqlClient;
 	
-	NSMutableArray * tables;
-	
 	NSLock * connectionLock;
+	
+	int lastFetchedIndex;
+	int lastFetchedTotalIndexes;
 }
 
 @property (nonatomic, retain) NSLock * connectionLock;
-@property (nonatomic, retain) NSArray * tables;
 
 @property (assign) HTHRIFT thriftClient;
 @property (assign) HTHRIFT_HQL hqlClient;
 
-//initialization
-+ (NSEntityDescription *) hypertableDescription;
-+ (NSEntityDescription *) tableSchemaDescription;
-
-// ClusterMemberProtocol implementation
-- (void) updateWithCompletionBlock:(void (^)(void)) codeBlock;
-- (void) reconnectWithCompletionBlock:(void (^)(void)) codeBlock;
-- (void) disconnect;
-- (BOOL) isConnected;
-
-- (void) updateTablesWithCompletionBlock:(void (^)(void))codeBlock;
+//	Class methods
 
 // HyperTable objects with Thrift Broker serice
 + (NSArray *) hyperTableBrokersInCluster:(id)cluster;
@@ -48,12 +38,28 @@
 + (NSArray *) hypertablesInCluster:(id)cluster;
 + (NSArray *) hypertablesInCurrentCluster;
 
-//table schemas
-+ (NSArray *)listSchemes;
-+ (NSManagedObject *)getSchemaByName:(NSString *)name;
-- (NSArray *) describeColumns:(NSManagedObject *)schema;
-
 //error code to error message
 + (NSString *)errorFromCode:(int)code;
+
+//initialization
++ (NSEntityDescription *) hypertableDescription;
+
+//	Instances Methods
+
+// ClusterMemberProtocol implementation
+- (void) updateStatusWithCompletionBlock:(void (^)(BOOL))codeBlock;
+- (NSArray *) services;
+- (Service *) serviceWithName:(NSString *)name;
+
+// CellStorage implementation
+
+- (void) updateTablesWithCompletionBlock:(void (^)(void))codeBlock;
+- (NSArray *) tables;
+
+- (void)fetchPageFrom:(id)tableID number:(int)number ofSize:(int)size 
+  withCompletionBlock:(void (^)(DATA_PAGE))codeBlock;
+
+@property (assign) int lastFetchedIndex;
+@property (assign) int lastFetchedTotalIndexes;
 
 @end

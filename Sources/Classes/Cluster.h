@@ -13,12 +13,13 @@
 // as used by members of it.
 // update:WithCompletitionBlock simply being called
 // for each memeber of the cluster.
-@interface Cluster : NSManagedObject <ClusterMemberProtocol> {
+@interface Cluster : NSManagedObject {
 
 }
 
 + (NSEntityDescription *) clusterDescription;
 
+- (void) updateWithCompletionBlock:(void (^)(void)) codeBlock;
 + (Cluster *) clusterWithName:(NSString *)name;
 + (NSArray *) clusters;
 - (NSArray *) members;

@@ -1,6 +1,6 @@
 //
 //  Server.h
-//  HyperTableBrowser
+//  Class providing access to remove server over ssh
 //
 //  Created by Stanislav Yudin on 23/8/2010.
 //  Copyright 2010 AwesomeStanly Lab. All rights reserved.
@@ -9,16 +9,13 @@
 #import <Cocoa/Cocoa.h>
 #import "SSHClient.h"
 #import "Service.h"
-#import "ClusterMemberProtocol.h"
+#import "Protocols.h"
 
-@interface Server : NSManagedObject <ClusterMemberProtocol>  {
+@interface Server : NSManagedObject  {
 	SSHClient * sshClient;
 }
 
 + (NSEntityDescription *) serverDescription;
-
 - (SSHClient *) remoteShell;
-- (NSArray *) services;
-- (Service *) serviceWithName:(NSString *)name;
 
 @end
