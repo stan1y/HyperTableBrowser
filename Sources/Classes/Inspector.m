@@ -18,13 +18,12 @@
 @synthesize healthBar;
 @synthesize servicesTable;
 @synthesize dfsProvider;
+@synthesize status;
 
 @synthesize objectTitle;
 @synthesize comments;
 @synthesize sshUserName;
 @synthesize ipAddressAndSshPort;
-
-#pragma mark Initialization
 
 - (void) dealloc
 {
@@ -36,6 +35,7 @@
 	[ipAddressAndSshPort release];
 	[servicesTable release];
 	[dfsProvider release];
+	[status release];
 	
 	[serviceRunningValues release];
 	[serviceStoppedValues release];
@@ -55,8 +55,6 @@
 	
 	return self;
 }
-
-#pragma mark Pending services list
 
 - (void) addServiceToPending:(int)serviceIndex
 {
@@ -80,8 +78,6 @@
 	[pendingServicesLock unlock];
 	return b;
 }
-
-#pragma mark Operations
 
 - (IBAction) operateService:(id)sender
 {
@@ -151,6 +147,8 @@
 		
 		[objectTitle setStringValue:[selectedServer valueForKey:@"name"]];
 		[hostname setStringValue:[selectedServer valueForKey:@"hostname"]];
+		[status setStringValue:[selectedServer statusString]];
+		
 		if ([[selectedServer class] isEqual:[HyperTable class]]) {
 			[dfsProvider setHidden:NO];
 			[dfsProvider setStringValue:[selectedServer valueForKey:@"currentDfs"]];
@@ -176,6 +174,7 @@
 		[dfsProvider setStringValue:@"--"];
 		[healthBar setIntValue:0];
 		[healthPercentage setStringValue:@"-- %%"];
+		[comments setStringValue:@""];
 		[comments setStringValue:@""];
 	}
 	[servicesTable reloadData];

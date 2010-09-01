@@ -17,6 +17,7 @@
 	NSTextField * comments;
 	
 	// Static
+	NSTextField * status;
 	NSTextField * healthPercentage;
 	NSTextField * hostname;
 	NSTextField * dfsProvider;
@@ -40,6 +41,7 @@
 @property (nonatomic, retain) IBOutlet NSTextField * ipAddressAndSshPort;
 @property (nonatomic, retain) IBOutlet NSTextField * comments;
 
+@property (nonatomic, retain) IBOutlet NSTextField * status;
 @property (nonatomic, retain) IBOutlet NSTextField * dfsProvider;
 @property (nonatomic, retain) IBOutlet NSTextField * hostname;
 @property (nonatomic, retain) IBOutlet NSTextField * healthPercentage;
