@@ -129,25 +129,17 @@ static ClustersBrowser * sharedBrowser = nil;
 	Server<ClusterMember> * currentServer = [self selectedServer];
 	if (currentServer) {		
 		[currentServer updateStatusWithCompletionBlock:^(BOOL success) {
-			//reload table on success
-			if (success && [currentServer statusInt] == STATUS_OPERATIONAL) {
-				[membersTable reloadData];
-				[[self inspector] refresh:nil];
-			}
+			[membersTable reloadData];
+			[[self inspector] refresh:nil];
 		}];
 	}
 }
 
 - (IBAction) updateCluster:(id)sender
 {
-	id cl = [self selectedCluster];
-	if ( cl ){
-		//reload first with old data
-		[membersTable reloadData];
-		[[self inspector] refresh:nil];
-		
-		[cl updateWithCompletionBlock: ^{
-			//now reload with updated data
+	id cluster = [self selectedCluster];
+	for (Server<ClusterMember> * member in [cluster members]) {
+		[member updateStatusWithCompletionBlock:^(BOOL success) {
 			[membersTable reloadData];
 			[[self inspector] refresh:nil];
 		}];

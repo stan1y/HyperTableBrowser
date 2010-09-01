@@ -44,7 +44,12 @@
 	scriptModified = NO;
 }
 
-#pragma mark HQL Query Execition
+- (IBAction) showWindow:(id)sender
+{
+	[super showWindow:sender];
+	[self updateBrokers:sender];
+	[self refreshTables:sender];
+}
 
 - (IBAction)runQuery:(id)sender 
 {	
@@ -95,8 +100,6 @@
 	[[Activities sharedInstance] appendOperation: hqlOp withTitle:@"Executing HQL Query..." ];
 	[hqlOp release];
 }
-
-#pragma mark HQL Scripts Storage
 
 - (IBAction) updateScripts:(id)sender
 {
