@@ -19,7 +19,6 @@
 
 + (NSEntityDescription *) clusterDescription;
 
-- (void) updateWithCompletionBlock:(void (^)(void)) codeBlock;
 + (Cluster *) clusterWithName:(NSString *)name;
 + (NSArray *) clusters;
 - (NSArray *) members;

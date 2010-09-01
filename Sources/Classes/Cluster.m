@@ -87,16 +87,6 @@
 	return membersArray;
 }
 
-- (void) updateWithCompletionBlock:(void (^)(void)) codeBlock
-{
-	for (Server * member in [self members]) {
-		[member updateWithCompletionBlock:^{
-			//update table after status change
-			[[[ClustersBrowser sharedInstance] membersTable] reloadData];
-		}];
-	}
-}
-
 - (void) disconnect {}
 - (void) reconnectWithCompletionBlock:(void (^)(void)) codeBlock {}
 - (BOOL) isConnected { return YES; }
