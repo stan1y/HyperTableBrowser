@@ -14,6 +14,9 @@
 @synthesize activitiesTable;
 @synthesize operations;
 @synthesize operationsQueue;
+@synthesize progressIndicator;
+@synthesize topActivityTitle;
+
 
 //	Singleton
 static Activities * sharedMonitor = nil;
@@ -74,6 +77,9 @@ static Activities * sharedMonitor = nil;
 	[[self operations] addObject:opDict];
 	[[self operationsQueue] addOperation:anOperation];
 	[[self activitiesTable] reloadData];
+	[progressIndicator setHidden:NO];
+	[progressIndicator startAnimation:self];
+	
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
@@ -83,11 +89,17 @@ static Activities * sharedMonitor = nil;
 {
 	//main operations queue was updated
 	if (object == operationsQueue) {
+		//update current top activity label
+		int opCount = [operationsQueue operationCount];
+		if (opCount > 0) {
+			NSDictionary * opDict = [operations objectAtIndex:opCount - 1];
+			[topActivityTitle setTitle:[opDict valueForKey:@"title"]];
+		}
 		
+		BOOL shouldStop = YES;
 		for (int i=0; i<[[self operations] count]; i++) {
 			NSMutableDictionary * opDict = [[self operations] objectAtIndex:i];
 			if ([[opDict valueForKey:@"running"] intValue]) {
-				
 				//make sure it is still running
 				if ([[opDict valueForKey:@"operation"] isFinished]) {
 					
@@ -97,6 +109,17 @@ static Activities * sharedMonitor = nil;
 					[opDict removeObjectForKey:@"operation"];
 				}
 			}
+			
+			if ([[opDict valueForKey:@"running"] boolValue]){
+				shouldStop = NO;
+			}
+		}
+		
+		if (shouldStop) {
+			//no running activity
+			[topActivityTitle setTitle:@"Ready."];
+			[progressIndicator stopAnimation:self];
+			[progressIndicator setHidden:YES];
 		}
 	}
 	[activitiesTable reloadData];
@@ -135,11 +158,11 @@ static Activities * sharedMonitor = nil;
 		NSMutableDictionary * opDict = [[self operations] objectAtIndex:index];
 		if ([[opDict valueForKey:[tableColumn identifier]] intValue]) {
 			[cell setTextColor:[NSColor greenColor]];
-			[cell setStringValue:@"Running"];
+			[cell setStringValue:@"In Progress"];
 		}
 		else {
 			[cell setTextColor:[NSColor whiteColor]];
-			[cell setStringValue:@"Finished"];
+			[cell setStringValue:@"Done"];
 		}
 	}
 }

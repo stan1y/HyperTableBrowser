@@ -12,7 +12,13 @@
 	NSTableView * activitiesTable;
 	NSMutableArray * operations;
 	NSOperationQueue * operationsQueue;
+	
+	NSProgressIndicator * progressIndicator;
+	NSButton * topActivityTitle;
 }
+
+@property (nonatomic, retain) IBOutlet NSProgressIndicator * progressIndicator;
+@property (nonatomic, retain) IBOutlet NSButton * topActivityTitle;
 
 @property (nonatomic, retain) NSOperationQueue * operationsQueue;
 @property (nonatomic, retain) NSMutableArray * operations;
@@ -21,9 +27,12 @@
 // Singleton
 + (Activities *) sharedInstance;
 
+
 - (IBAction) terminateSelected:(id)sender;
 - (NSDictionary *) selectedActivity;
 - (void) appendOperation:(NSOperation *)anOperation 
 			   withTitle:(NSString *)title;
+
+
 
 @end
