@@ -15,6 +15,8 @@
 
 - (void) dealloc
 {
+	NSLog(@"Deallocating ssh client wrapper.");
+	
 	[sshLock release];
 	[targetIpAddress release];
 	[arguments release];
@@ -29,7 +31,10 @@
 		[sshError release];
 	}
 	
-	NSLog(@"Deallocating ssh client.");
+	if (ssh) {
+		[ssh release];
+	}
+	
 	[super dealloc];
 }
 
@@ -84,6 +89,7 @@
 		
 		//create lock
 		sshLock = [[NSLock alloc] init];
+		ssh = nil;
 	}
 	return self;
 }
@@ -110,6 +116,11 @@
 - (int)runCommand:(NSString*)command
 {
 	NSLog(@"SSH running command \"%s\"", [command UTF8String]);
+	if (ssh) {
+		NSLog(@"Deallocating ssh task.");
+		[ssh release];
+		ssh = nil;
+	}
 	ssh = [[NSTask alloc] init];
 	//path to actual ssh
 	[ssh setLaunchPath:@"/usr/bin/ssh"];
@@ -151,7 +162,6 @@
 		//timeout need to set error message manually, since
 		//we're gonna kill child ssh
 		[ssh terminate];
-		[ssh release];
 		sshError = @"ssh command execution timed out.";
 		return 255;
 	}
@@ -166,8 +176,9 @@
 			NSLog(@"Error: ssh child process failed with code %d", rc);
 		}
 	}
-	[ssh release];
 	
+	//we need to keen ssh for pipes access
+	//until next command
 	return rc;
 }
 
@@ -178,7 +189,6 @@
 		NSLog(@"Reading ssh output");
 		NSData *theOutput = [[stdoutPipe fileHandleForReading] readDataToEndOfFile];
 		sshOutput = [[NSString alloc] initWithData:theOutput encoding:NSUTF8StringEncoding];
-		[sshOutput retain];
 		[stdoutPipe release];
 		stdoutPipe = nil;
 	}
@@ -191,7 +201,6 @@
 		NSLog(@"Reading ssh error");
 		NSData *theOutput = [[stderrPipe fileHandleForReading] readDataToEndOfFile];
 		sshError = [[NSString alloc] initWithData:theOutput encoding:NSUTF8StringEncoding];
-		[sshError retain];
 		[stderrPipe release];
 		stderrPipe = nil;
 	}
