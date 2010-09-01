@@ -11,7 +11,7 @@
 	<key>CFBundleIconFile</key>
 	<string>HyperTableBrowserT</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.utils.AwesomeStanlyLabs.HyperTableBrowser</string>
+	<string>com.utils.Stanislav Yudin.HyperTableBrowser</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -23,7 +23,7 @@
 	<key>CFBundleVersion</key>
 	<string>0.0.1</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright AwesomeStanlyLabs 2009-2010. All rights reserved.</string>
+	<string>Copyright Stanislav Yudin 2009-2010. All rights reserved.</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
 	<key>NSMainNibFile</key>

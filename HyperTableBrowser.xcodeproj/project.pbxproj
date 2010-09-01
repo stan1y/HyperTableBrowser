@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		76081DA710E255DB005F668F /* HyperTableBrowserApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 76081DA610E255DB005F668F /* HyperTableBrowserApp.m */; };
 		76081DAA10E255F6005F668F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 76081DA910E255F6005F668F /* main.m */; };
+		760E3CB5122E530B00223D97 /* License.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 760E3CB4122E530B00223D97 /* License.rtf */; };
+		760E3CC0122E53C100223D97 /* cc-by-nc-sa.png in Resources */ = {isa = PBXBuildFile; fileRef = 760E3CBF122E53C100223D97 /* cc-by-nc-sa.png */; };
 		76103AFF1226BC7600593677 /* NewServerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76103AFE1226BC7600593677 /* NewServerController.m */; };
 		761515E011FD851400485438 /* Client_constants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 761515D211FD851400485438 /* Client_constants.cpp */; };
 		761515E111FD851400485438 /* Client_constants.h in Headers */ = {isa = PBXBuildFile; fileRef = 761515D311FD851400485438 /* Client_constants.h */; };
@@ -233,6 +235,8 @@
 		76081DA610E255DB005F668F /* HyperTableBrowserApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HyperTableBrowserApp.m; path = Sources/Classes/HyperTableBrowserApp.m; sourceTree = "<group>"; };
 		76081DA910E255F6005F668F /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Sources/main.m; sourceTree = "<group>"; };
 		76081DC310E257E9005F668F /* HyperTableBrowser_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyperTableBrowser_Prefix.pch; sourceTree = "<group>"; };
+		760E3CB4122E530B00223D97 /* License.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = License.rtf; sourceTree = "<group>"; };
+		760E3CBF122E53C100223D97 /* cc-by-nc-sa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "cc-by-nc-sa.png"; path = "Icons/cc-by-nc-sa.png"; sourceTree = "<group>"; };
 		76103AFD1226BC7600593677 /* NewServerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewServerController.h; path = Sources/Classes/NewServerController.h; sourceTree = "<group>"; };
 		76103AFE1226BC7600593677 /* NewServerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewServerController.m; path = Sources/Classes/NewServerController.m; sourceTree = "<group>"; };
 		761515D211FD851400485438 /* Client_constants.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Client_constants.cpp; sourceTree = "<group>"; };
@@ -574,6 +578,7 @@
 				8D1107310486CEB800E47090 /* HyperTableBrowser-Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				76B02665115CFA9E003854D2 /* Credits.rtf */,
+				760E3CB4122E530B00223D97 /* License.rtf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -705,6 +710,7 @@
 		76E950F7121D771200370F01 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				760E3CBF122E53C100223D97 /* cc-by-nc-sa.png */,
 				761AAB4312294AF100BC980C /* HadoopLogo_16.png */,
 				761AAB4412294AF100BC980C /* HyperTableLogo_16.png */,
 				76400F8012216DA40020DB2C /* ServiceStatusError.png */,
@@ -1085,6 +1091,8 @@
 				76400F8512216DA40020DB2C /* ServiceStatusStopped.png in Resources */,
 				761AAB4512294AF100BC980C /* HadoopLogo_16.png in Resources */,
 				761AAB4612294AF100BC980C /* HyperTableLogo_16.png in Resources */,
+				760E3CB5122E530B00223D97 /* License.rtf in Resources */,
+				760E3CC0122E53C100223D97 /* cc-by-nc-sa.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

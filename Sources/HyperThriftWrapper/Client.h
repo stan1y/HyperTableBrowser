@@ -1,6 +1,6 @@
 /** -*- C++ -*-
  * Copyright (C) 2008  Luke Lu (Zvents, Inc.)
- * Copyright (C) 2009  Stanislav Yudin (AwesomeStanlyLabs Ltd)
+ * Copyright (C) 2009  Stanislav Yudin (Stanislav Yudin Ltd)
  * This file is part of Hypertable.
  *
  * Hypertable is free software; you can redistribute it and/or

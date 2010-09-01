@@ -3,7 +3,7 @@
 //  Class providing access to remove server over ssh
 //
 //  Created by Stanislav Yudin on 23/8/2010.
-//  Copyright 2010 AwesomeStanly Lab. All rights reserved.
+//  Copyright 2010 Stanislav Yudin. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>

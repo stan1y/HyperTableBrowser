@@ -3,7 +3,7 @@
  *  HyperTableBrowser
  *
  *  Created by Stanislav Yudin on 12/12/09.
- *  Copyright 2009 AwesomeStanlyLabs. All rights reserved.
+ *  Copyright 2009 Stanislav Yudin. All rights reserved.
  *
  */
 

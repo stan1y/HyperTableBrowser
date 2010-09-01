@@ -3,7 +3,7 @@
 //  HyperTableBrowser
 //
 //  Created by Stanislav Yudin on 12/8/09.
-//  Copyright AwesomeStanly Lab. 2009 . All rights reserved.
+//  Copyright Stanislav Yudin. 2009 . All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
