@@ -60,6 +60,9 @@ extern "C" {
 	//writes cells from row
 	int set_row(HTHRIFT hThrift, DataRow * row, const char * tableName);
 	
+	//fetches cells with rowKey and drops delete them
+	int delete_row_by_key(HTHRIFT hThrift, const char * rowKey, const char * tableName);
+	
 	//drops all cells in row
 	int delete_row(HTHRIFT hThrift, DataRow * row, const char * tableName);
 	

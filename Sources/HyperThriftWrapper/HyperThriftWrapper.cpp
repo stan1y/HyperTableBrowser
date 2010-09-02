@@ -364,6 +364,15 @@ int set_row(HTHRIFT hThrift, DataRow * row, const char * tableName)
 	}
 }
 
+int delete_row_by_key(HTHRIFT hThrift, const char * rowKey, const char * tableName)
+{
+	DataRow * deleteRow = row_new(rowKey);
+	int rc = get_row(hThrift, deleteRow, tableName, rowKey);
+	if (rc == 0 && deleteRow) {
+		return delete_row(hThrift, deleteRow, tableName);
+	}
+}
+
 //drops all cells with specified key
 int delete_row(HTHRIFT hThrift, DataRow * row, const char * tableName)
 {
