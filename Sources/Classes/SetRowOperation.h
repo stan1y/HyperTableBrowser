@@ -9,37 +9,23 @@
 #import <Cocoa/Cocoa.h>
 #import "HyperTable.h"
 
-@interface SetRowOperation : NSOperation {
-	HyperTable * hypertable;
-	DataRow * row;
-	DataPage * page;
+@interface SetCellOperation : NSOperation {
+	Server<CellStorage> * storage;
 	NSString * tableName;
-	
-	NSString * cellValue;
+	id cellValue;
 	NSString * columnName;
-	int rowIndex;
-	
+	NSString * rowKey;
 	int errorCode;
 }
 
 @property (nonatomic, retain) NSString * tableName;
-@property (nonatomic, retain) NSString * cellValue;
+@property (nonatomic, retain) id cellValue;
+@property (nonatomic, retain) NSString * rowKey;
 @property (nonatomic, retain) NSString * columnName;
 @property (nonatomic, retain) HyperTable * hypertable;
-@property (assign) int rowIndex;
 @property (assign) int errorCode;
-@property (assign) DataRow * row;
-@property (assign) DataPage * page;
 
-
-+ setCellValue:(NSString *)newValue
-	  fromPage:(DataPage *)page
-	   inTable:(NSString *)tableName 
-		 atRow:(NSInteger)rowIndex
-	 andColumn:(NSString *)columnName
-	  onServer:(HyperTable *)onHypertable;
-
-+ setRow:(DataRow *)row fromPage:(DataPage *)page inTable:(NSString*)tableName onServer:(HyperTable *)onHypertable;
++ setCellValue:(id)newValue forRow:(NSString *)rowKey andColumn:(NSString *)columnName inTable:(NSString *)tableName onServer:(HyperTable *)onHypertable;
 
 - (void)main;
 

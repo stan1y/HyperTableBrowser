@@ -12,6 +12,7 @@
 #import "HyperTableOperation.h"
 #import "ConnectOperation.h"
 #import "DeleteRowOperation.h"
+#import "SetRowOperation.h"
 #import "Service.h"
 #import "ClustersBrowser.h"
 #import "Activities.h"
@@ -315,11 +316,17 @@
 	[fpageOp setCompletionBlock: ^{
 		if ([fpageOp errorCode] == T_OK ) {
 			DataPage * receivedPage = [fpageOp page];
-			if (receivedPage) {
-				//call user's code block with received page
-				codeBlock(receivedPage);
+			if (!receivedPage) {
+				
+				//show empty page if none fetched
+				receivedPage = page_new();
 			}
+			codeBlock(receivedPage);
 		}
+		else {
+			codeBlock(NULL);
+		}
+
 	}];
 	
 	//start async operation
@@ -347,9 +354,20 @@
 	[delOp release];
 }
 
-- (void)setCell:(id)cellValue forRow:(NSString *)rowKey  andColumn:(NSString *)column withCompletionBlock:(void (^)(BOOL))codeBlock
+- (void) setCell:(id)cellValue forRow:(NSString *)rowKey andColumn:(NSString *)column inTable:(NSString*)tableID  withCompletionBlock:(void (^)(BOOL)) codeBlock
 {
+	SetCellOperation * sop = [SetCellOperation setCellValue:cellValue forRow:rowKey andColumn:column inTable:tableID onServer:self];
+	[sop setCompletionBlock:^{
+		if ([sop errorCode]) {
+			codeBlock(NO);
+		}
+		else {
+			codeBlock(YES);
+		}
+	}];
 	
+	[[Activities sharedInstance] appendOperation: sop withTitle:[NSString stringWithFormat:@"Modifying cell in row %@, column %@ on server %@", rowKey, column, [self valueForKey:@"serverName"]]];
+	[sop release];
 }
 																										   
 

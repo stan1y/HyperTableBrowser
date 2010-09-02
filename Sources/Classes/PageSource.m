@@ -172,27 +172,4 @@
 	}
 }
 
-- (void)tableView:(NSTableView *)aTableView 
-   setObjectValue:(id)newValue 
-   forTableColumn:(NSTableColumn *)aTableColumn 
-			  row:(NSInteger)rowIndex 
-{
-	NSLog(@"Modifing cell at index %d, column %s", rowIndex, [[aTableColumn identifier] UTF8String]);
-	
-	//modify cell
-	if (page == nil) {
-		return;
-	}
-	
-	SetRowOperation * setRowOp = [SetRowOperation setCellValue:newValue
-													fromPage:page 
-													 inTable:pageTitle 
-													   atRow:rowIndex 
-												   andColumn:[aTableColumn identifier] 
-											  onServer:[[ClustersBrowser sharedInstance] selectedServer]];
-	[[Activities sharedInstance] appendOperation: setRowOp withTitle:[NSString stringWithFormat:@"Setting cell value in column %@ at row index %d on server %@", [aTableColumn identifier], [[[ClustersBrowser sharedInstance] selectedServer] valueForKey:@"serverName"] ]];
-	[setRowOp release];
-	
-}
-
 @end

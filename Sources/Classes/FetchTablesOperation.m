@@ -46,8 +46,7 @@
 	DataCell * cell = NULL;
 	
 	//FIXME : Settings
-	int skipMetadata = 0;
-	
+	int skipMetadata = 1;
 	int index = 0;
 	do {
 		cell = cell_iter_next_cell(ci);

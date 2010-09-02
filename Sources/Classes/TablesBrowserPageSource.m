@@ -8,6 +8,7 @@
 
 #import "TablesBrowserPageSource.h"
 #import "FetchPageOperation.h"
+#import "TablesBrowser.h"
 
 @implementation TablesBrowserPageSource
 
@@ -49,6 +50,25 @@
 	[selectedRowKey setStringValue:@"Nothing selected"];
 	[selectedRowKey setEnabled:NO];
 	[copyRowKeyButton setEnabled:NO];	
+}
+
+- (void)tableView:(NSTableView *)aTableView 
+   setObjectValue:(id)newValue 
+   forTableColumn:(NSTableColumn *)aTableColumn 
+			  row:(NSInteger)rowIndex 
+{
+	DataRow * row = page_row_at_index([self page], rowIndex);
+	Server<CellStorage> * broker = [[TablesBrowser sharedInstance] selectedBroker];
+	if ( broker && row) {
+		NSString * rowKey = [NSString stringWithUTF8String:row->rowKey];
+		NSString * tableName = [[[[TablesBrowser sharedInstance] tablesList] selectedCellInColumn:0] stringValue];
+		[broker setCell:newValue forRow:rowKey andColumn:[aTableColumn identifier] inTable:tableName withCompletionBlock:^(BOOL success) {
+			[self refresh:nil];
+			if (!success) {
+				NSRunAlertPanel(@"Operation failed", [NSString stringWithFormat:@"Failed to modify cell in row %@ in table %@ on server %@", rowKey, tableName, [broker valueForKey:@"serverName"]], @"Continue", nil, nil);
+			}
+		}];
+	}
 }
 
 - (BOOL)tableView:(NSTableView *)aTableView 
@@ -156,7 +176,7 @@
 			[refreshButton setEnabled:NO];
 			[nextPageButton setEnabled:NO];
 			[prevPageButton setEnabled:NO];
-			NSRunAlertPanel(@"Operation failed", [NSString stringWithFormat:@"Failed to fetch cells page from storage %s.", [storage valueForKey:@"serverName"]], @"Continue", nil, nil);
+			NSRunAlertPanel(@"Operation failed", [NSString stringWithFormat:@"Failed to fetch cells page from storage %@.", [storage valueForKey:@"serverName"]], @"Continue", nil, nil);
 		}
 		
 	} ];

@@ -8,44 +8,23 @@
 
 #import "SetRowOperation.h"
 
-@implementation SetRowOperation
+@implementation SetCellOperation
 
 @synthesize hypertable;
-@synthesize row;
 @synthesize cellValue;
-@synthesize rowIndex;
+@synthesize rowKey;
 @synthesize columnName;
 @synthesize errorCode;
 @synthesize tableName;
-@synthesize page;
 
-+ setRow:(DataRow *)row
-fromPage:(DataPage *)page
- inTable:(NSString*)tableName 
-onServer:(HyperTable *)onHypertable
++ setCellValue:(id)newValue forRow:(NSString *)rowKey andColumn:(NSString *)columnName inTable:(NSString *)tableName onServer:(HyperTable *)onHypertable
 {
-	SetRowOperation * op = [[SetRowOperation alloc] init];
+	SetCellOperation * op = [[SetCellOperation alloc] init];
 	[op setHypertable:onHypertable];
 	[op setTableName:tableName];
-	[op setRow:row];
-	[op setPage:page];
-	return op;
-}
-
-+ setCellValue:(NSString *)newValue
-	  fromPage:(DataPage *)page
-	   inTable:(NSString *)tableName 
-		 atRow:(NSInteger)rowIndex
-	 andColumn:(NSString *)columnName
-	  onServer:(HyperTable *)onHypertable
-{
-	SetRowOperation * op = [[SetRowOperation alloc] init];
-	[op setHypertable:onHypertable];
-	[op setTableName:tableName];
-	[op setRowIndex:rowIndex];
+	[op setRowKey:rowKey];
 	[op setColumnName:columnName];
 	[op setCellValue:newValue];
-	[op setPage:page];
 	return op;
 }
 
@@ -55,18 +34,7 @@ onServer:(HyperTable *)onHypertable
 	[tableName release];
 	[cellValue release];
 	[columnName release];
-	
-	if (page) {
-		page_clear(page);
-		free(page);
-		page = nil;
-	}
-	 
-	 if (row) {
-		 row_clear(row);
-		 free(row);
-		 row = nil;
-	 }
+	[rowKey release];
 	
 	[super dealloc];
 }
@@ -76,51 +44,21 @@ onServer:(HyperTable *)onHypertable
 	[[hypertable connectionLock] lock];
 	[self setErrorCode:0];
 	
-	//construct row with one cell from
-	//data we have or just set specified row
-	if ( ![self row]) {
-		row = page_row_at_index(page, rowIndex);
-		DataCellIterator * cellIter = cell_iter_new(row);
-		DataCell * cell = NULL;
-		do {
-			cell = cell_iter_next_cell(cellIter);
-			if (cell) {
-				NSString * cellFamily = [NSString stringWithUTF8String:cell->cellColumnFamily];
-				NSString * cellColumn;
-				if (cell->cellColumnQualifierSize > 0) {
-					cellColumn = [cellFamily stringByAppendingFormat:@":%s", cell->cellColumnQualifier];
-				}
-				else {
-					cellColumn = cellFamily;
-				}
-				
-				if (strcmp([cellColumn UTF8String], [columnName UTF8String]) == 0) {
-					break;
-				}
-			}
-			
-		} while (cell);
-		free(cellIter);
-		
-		if (cell) {
-			//modify value
-			realloc(cell->cellValue, sizeof(char) * [cellValue length] + 1);
-			memset(cell->cellValue, 0, sizeof(char) * [cellValue length] + 1);
-			cell->cellValueSize = [cellValue length];
-			strncpy(cell->cellValue, [cellValue UTF8String], [cellValue length]);
-			
-			NSLog(@"Set cell (\"%s\", \"%s\", \"%s\") = \"%s\"", row->rowKey,
-				  cell->cellColumnFamily,
-				  cell->cellColumnQualifier,
-				  cell->cellValue);
-		}
-		else {
-			[self setErrorCode:T_ERR_APPLICATION];
-			NSLog(@"Failed to find cell with requested metadata.\n");
-		}
-	}
+	DataRow * row = row_new([[self rowKey] UTF8String]);
+	DataCell * cell = cell_new(nil, nil);
 	
-	//set row
+	//find family and qualifier
+	NSRange r = [[self columnName] rangeOfString:@":"];
+	if (r.location == NSNotFound) {
+		NSLog(@"Bad column name specified. Family and qualifier expected.");
+		return;
+	}
+	NSRange familyRange = NSMakeRange(0, r.location);
+	NSRange qualifierRange = NSMakeRange(r.location + 1, [[self columnName] length] - r.location - 1);
+	
+	cell_set(cell, [[[self columnName] substringWithRange:familyRange] UTF8String], [[[self columnName] substringWithRange:qualifierRange] UTF8String], [[self cellValue] UTF8String], 0);
+	row_append(row, cell);
+	
 	int rc = set_row([hypertable thriftClient], row, [tableName UTF8String]);
 	[self setErrorCode:rc];
 	[[hypertable connectionLock] unlock];

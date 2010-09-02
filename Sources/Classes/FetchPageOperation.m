@@ -68,6 +68,8 @@
 		NSLog(@"Zero keys returned.\n");
 		free(keys);
 		[self setTotalRows:0];
+		[self setStopIndex:0];
+		[self setStartIndex:0];
 		return;
 	}
 	
