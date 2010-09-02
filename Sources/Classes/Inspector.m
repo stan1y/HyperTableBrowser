@@ -25,8 +25,11 @@
 @synthesize sshUserName;
 @synthesize ipAddressAndSshPort;
 
+@synthesize refreshCurrentServer;
+
 - (void) dealloc
 {
+	[refreshCurrentServer release];
 	[objectTitle release];
 	[hostname release];
 	[healthPercentage release];
@@ -139,6 +142,7 @@
 	if (selectedServer) {
 		NSLog(@"Inspector: %@ [%@] is selected.", [selectedServer valueForKey:@"uniqueID"], [selectedServer class]);
 		
+		[refreshCurrentServer setEnabled:YES];
 		[objectTitle setStringValue:[selectedServer valueForKey:@"serverName"]];
 		[hostname setStringValue:[selectedServer valueForKey:@"hostname"]];
 		[status setStringValue:[selectedServer statusString]];
@@ -163,13 +167,16 @@
 	else {
 		NSLog(@"Inspector: Nothing selected.");
 		
-		[objectTitle setStringValue:@"Nothing selected"];
+		[refreshCurrentServer setEnabled:NO];
+		[objectTitle setStringValue:@"- No Selection -"];
 		[hostname setStringValue:@"--"];
 		[dfsProvider setStringValue:@"--"];
 		[healthBar setIntValue:0];
 		[healthPercentage setStringValue:@"-- %%"];
 		[comments setStringValue:@""];
-		[comments setStringValue:@""];
+		[sshUserName setStringValue:@""];
+		[status setStringValue:@"-"];
+		[ipAddressAndSshPort setStringValue:@""];
 	}
 	[servicesTable reloadData];
 }

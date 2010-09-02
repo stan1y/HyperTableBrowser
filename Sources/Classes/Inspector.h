@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 @interface Inspector : NSWindowController {
+	NSButton * refreshCurrentServer;
 	
 	// Editable
 	NSTextField * objectTitle;
@@ -36,6 +37,8 @@
 	// Service list 
 	NSTableView * servicesTable;
 }
+
+@property (nonatomic, retain) IBOutlet NSButton * refreshCurrentServer;
 @property (nonatomic, retain) IBOutlet NSTextField * objectTitle;
 @property (nonatomic, retain) IBOutlet NSTextField * sshUserName;
 @property (nonatomic, retain) IBOutlet NSTextField * ipAddressAndSshPort;
