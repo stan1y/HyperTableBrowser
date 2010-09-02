@@ -22,7 +22,7 @@
 + (Cluster *) clusterWithName:(NSString *)name;
 + (NSArray *) clusters;
 
-- (Server<ClusterMember> *)memberWithIndex:(int)memberIndex;
+- (Server<ClusterMember> *)memberWithID:(id)memberID;
 - (NSArray *) members;
 
 @end

@@ -19,7 +19,7 @@
 	NSTableView * membersTable;
 	NSPopUpButton * clustersSelector;
 	
-	int selectedServerIndex;
+	NSString * selectedServerID;
 }
 
 @property (nonatomic, retain) IBOutlet Inspector * inspector;

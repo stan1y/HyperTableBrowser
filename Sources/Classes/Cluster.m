@@ -21,12 +21,12 @@
 {
 	NSFetchRequest * r = [[NSFetchRequest alloc] init];
 	[r setEntity:[Cluster clusterDescription]];
-	[r setPredicate:[NSPredicate predicateWithFormat:@"name = %@", name]];
+	[r setPredicate:[NSPredicate predicateWithFormat:@"clusterName = %@", name]];
 	
 	NSError * err = nil;
 	NSArray * clustersArray = [[[NSApp delegate] managedObjectContext] executeFetchRequest:r error:&err];
 	if (err) {
-		NSLog(@"Error: Failed to find cluster with name %@", name);
+		NSLog(@"Error: Failed to find cluster %@", name);
 		[err release];
 		[r release];
 		return nil;
@@ -46,8 +46,8 @@
 {
 	NSFetchRequest * r = [[NSFetchRequest alloc] init];
 	[r setEntity:[Cluster clusterDescription]];
-	NSSortDescriptor * sort = [[[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES] autorelease];
-	[r setSortDescriptors:[NSArray arrayWithObjects:sort, nil]];
+	//NSSortDescriptor * sort = [[[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES] autorelease];
+	//[r setSortDescriptors:[NSArray arrayWithObjects:sort, nil]];
 	
 	NSError * err = nil;
 	NSArray * clustersArray = [[[NSApp delegate] managedObjectContext] executeFetchRequest:r error:&err];
@@ -62,16 +62,15 @@
 	return clustersArray;
 }
 
-- (Server<ClusterMember> *)memberWithIndex:(int)memberIndex
+- (Server<ClusterMember> *)memberWithID:(id)memberID
 {
 	NSFetchRequest * r = [[NSFetchRequest alloc] init];
 	[r setEntity:[Server serverDescription]];
-	[r setPredicate:[NSPredicate predicateWithFormat:@"index == %d", memberIndex]];
-	
+	[r setPredicate:[NSPredicate predicateWithFormat:@"uniqueID == %@", memberID]];
 	NSError * err = nil;
 	NSArray * membersArray = [[[NSApp delegate] managedObjectContext] executeFetchRequest:r error:&err];
 	if (err) {
-		NSLog(@"Error: Failed to fetch cluster with index %@.", memberIndex);
+		NSLog(@"Error: Failed to fetch cluster with ID '%@'.", memberID);
 		[err release];
 		[r release];
 		return nil;
@@ -80,11 +79,13 @@
 	[r release];
 	
 	if ([membersArray count] == 1) {
-		NSLog(@"Found member with index %d:\n%@", memberIndex, [membersArray objectAtIndex:0]);
 		return [membersArray objectAtIndex:0];
 	}
 	else {
-		int rc = NSRunAlertPanel(@"Serious Internal Error", [NSString stringWithFormat:@"Failed to find member with index '%@'", memberIndex] , @"Exit", @"Continue", nil);
+		int rc = NSRunAlertPanel(@"Serious Internal Error", [NSString stringWithFormat:@"Failed to find member with id '%@'", memberID] , @"Exit", @"Continue", nil);
+		if (rc == 1) {
+			[NSApp terminate:nil];
+		}
 		return nil;
 	}
 }
@@ -93,14 +94,14 @@
 {
 	NSFetchRequest * r = [[NSFetchRequest alloc] init];
 	[r setEntity:[Server serverDescription]];
-	NSSortDescriptor * sort = [[[NSSortDescriptor alloc] initWithKey:@"index" ascending:YES] autorelease];
+	//NSSortDescriptor * sort = [[[NSSortDescriptor alloc] initWithKey:@"index" ascending:YES] autorelease];
 	[r setPredicate:[NSPredicate predicateWithFormat:@"belongsTo = %@", self]];
-	[r setSortDescriptors:[NSArray arrayWithObjects:sort, nil]];
+	//[r setSortDescriptors:[NSArray arrayWithObjects:sort, nil]];
 	
 	NSError * err = nil;
 	NSArray * membersArray = [[[NSApp delegate] managedObjectContext] executeFetchRequest:r error:&err];
 	if (err) {
-		NSLog(@"Error: Failed to fetch cluster %@ members.", [self valueForKey:@"name"]);
+		NSLog(@"Error: Failed to fetch %@ members.", [self valueForKey:@"clusterName"]);
 		[err release];
 		[r release];
 		return nil;

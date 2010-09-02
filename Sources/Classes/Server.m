@@ -73,7 +73,7 @@
 	if (rc) {
 		
 		//failed to open ssh, present error
-		int rc = NSRunAlertPanel(@"Operation failed", [NSString stringWithFormat:@"Failed to open ssh connection to server %@. Code %d, Error: %@.", [self valueForKey:@"name"], rc, [sshClient error]] , @"Continue", nil, nil);
+		int rc = NSRunAlertPanel(@"Operation failed", [NSString stringWithFormat:@"Failed to open ssh connection to server %@. Code %d, Error: %@.", [self valueForKey:@"serverName"], rc, [sshClient error]] , @"Continue", nil, nil);
 		
 		[sshClient release];
 		sshClient = nil;

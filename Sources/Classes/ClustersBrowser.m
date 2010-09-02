@@ -36,7 +36,7 @@ static ClustersBrowser * sharedBrowser = nil;
 		return nil;
 	
 	NSLog(@"Initializing Clusters Browser [%@]", window);	
-	selectedServerIndex = 0;
+	selectedServerID = @"";
 	return self;
 }
 
@@ -53,6 +53,7 @@ static ClustersBrowser * sharedBrowser = nil;
 	[statusMessageField release];
 	[statusIndicator release];
 	[newServerOrClusterDialog release];
+	[selectedServerID release];
 	
 	[inspector release];
 	[membersTable release];
@@ -64,7 +65,7 @@ static ClustersBrowser * sharedBrowser = nil;
 {
 	[clustersSelector removeAllItems];
 	for (Cluster * c in [Cluster clusters]) {
-		[clustersSelector addItemWithTitle:[c valueForKey:@"name"]];
+		[clustersSelector addItemWithTitle:[c valueForKey:@"clusterName"]];
 	}
 }
 
@@ -91,8 +92,8 @@ static ClustersBrowser * sharedBrowser = nil;
 - (Server<ClusterMember> *) selectedServer
 {
 	Cluster * cl = [self selectedCluster];
-	if (cl) {
-		return [cl memberWithIndex:selectedServerIndex];
+	if (cl && [selectedServerID length]) {
+		return [cl memberWithID:selectedServerID];
 	}
 	return nil;
 }
@@ -110,11 +111,16 @@ static ClustersBrowser * sharedBrowser = nil;
 - (void)tableViewSelectionIsChanging:(NSNotification *)aNotification
 {
 	int index = [[aNotification object] selectedRow];
-	if (index < [[[self selectedCluster] members] count]) {
-		selectedServerIndex = index;
-		NSLog(@"Selection changed to index %d\n%@", index, [self selectedServer]);
-		[[self inspector] refresh:nil];
+	NSLog(@"Selected index: %d", index);
+	if (index == -1) {
+		[selectedServerID release];
+		selectedServerID = nil;
 	}
+	else if (index < [[[self selectedCluster] members] count]) {
+		selectedServerID = [[[[self selectedCluster] members] objectAtIndex:index] valueForKey:@"uniqueID"];
+		[selectedServerID retain];
+	}
+	[[self inspector] refresh:nil];
 }
 
 - (IBAction) updateCurrentServer:(id)sender
@@ -170,20 +176,19 @@ static ClustersBrowser * sharedBrowser = nil;
 	}
 	if ([[aTableColumn identifier] isEqual:@"summary"]) {
 		int runningServices = 0;
-		for (id service in [[[self selectedCluster] memberWithIndex:rowIndex] services]) {
+		for (id service in [[[[self selectedCluster] members] objectAtIndex:rowIndex] services]) {
 			if ([[service valueForKey:@"processID"] intValue] > 0) {
 				runningServices++;
 			}
 		}
 		return [NSString stringWithFormat:@"%d of %d services running", 
-				runningServices, [[[[self selectedCluster] memberWithIndex:rowIndex] services] count]];
+				runningServices, [[[[[self selectedCluster]  members] objectAtIndex:rowIndex] services] count]];
 	}
 	else if ([[aTableColumn identifier] isEqual:@"status"]) {
-		return [[[self selectedCluster] memberWithIndex:rowIndex] statusString];
+		return [[[[self selectedCluster] members] objectAtIndex:rowIndex] statusString];
 	}
 	else {
-		NSLog(@"%d) %@ = %@", rowIndex, [aTableColumn identifier], [[[self selectedCluster] memberWithIndex:rowIndex] valueForKey:[aTableColumn identifier]]);
-		return [[[self selectedCluster] memberWithIndex:rowIndex] valueForKey:[aTableColumn identifier]];
+		return [[[[self selectedCluster] members] objectAtIndex:rowIndex] valueForKey:[aTableColumn identifier]];
 	}
 }
 
