@@ -97,7 +97,6 @@
 	for (id service in servicesArray) {
 		[serversArray addObject:[service valueForKey:@"runsOnServer"]];
 	}
-	NSLog(@"%d thrift brokers found in cluster %@", [servicesArray count], [cluster valueForKey:@"serverName"]);
 	return serversArray;
 }
 
@@ -122,7 +121,6 @@
 	}
 	[err release];
 	[r release];
-	NSLog(@"%d HyperTable servers found in cluster %@", [cluster valueForKey:@"serverName"]);
 	return array;
 }
 
