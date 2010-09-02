@@ -80,12 +80,6 @@
 		[tbl setValue:hypertable forKey:@"onServer"];
 	}
 	
-	//save changes
-	NSError * err = nil;
-	[[[NSApp delegate] managedObjectContext] save:&err];
-	if (err) {
-		[[NSApplication sharedApplication] presentError:err];
-	}
 	
 	NSLog(@"%d tables found.", [[hypertable tablesArray] count]);
 	[[hypertable connectionLock] unlock];

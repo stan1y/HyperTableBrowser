@@ -82,7 +82,6 @@
 	
 	NSError * err = nil;
 	NSArray * servicesArray = [[[NSApp delegate] managedObjectContext] executeFetchRequest:r error:&err];
-	NSLog(@"%d services found", [servicesArray count]);
 	if (err) {
 		NSLog(@"Error: Failed to fetch HyperTable brokers.");
 		[err release];

@@ -132,6 +132,7 @@ static TablesBrowser * sharedBrowser = nil;
 			if ([delOp errorCode]) {
 				NSRunAlertPanel(@"Operation failed", [HyperTable errorFromCode:[delOp errorCode]], @"Continue", nil, nil);
 			}
+			[pageSource refresh:sender];
 		}];
 		
 		//start async delete
