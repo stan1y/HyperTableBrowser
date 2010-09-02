@@ -11,7 +11,7 @@
 
 @interface DeleteRowOperation : NSOperation {
 	HyperTable * hypertable;
-	DataRow * row;
+	NSString * rowKey;
 	NSString * tableName;
 	int errorCode;
 }
@@ -19,9 +19,9 @@
 @property (nonatomic, retain) NSString * tableName;
 @property (nonatomic, retain) HyperTable * hypertable;
 @property (assign) int errorCode;
-@property (assign) DataRow * row;
+@property (nonatomic, retain) NSString * rowKey;
 
-+ deleteRow:(DataRow *)row inTable:(NSString*)tableName onServer:(HyperTable *)hypertable;
++ deleteRow:(NSString *)rowKey inTable:(NSString*)tableName onServer:(HyperTable *)hypertable;
 
 - (void)main;
 

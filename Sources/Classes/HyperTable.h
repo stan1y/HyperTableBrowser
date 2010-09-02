@@ -58,6 +58,9 @@
 
 - (void)fetchPageFrom:(id)tableID number:(int)number ofSize:(int)size 
   withCompletionBlock:(void (^)(DATA_PAGE))codeBlock;
+- (void) setCell:(id)cellValue forRow:(NSString *)rowKey  andColumn:(NSString *)column withCompletionBlock:(void (^)(BOOL)) codeBlock;
+- (void) deleteRowWithKey:(NSString *)rowKey inTable:(NSString *)tableName withCompletionBlock:(void (^)(BOOL))codeBlock;
+
 
 @property (assign) int lastFetchedIndex;
 @property (assign) int lastFetchedTotalIndexes;

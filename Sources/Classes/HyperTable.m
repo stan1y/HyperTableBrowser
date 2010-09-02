@@ -11,6 +11,7 @@
 #import "FetchPageOperation.h"
 #import "HyperTableOperation.h"
 #import "ConnectOperation.h"
+#import "DeleteRowOperation.h"
 #import "Service.h"
 #import "ClustersBrowser.h"
 #import "Activities.h"
@@ -327,9 +328,29 @@
 	
 }
 
-- (void) fetchCellsFrom:(id)tableID forKeys:(NSArray *)keys withCompletionBlock:(void (^)(NSArray *))codeBlock
+- (void) deleteRowWithKey:(NSString *)rowKey inTable:(NSString *)tableName withCompletionBlock:(void (^)(BOOL))codeBlock
 {
+	//drop row
+	DeleteRowOperation * delOp = [DeleteRowOperation deleteRow:rowKey
+													   inTable:tableName
+													  onServer:self];
+	
+	[delOp setCompletionBlock: ^{
+		if ([delOp errorCode])
+			codeBlock(NO);
+		else
+			codeBlock(YES);
+	}];
+	
+	//start async delete
+	[[Activities sharedInstance] appendOperation:delOp withTitle:[NSString stringWithFormat:@"Deleting row with key %@ from table %@ on server %@", rowKey, tableName, [self valueForKey:@"serverName"]]];
+	[delOp release];
 }
 
+- (void)setCell:(id)cellValue forRow:(NSString *)rowKey  andColumn:(NSString *)column withCompletionBlock:(void (^)(BOOL))codeBlock
+{
+	
+}
+																										   
 
 @end

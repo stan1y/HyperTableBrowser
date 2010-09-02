@@ -12,17 +12,17 @@
 @implementation DeleteRowOperation
 
 @synthesize hypertable;
-@synthesize row;
+@synthesize rowKey;
 @synthesize tableName;
 @synthesize errorCode;
 
 
-+ deleteRow:(DataRow *)row inTable:(NSString*)tableName onServer:(HyperTable *)hypertable
++ deleteRow:(NSString *)rowKey inTable:(NSString*)tableName onServer:(HyperTable *)hypertable;
 {
 	DeleteRowOperation * op = [[DeleteRowOperation alloc] init];
 	[op setHypertable:hypertable];
 	[op setTableName:tableName];
-	[op setRow:row];
+	[op setRowKey:rowKey];
 	return op;
 }
 
@@ -30,12 +30,7 @@
 {
 	[hypertable release];
 	[tableName release];
-	
-	if (row) {
-		row_clear(row);
-		free(row);
-		row = nil;
-	}
+	[rowKey release];
 	
 	[super dealloc];
 }
@@ -45,7 +40,7 @@
 	[[hypertable connectionLock] lock];
 	[self setErrorCode:0];
 	//delete row
-	int rc = delete_row([hypertable thriftClient], [self row], [[self tableName] UTF8String]);
+	int rc = delete_row_by_key([hypertable thriftClient], [[self rowKey] UTF8String], [[self tableName] UTF8String]);
 	[self setErrorCode:rc];
 	[[hypertable connectionLock] unlock];
 }
