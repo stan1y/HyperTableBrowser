@@ -1,1 +1,10 @@
-HyperTable Browser is a cocoa client to key-value storage HyperTable(www.hypertable.com).
+HyperTableBrowser
+
+HyperTable Browser is a cocoa client application for a distributed NoSQL storage system called HyperTable(www.hypertable.com). The HyperTableBrowser is a free application covered by creative commons license. The copy of a license provided together with a copy of either sources of binary application.
+
+Build requirments:
+ - The application targers Mac OS X 10.6.+, becuase of extensive GCD and code blocks usage. The target architectures are i386/x86_64 Universal binary
+ - The Thrift (thirft.apache.org) headers are required to build ThriftLib & HyperThriftWrapper, a cpp library supporting generated binding. Headers are expected to be installed to /opt/local/include/thrift.
+ 
+HyperTable is being access with generated client binding. Thrift definition files are bundled with HyperTable package and in order to support newer version of HyperTable user need to regenerate bindings and rebuild HyperThriftWrapper library.
+ 

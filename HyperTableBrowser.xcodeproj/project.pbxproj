@@ -101,6 +101,7 @@
 		76C855331212A19A00525B28 /* TablesBrowserPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76C8552E1212A19A00525B28 /* TablesBrowserPreferences.xib */; };
 		76C855341212A19A00525B28 /* UpdatesPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76C855301212A19A00525B28 /* UpdatesPreferences.xib */; };
 		76DC6A3C11FCC24C00E14519 /* HyperTableBrowser.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76DC6A3A11FCC24C00E14519 /* HyperTableBrowser.xib */; };
+		76E1A64B122FC00500A33AD1 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 76E1A64A122FC00400A33AD1 /* README */; };
 		76E94B37121A8A3200370F01 /* SSHClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 76E94B36121A8A3200370F01 /* SSHClient.m */; };
 		76E94B3B121A8A7400370F01 /* HyperTableOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 76E94B3A121A8A7400370F01 /* HyperTableOperation.m */; };
 		76E950FE121D772600370F01 /* AddServer.icns in Resources */ = {isa = PBXBuildFile; fileRef = 76E950F8121D772600370F01 /* AddServer.icns */; };
@@ -355,6 +356,7 @@
 		76C8552F1212A19A00525B28 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/TablesBrowserPreferences.xib; sourceTree = "<group>"; };
 		76C855311212A19A00525B28 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/UpdatesPreferences.xib; sourceTree = "<group>"; };
 		76DC6A3B11FCC24C00E14519 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/HyperTableBrowser.xib; sourceTree = "<group>"; };
+		76E1A64A122FC00400A33AD1 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		76E94B35121A8A3200370F01 /* SSHClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSHClient.h; path = Sources/Classes/SSHClient.h; sourceTree = "<group>"; };
 		76E94B36121A8A3200370F01 /* SSHClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSHClient.m; path = Sources/Classes/SSHClient.m; sourceTree = "<group>"; };
 		76E94B39121A8A7400370F01 /* HyperTableOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HyperTableOperation.h; path = Sources/Classes/HyperTableOperation.h; sourceTree = "<group>"; };
@@ -545,6 +547,7 @@
 		29B97314FDCFA39411CA2CEA /* HyperTableBrowser */ = {
 			isa = PBXGroup;
 			children = (
+				76E1A64A122FC00400A33AD1 /* README */,
 				7696D7B41205910300DA46B8 /* zlib 1.2.5 */,
 				76F8155C11FB88BB001B79C6 /* ThriftLib */,
 				767A3C7410D5A97500BAE46E /* HyperThriftWrapper */,
@@ -1098,6 +1101,7 @@
 				761AAB4612294AF100BC980C /* HyperTableLogo_16.png in Resources */,
 				760E3CB5122E530B00223D97 /* License.rtf in Resources */,
 				760E3CC0122E53C100223D97 /* cc-by-nc-sa.png in Resources */,
+				76E1A64B122FC00500A33AD1 /* README in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
