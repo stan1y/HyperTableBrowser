@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <Server.h>
+#import "Server.h"
 
 // Cluster itself implements the same protocol
 // as used by members of it.
@@ -21,6 +21,8 @@
 
 + (Cluster *) clusterWithName:(NSString *)name;
 + (NSArray *) clusters;
+
+- (Server<ClusterMember> *)memberWithIndex:(int)memberIndex;
 - (NSArray *) members;
 
 @end

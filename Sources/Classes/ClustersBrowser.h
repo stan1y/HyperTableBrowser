@@ -23,9 +23,6 @@
 }
 
 @property (nonatomic, retain) IBOutlet Inspector * inspector;
-
-// New Cluster or Server dialog
-
 @property (nonatomic, retain) IBOutlet ModalDialog * newServerOrClusterDialog;
 
 // UI Outlets
@@ -44,6 +41,7 @@
 
 - (void) refreshClustersList;
 - (void) refreshMembersList;
+- (void) refreshMembersListSelection;
 
 // Singleton
 

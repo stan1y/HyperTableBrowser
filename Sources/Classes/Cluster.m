@@ -21,7 +21,6 @@
 {
 	NSFetchRequest * r = [[NSFetchRequest alloc] init];
 	[r setEntity:[Cluster clusterDescription]];
-	[r setIncludesPendingChanges:YES];
 	[r setPredicate:[NSPredicate predicateWithFormat:@"name = %@", name]];
 	
 	NSError * err = nil;
@@ -47,7 +46,6 @@
 {
 	NSFetchRequest * r = [[NSFetchRequest alloc] init];
 	[r setEntity:[Cluster clusterDescription]];
-	[r setIncludesPendingChanges:YES];
 	NSSortDescriptor * sort = [[[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES] autorelease];
 	[r setSortDescriptors:[NSArray arrayWithObjects:sort, nil]];
 	
@@ -64,13 +62,38 @@
 	return clustersArray;
 }
 
-- (NSArray *) members
+- (Server<ClusterMember> *)memberWithIndex:(int)memberIndex
 {
-	//return [[self mutableSetValueForKey:@"members"] allObjects];
 	NSFetchRequest * r = [[NSFetchRequest alloc] init];
 	[r setEntity:[Server serverDescription]];
-	[r setIncludesPendingChanges:YES];
-	NSSortDescriptor * sort = [[[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES] autorelease];
+	[r setPredicate:[NSPredicate predicateWithFormat:@"index == %d", memberIndex]];
+	
+	NSError * err = nil;
+	NSArray * membersArray = [[[NSApp delegate] managedObjectContext] executeFetchRequest:r error:&err];
+	if (err) {
+		NSLog(@"Error: Failed to fetch cluster with index %@.", memberIndex);
+		[err release];
+		[r release];
+		return nil;
+	}
+	[err release];
+	[r release];
+	
+	if ([membersArray count] == 1) {
+		NSLog(@"Found member with index %d:\n%@", memberIndex, [membersArray objectAtIndex:0]);
+		return [membersArray objectAtIndex:0];
+	}
+	else {
+		int rc = NSRunAlertPanel(@"Serious Internal Error", [NSString stringWithFormat:@"Failed to find member with index '%@'", memberIndex] , @"Exit", @"Continue", nil);
+		return nil;
+	}
+}
+
+- (NSArray *) members
+{
+	NSFetchRequest * r = [[NSFetchRequest alloc] init];
+	[r setEntity:[Server serverDescription]];
+	NSSortDescriptor * sort = [[[NSSortDescriptor alloc] initWithKey:@"index" ascending:YES] autorelease];
 	[r setPredicate:[NSPredicate predicateWithFormat:@"belongsTo = %@", self]];
 	[r setSortDescriptors:[NSArray arrayWithObjects:sort, nil]];
 	
@@ -86,9 +109,5 @@
 	[r release];
 	return membersArray;
 }
-
-- (void) disconnect {}
-- (void) reconnectWithCompletionBlock:(void (^)(void)) codeBlock {}
-- (BOOL) isConnected { return YES; }
 
 @end

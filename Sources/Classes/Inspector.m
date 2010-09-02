@@ -102,10 +102,7 @@
 			[selectedService stop: ^{
 				
 				if ([selectedService isRunning]) {
-					NSMutableDictionary * dict = [NSMutableDictionary dictionary];
-					[dict setValue:[NSString stringWithFormat:@"Failed to stop service %@", [selectedService valueForKey:@"serviceName"]] forKey:NSLocalizedDescriptionKey];
-					NSError * error = [NSError errorWithDomain:@"Inspector" code:3 userInfo:dict];
-					[[NSApplication sharedApplication] presentError:error];
+					NSRunAlertPanel(@"Operation failed", [NSString stringWithFormat:@"Failed to stop service %@", [selectedService valueForKey:@"serviceName"]], @"Continue", nil, nil);				
 				}
 				
 				//finish pending
@@ -118,10 +115,7 @@
 			[selectedService start: ^{
 				
 				if (![selectedService isRunning]) {
-					NSMutableDictionary * dict = [NSMutableDictionary dictionary];
-					[dict setValue:[NSString stringWithFormat:@"Failed to start service %@", [selectedService valueForKey:@"serviceName"]] forKey:NSLocalizedDescriptionKey];
-					NSError * error = [NSError errorWithDomain:@"Inspector" code:4 userInfo:dict];
-					[[NSApplication sharedApplication] presentError:error];
+					NSRunAlertPanel(@"Operation failed", [NSString stringWithFormat:@"Failed to start service %@", [selectedService valueForKey:@"serviceName"]], @"Continue", nil, nil);
 				}
 				
 				//finish pending
@@ -179,8 +173,6 @@
 	}
 	[servicesTable reloadData];
 }
-
-#pragma mark Services Tables Delegate
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
@@ -249,7 +241,6 @@
 	}
 }
 
-#pragma mark Service Control ComboBox Delegate
 
 -(id)comboBoxCell:(NSComboBoxCell*)cell objectValueForItemAtIndex:(int)index
 {
@@ -279,7 +270,6 @@
 		return 2; // two positions in combo
 }
 
-#pragma mark Server Properties Text Fields Delegate
 
 - (BOOL)control:(NSControl *)control textShouldEndEditing:(NSText *)fieldEditor
 {
@@ -292,7 +282,7 @@
 	if ([control isEqual:objectTitle]) {
 		NSLog(@"Inspector: Modifying server %@(%@).name = %@", 
 			  [selectedServer class],
-			  [selectedServer valueForKey:@"name" ],
+			  [selectedServer valueForKey:@"index" ],
 			  [fieldEditor string]);
 		
 		[selectedServer setValue:[fieldEditor string] forKey:@"name"];
@@ -318,7 +308,7 @@
 				if (portAsInt > 0 && portAsInt < 1024) {
 					NSLog(@"Inspector: Modifying server %@(%@).sshPort = %d", 
 						  [selectedServer class],
-						  [selectedServer valueForKey:@"name" ],
+						  [selectedServer valueForKey:@"index" ],
 						  portAsInt);
 					
 					[selectedServer setValue:[NSNumber numberWithInt:portAsInt] forKey:@"sshPort"];
@@ -329,7 +319,7 @@
 			//set port to default 22
 			NSLog(@"Inspector: Modifying server %@(%@).sshPort = 22", 
 				  [selectedServer class],
-				  [selectedServer valueForKey:@"name" ]);
+				  [selectedServer valueForKey:@"index"]);
 			[selectedServer setValue:[NSNumber numberWithInt:22] forKey:@"sshPort"];
 		}
 
@@ -337,7 +327,7 @@
 		//all string is an ip then
 		NSLog(@"Inspector: Modifying server %@(%@).ipAddress = %@", 
 			  [selectedServer class],
-			  [selectedServer valueForKey:@"name" ],
+			  [selectedServer valueForKey:@"index" ],
 			  ipAddress);
 		
 		[selectedServer setValue:ipAddress forKey:@"ipAddress"];
@@ -345,7 +335,7 @@
 	else if ([control isEqual:sshUserName]) {
 		NSLog(@"Inspector: Modifying server %@(%@).sshUserName = %@", 
 			  [selectedServer class],
-			  [selectedServer valueForKey:@"name" ],
+			  [selectedServer valueForKey:@"index" ],
 			  [fieldEditor string]);
 		
 		[selectedServer setValue:[fieldEditor string] forKey:@"sshUserName"];
@@ -353,14 +343,13 @@
 	else if ([control isEqual:comments]) {
 		NSLog(@"Inspector: Modifying server %@(%@).comment = %@", 
 			  [selectedServer class],
-			  [selectedServer valueForKey:@"name" ],
+			  [selectedServer valueForKey:@"index"],
 			  [fieldEditor string]);
 		
 		[selectedServer setValue:[fieldEditor string] forKey:@"comment"];
 	}
 	
 	[[NSApp delegate] saveAction:nil];
-	[[[ClustersBrowser sharedInstance] membersTable] reloadData];
 	return YES;
 }
 

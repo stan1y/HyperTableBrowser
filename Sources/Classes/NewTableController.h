@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-#import "Utility.h"
+#import "HyperTableBrokersCntrl.h"
 #import "ModalDialog.h"
 
 @interface NewTableController : ModalDialog {

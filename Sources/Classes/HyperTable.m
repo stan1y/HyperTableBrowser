@@ -14,6 +14,7 @@
 #import "Service.h"
 #import "ClustersBrowser.h"
 #import "Activities.h"
+#import "Table.h"
 
 @implementation HyperTable
 
@@ -76,12 +77,14 @@
 	NSFetchRequest * r = [[NSFetchRequest alloc] init];
 	[r setEntity:[Service serviceDescription]];
 	[r setIncludesPendingChanges:YES];
-	[r setPredicate:[NSPredicate predicateWithFormat:@"serviceName == \"Thrift API\" && runsOnServer.belongsTo = %@", cluster]];
+	//get running thrift api services
+	[r setPredicate:[NSPredicate predicateWithFormat:@"processID > 0 && serviceName == \"Thrift API\" && runsOnServer.belongsTo = %@", cluster]];
 	NSSortDescriptor * sort = [[[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES] autorelease];
 	[r setSortDescriptors:[NSArray arrayWithObjects:sort, nil]];
 	
 	NSError * err = nil;
 	NSArray * servicesArray = [[[NSApp delegate] managedObjectContext] executeFetchRequest:r error:&err];
+	NSLog(@"%d services found", [servicesArray count]);
 	if (err) {
 		NSLog(@"Error: Failed to fetch HyperTable brokers.");
 		[err release];
@@ -96,7 +99,7 @@
 	for (id service in servicesArray) {
 		[serversArray addObject:[service valueForKey:@"runsOnServer"]];
 	}
-	
+	NSLog(@"%d thrift brokers found in cluster %@", [servicesArray count], [cluster valueForKey:@"name"]);
 	return serversArray;
 }
 
@@ -123,7 +126,7 @@
 	}
 	[err release];
 	[r release];
-	
+	NSLog(@"%d HyperTable servers found in cluster %@", [cluster valueForKey:@"name"]);
 	return array;
 }
 
@@ -176,8 +179,7 @@
 - (NSArray *)services
 {
 	NSFetchRequest * r = [[NSFetchRequest alloc] init];
-	[r setEntity:[NSEntityDescription entityForName:@"Service" 
-							 inManagedObjectContext:[self managedObjectContext]]];
+	[r setEntity:[Service serviceDescription]];
 	[r setIncludesPendingChanges:YES];
 	[r setPredicate:[NSPredicate predicateWithFormat:@"runsOnServer = %@", self]];
 	NSSortDescriptor * sort = [[[NSSortDescriptor alloc] initWithKey:@"serviceName" ascending:YES] autorelease];
@@ -239,15 +241,23 @@
 	return ( (thriftClient != nil) && (hqlClient != nil) );
 }
 
-- (void) _updateTablesWithCompletionBlock:(void (^)(void))codeBlock
+- (void) _updateTablesWithCompletionBlock:(void (^)(BOOL))codeBlock
 {
 	FetchTablesOperation * fetchTablesOp = [FetchTablesOperation fetchTablesFrom:self];
-	[fetchTablesOp setCompletionBlock:codeBlock];
+	[fetchTablesOp setCompletionBlock: ^{
+		if ([fetchTablesOp errorCode]) {
+			codeBlock(NO);
+		}
+		else {
+			codeBlock(YES);
+		}
+
+	}];
 	[[Activities sharedInstance] appendOperation:fetchTablesOp withTitle:[NSString stringWithFormat:@"Update tables on server %@(%@)", [self valueForKey:@"name"], [self class]]];
 	[fetchTablesOp release];
 }
 
-- (void) updateTablesWithCompletionBlock:(void (^)(void))codeBlock
+- (void) updateTablesWithCompletionBlock:(void (^)(BOOL))codeBlock
 {
 	if ( ![self isConnected]) {
 		//reconnect server with saved values
@@ -260,7 +270,7 @@
 		[connectOp setCompletionBlock: ^{
 			//update after connected
 			if ([self isConnected]) {
-				[self _updateStatusWithCompletionBlock:codeBlock];
+				[self _updateTablesWithCompletionBlock:codeBlock];
 			}
 		}];
 				
@@ -275,18 +285,17 @@
 
 }
 
-- (NSArray *) tables
+- (NSArray *) tablesArray
 {
 	NSFetchRequest * r = [[NSFetchRequest alloc] init];
-	[r setEntity:[NSEntityDescription entityForName:@"Table" 
-							 inManagedObjectContext:[self managedObjectContext]]];
+	[r setEntity:[Table tableDescription]];
 	[r setIncludesPendingChanges:YES];
 	[r setPredicate:[NSPredicate predicateWithFormat:@"onServer = %@", self]];
 	NSSortDescriptor * sort = [[[NSSortDescriptor alloc] initWithKey:@"tableID" ascending:YES] autorelease];
 	[r setSortDescriptors:[NSArray arrayWithObjects:sort, nil]];
 	
 	NSError * err = nil;
-	NSArray * servicesArray = [[self managedObjectContext] executeFetchRequest:r error:&err];
+	NSArray * tablesArray = [[self managedObjectContext] executeFetchRequest:r error:&err];
 	if (err) {
 		NSLog(@"Error: Failed to get tables list from server  %@.", [self valueForKey:@"name"]);
 		[err release];
@@ -295,11 +304,11 @@
 	}
 	[err release];
 	[r release];
-	if (![servicesArray count]) {
+	if (![tablesArray count]) {
 		return nil;
 	}
 	
-	return servicesArray;
+	return tablesArray;
 }
 
 - (void)fetchPageFrom:(id)tableID number:(int)number ofSize:(int)size 

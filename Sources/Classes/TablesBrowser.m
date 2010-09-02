@@ -10,6 +10,8 @@
 #import "DeleteRowOperation.h"
 #import "HyperTable.h"
 #import "Activities.h"
+#import "Protocols.h"
+#import "Table.h"
 
 @implementation TablesBrowser
 
@@ -98,20 +100,15 @@ static TablesBrowser * sharedBrowser = nil;
 - (IBAction) showWindow:(id)sender
 {
 	[super showWindow:sender];
-	[self updateBrokers:sender];
-	[self refreshTables:sender];
+	[self updateBrokersWithCompletionBlock:^(BOOL success) {
+		[self refreshTables:sender];
+	}];
+	
 }
 
 - (IBAction)refreshTables:(id)sender
 {
-	HyperTable * hypertable = [self selectedBroker];
-	if (hypertable)  {
-		NSLog(@"Refreshing tables...");
-		[hypertable updateTablesWithCompletionBlock:^ {
-			[tablesList loadColumnZero];
-			[hypertable release];
-		}];
-	}
+	[tablesList loadColumnZero];
 }
 
 - (IBAction)deleteSelectedRow:(id)sender
@@ -133,10 +130,7 @@ static TablesBrowser * sharedBrowser = nil;
 		
 		[delOp setCompletionBlock: ^{
 			if ([delOp errorCode]) {
-				NSMutableDictionary * dict = [NSMutableDictionary dictionary];
-				[dict setValue:[HyperTable errorFromCode:[delOp errorCode]] forKey:NSLocalizedDescriptionKey];
-				NSError * error = [NSError errorWithDomain:@"HyperTableBrowser" code:1 userInfo:dict];
-				[[NSApplication sharedApplication] presentError:error];
+				NSRunAlertPanel(@"Operation failed", [HyperTable errorFromCode:[delOp errorCode]], @"Continue", nil, nil);
 			}
 		}];
 		
@@ -173,7 +167,7 @@ static TablesBrowser * sharedBrowser = nil;
 
 - (BOOL)browser:(NSBrowser *)sender isColumnValid:(NSInteger)column
 {
-	return [[[self selectedBroker] tables] count] > 0;
+	return [[[self selectedBroker] tablesArray] count] > 0;
 }
 
 - (BOOL)browser:(NSBrowser *)browser isLeafItem:(id)item 
@@ -188,8 +182,8 @@ static TablesBrowser * sharedBrowser = nil;
 
 - (id)browser:(NSBrowser *)browser objectValueForItem:(id)item
 {
-	if ([item class] == [HyperTable class])
-		return [item valueForKey:@"name"];
+	if ([item class] == [Table class])
+		return [item valueForKey:@"tableID"];
 	else {
 		return item;
 	}
@@ -197,18 +191,16 @@ static TablesBrowser * sharedBrowser = nil;
 }
 - (id)browser:(NSBrowser *)browser child:(NSInteger)index ofItem:(id)item
 {
-	if ([item class] == [HyperTable class])
-	{
-		id table = [[[self selectedBroker] tables] objectAtIndex:index];
-		return table;
+	if ([item conformsToProtocol:@protocol(CellStorage)]) {
+		return [[[self selectedBroker] tablesArray] objectAtIndex:index];
 	}
 	return nil;
 }
 
 - (NSInteger)browser:(NSBrowser *)browser numberOfChildrenOfItem:(id)item
 {
-	if ([item class] == [HyperTable class]) {
-		return [[[self selectedBroker] tables] count];
+	if ([item conformsToProtocol:@protocol(CellStorage)]) {
+		return [[item tablesArray] count];
 	}
 	return 0;
 }

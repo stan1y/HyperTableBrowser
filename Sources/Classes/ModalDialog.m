@@ -19,10 +19,10 @@
 	
 }
 
-- (void) hideModalForWindow:(NSWindow *)window
+- (void) hideModal
 {
 	//close dialog
-	[NSApp endSheet:window];
+	[NSApp endSheet:[[self view] window]];
 	[[[self view] window] orderOut:nil];
 }
 

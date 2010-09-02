@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "Utility.h"
+#import "HyperTableBrokersCntrl.h"
 #import "PageSource.h"
 
 @interface HqlController : HyperTableBrokersCntrl {

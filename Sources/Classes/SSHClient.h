@@ -16,9 +16,12 @@
 	NSPipe * stderrPipe;
 	NSString * targetIpAddress;
 	
-	NSString * sshOutput;
-	NSString * sshError;
+	NSString * output;
+	NSString * err;
 }
+
+@property (nonatomic, retain) NSString * output;
+@property (nonatomic, retain) NSString * error;
 
 @property (nonatomic, readonly, retain) NSLock * sshLock;
 @property (nonatomic, readonly, retain) NSString * targetIpAddress;
@@ -26,7 +29,5 @@
 - (id) initClientTo:(NSString *)address onPort:(int)port asUser:(NSString *)user withKey:(NSString *)privateKeyPath;
 
 - (int)runCommand:(NSString*)command;
-- (NSString *) output;
-- (NSString *) error;
 
 @end

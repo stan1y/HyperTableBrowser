@@ -7,7 +7,7 @@
 //
 
 #import "FetchTablesOperation.h"
-
+#import "Table.h"
 
 @implementation FetchTablesOperation
 
@@ -65,8 +65,29 @@
 	free(ci);
 	row_clear(row);
 	free(row);
-	NSLog(@"%d tables found.", [tables count]);
-	[hypertable setTables:tables];
+	
+	NSLog(@"%d tables known before", [[hypertable tablesArray] count]);
+	for (NSManagedObject * table in [hypertable tablesArray]) {
+		[[[NSApp delegate] managedObjectContext] deleteObject:table];
+	}
+
+	//populate new
+	for (NSString * foundTable in tables) {
+		NSLog(@"Adding table '%@' to broker %@ [%@]", foundTable, [hypertable valueForKey:@"name"], [hypertable class]);
+		Table * tbl = [[Table alloc] initWithEntity:[Table tableDescription] insertIntoManagedObjectContext:[[NSApp delegate] managedObjectContext]];
+		[tbl setValue:foundTable forKey:@"tableID"];
+		[[hypertable valueForKey:@"tables"] addObject:tbl];
+		[tbl setValue:hypertable forKey:@"onServer"];
+	}
+	
+	//save changes
+	NSError * err = nil;
+	[[[NSApp delegate] managedObjectContext] save:&err];
+	if (err) {
+		[[NSApplication sharedApplication] presentError:err];
+	}
+	
+	NSLog(@"%d tables found.", [[hypertable tablesArray] count]);
 	[[hypertable connectionLock] unlock];
 }
 

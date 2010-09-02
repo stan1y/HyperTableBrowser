@@ -36,8 +36,7 @@
 				   andSchema:(NSString*)schemaContent
 					onServer:(HyperTable *)server
 {
-	NSLog(@"Creating new table \"%s\" on %s\n", [tableName UTF8String],
-		  [[server ipAddress] UTF8String]);
+	NSLog(@"Creating new table '%@' on %@", tableName, [server valueForKey:@"ipAddress"]);
 	
 	int rc = new_table([connection thriftClient], 
 						  [tableName UTF8String], 

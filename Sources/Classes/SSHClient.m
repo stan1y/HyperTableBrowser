@@ -23,12 +23,12 @@
 	[stdoutPipe release];
 	[stderrPipe release];
 	
-	if (sshOutput) {
-		[sshOutput release];
+	if (output) {
+		[output release];
 	}
 	
-	if (sshError) {
-		[sshError release];
+	if (err) {
+		[err release];
 	}
 	
 	if (ssh) {
@@ -90,6 +90,8 @@
 		//create lock
 		sshLock = [[NSLock alloc] init];
 		ssh = nil;
+		err = nil;
+		output = nil;
 	}
 	return self;
 }
@@ -140,13 +142,9 @@
 		stderrPipe = nil;
 	}
 	stderrPipe = [[NSPipe alloc] init];
-	if (sshOutput) {
-		[sshOutput release];
-		sshOutput = nil;
-	}
-	if (sshError) {
-		[sshError release];
-		sshError = nil;
+	if (output) {
+		[output release];
+		output = nil;
 	}
 	
 	[ssh setStandardInput:[NSFileHandle fileHandleWithNullDevice]];
@@ -155,15 +153,19 @@
 	
 	int rc = 0;
 	[ssh launch];
-	
-	
-	sleep(10);
-	if ([ssh isRunning]) {
-		//timeout need to set error message manually, since
-		//we're gonna kill child ssh
-		[ssh terminate];
-		sshError = @"ssh command execution timed out.";
-		return 255;
+	int totalSlept = 0;
+	while (YES) {
+		if (totalSlept >= 15) {
+			[ssh terminate];
+			[self setError:@"ssh command execution timed out."];
+			return 255;
+		}
+		
+		sleep(1);
+		if ( ![ssh isRunning] ) {
+			break;
+		}
+		totalSlept++;
 	}
 	
 	if ([ssh terminationReason] != NSTaskTerminationReasonExit) {
@@ -182,29 +184,46 @@
 	return rc;
 }
 
+- (void)setError:(NSString *)err_
+{
+	[err_ retain];
+	if (err) {
+		[err release];
+	}
+	err = err_;
+}
+
+- (void)setOutput:(NSString *)output_
+{
+	[output_ retain];
+	if (output) {
+		[output release];
+	}
+	output = output_;
+}
 
 - (NSString *) output
 {
-	if (!sshOutput) {
+	if (!output) {
 		NSLog(@"Reading ssh output");
-		NSData *theOutput = [[stdoutPipe fileHandleForReading] readDataToEndOfFile];
-		sshOutput = [[NSString alloc] initWithData:theOutput encoding:NSUTF8StringEncoding];
+		NSData *output_ = [[stdoutPipe fileHandleForReading] readDataToEndOfFile];
+		[self setOutput:[[NSString alloc] initWithData:output_ encoding:NSUTF8StringEncoding]];
 		[stdoutPipe release];
 		stdoutPipe = nil;
 	}
-	return sshOutput;
+	return output;
 }
 
 - (NSString *) error
 {
-	if (!sshError) {
+	if (!err) {
 		NSLog(@"Reading ssh error");
-		NSData *theOutput = [[stderrPipe fileHandleForReading] readDataToEndOfFile];
-		sshError = [[NSString alloc] initWithData:theOutput encoding:NSUTF8StringEncoding];
+		NSData *err_ = [[stderrPipe fileHandleForReading] readDataToEndOfFile];
+		[self setError:[[NSString alloc] initWithData:err_ encoding:NSUTF8StringEncoding]];
 		[stderrPipe release];
 		stderrPipe = nil;
 	}
-	return sshError;
+	return err;
 }
 
 @end

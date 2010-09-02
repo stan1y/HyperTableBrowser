@@ -48,7 +48,6 @@
 {
 	[super showWindow:sender];
 	[self updateBrokers:sender];
-	[self refreshTables:sender];
 }
 
 - (IBAction)runQuery:(id)sender 

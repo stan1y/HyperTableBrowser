@@ -98,10 +98,13 @@
 	 */
 	
 	//close dialog
-	[self hideModalForWindow:[[TablesBrowser sharedInstance] window]];
+	[self hideModal];
 }
 
-#pragma mark Row Cells Table DataSource
+- (void) cancel:(id)sender
+{
+	[self hideModal];
+}
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {

@@ -10,7 +10,7 @@
 
 #import "TablesBrowserPageSource.h"
 #import "ModalDialog.h"
-#import "Utility.h"
+#import "HyperTableBrokersCntrl.h"
 
 @interface TablesBrowser : HyperTableBrokersCntrl {
 	ModalDialog * createNewTableDialog;

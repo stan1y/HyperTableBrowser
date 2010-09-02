@@ -37,5 +37,6 @@
 - (IBAction) saveServer:(id)sender;
 - (IBAction) cancel:(id)sender;
 - (void) setCreateNewCluster:(BOOL)flag;
+- (NSString *) generateUniqueID;
 
 @end

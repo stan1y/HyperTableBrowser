@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "PageSource.h"
+#import "Server.h"
 
 @interface TablesBrowserPageSource : PageSource {
 	//view used to display source
@@ -15,7 +16,7 @@
 	
 	//last used args for showPageFor
 	NSString * lastDisplayedTableName;
-	NSManagedObject<CellStorage> * lastUsedStorage;
+	Server<CellStorage> * lastUsedStorage;
 	int lastDisplayedPageNumber;
 	
 	//paging controls
@@ -35,11 +36,12 @@
 	
 	//activity indicator
 	NSProgressIndicator * indicator;
+	NSTextField * pageInfoField;
 }
 @property (assign) int lastDisplayedPageNumber;
 
 @property (nonatomic, retain) NSString * lastDisplayedTableName;
-@property (nonatomic, retain) NSManagedObject<CellStorage> * lastUsedStorage;
+@property (nonatomic, retain) Server<CellStorage> * lastUsedStorage;
 
 @property (nonatomic, retain) IBOutlet NSProgressIndicator * indicator;
 @property (nonatomic, retain) IBOutlet NSButton * refreshButton;

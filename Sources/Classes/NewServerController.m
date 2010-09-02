@@ -22,6 +22,14 @@
 @synthesize dialogTitle;
 @synthesize typeSelector;
 
+- (NSString *) generateUniqueID
+{
+	CFUUIDRef uuidObj = CFUUIDCreate(nil);
+	NSString *uuidString = (NSString*)CFUUIDCreateString(nil, uuidObj);
+	CFRelease(uuidObj);
+	return [uuidString autorelease];	
+}
+
 - (void) dealloc
 {
 	[typeSelector release];
@@ -51,7 +59,7 @@
 
 - (IBAction) cancel:(id)sender
 {
-	[self hideModalForWindow:[[ClustersBrowser sharedInstance] window]];
+	[self hideModal];
 }
 
 - (IBAction) saveServer:(id)sender
@@ -91,7 +99,6 @@
 		return;
 	}
 
-	
 	[newServer setValue:[name stringValue] forKey:@"name"];
 	[newServer setValue:@"" forKey:@"comment"];
 	[newServer setValue:[NSNumber numberWithInt:0] forKey:@"status"];		
@@ -105,21 +112,6 @@
 		[newServer setValue:[NSNumber numberWithInt:[sshPort intValue]] forKey:@"sshPort"];
 	}
 	
-	//get status of newServer
-	[newServer updateStatusWithCompletionBlock:^(BOOL success) {
-		if ( !success ) {
-			NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-			[dict setValue:@"Failed to update status of a new server." forKey:NSLocalizedDescriptionKey];
-			NSError *error = [NSError errorWithDomain:@"" code:5 userInfo:dict];
-			[NSApp presentError:error];			
-		}
-		else {
-			//status now is error
-			[[ClustersBrowser sharedInstance] refreshMembersList];
-		}
-
-	}];
-	
 	Cluster * cluster = nil;
 	
 	if ( createNewCluster ) {
@@ -131,40 +123,43 @@
 		[newServer setValue:[NSString stringWithFormat:@"master@%@", [name stringValue]] forKey:@"name"];
 		//set new server as master
 		[cluster setValue:newServer forKey:@"master"];
+		[newServer setValue:cluster forKey:@"belongsTo"];
+		[newServer setValue:[NSNumber numberWithInt:0] forKey:@"index"];
 	}
 	else {
 		cluster = [[ClustersBrowser sharedInstance] selectedCluster];
+		[newServer setValue:[NSNumber numberWithInt:[[cluster members] count]] forKey:@"index"];
 	}
 	
+	//get status of newServer
+	[newServer updateStatusWithCompletionBlock:^(BOOL success) {
+		if ( !success ) {
+			 NSRunAlertPanel(@"Operation failed", [NSString stringWithFormat:@"Failed to update status of %@ [%@]", [newServer valueForKey:@"name"], [newServer class]], @"Edit settings", @"Continue", nil);
+		}
+		[[ClustersBrowser sharedInstance] refreshMembersList];
+	}];
+	
 	//add to cluster
-	[newServer setValue:cluster forKey:@"belongsTo"];
 	[[cluster mutableSetValueForKey:@"members"] addObject:newServer];
 	
 	//commit
 	NSError * error = nil;
 	if (![context commitEditing]) 
 	{
-		NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-		[dict setValue:[NSString stringWithFormat:@"%@:%@ unable to commit editing before saving", [self class], _cmd] forKey:NSLocalizedDescriptionKey];
-		NSError *error = [NSError errorWithDomain:@"" code:5 userInfo:dict];
-		[NSApp presentError:error];			
+		NSRunAlertPanel(@"Save error", [NSString stringWithFormat:@"%@:%@ unable to commit editing before saving", [self class], _cmd], @"Exit", @"Continue", nil);
     }
     if (![context save:&error]) {
         [[NSApplication sharedApplication] presentError:error];
     }
-	
-	//close dialog
-	[self hideModalForWindow:[[ClustersBrowser sharedInstance] window]];
 	
 	if ( createNewCluster ) {
 		//select newly defined cluster
 		[[ClustersBrowser sharedInstance] refreshClustersList];
 		[[[ClustersBrowser sharedInstance] clustersSelector] selectItemWithTitle:[cluster valueForKey:@"name"]];
 	}
-	else {
-		//update memebers of current cluster
-		[[ClustersBrowser sharedInstance] refreshMembersList];
-	}
+	[[ClustersBrowser sharedInstance] refreshMembersList];
+	//close dialog
+	[self hideModal];
 
 }
 

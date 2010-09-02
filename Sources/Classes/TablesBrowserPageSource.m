@@ -73,7 +73,7 @@
 	return YES;
 }
 
-- (void)showFirstPageFor:(NSString *)tableName fromStorage:(NSManagedObject<CellStorage> *)storage
+- (void)showFirstPageFor:(NSString *)tableName fromStorage:(Server<CellStorage> *)storage
 {
 	[self showPageFor:tableName 
 	   fromStorage:storage
@@ -81,9 +81,13 @@
 		  andPageSize:[pageSizeTextField intValue]];
 }
 
-- (void)showPageFor:(NSString *)tableName fromStorage:(NSManagedObject<CellStorage> *)storage 
+- (void)showPageFor:(NSString *)tableName fromStorage:(Server<CellStorage> *)storage 
 	 withPageNumber:(int)number andPageSize:(int)size
 {
+	if (!tableName) {
+		return;
+	}
+	
 	NSLog(@"Tables Browser: Fetching page %d of %d rows from table %@.",
 		  number, size, tableName);
 	
@@ -92,9 +96,12 @@
 	[self setLastDisplayedPageNumber:number];
 	[self setLastDisplayedTableName:tableName];
 	[self setLastUsedStorage:storage];
+	[indicator setHidden:NO];
+	[indicator startAnimation:self];
 	
 	[storage fetchPageFrom:tableName number:number ofSize:size withCompletionBlock: ^(DATA_PAGE data) {
 		[indicator stopAnimation:self];
+		[indicator setHidden:YES];
 		//display received page
 		DataPage * receivedPage = (DataPage *)data;
 		if (receivedPage) {
@@ -149,11 +156,7 @@
 			[refreshButton setEnabled:NO];
 			[nextPageButton setEnabled:NO];
 			[prevPageButton setEnabled:NO];
-			
-			NSMutableDictionary * dict = [NSMutableDictionary dictionary];
-			[dict setValue:@"Failed to fetch cells page from storage." forKey:NSLocalizedDescriptionKey];
-			NSError * error = [NSError errorWithDomain:@"HyperTable" code:1 userInfo:dict];
-			[[NSApplication sharedApplication] presentError:error];
+			NSRunAlertPanel(@"Operation failed", [NSString stringWithFormat:@"Failed to fetch cells page from storage %s.", [storage valueForKey:@"name"]], @"Continue", nil, nil);
 		}
 		
 	} ];

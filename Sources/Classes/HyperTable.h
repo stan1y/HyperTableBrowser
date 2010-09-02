@@ -52,9 +52,9 @@
 - (Service *) serviceWithName:(NSString *)name;
 
 // CellStorage implementation
-
-- (void) updateTablesWithCompletionBlock:(void (^)(void))codeBlock;
-- (NSArray *) tables;
+- (BOOL)isConnected;
+- (void) updateTablesWithCompletionBlock:(void (^)(BOOL))codeBlock;
+- (NSArray *) tablesArray;
 
 - (void)fetchPageFrom:(id)tableID number:(int)number ofSize:(int)size 
   withCompletionBlock:(void (^)(DATA_PAGE))codeBlock;

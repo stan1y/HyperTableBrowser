@@ -12,6 +12,6 @@
 @interface ModalDialog : NSViewController {
 }
 - (void) showModalForWindow:(NSWindow *)window;
-- (void) hideModalForWindow:(NSWindow *)window;
+- (void) hideModal;
 
 @end

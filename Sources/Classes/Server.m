@@ -71,12 +71,9 @@
 	
 	int rc = [sshClient runCommand:@"lsb_release -a"];
 	if (rc) {
+		
 		//failed to open ssh, present error
-		NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-		[dict setValue:[NSString stringWithFormat:@"Failed to open ssh connection to server %@. Code %d, Error: %@.", [self valueForKey:@"name"], rc, [sshClient error]] forKey:NSLocalizedDescriptionKey];
-		NSError *error = [NSError errorWithDomain:@"ClustersBrowser" code:1 userInfo:dict];
-		NSLog(@"Failed to open remote shell on server. Code %d, Error: %@", rc, [sshClient error]);
-		[NSApp presentError:error];
+		int rc = NSRunAlertPanel(@"Operation failed", [NSString stringWithFormat:@"Failed to open ssh connection to server %@. Code %d, Error: %@.", [self valueForKey:@"name"], rc, [sshClient error]] , @"Continue", nil, nil);
 		
 		[sshClient release];
 		sshClient = nil;

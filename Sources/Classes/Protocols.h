@@ -21,8 +21,9 @@
 
 @protocol CellStorage
 
+- (BOOL) isConnected;
 - (void) updateTablesWithCompletionBlock:(void (^)(BOOL))codeBlock;
-- (NSArray *) tables;
+- (NSArray *) tablesArray;
 
 - (void)fetchPageFrom:(id)tableID number:(int)number ofSize:(int)size 
   withCompletionBlock:(void (^)(DATA_PAGE))codeBlock;
@@ -30,6 +31,4 @@
 - (int) lastFetchedIndex;
 - (int) lastFetchedTotalIndexes;
 
-- (BOOL) isConnected;
-- (void) connectedWithCompletionBlock:(void (^)(BOOL))codeBlock;
 @end
