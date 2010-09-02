@@ -113,34 +113,20 @@ static TablesBrowser * sharedBrowser = nil;
 
 - (IBAction)deleteSelectedRow:(id)sender
 {
-	if ([[self pageSource] selectedRowIndex] >= 0) {
+	Server<CellStorage> * broker = [self selectedBroker];
+	if ( broker && [[self pageSource] selectedRowIndex] >= 0) {
 		NSLog(@"Deleteing row with key '%@' from table '%@'.", [[self pageSource] selectedRowKeyValue], [[tablesList selectedCellInColumn:0] stringValue]);
 		
-		id broker = [self selectedBroker];
-		if (!broker) {
-			return;
-		}
-		
-		//drop row
-		DataPage * currentPage = [[self pageSource] page];
-		DataRow * selectedRow = page_row_at_index(currentPage, [[self pageSource] selectedRowIndex]);
-		DeleteRowOperation * delOp = [DeleteRowOperation deleteRow:selectedRow
-														   inTable:[[tablesList selectedCellInColumn:0] stringValue]
-														  onServer:broker];
-		
-		[delOp setCompletionBlock: ^{
-			if ([delOp errorCode]) {
-				NSRunAlertPanel(@"Operation failed", [HyperTable errorFromCode:[delOp errorCode]], @"Continue", nil, nil);
-			}
+		[broker deleteRowWithKey:[[self pageSource] selectedRowKeyValue] inTable:[[tablesList selectedCellInColumn:0] stringValue] withCompletionBlock: ^(BOOL success) {
 			[pageSource refresh:sender];
+			if (!success) {
+				NSRunAlertPanel(@"Operation failed", [NSString stringWithFormat:@"Failed to delete row with key '%@'",[[self pageSource] selectedRowKeyValue]], @"Continue", nil, nil);
+			}
 		}];
 		
-		//start async delete
-		[[Activities sharedInstance] appendOperation:delOp withTitle:[NSString stringWithFormat:@"Deleting row with key %@ from table %@ on server %@", [[self pageSource] selectedRowKeyValue], [[tablesList selectedCellInColumn:0] stringValue], [broker valueForKey:@"serverName"]]];
-		[delOp release];
 	}
 	else {
-		NSLog(@"No row selected to delete");
+		NSRunAlertPanel(@"Operation failed", @"No row selected to delete", @"Continue", nil, nil);
 	}
 }
 
