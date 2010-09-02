@@ -47,7 +47,7 @@
 	id server = [service valueForKey:@"runsOnServer"];
 	SSHClient * ssh = [server remoteShell];
 	if (!ssh) {
-		NSLog(@"Failed to get remote shell to server %@", [server valueForKey:@"name"]);
+		NSLog(@"Failed to get remote shell to server %@", [server valueForKey:@"serverName"]);
 		return NO;
 	}
 	

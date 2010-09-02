@@ -41,7 +41,7 @@
 	ServiceOperation * sOp = [ServiceOperation startService:self];
 	[sOp setCompletionBlock:codeBlock];
 	
-	[[Activities sharedInstance] appendOperation:sOp withTitle:[NSString stringWithFormat:@"Stopping service %@ on server %@", [self valueForKey:@"serviceName"], [[self valueForKey:@"runsOnServer"] valueForKey:@"name"]]];
+	[[Activities sharedInstance] appendOperation:sOp withTitle:[NSString stringWithFormat:@"Stopping service %@ on server %@", [self valueForKey:@"serviceName"], [[self valueForKey:@"runsOnServer"] valueForKey:@"serverName"]]];
 	[sOp release];
 }
 

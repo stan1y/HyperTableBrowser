@@ -79,8 +79,6 @@
 	[r setIncludesPendingChanges:YES];
 	//get running thrift api services
 	[r setPredicate:[NSPredicate predicateWithFormat:@"processID > 0 && serviceName == \"Thrift API\" && runsOnServer.belongsTo = %@", cluster]];
-	NSSortDescriptor * sort = [[[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES] autorelease];
-	[r setSortDescriptors:[NSArray arrayWithObjects:sort, nil]];
 	
 	NSError * err = nil;
 	NSArray * servicesArray = [[[NSApp delegate] managedObjectContext] executeFetchRequest:r error:&err];
@@ -99,7 +97,7 @@
 	for (id service in servicesArray) {
 		[serversArray addObject:[service valueForKey:@"runsOnServer"]];
 	}
-	NSLog(@"%d thrift brokers found in cluster %@", [servicesArray count], [cluster valueForKey:@"name"]);
+	NSLog(@"%d thrift brokers found in cluster %@", [servicesArray count], [cluster valueForKey:@"serverName"]);
 	return serversArray;
 }
 
@@ -113,8 +111,6 @@
 	[r setEntity:[HyperTable hypertableDescription]];
 	[r setIncludesPendingChanges:YES];
 	[r setPredicate:[NSPredicate predicateWithFormat:@"belongsTo = %@", cluster]];
-	NSSortDescriptor * sort = [[[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES] autorelease];
-	[r setSortDescriptors:[NSArray arrayWithObjects:sort, nil]];
 	
 	NSError * err = nil;
 	NSArray * array = [[[NSApp delegate] managedObjectContext] executeFetchRequest:r error:&err];
@@ -126,7 +122,7 @@
 	}
 	[err release];
 	[r release];
-	NSLog(@"%d HyperTable servers found in cluster %@", [cluster valueForKey:@"name"]);
+	NSLog(@"%d HyperTable servers found in cluster %@", [cluster valueForKey:@"serverName"]);
 	return array;
 }
 
@@ -172,7 +168,7 @@
 		}
 
 	}];
-	[[Activities sharedInstance] appendOperation:op withTitle:[NSString stringWithFormat:@"Updating %@ [%@]", [self valueForKey:@"name"], [self class]]];
+	[[Activities sharedInstance] appendOperation:op withTitle:[NSString stringWithFormat:@"Updating %@ [%@]", [self valueForKey:@"serverName"], [self class]]];
 	[op release];
 }
 
@@ -188,7 +184,7 @@
 	NSError * err = nil;
 	NSArray * servicesArray = [[self managedObjectContext] executeFetchRequest:r error:&err];
 	if (err) {
-		NSLog(@"Error: Failed to get services on server %@.", [self valueForKey:@"name"]);
+		NSLog(@"Error: Failed to get services on server %@.", [self valueForKey:@"serverName"]);
 		[err release];
 		[r release];
 		return nil;
@@ -216,7 +212,7 @@
 	NSError * err = nil;
 	NSArray * servicesArray = [[self managedObjectContext] executeFetchRequest:r error:&err];
 	if (err) {
-		NSLog(@"Error: Failed to get services on server %@.", [self valueForKey:@"name"]);
+		NSLog(@"Error: Failed to get services on server %@.", [self valueForKey:@"serverName"]);
 		[err release];
 		[r release];
 		return nil;
@@ -228,7 +224,7 @@
 	}
 	else if ([servicesArray count] > 1) {
 		NSLog(@"Multiple (%d) services with name \"%@\" found on server \"%@\"",
-			  [servicesArray count], name, [self valueForKey:@"name"]);
+			  [servicesArray count], name, [self valueForKey:@"serverName"]);
 	}
 	return [servicesArray objectAtIndex:0];
 }
@@ -253,7 +249,7 @@
 		}
 
 	}];
-	[[Activities sharedInstance] appendOperation:fetchTablesOp withTitle:[NSString stringWithFormat:@"Update tables on server %@(%@)", [self valueForKey:@"name"], [self class]]];
+	[[Activities sharedInstance] appendOperation:fetchTablesOp withTitle:[NSString stringWithFormat:@"Update tables on server %@(%@)", [self valueForKey:@"serverName"], [self class]]];
 	[fetchTablesOp release];
 }
 
@@ -275,7 +271,7 @@
 		}];
 				
 		//add operation to queue
-		[[Activities sharedInstance] appendOperation:connectOp withTitle:[NSString stringWithFormat:@"Reconnecting to server %@(%@)", [self valueForKey:@"name"], [self class]]];
+		[[Activities sharedInstance] appendOperation:connectOp withTitle:[NSString stringWithFormat:@"Reconnecting to server %@(%@)", [self valueForKey:@"serverName"], [self class]]];
 		[connectOp release];	
 	}
 	else {
@@ -297,7 +293,7 @@
 	NSError * err = nil;
 	NSArray * tablesArray = [[self managedObjectContext] executeFetchRequest:r error:&err];
 	if (err) {
-		NSLog(@"Error: Failed to get tables list from server  %@.", [self valueForKey:@"name"]);
+		NSLog(@"Error: Failed to get tables list from server  %@.", [self valueForKey:@"serverName"]);
 		[err release];
 		[r release];
 		return nil;
@@ -329,7 +325,7 @@
 	}];
 	
 	//start async operation
-	[[Activities sharedInstance] appendOperation: fpageOp withTitle:[NSString stringWithFormat:@"Fetching page from server %@", [self valueForKey:@"name"]]];
+	[[Activities sharedInstance] appendOperation: fpageOp withTitle:[NSString stringWithFormat:@"Fetching page from server %@", [self valueForKey:@"serverName"]]];
 	[fpageOp release];
 	
 }

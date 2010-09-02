@@ -190,7 +190,7 @@
 													   atRow:rowIndex 
 												   andColumn:[aTableColumn identifier] 
 											  onServer:[[ClustersBrowser sharedInstance] selectedServer]];
-	[[Activities sharedInstance] appendOperation: setRowOp withTitle:[NSString stringWithFormat:@"Setting cell value in column %@ at row index %d on server %@", [aTableColumn identifier], [[[ClustersBrowser sharedInstance] selectedServer] valueForKey:@"name"] ]];
+	[[Activities sharedInstance] appendOperation: setRowOp withTitle:[NSString stringWithFormat:@"Setting cell value in column %@ at row index %d on server %@", [aTableColumn identifier], [[[ClustersBrowser sharedInstance] selectedServer] valueForKey:@"serverName"] ]];
 	[setRowOp release];
 	
 }

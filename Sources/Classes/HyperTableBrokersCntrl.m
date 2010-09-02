@@ -17,7 +17,7 @@
 - (void) addAndUpdate:(id)hypertable withCompletionBlock:(void (^)(BOOL)) codeBlock
 {
 	[hypertable updateTablesWithCompletionBlock:codeBlock];
-	[brokerSelector addItemWithTitle:[hypertable valueForKey:@"name"]];
+	[brokerSelector addItemWithTitle:[hypertable valueForKey:@"serverName"]];
 }
 
 - (void) updateBrokersWithCompletionBlock:(void (^)(BOOL)) codeBlock
@@ -25,7 +25,7 @@
 	[brokerSelector removeAllItems];
 	id brokersList = [HyperTable hyperTableBrokersInCurrentCluster];
 	if (![brokersList count]) {
-		NSRunAlertPanel(@"Table Browser Problem", [NSString stringWithFormat:@"No Thrift API Brokers were found in cluster %@", [[[ClustersBrowser sharedInstance] selectedCluster] valueForKey:@"name"] ], @"Continue", nil, nil);
+		NSRunAlertPanel(@"Table Browser Problem", [NSString stringWithFormat:@"No Thrift API Brokers were found in cluster %@", [[[ClustersBrowser sharedInstance] selectedCluster] valueForKey:@"clusterName"] ], @"Continue", nil, nil);
 		return;
 	}
 	
@@ -41,7 +41,7 @@
 	[brokerSelector removeAllItems];
 	NSArray * brokersList = [HyperTable hyperTableBrokersInCurrentCluster];
 	if (![brokersList count]) {
-		NSRunAlertPanel(@"Table Browser Problem", [NSString stringWithFormat:@"No Thrift API Brokers were found in cluster %@", [[[ClustersBrowser sharedInstance] selectedCluster] valueForKey:@"name"] ], @"Continue", nil, nil);
+		NSRunAlertPanel(@"Table Browser Problem", [NSString stringWithFormat:@"No Thrift API Brokers were found in cluster %@", [[[ClustersBrowser sharedInstance] selectedCluster] valueForKey:@"serverName"] ], @"Continue", nil, nil);
 		return;
 	}
 	
@@ -50,12 +50,12 @@
 		[self addAndUpdate:hypertable withCompletionBlock:^(BOOL success) {
 			if ( !success ) {
 				NSRunAlertPanel(@"Connection failed", [NSString stringWithFormat:@"Please make sure that Thrift API service is running on %@",
-														 [hypertable valueForKey:@"name"]] , @"Continue", nil, nil);
+														 [hypertable valueForKey:@"serverName"]] , @"Continue", nil, nil);
 			}
 			else {
 				NSLog(@"Reconnected to thrift broker at %@ successfuly.",
-					  [hypertable valueForKey:@"name"]);
-				[brokerSelector addItemWithTitle:[hypertable valueForKey:@"name"]];
+					  [hypertable valueForKey:@"serverName"]);
+				[brokerSelector addItemWithTitle:[hypertable valueForKey:@"serverName"]];
 			}
 		}];
 	}
@@ -73,7 +73,7 @@
 	}
 	
 	for (HyperTable * hypertable in [HyperTable hyperTableBrokersInCurrentCluster]) {
-		if ([[brokerSelector selectedItem] title] == [hypertable valueForKey:@"name"]) {
+		if ([[brokerSelector selectedItem] title] == [hypertable valueForKey:@"serverName"]) {
 			return hypertable;
 		}
 	}

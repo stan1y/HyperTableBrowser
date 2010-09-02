@@ -86,7 +86,7 @@
 		NSArray * services = [selectedServer services];
 		
 		if (!services) {
-			NSLog(@"Inspector: No services on %@, nothing to operate.", [selectedServer valueForKey:@"name"]);
+			NSLog(@"Inspector: No services on %@, nothing to operate.", [selectedServer valueForKey:@"serverName"]);
 			return;
 		}
 		
@@ -137,9 +137,9 @@
 {	
 	id selectedServer = [[ClustersBrowser sharedInstance] selectedServer];
 	if (selectedServer) {
-		NSLog(@"Inspector: \"%@\" is selected.", [selectedServer valueForKey:@"name"]);
+		NSLog(@"Inspector: %@ [%@] is selected.", [selectedServer valueForKey:@"uniqueID"], [selectedServer class]);
 		
-		[objectTitle setStringValue:[selectedServer valueForKey:@"name"]];
+		[objectTitle setStringValue:[selectedServer valueForKey:@"serverName"]];
 		[hostname setStringValue:[selectedServer valueForKey:@"hostname"]];
 		[status setStringValue:[selectedServer statusString]];
 		
@@ -196,10 +196,11 @@
 			return @"Not Available";
 		}
 		Service * selectedService = [services objectAtIndex:rowIndex];
-		if ([[aTableColumn identifier] isEqual:@"name"]) {
-			return [selectedService valueForKey:@"serviceName"];
+		
+		if ([[aTableColumn identifier] isEqual:@"control"]) {
+			return nil;
 		}
-		if ([[aTableColumn identifier] isEqual:@"image"]) {
+		else if ([[aTableColumn identifier] isEqual:@"image"]) {
 			int pid = [[selectedService valueForKey:@"processID"] intValue];
 			if (pid > 0) {
 				return [[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] 
@@ -210,6 +211,10 @@
 																pathForResource:@"ServiceStatusStopped" ofType:@"png"]];
 			}
 		}
+		else {
+			return [selectedService valueForKey:[aTableColumn identifier]];
+		}
+
 	}
 	
 	return nil;
@@ -280,12 +285,12 @@
 	
 	Server * selectedServer = [[ClustersBrowser sharedInstance] selectedServer] ;
 	if ([control isEqual:objectTitle]) {
-		NSLog(@"Inspector: Modifying server %@(%@).name = %@", 
+		NSLog(@"Inspector: Modifying server %@(%@).serverName = %@", 
 			  [selectedServer class],
-			  [selectedServer valueForKey:@"index" ],
+			  [selectedServer valueForKey:@"uniqueID" ],
 			  [fieldEditor string]);
 		
-		[selectedServer setValue:[fieldEditor string] forKey:@"name"];
+		[selectedServer setValue:[fieldEditor string] forKey:@"serverName"];
 	}
 	else if ([control isEqual:ipAddressAndSshPort]) {
 		
@@ -308,7 +313,7 @@
 				if (portAsInt > 0 && portAsInt < 1024) {
 					NSLog(@"Inspector: Modifying server %@(%@).sshPort = %d", 
 						  [selectedServer class],
-						  [selectedServer valueForKey:@"index" ],
+						  [selectedServer valueForKey:@"uniqueID" ],
 						  portAsInt);
 					
 					[selectedServer setValue:[NSNumber numberWithInt:portAsInt] forKey:@"sshPort"];
@@ -319,7 +324,7 @@
 			//set port to default 22
 			NSLog(@"Inspector: Modifying server %@(%@).sshPort = 22", 
 				  [selectedServer class],
-				  [selectedServer valueForKey:@"index"]);
+				  [selectedServer valueForKey:@"uniqueID"]);
 			[selectedServer setValue:[NSNumber numberWithInt:22] forKey:@"sshPort"];
 		}
 
@@ -327,7 +332,7 @@
 		//all string is an ip then
 		NSLog(@"Inspector: Modifying server %@(%@).ipAddress = %@", 
 			  [selectedServer class],
-			  [selectedServer valueForKey:@"index" ],
+			  [selectedServer valueForKey:@"uniqueID" ],
 			  ipAddress);
 		
 		[selectedServer setValue:ipAddress forKey:@"ipAddress"];
@@ -335,7 +340,7 @@
 	else if ([control isEqual:sshUserName]) {
 		NSLog(@"Inspector: Modifying server %@(%@).sshUserName = %@", 
 			  [selectedServer class],
-			  [selectedServer valueForKey:@"index" ],
+			  [selectedServer valueForKey:@"uniqueID" ],
 			  [fieldEditor string]);
 		
 		[selectedServer setValue:[fieldEditor string] forKey:@"sshUserName"];
@@ -343,14 +348,20 @@
 	else if ([control isEqual:comments]) {
 		NSLog(@"Inspector: Modifying server %@(%@).comment = %@", 
 			  [selectedServer class],
-			  [selectedServer valueForKey:@"index"],
+			  [selectedServer valueForKey:@"uniqueID"],
 			  [fieldEditor string]);
 		
 		[selectedServer setValue:[fieldEditor string] forKey:@"comment"];
 	}
 	
-	[[NSApp delegate] saveAction:nil];
-	return YES;
+	NSError * err = nil;
+	[[[NSApp delegate] managedObjectContext] save:&err];
+	if (err) {
+		[[NSApp delegate] presentError:err];
+		return NO;
+	}
+	else
+		return YES;
 }
 
 @end

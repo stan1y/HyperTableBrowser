@@ -73,7 +73,7 @@
 
 	//populate new
 	for (NSString * foundTable in tables) {
-		NSLog(@"Adding table '%@' to broker %@ [%@]", foundTable, [hypertable valueForKey:@"name"], [hypertable class]);
+		NSLog(@"Adding table '%@' to broker %@ [%@]", foundTable, [hypertable valueForKey:@"serverName"], [hypertable class]);
 		Table * tbl = [[Table alloc] initWithEntity:[Table tableDescription] insertIntoManagedObjectContext:[[NSApp delegate] managedObjectContext]];
 		[tbl setValue:foundTable forKey:@"tableID"];
 		[[hypertable valueForKey:@"tables"] addObject:tbl];

@@ -52,7 +52,7 @@
 	}
 	else {
 		[dialogTitle setStringValue:[NSString stringWithFormat:@"Add Server to %@",
-									 [[[ClustersBrowser sharedInstance] selectedCluster] valueForKey:@"name"]]];
+									 [[[ClustersBrowser sharedInstance] selectedCluster] valueForKey:@"clusterName"]]];
 	}
 
 }
@@ -99,7 +99,8 @@
 		return;
 	}
 
-	[newServer setValue:[name stringValue] forKey:@"name"];
+	[newServer setValue:[self generateUniqueID] forKey:@"uniqueID"];
+	[newServer setValue:[name stringValue] forKey:@"serverName"];
 	[newServer setValue:@"" forKey:@"comment"];
 	[newServer setValue:[NSNumber numberWithInt:0] forKey:@"status"];		
 	[newServer setValue:[NSNumber numberWithInt:0] forKey:@"health"];
@@ -119,22 +120,20 @@
 		cluster = [[Cluster alloc] initWithEntity:[Cluster clusterDescription]
 						 insertIntoManagedObjectContext:context];
 		//set name to cluster's name, change name of server to master[AT]cluster
-		[cluster setValue:[name stringValue] forKey:@"name"];
-		[newServer setValue:[NSString stringWithFormat:@"master@%@", [name stringValue]] forKey:@"name"];
+		[cluster setValue:[name stringValue] forKey:@"clusterName"];
+		[newServer setValue:[NSString stringWithFormat:@"master@%@", [name stringValue]] forKey:@"serverName"];
 		//set new server as master
 		[cluster setValue:newServer forKey:@"master"];
 		[newServer setValue:cluster forKey:@"belongsTo"];
-		[newServer setValue:[NSNumber numberWithInt:0] forKey:@"index"];
 	}
 	else {
 		cluster = [[ClustersBrowser sharedInstance] selectedCluster];
-		[newServer setValue:[NSNumber numberWithInt:[[cluster members] count]] forKey:@"index"];
 	}
 	
 	//get status of newServer
 	[newServer updateStatusWithCompletionBlock:^(BOOL success) {
 		if ( !success ) {
-			 NSRunAlertPanel(@"Operation failed", [NSString stringWithFormat:@"Failed to update status of %@ [%@]", [newServer valueForKey:@"name"], [newServer class]], @"Edit settings", @"Continue", nil);
+			 NSRunAlertPanel(@"Operation failed", [NSString stringWithFormat:@"Failed to update status of %@ [%@]", [newServer valueForKey:@"serverName"], [newServer class]], @"Edit settings", @"Continue", nil);
 		}
 		[[ClustersBrowser sharedInstance] refreshMembersList];
 	}];
@@ -155,7 +154,7 @@
 	if ( createNewCluster ) {
 		//select newly defined cluster
 		[[ClustersBrowser sharedInstance] refreshClustersList];
-		[[[ClustersBrowser sharedInstance] clustersSelector] selectItemWithTitle:[cluster valueForKey:@"name"]];
+		[[[ClustersBrowser sharedInstance] clustersSelector] selectItemWithTitle:[cluster valueForKey:@"clusterName"]];
 	}
 	[[ClustersBrowser sharedInstance] refreshMembersList];
 	//close dialog

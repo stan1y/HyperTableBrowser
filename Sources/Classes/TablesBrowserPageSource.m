@@ -156,7 +156,7 @@
 			[refreshButton setEnabled:NO];
 			[nextPageButton setEnabled:NO];
 			[prevPageButton setEnabled:NO];
-			NSRunAlertPanel(@"Operation failed", [NSString stringWithFormat:@"Failed to fetch cells page from storage %s.", [storage valueForKey:@"name"]], @"Continue", nil, nil);
+			NSRunAlertPanel(@"Operation failed", [NSString stringWithFormat:@"Failed to fetch cells page from storage %s.", [storage valueForKey:@"serverName"]], @"Continue", nil, nil);
 		}
 		
 	} ];

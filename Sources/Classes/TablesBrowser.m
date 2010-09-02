@@ -135,7 +135,7 @@ static TablesBrowser * sharedBrowser = nil;
 		}];
 		
 		//start async delete
-		[[Activities sharedInstance] appendOperation:delOp withTitle:[NSString stringWithFormat:@"Deleting row with key %@ from table %@ on server %@", [[self pageSource] selectedRowKeyValue], [[tablesList selectedCellInColumn:0] stringValue], [broker valueForKey:@"name"]]];
+		[[Activities sharedInstance] appendOperation:delOp withTitle:[NSString stringWithFormat:@"Deleting row with key %@ from table %@ on server %@", [[self pageSource] selectedRowKeyValue], [[tablesList selectedCellInColumn:0] stringValue], [broker valueForKey:@"serverName"]]];
 		[delOp release];
 	}
 	else {

@@ -93,7 +93,7 @@
 	}];
 	
 	//start async insert
-	[[Activities sharedInstance] appendOperation:setRowOp withTitle:[NSString stringWithFormat:@"Creating new row with key %@ in table %@ on server %@", [rowKey stringValue], tableName, [selectedServer valueForKey:@"name"]] ];
+	[[Activities sharedInstance] appendOperation:setRowOp withTitle:[NSString stringWithFormat:@"Creating new row with key %@ in table %@ on server %@", [rowKey stringValue], tableName, [selectedServer valueForKey:@"serverName"]] ];
 	[setRowOp release];
 	 */
 	
